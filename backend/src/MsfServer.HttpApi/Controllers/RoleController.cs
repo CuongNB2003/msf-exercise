@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MsfServer.Application.Contracts.roles;
+using MsfServer.Domain.roles;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace MsfServer.HttpApi
+namespace MsfServer.HttpApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

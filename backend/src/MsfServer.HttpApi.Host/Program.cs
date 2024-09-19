@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MsfServer.Application;
 using MsfServer.Application.Contracts.roles;
-using MsfServer.EntityFrameworkCore;
+using MsfServer.EntityFrameworkCore.Database;
 
 var builder = WebApplication.CreateBuilder(args);
 // Đọc chuỗi kết nối từ appsettings.json
@@ -16,6 +16,9 @@ builder.Services.AddScoped<IRoleRepository, RoleRepository>(provider =>
 {
     return new RoleRepository(connectionString);
 });
+// dịch vụ controller 
+builder.Services.AddControllers()
+    .AddApplicationPart(typeof(MsfServer.HttpApi.Controllers.RolesController).Assembly);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

@@ -16,8 +16,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MsfServer.Application\MsfServer.Application.csproj" />
-    <ProjectReference Include="..\MsfServer.DbMigrator\MsfServer.DbMigrator.csproj" />
     <ProjectReference Include="..\MsfServer.EntityFrameworkCore\MsfServer.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\MsfServer.HttpApi\MsfServer.HttpApi.csproj" />
   </ItemGroup>
 
 </Project>

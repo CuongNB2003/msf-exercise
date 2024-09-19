@@ -2,7 +2,7 @@
 using MsfServer.Domain.roles;
 using MsfServer.Domain.users;
 
-namespace MsfServer.EntityFrameworkCore
+namespace MsfServer.EntityFrameworkCore.Database
 {
     public class MsfServerDbContext(DbContextOptions<MsfServerDbContext> options) : DbContext(options)
     {

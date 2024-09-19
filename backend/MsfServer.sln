@@ -7,15 +7,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MsfServer.HttpApi.Host", "s
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{D28B52EA-8BD7-4A72-9607-EC6041BCD0E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MsfServer.Application", "src\MsfServer.Application\MsfServer.Application.csproj", "{8837DCB2-99D1-4E2E-B9A1-1CD9F14DED75}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MsfServer.Application", "src\MsfServer.Application\MsfServer.Application.csproj", "{8837DCB2-99D1-4E2E-B9A1-1CD9F14DED75}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MsfServer.Application.Contracts", "src\MsfServer.Application.Contracts\MsfServer.Application.Contracts.csproj", "{1F109CFB-3B98-4CB1-96E5-964C83F0BA13}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MsfServer.Application.Contracts", "src\MsfServer.Application.Contracts\MsfServer.Application.Contracts.csproj", "{1F109CFB-3B98-4CB1-96E5-964C83F0BA13}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MsfServer.Domain", "src\MsfServer.Domain\MsfServer.Domain.csproj", "{FF2185DE-AC8D-44FA-8C19-44FB103E92C2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MsfServer.Domain", "src\MsfServer.Domain\MsfServer.Domain.csproj", "{FF2185DE-AC8D-44FA-8C19-44FB103E92C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MsfServer.DbMigrator", "src\MsfServer.DbMigrator\MsfServer.DbMigrator.csproj", "{37FE8F9A-B05B-4947-BE79-F25E2EF8328D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MsfServer.DbMigrator", "src\MsfServer.DbMigrator\MsfServer.DbMigrator.csproj", "{37FE8F9A-B05B-4947-BE79-F25E2EF8328D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MsfServer.EntityFrameworkCore", "src\MsfServer.EntityFrameworkCore\MsfServer.EntityFrameworkCore.csproj", "{3374A403-3847-4524-A1E7-2258FB084A1E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MsfServer.EntityFrameworkCore", "src\MsfServer.EntityFrameworkCore\MsfServer.EntityFrameworkCore.csproj", "{3374A403-3847-4524-A1E7-2258FB084A1E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MsfServer.HttpApi", "src\MsfServer.HttpApi\MsfServer.HttpApi.csproj", "{7CDF117F-3D42-48D2-964D-BBAF6477AFF2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +49,10 @@ Global
 		{3374A403-3847-4524-A1E7-2258FB084A1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3374A403-3847-4524-A1E7-2258FB084A1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3374A403-3847-4524-A1E7-2258FB084A1E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7CDF117F-3D42-48D2-964D-BBAF6477AFF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CDF117F-3D42-48D2-964D-BBAF6477AFF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CDF117F-3D42-48D2-964D-BBAF6477AFF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CDF117F-3D42-48D2-964D-BBAF6477AFF2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -58,6 +64,7 @@ Global
 		{FF2185DE-AC8D-44FA-8C19-44FB103E92C2} = {D28B52EA-8BD7-4A72-9607-EC6041BCD0E6}
 		{37FE8F9A-B05B-4947-BE79-F25E2EF8328D} = {D28B52EA-8BD7-4A72-9607-EC6041BCD0E6}
 		{3374A403-3847-4524-A1E7-2258FB084A1E} = {D28B52EA-8BD7-4A72-9607-EC6041BCD0E6}
+		{7CDF117F-3D42-48D2-964D-BBAF6477AFF2} = {D28B52EA-8BD7-4A72-9607-EC6041BCD0E6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E18F34D6-3466-46A0-B614-F95A7C269F41}
