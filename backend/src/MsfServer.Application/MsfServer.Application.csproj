@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MsfServer.Application.Contracts\MsfServer.Application.Contracts.csproj" />
+    <ProjectReference Include="..\MsfServer.Domain\MsfServer.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
