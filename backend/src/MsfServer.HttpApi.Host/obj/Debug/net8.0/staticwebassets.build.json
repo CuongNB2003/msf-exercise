@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "1EGPtKkKxXnEqiqxswBLoUCaZQWnK3fdKz0RiSiLpHg=",
+  "Source": "MsfServer.HttpApi.Host",
+  "BasePath": "_content/MsfServer.HttpApi.Host",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

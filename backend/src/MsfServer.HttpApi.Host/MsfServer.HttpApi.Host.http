@@ -1,0 +1,6 @@
+@MsfServer.HttpApi.Host_HostAddress = http://localhost:5182
+
+GET {{MsfServer.HttpApi.Host_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

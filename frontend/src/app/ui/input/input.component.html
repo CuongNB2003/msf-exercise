@@ -1,0 +1,16 @@
+<div [formGroup]="formGroup" class="input-container">
+    <input [type]="type === 'password' && !isPasswordVisible ? 'password' : 'text'" [formControlName]="controlName"
+        [ngClass]="{'is-invalid': isInvalid(controlName)}" [placeholder]="placeholder">
+
+    <div *ngIf="type === 'password'" class="password-container" (click)="togglePasswordVisibility()">
+        <span class="material-icons">
+            {{ isPasswordVisible ? 'visibility_off' : 'visibility' }}
+        </span>
+    </div>
+
+    <div *ngIf="isInvalid(controlName)" class="error-message">{{ getErrorMessage() }}</div>
+
+    <div *ngIf="formGroup.errors?.['mismatch'] && controlName === 'confirmPass'" class="error-message">
+        {{ getErrorMessage() }}
+    </div>
+</div>

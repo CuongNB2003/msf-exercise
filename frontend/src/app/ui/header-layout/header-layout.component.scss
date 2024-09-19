@@ -1,0 +1,297 @@
+.header-container {
+    background-color: #0f6cbd;
+    align-items: center;
+    display: flex;
+    position: relative;
+
+    .header-left-region {
+        height: 48px;
+
+        &:hover {
+            background-color: #0c3b5e;
+        }
+
+        button.main-link {
+            height: 100%;
+            background-color: transparent;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 5px 10px;
+
+            .icon {
+                font-size: 26px;
+                color: white;
+            }
+        }
+    }
+
+    .header-center-region {
+        height: 48px;
+        display: flex;
+        align-items: center;
+        flex: 1 0 auto;
+        justify-content: space-between;
+
+        .center-region-l {
+            display: flex;
+            align-items: center;
+
+            .logo {
+                flex: 0 0 auto;
+                min-width: 224px;
+                padding: 0 12px;
+
+                span {
+                    font-weight: 700;
+                    color: white;
+                }
+            }
+
+            .search {
+                position: relative;
+                display: flex;
+                flex: 1 0 auto;
+                min-width: 356px;
+                box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+
+                .icon {
+                    position: absolute;
+                    font-size: 20px;
+                    height: 100%;
+                    padding: 0 4px;
+                    color: gray;
+                }
+
+                input {
+                    max-width: 350px;
+                    width: 100%;
+                    font-size: 14px;
+                    font-weight: 400;
+                    border: none;
+                    outline: none;
+                    border-radius: 4px;
+                    padding: 6px 0 6px 25px;
+                }
+            }
+        }
+
+        .center-region-r {
+            display: flex;
+            align-items: center;
+
+            .box-header-buttons-region {
+                display: flex;
+                align-items: center;
+
+                .box-btn {
+                    height: 48px;
+                    width: 48px;
+
+                    &:hover {
+                        background-color: #0c3b5e;
+                    }
+
+                    button.main-link {
+                        height: 100%;
+                        width: 100%;
+                        background-color: transparent;
+                        border: none;
+                        outline: none;
+                        cursor: pointer;
+                        padding: 5px 10px;
+
+                        .icon {
+                            font-size: 20px;
+                            color: white;
+                        }
+                    }
+                }
+
+                .box-btn.call {
+                    width: auto;
+
+                    button {
+                        display: flex;
+                        align-items: center;
+                        column-gap: 10px;
+                    }
+
+                    .label-call {
+                        color: white;
+                    }
+                }
+            }
+
+            .box-btn.more {
+                display: none;
+                height: 48px;
+                width: 48px;
+
+                &:hover {
+                    background-color: #0c3b5e;
+                }
+
+                button.main-link {
+                    height: 100%;
+                    width: 100%;
+                    background-color: transparent;
+                    border: none;
+                    outline: none;
+                    cursor: pointer;
+                    padding: 5px 10px;
+
+                    .icon {
+                        font-size: 18px;
+                        color: white;
+                    }
+                }
+            }
+        }
+    }
+
+    .header-right-region {
+        height: 48px;
+
+        &:hover {
+            background-color: #0c3b5e;
+        }
+
+        button.main-link {
+            background-color: transparent;
+            border: none;
+            outline: none;
+            cursor: pointer;
+
+            .user-box {
+                width: 32px;
+                height: 32px;
+                margin: 8px;
+
+                .user-text {
+                    border-radius: 50%;
+                    font-size: 16px;
+                    text-align: center;
+                    line-height: 30px;
+                    color: white;
+                    border: 1px solid white;
+                }
+
+                .user-image {
+                    img {
+                        width: 100%;
+                        height: 100%;
+                        border-radius: 50%;
+                    }
+                }
+            }
+        }
+    }
+
+    .profile-container {
+        z-index: 100;
+        position: absolute;
+        right: 0;
+        top: 50px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #f3f3f3;
+        // background-color: #333;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+        .profile-header {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            align-items: center;
+
+            .profile-logo {
+                padding: 15px;
+                display: flex;
+                align-items: center;
+
+                img {
+                    width: 24px;
+                    height: 24px;
+                    margin-right: 8px;
+                }
+
+                span {
+                    font-size: 18px;
+                    font-weight: bold;
+                    color: #333;
+                }
+            }
+
+            .sign-out {
+                font-size: 16px;
+                padding: 15px;
+
+                &:hover {
+                    color: #0078d4;
+                    background-color: rgba(0, 0, 0, .08);
+                }
+            }
+        }
+
+        .profile-content {
+            display: flex;
+            padding: 15px;
+            align-items: center;
+
+            .profile-avatar {
+                position: relative;
+                width: 90px;
+                height: 90px;
+                border-radius: 50%;
+                overflow: hidden;
+                cursor: pointer;
+                margin-right: 20px;
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+
+                .camera-icon {
+                    position: absolute;
+                    bottom: 0;
+                    right: 0;
+                    background-color: rgba(0, 0, 0, 0.5);
+                    color: white;
+                    padding: 5px;
+                    border-radius: 50%;
+                }
+            }
+
+            .profile-info {
+                display: flex;
+                flex-direction: column;
+
+                h2 {
+                    margin: 0;
+                    font-size: 24px;
+                    color: #333;
+                }
+
+                p {
+                    margin: 5px 0;
+                    color: #666;
+                }
+
+                a {
+                    color: #0078d4;
+                    text-decoration: none;
+                    margin-top: 5px;
+
+                    &:hover {
+                        text-decoration: underline;
+                    }
+                }
+            }
+        }
+    }
+
+}

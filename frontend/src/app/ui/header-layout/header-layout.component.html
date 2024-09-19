@@ -1,0 +1,125 @@
+<header class="header-container">
+    <div class="header-left-region">
+        <button class="main-link" title="Công cụ khởi động ứng dụng">
+            <ng-icon class="icon" name="matAppsOutline"></ng-icon>
+        </button>
+    </div>
+
+    <div class="header-center-region">
+        <div class="center-region-l">
+            <div class="logo">
+                <span>Outlook</span>
+            </div>
+            <div class="search">
+                <ng-icon class="icon" name="matSearchOutline"></ng-icon>
+                <input type="text" placeholder="Tìm kiếm" />
+            </div>
+        </div>
+        <div class="center-region-r">
+            <div class="box-header-buttons-region">
+                <div class="box-btn call">
+                    <button type="button" class="main-link">
+                        <ng-icon class="icon" name="matVideocamOutline"></ng-icon>
+                        <span class="label-call"> Video Call </span>
+                    </button>
+                </div>
+
+                <div class="box-btn">
+                    <button type="button" class="main-link" title="Teams">
+                        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="1em" height="1em" class="icon"
+                            viewBox="0 0 50 50" fill="currentColor" viewBox="0 0 32 32">
+                            <path
+                                d="M 16 2 C 14.416667 2 13.101892 2.6297556 12.251953 3.5859375 C 11.402014 4.5421194 11 5.7777779 11 7 C 11 8.0568215 11.320353 9.1124493 11.951172 10 L 1 10 L 1 11 L 1 25 L 8.5878906 25 C 9.7771929 27.932591 12.652284 30 16 30 C 19.378243 30 22.242463 27.87368 23.412109 24.902344 C 24.308711 25.533813 25.325569 26 26.5 26 C 29.525577 26 32 23.525577 32 20.5 L 32 14 L 24 14 L 23 14 L 16 14 L 16 12 C 17.583333 12 18.898108 11.370244 19.748047 10.414062 C 20.597986 9.4578811 21 8.2222221 21 7 C 21 5.7777779 20.597986 4.5421194 19.748047 3.5859375 C 18.898108 2.6297556 17.583333 2 16 2 z M 16 4 C 17.083333 4 17.768559 4.3702444 18.251953 4.9140625 C 18.735347 5.4578806 19 6.2222221 19 7 C 19 7.7777779 18.735347 8.5421194 18.251953 9.0859375 C 17.768559 9.6297556 17.083333 10 16 10 C 14.916667 10 14.231441 9.6297556 13.748047 9.0859375 C 13.264653 8.5421194 13 7.7777779 13 7 C 13 6.2222221 13.264653 5.4578806 13.748047 4.9140625 C 14.231441 4.3702444 14.916667 4 16 4 z M 26.5 5 C 25.416667 5 24.476892 5.4422556 23.876953 6.1171875 C 23.277014 6.7921194 23 7.6527779 23 8.5 C 23 9.3472221 23.277014 10.207881 23.876953 10.882812 C 24.476892 11.557745 25.416667 12 26.5 12 C 27.583333 12 28.523108 11.557744 29.123047 10.882812 C 29.722986 10.207882 30 9.3472221 30 8.5 C 30 7.6527779 29.722986 6.7921194 29.123047 6.1171875 C 28.523108 5.4422556 27.583333 5 26.5 5 z M 26.5 7 C 27.083333 7 27.393559 7.1827444 27.626953 7.4453125 C 27.860347 7.7078806 28 8.0972221 28 8.5 C 28 8.9027779 27.860347 9.2921194 27.626953 9.5546875 C 27.393559 9.8172556 27.083333 10 26.5 10 C 25.916667 10 25.606441 9.8172556 25.373047 9.5546875 C 25.139653 9.2921194 25 8.9027779 25 8.5 C 25 8.0972221 25.139653 7.7078806 25.373047 7.4453125 C 25.606441 7.1827444 25.916667 7 26.5 7 z M 3 12 L 14 12 L 14 23 L 3 23 L 3 12 z M 5 14 L 5 16 L 7 16 L 7 21 L 9 21 L 9 16 L 11 16 L 11 14 L 5 14 z M 16 16 L 22 16 L 22 22 C 22 25.325562 19.325562 28 16 28 C 13.776108 28 11.861135 26.785839 10.824219 25 L 16 25 L 16 16 z M 24 16 L 30 16 L 30 20.5 C 30 22.444423 28.444423 24 26.5 24 C 25.425819 24 24.490167 23.508667 23.847656 22.753906 C 23.873436 22.493441 24 22.267056 24 22 L 24 16 z">
+                            </path>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- --------- -->
+                <div class="box-btn">
+                    <button id="owaNoteFeedButton" title="Nguồn cấp dữ liệu OneNote" class="main-link">
+                        <svg width="1em" height="1em" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"
+                            class="icon" fill="currentColor">
+                            <path
+                                d="M5 15v2a1 1 0 001 1h11a1 1 0 001-1V3a1 1 0 00-1-1H6a1 1 0 00-1 1v2H3a1 1 0 00-1 1v8a1 1 0 001 1h2zm12 2h-3v-3h3v3zm0-4h-3v-3h3v3zm0-4h-3V6h3v3zM6 3h11v2h-4v12H6v-2h5a1 1 0 001-1V6a1 1 0 00-1-1H6V3zm2.59 10.25l-3.06-3.9v3.9H3.91v-6.5h1.68l3 3.81V6.75h1.62v6.5H8.59z">
+                            </path>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- --------------- -->
+                <div class="box-btn">
+                    <button id="Time" title="Ngày của tôi" class="main-link more">
+                        <svg width="1em" height="1em" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"
+                            class="icon" fill="currentColor">
+                            <path
+                                d="M14.5 3A2.5 2.5 0 0117 5.5v3.09a2 2 0 00-1 .23V7H4v7.5c0 .83.67 1.5 1.5 1.5h1.48a2 2 0 00.41.6l.4.4H5.5A2.5 2.5 0 013 14.5v-9A2.5 2.5 0 015.5 3h9zm0 1h-9C4.67 4 4 4.67 4 5.5V6h12v-.5c0-.83-.67-1.5-1.5-1.5zM8.1 15.9a1 1 0 010-1.42l1.06-1.06a1 1 0 011.41 0l1.07 1.06 4.6-4.6a1 1 0 011.4 0l1.07 1.06a1 1 0 010 1.42l-6.37 6.36a1 1 0 01-1.41 0L8.1 15.89zm2.47 1.05l1.07 1.06L18 11.65l-1.06-1.06-6.37 6.36zm-1.76-1.77l1.06 1.06 1.06-1.06-1.06-1.06-1.06 1.06z">
+                            </path>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- ------------------- -->
+                <div class="box-btn">
+                    <button id="owaActivityFeedButton" title="Thông báo" class="main-link">
+                        <ng-icon class="icon" name="matNotificationsOutline"></ng-icon>
+                    </button>
+                </div>
+
+                <!-- ------------ -->
+                <div class="box-btn">
+                    <button id="owaSettingsButton" title="Cài đặt" class="main-link">
+                        <ng-icon class="icon" name="matSettingsOutline"></ng-icon>
+                    </button>
+                </div>
+
+                <!-- -------------------- -->
+                <div class="box-btn">
+                    <button id="tips" title="Mẹo" class="main-link">
+                        <ng-icon class="icon" name="matLightbulbOutline"></ng-icon>
+                    </button>
+                </div>
+            </div>
+            <div class="box-btn more">
+                <button class="main-link" title="Thêm">
+                    <ng-icon class="icon" name="matDensityMediumOutline"></ng-icon>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-right-region">
+        <button class="main-link" title="Trình quản lý tài khoản của {{ username }}">
+            <div class="user-box">
+                <div class="user-image" (click)="toggleProfile()">
+                    <img [src]="userImage" alt="User Image" />
+                </div>
+            </div>
+        </button>
+    </div>
+
+    <div class="profile-container" *ngIf="isProfileVisible">
+        <div class="profile-header">
+            <div class="profile-logo">
+                <img src="logo.png" alt="Microsoft Logo" />
+                <span>Microsoft</span>
+            </div>
+            <p class="sign-out" (click)="onLogout()">Đăng xuất</p>
+        </div>
+        <div class="profile-content">
+            <div class="profile-avatar">
+                <img [src]="userImage" alt="User Image" />
+                <div class="camera-icon">
+                    <i class="fas fa-camera"></i>
+                </div>
+            </div>
+            <div class="profile-info">
+                <h2>{{ username }}</h2>
+                <p>{{ email }}</p>
+                <a href="#">My Microsoft account</a>
+                <a href="#">My profile</a>
+            </div>
+        </div>
+    </div>
+
+</header>

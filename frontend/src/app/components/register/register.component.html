@@ -1,0 +1,26 @@
+<div class="bg-color">
+    <div class="background">
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" id="registerForm">
+        <h3>Hãy tạo tài khoản</h3>
+
+        <app-input [formGroup]="registerForm" controlName="fullName" placeholder="Nhập tên của bạn"
+            type="text"></app-input>
+
+        <app-input [formGroup]="registerForm" controlName="email" placeholder="Nhập email của bạn"
+            type="email"></app-input>
+
+        <app-input [formGroup]="registerForm" controlName="password" placeholder="Nhập mật khẩu của bạn"
+            type="password"></app-input>
+
+
+        <app-button [isSubmitting]="isSubmitting" buttonText="Đăng ký"></app-button>
+
+        <div class="container-login">
+            <p class="right">Bạn đã có tài khoản ?</p>
+            <a href="/login" class="left"> Đăng nhập</a>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,4 @@
+<button type="submit" [disabled]="isSubmitting || isLocked">
+    <span *ngIf="!isSubmitting">{{ buttonText }}</span>
+    <span *ngIf="isSubmitting">Vui lòng chờ...</span>
+</button>

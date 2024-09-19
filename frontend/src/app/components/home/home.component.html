@@ -1,0 +1,569 @@
+<div class="home-container">
+    <ng-scrollbar buttons appearance="native" visibility="hover">
+
+        <div class="home-wrapper">
+            <div class="ribbon-root">
+                <!-- menu ngang trên -->
+                <div class="top-bar">
+                    <button class="more-btn">
+                        <ng-icon class="icon" name="matDehazeOutline"></ng-icon>
+                    </button>
+                    <ul class="nav-home">
+                        <li class="nav-item active">
+                            <span>Trang chủ</span>
+                        </li>
+                        <li class="nav-item">
+                            <span>Xem</span>
+                        </li>
+                        <li class="nav-item">
+                            <span>Trợ giúp</span>
+                        </li>
+                    </ul>
+                </div>
+                <!-- menu ngang dưới -->
+                <div class="bottom-bar">
+                    <div class="paddle-container">
+                        <div class="ribbon" [class.simple]="isClassic">
+                            <!-- ---------------- -->
+                            <div class="group-item">
+                                <div class="ribbon-wrapper">
+                                    <div class="ribbon-box">
+                                        <div class="ribbon-item email">
+                                            <div class="ribbon-icon">
+                                                <ng-icon class="icon" name="matMailOutlineOutline" />
+                                            </div>
+                                            <div class="ribbon-title">Thư mới</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="ribbon-label-wrapper">
+                                        <label class="ribbon-label">Mới</label>
+                                    </div>
+                                </div>
+                                <div class="ribbon-divider-wrapper none">
+                                    <div class="ribbon-bar-divider"></div>
+                                </div>
+                            </div>
+                            <!-- ----------------- -->
+                            <div class="group-item">
+                                <div class="ribbon-wrapper">
+                                    <div class="ribbon-box">
+                                        <!-- ----- -->
+                                        <div class="ribbon-smail-box">
+                                            <div class="ribbon-item-smail">
+                                                <div class="ribbon-icon-smail">
+                                                    <ng-icon class="icon-smail" name="matVolumeOffOutline" />
+                                                </div>
+                                                <div class="ribbon-title-smail">Bỏ qua</div>
+                                            </div>
+                                            <div class="ribbon-item-smail">
+                                                <div class="ribbon-icon-smail">
+                                                    <ng-icon class="icon-smail" name="matPersonOffOutline" />
+                                                </div>
+                                                <div class="ribbon-title-smail">Chặn</div>
+                                            </div>
+                                        </div>
+
+                                        <!-- --------- -->
+                                        <div class="ribbon-item">
+                                            <div class="ribbon-icon">
+                                                <ng-icon class="icon" name="matDeleteOutline" />
+                                            </div>
+                                            <div class="ribbon-title">Xóa</div>
+                                        </div>
+                                        <div class="ribbon-item">
+                                            <div class="ribbon-icon">
+                                                <ng-icon class="icon" name="matInventory2Outline" />
+                                            </div>
+                                            <div class="ribbon-title">Lưu trữ</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="ribbon-label-wrapper">
+                                        <label class="ribbon-label">Xóa</label>
+                                    </div>
+                                </div>
+                                <div class="ribbon-divider-wrapper none">
+                                    <div class="ribbon-bar-divider"></div>
+                                </div>
+                            </div>
+                            <!-- ---------------- -->
+                            <div class="group-item">
+                                <div class="ribbon-wrapper">
+                                    <div class="ribbon-box">
+                                        <div class="ribbon-item">
+                                            <div class="ribbon-icon">
+                                                <ng-icon class="icon" name="matShieldOutline" />
+                                            </div>
+                                            <div class="ribbon-title">Báo cáo</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="ribbon-label-wrapper">
+                                        <label class="ribbon-label">Báo cáo</label>
+                                    </div>
+                                </div>
+                                <div class="ribbon-divider-wrapper">
+                                    <div class="ribbon-bar-divider"></div>
+                                </div>
+                            </div>
+                            <!-- --------------- -->
+                            <div class="group-item">
+                                <div class="ribbon-wrapper">
+                                    <div class="ribbon-box">
+                                        <div class="ribbon-item">
+                                            <div class="ribbon-icon">
+                                                <ng-icon class="icon" name="matReplyAllOutline" />
+                                            </div>
+                                            <div class="ribbon-title">Trả lời tất cả</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="ribbon-label-wrapper">
+                                        <label class="ribbon-label">Phản hồi</label>
+                                    </div>
+                                </div>
+                                <div class="ribbon-divider-wrapper">
+                                    <div class="ribbon-bar-divider"></div>
+                                </div>
+                            </div>
+                            <!-- --------------- -->
+                            <div class="group-item">
+                                <div class="ribbon-wrapper">
+                                    <div class="ribbon-box">
+                                        <div class="ribbon-item none">
+                                            <div class="ribbon-icon">
+                                                <ng-icon class="icon" name="matCleaningServicesOutline" />
+                                            </div>
+                                            <div class="ribbon-title">Dọn dẹp</div>
+                                        </div>
+                                        <div class="ribbon-item">
+                                            <div class="ribbon-icon">
+                                                <ng-icon class="icon" name="matDriveFileMoveOutline" />
+                                            </div>
+                                            <div class="ribbon-title">Di chuyển</div>
+                                        </div>
+
+                                        <div class="ribbon-item none">
+                                            <div class="ribbon-icon">
+                                                <ng-icon class="icon" name="matContactMailOutline" />
+                                            </div>
+                                            <div class="ribbon-title">Quy tắc</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="ribbon-label-wrapper">
+                                        <label class="ribbon-label">Di chuyển</label>
+                                    </div>
+                                </div>
+                                <div class="ribbon-divider-wrapper">
+                                    <div class="ribbon-bar-divider"></div>
+                                </div>
+                            </div>
+                            <!-- ---------------- -->
+                            <div class="group-item">
+                                <div class="ribbon-wrapper">
+                                    <div class="ribbon-box">
+                                        <div class="ribbon-item">
+                                            <div class="ribbon-icon">
+                                                <ng-icon class="icon" name="matMarkEmailReadOutline" />
+                                            </div>
+                                            <div class="ribbon-title">Đã đọc</div>
+                                        </div>
+                                        <div class="ribbon-item none">
+                                            <div class="ribbon-icon">
+                                                <ng-icon class="icon" name="matLocalOfferOutline" />
+                                            </div>
+                                            <div class="ribbon-title">Phân Loại</div>
+                                        </div>
+
+                                        <div class="ribbon-item">
+                                            <div class="ribbon-icon">
+                                                <ng-icon class="icon" name="matOutlinedFlagOutline" />
+                                            </div>
+                                            <div class="ribbon-title">Gắn cờ</div>
+                                        </div>
+
+                                        <div class="ribbon-item none">
+                                            <div class="ribbon-icon">
+                                                <ng-icon class="icon" name="matPushPinOutline" />
+                                            </div>
+                                            <div class="ribbon-title">Ghim</div>
+                                        </div>
+
+                                        <div class="ribbon-item none">
+                                            <div class="ribbon-icon">
+                                                <ng-icon class="icon" name="matAccessTimeOutline" />
+                                            </div>
+                                            <div class="ribbon-title">Giấc ngủ ngắn</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="ribbon-label-wrapper">
+                                        <label class="ribbon-label">Thẻ</label>
+                                    </div>
+                                </div>
+                                <div class="ribbon-divider-wrapper">
+                                    <div class="ribbon-bar-divider"></div>
+                                </div>
+                            </div>
+                            <!-- ---------------- -->
+                            <div class="group-item">
+                                <div class="ribbon-wrapper">
+                                    <div class="ribbon-box">
+                                        <div class="ribbon-item none">
+                                            <div class="ribbon-icon">
+                                                <ng-icon class="icon" name="matPrintOutline" />
+                                            </div>
+                                            <div class="ribbon-title">In</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="ribbon-label-wrapper">
+                                        <label class="ribbon-label">In</label>
+                                    </div>
+                                </div>
+                                <div class="ribbon-divider-wrapper none">
+                                    <div class="ribbon-bar-divider"></div>
+                                </div>
+                            </div>
+                            <!-- ----------------- -->
+                            <div class="group-item">
+                                <div class="ribbon-wrapper">
+                                    <div class="ribbon-box">
+                                        <div class="ribbon-item">
+                                            <div class="ribbon-icon">
+                                                <ng-icon class="icon" name="matGroups2Outline" />
+                                            </div>
+                                            <div class="ribbon-title">Khám phá</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="ribbon-label-wrapper">
+                                        <label class="ribbon-label">Tìm</label>
+                                    </div>
+                                </div>
+                                <div class="ribbon-divider-wrapper">
+                                    <div class="ribbon-bar-divider"></div>
+                                </div>
+                            </div>
+                            <!-- ----------------- -->
+                            <div class="group-item">
+                                <div class="ribbon-wrapper">
+                                    <div class="ribbon-box">
+                                        <div class="ribbon-item">
+                                            <div class="ribbon-icon">
+                                                <ng-icon class="icon" name="matUndoOutline" />
+                                            </div>
+                                            <div class="ribbon-title">Hoàn tác</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="ribbon-label-wrapper">
+                                        <label class="ribbon-label">Hoàn tác</label>
+                                    </div>
+                                </div>
+                                <!-- <div class="ribbon-divider-wrapper">
+                <div class="ribbon-bar-divider"></div>
+              </div> -->
+                            </div>
+                            <!-- ----------------- -->
+                        </div>
+                    </div>
+                    <!-- nút chỉnh trạng thái nút -->
+                    <div class="box-toggle-paddle">
+                        <button class="toggle-paddle" (click)="toggleDialogLayout()">
+                            <ng-icon class="icon" name="matKeyboardArrowDownOutline"></ng-icon>
+                        </button>
+                    </div>
+                    <!-- dialog chỉnh trạng thái  -->
+                    <div class="dialog-layout" *ngIf="isLayoutVisible">
+                        <ul>
+                            <li>
+                                <div class="title-layout">
+                                    <span>Giao diện</span>
+                                </div>
+                            </li>
+                            <li>
+                                <button (click)="switchToClassic()">
+                                    <div>
+                                        <span>Cổ điển</span>
+                                        <i class="material-icons" [class.hidden]="!isClassic">check</i>
+                                    </div>
+                                </button>
+                            </li>
+                            <li>
+                                <button (click)="switchToModern()">
+                                    <div>
+                                        <span>Hiện đại</span>
+                                        <i class="material-icons" [class.hidden]="isClassic">check</i>
+                                    </div>
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+            <!-- ----------------------------------------------- -->
+
+            <!-- menu dọc -->
+            <div class="main-zone">
+
+                <div class="wrapper-focus-zone">
+                    <ng-scrollbar buttons>
+                        <div class="focus-zone">
+                            <!-- ------------- -->
+                            <div class="focus-item">
+                                <div class="box-focus-title">
+                                    <div class="focus-title-left">
+                                        <ng-icon class="icon" name="matKeyboardArrowDownOutline"></ng-icon>
+                                        <span class="title">Yêu thích</span>
+                                    </div>
+                                    <div class="focus-title-right">
+                                        <div class="action">
+                                            <ng-icon class="icon" name="matMoreHorizOutline"></ng-icon>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="group-item">
+                                    <div class="item active">
+                                        <div class="item-left">
+                                            <ng-icon class="icon" name="matInboxOutline" />
+                                            <span class="name">Hộp thư</span>
+                                        </div>
+
+                                        <div class="item-right">
+                                            <div class="action">
+                                                <ng-icon class="icon" name="matMoreHorizOutline"></ng-icon>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="item">
+                                        <div class="item-left">
+                                            <ng-icon class="icon" name="matSendOutline" />
+                                            <span class="name">Các mục đã gửi</span>
+                                        </div>
+
+                                        <div class="item-right">
+                                            <div class="action">
+                                                <ng-icon class="icon" name="matMoreHorizOutline"></ng-icon>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="item">
+                                        <div class="item-left">
+                                            <ng-icon class="icon" name="matCreateOutline" />
+                                            <span class="name">Bản thảo</span>
+                                        </div>
+
+                                        <div class="item-right">
+                                            <div class="action">
+                                                <ng-icon class="icon" name="matMoreHorizOutline"></ng-icon>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="item add-new">
+                                        <div class="title">
+                                            <span class="name">Thêm nội dung yêu thích</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- ------------- -->
+                            <div class="focus-item">
+                                <div class="box-focus-title">
+                                    <div class="focus-title-left">
+                                        <ng-icon class="icon" name="matKeyboardArrowDownOutline"></ng-icon>
+                                        <span class="title">Thư mục</span>
+                                    </div>
+                                    <div class="focus-title-right">
+                                        <div class="action">
+                                            <ng-icon class="icon" name="matMoreHorizOutline"></ng-icon>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="group-item">
+                                    <div class="item">
+                                        <div class="item-left">
+                                            <ng-icon class="icon" name="matInboxOutline" />
+                                            <span class="name">Hộp thư</span>
+                                        </div>
+
+                                        <div class="item-right">
+                                            <div class="action">
+                                                <ng-icon class="icon" name="matMoreHorizOutline"></ng-icon>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="item">
+                                        <div class="item-left">
+                                            <ng-icon class="icon" name="matMailLockOutline" />
+                                            <span class="name">Mail rác</span>
+                                        </div>
+
+                                        <div class="item-right">
+                                            <div class="action">
+                                                <ng-icon class="icon" name="matMoreHorizOutline"></ng-icon>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="item">
+                                        <div class="item-left">
+                                            <ng-icon class="icon" name="matCreateOutline" />
+                                            <span class="name">Bản thảo</span>
+                                        </div>
+
+                                        <div class="item-right">
+                                            <div class="action">
+                                                <ng-icon class="icon" name="matMoreHorizOutline"></ng-icon>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="item">
+                                        <div class="item-left">
+                                            <ng-icon class="icon" name="matSendOutline" />
+                                            <span class="name">Các mục đã gửi</span>
+                                        </div>
+
+                                        <div class="item-right">
+                                            <div class="action">
+                                                <ng-icon class="icon" name="matMoreHorizOutline"></ng-icon>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="item">
+                                        <div class="item-left">
+                                            <ng-icon class="icon" name="matDeleteOutline" />
+                                            <span class="name">Các mục đã xóa</span>
+                                        </div>
+
+                                        <div class="item-right">
+                                            <div class="action">
+                                                <ng-icon class="icon" name="matMoreHorizOutline"></ng-icon>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="item">
+                                        <div class="item-left">
+                                            <ng-icon class="icon" name="matInventory2Outline" />
+                                            <span class="name">Lưu trữ</span>
+                                        </div>
+
+                                        <div class="item-right">
+                                            <div class="action">
+                                                <ng-icon class="icon" name="matMoreHorizOutline"></ng-icon>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="item">
+                                        <div class="item-left">
+                                            <ng-icon class="icon" name="matNoteOutline" />
+                                            <span class="name">Ghi chú</span>
+                                        </div>
+
+                                        <div class="item-right">
+                                            <div class="action">
+                                                <ng-icon class="icon" name="matMoreHorizOutline"></ng-icon>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="item">
+                                        <div class="item-left">
+                                            <ng-icon class="icon" name="matFolderOutline" />
+                                            <span class="name">Lịch sử hội thoại</span>
+                                        </div>
+
+                                        <div class="item-right">
+                                            <div class="action">
+                                                <ng-icon class="icon" name="matMoreHorizOutline"></ng-icon>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="item add-new">
+                                        <div class="title">
+                                            <span class="name">Tạo thư mục mới</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- ----------------- -->
+                            <div class="focus-item">
+                                <div class="box-focus-title">
+                                    <div class="focus-title-left">
+                                        <ng-icon class="icon" name="matKeyboardArrowDownOutline"></ng-icon>
+                                        <span class="title">Nhóm</span>
+                                    </div>
+                                    <div class="focus-title-right">
+                                        <div class="action">
+                                            <ng-icon class="icon" name="matMoreHorizOutline"></ng-icon>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="group-item">
+                                    <!-- <div class="item active">
+              <div class="item-left">
+                <ng-icon class="icon" name="matInboxOutline" />
+                <span class="name">Hộp thư</span>
+              </div>
+  
+              <div class="item-right">
+                <div class="action">
+                  <ng-icon class="icon" name="matMoreHorizOutline"></ng-icon>
+                </div>
+              </div>
+            </div>
+            <div class="item">
+              <div class="item-left">
+                <ng-icon class="icon" name="matSendOutline" />
+                <span class="name">Các mục đã gửi</span>
+              </div>
+  
+              <div class="item-right">
+                <div class="action">
+                  <ng-icon class="icon" name="matMoreHorizOutline"></ng-icon>
+                </div>
+              </div>
+            </div>
+            <div class="item">
+              <div class="item-left">
+                <ng-icon class="icon" name="matCreateOutline" />
+                <span class="name">Bản thảo</span>
+              </div>
+  
+              <div class="item-right">
+                <div class="action">
+                  <ng-icon class="icon" name="matMoreHorizOutline"></ng-icon>
+                </div>
+              </div>
+            </div> -->
+                                    <div class="item add-new">
+                                        <div class="title">
+                                            <span class="name">Nhóm mới</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-scrollbar>
+                </div>
+                <div class="main-home">
+                    <div class="main-left">
+                        <div class="main-left-above">
+                            <div>
+
+                            </div>
+                        </div>
+                        <div class="main-left-below">
+
+                        </div>
+                    </div>
+                    <div class="main-right">
+
+                    </div>
+                </div>
+            </div>
+            <!-- ------------------------------------------- -->
+        </div>
+    </ng-scrollbar>
+</div>
