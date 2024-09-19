@@ -1,4 +1,25 @@
 .vs/
 
+# Ignore bin and obj folders
+# Ignore bin and obj folders
+MsfServer.Application/bin/
+MsfServer.Application/obj/
+
+MsfServer.Application.Contracts/bin/
+MsfServer.Application.Contracts/obj/
+
+MsfServer.DbMigrator/bin/
+MsfServer.DbMigrator/obj/
+
+MsfServer.Domain/bin/
+MsfServer.Domain/obj/
+
+MsfServer.EntityFrameworkCore/bin/
+MsfServer.EntityFrameworkCore/obj/
+
+MsfServer.HttpApi.Host/bin/
+MsfServer.HttpApi.Host/obj/
+
+
 
 
