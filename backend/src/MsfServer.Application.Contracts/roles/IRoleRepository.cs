@@ -1,9 +1,5 @@
-﻿using MsfServer.Domain.roles;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MsfServer.Application.Contracts.Roles.RoleDto;
+using MsfServer.Domain.roles;
 
 namespace MsfServer.Application.Contracts.roles
 {
@@ -11,8 +7,8 @@ namespace MsfServer.Application.Contracts.roles
     {
         Task<IEnumerable<Role>> GetRolesAsync();
         Task<Role> GetRoleByIdAsync(int id);
-        Task<int> CreateRoleAsync(Role role);
-        Task<int> UpdateRoleAsync(Role role);
+        Task<int> CreateRoleAsync(RoleInput input);
+        Task<int> UpdateRoleAsync(Role input);
         Task<int> DeleteRoleAsync(int id);
     }
 }

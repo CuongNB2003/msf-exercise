@@ -1987,6 +1987,7 @@
       },
       "MsfServer.Application.Contracts/1.0.0": {
         "dependencies": {
+          "Microsoft.AspNetCore.Mvc": "2.2.0",
           "MsfServer.Domain": "1.0.0"
         },
         "runtime": {
