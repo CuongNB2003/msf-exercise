@@ -67,8 +67,8 @@ namespace MsfServer.HttpApi.Host.Middleware
             ArgumentNullException.ThrowIfNull(httpContext);
             customErrorDetails.Instance = httpContext.Request.GetEncodedPathAndQuery();
             customErrorDetails.Status ??= statusCode;
-            customErrorDetails.Title ??= "Default Error Title";
-            customErrorDetails.Detail ??= "Default Error Detail";
+            customErrorDetails.Title ??= "Internal Server Error";
+            customErrorDetails.Detail ??= "";
         }
     }
 
