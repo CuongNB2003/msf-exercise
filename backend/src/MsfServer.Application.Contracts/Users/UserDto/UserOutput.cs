@@ -1,6 +1,4 @@
-﻿
-
-using MsfServer.Application.Contracts.Roles.RoleDto;
+﻿using MsfServer.Application.Contracts.Roles.RoleDto;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MsfServer.Application.Contracts.Users.UserDto
@@ -14,6 +12,6 @@ namespace MsfServer.Application.Contracts.Users.UserDto
         public string? Avatar { get; set; }
 
         [ForeignKey("RoleId")]
-        public RoleOutput Role { get; set; }
+        public required RoleOutput Role { get; set; }
     }
 }

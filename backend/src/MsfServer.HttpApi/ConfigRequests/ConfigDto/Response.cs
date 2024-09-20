@@ -1,4 +1,5 @@
-﻿namespace MsfServer.HttpApi.ConfigRequests.ConfigDto
+﻿
+namespace MsfServer.HttpApi.ConfigRequests.ConfigDto
 {
     public class Response
     {

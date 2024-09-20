@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using MsfServer.Domain.Shared.Exceptions;
 using Newtonsoft.Json;
-using System.Diagnostics;
 
 namespace MsfServer.HttpApi.Host.Middleware
 {

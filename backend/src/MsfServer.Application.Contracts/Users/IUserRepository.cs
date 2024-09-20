@@ -1,14 +1,15 @@
 ﻿using MsfServer.Application.Contracts.Users.UserDto;
 using MsfServer.Application.Page;
+using MsfServer.Domain.Shared.Responses;
 
 namespace MsfServer.Application.Contracts.Users
 {
     public interface IUserRepository
     {
-        Task<PagedResult<UserOutput>> GetUsersAsync(int page, int limit);
-        Task<UserOutput> GetUserByIdAsync(int id);
-        Task<int> CreateUserAsync(UserInput user);
-        Task<int> UpdateUserAsync(UserInput user);
-        Task<int> DeleteUserAsync(int id);
+        Task<ResponseObject<PagedResult<UserOutput>>> GetUsersAsync(int page, int limit);
+        Task<ResponseObject<UserOutput>> GetUserByIdAsync(int id);
+        Task<ResponseText> CreateUserAsync(UserInput user);
+        Task<ResponseText> UpdateUserAsync(UserInput user, int id);
+        Task<ResponseText> DeleteUserAsync(int id);
     }
 }

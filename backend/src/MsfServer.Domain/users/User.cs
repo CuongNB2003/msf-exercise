@@ -1,6 +1,4 @@
-﻿
-
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using MsfServer.Domain.roles;
 
@@ -32,6 +30,6 @@ namespace MsfServer.Domain.users
         public string? Avatar { get; set; }
 
         [ForeignKey("RoleId")]
-        public Role Role { get; set; }
+        public Role? Role { get; set; }
     }
 }

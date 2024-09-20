@@ -1,7 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MsfServer.Application;
-using MsfServer.Application.Contracts.roles;
-using MsfServer.Application.Contracts.Users;
 using MsfServer.EntityFrameworkCore.Database;
 using MsfServer.HttpApi;
 using MsfServer.HttpApi.Host.Extensions;
@@ -11,8 +8,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Đọc chuỗi kết nối từ appsettings.json
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-
-// Add services to the container.
+if (string.IsNullOrEmpty(connectionString))
+{
+    throw new InvalidOperationException("Connection string 'DefaultConnection' is not found.");
+}
 
 // Cấu hình db context
 builder.Services.AddDbContext<MsfServerDbContext>(options =>
