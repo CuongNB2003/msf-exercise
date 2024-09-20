@@ -1,16 +1,15 @@
 ﻿using MsfServer.Application.Contracts.Roles.RoleDto;
-using MsfServer.Application.Contracts.Users.UserDto;
 using MsfServer.Application.Page;
-using MsfServer.Domain.roles;
+using MsfServer.Domain.Shared.Responses;
 
 namespace MsfServer.Application.Contracts.roles
 {
     public interface IRoleRepository
     {
-        Task<PagedResult<RoleOutput>> GetRolesAsync(int page, int limit);
-        Task<RoleOutput> GetRoleByIdAsync(int id);
-        Task<int> CreateRoleAsync(RoleInput input);
-        Task<int> UpdateRoleAsync(RoleInput input, int id);
-        Task<int> DeleteRoleAsync(int id);
+        Task<ResponseObject<PagedResult<RoleOutput>>> GetRolesAsync(int page, int limit);
+        Task<ResponseObject<RoleOutput>> GetRoleByIdAsync(int id);
+        Task<ResponseText> CreateRoleAsync(RoleInput input);
+        Task<ResponseText> UpdateRoleAsync(RoleInput input, int id);
+        Task<ResponseText> DeleteRoleAsync(int id);
     }
 }

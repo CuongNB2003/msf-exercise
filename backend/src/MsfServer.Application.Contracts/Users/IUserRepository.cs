@@ -1,6 +1,5 @@
 ﻿using MsfServer.Application.Contracts.Users.UserDto;
 using MsfServer.Application.Page;
-using MsfServer.Domain.users;
 
 namespace MsfServer.Application.Contracts.Users
 {

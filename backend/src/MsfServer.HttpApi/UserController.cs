@@ -1,10 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MsfServer.Domain.users;
 using MsfServer.Application.Contracts.Users;
 using MsfServer.Application.Contracts.Users.UserDto;
-using MsfServer.Domain.roles;
 using MsfServer.HttpApi.ConfigRequests;
-using System.Data;
 
 namespace MsfServer.HttpApi
 {
@@ -53,8 +50,16 @@ namespace MsfServer.HttpApi
         {
             try
             {
-                await _userRepository.CreateUserAsync(user);
-                return RequestSuccess.Create(user, "Thêm thành công");
+                var result = await _userRepository.CreateUserAsync(user);
+                if (result > 0)
+                {
+                    return RequestSuccess.Create(user, "Thêm thành công");
+                }
+                else if (result == -1)
+                {
+                    return RequestError.BadRequest(user, "User đã tồn tại");
+                }
+                return RequestError.BadRequest(user, "Thêm thất bại");
             }
             catch (Exception ex)
             {

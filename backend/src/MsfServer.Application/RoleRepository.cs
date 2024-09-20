@@ -1,56 +1,69 @@
 ﻿using Dapper;
-using MsfServer.Domain.roles;
 using System.Data.SqlClient;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using MsfServer.Application.Contracts.roles;
 using MsfServer.Application.Contracts.Roles.RoleDto;
 using MsfServer.Application.Page;
-using MsfServer.Application.Contracts.Users.UserDto;
 using System.Data;
+using MsfServer.Domain.Security;
+using Microsoft.AspNetCore.Http;
+using MsfServer.Domain.Shared.Exceptions;
+using Microsoft.Extensions.Logging;
+using MsfServer.Domain.Shared.Responses;
 
 namespace MsfServer.Application
 {
-    public class RoleRepository : IRoleRepository
+    public class RoleRepository(string connectionString, ResponseObject<RoleOutput> responseRole) : IRoleRepository
     {
-        private readonly string _connectionString;
-
-        public RoleRepository(string connectionString) => _connectionString = connectionString;
+        private readonly string _connectionString = connectionString;
+        private readonly ResponseObject<RoleOutput> _responseRole = responseRole;
 
         //lấy tất cả role
-        public async Task<PagedResult<RoleOutput>> GetRolesAsync(int page, int limit)
+        public async Task<ResponseObject<PagedResult<RoleOutput>>> GetRolesAsync(int page, int limit)
         {
-            using var connection = new SqlConnection(_connectionString);
-            var offset = (page - 1) * limit;
-
-            using var multi = await connection.QueryMultipleAsync(
-                "GetPagedRoles",
-                new { Offset = offset, PageSize = limit },
-                commandType: CommandType.StoredProcedure);
-
-            var totalRecords = await multi.ReadSingleAsync<int>();
-            var roles = await multi.ReadAsync<RoleOutput>();
-
-            return new PagedResult<RoleOutput>
+            try
             {
-                TotalRecords = totalRecords,
-                PageNumber = page,
-                PageSize = limit,
-                Data = roles.ToList()
-            };
+                using var connection = new SqlConnection(_connectionString);
+                var offset = (page - 1) * limit;
+
+                using var multi = await connection.QueryMultipleAsync(
+                    "GetPagedRoles",
+                    new { Offset = offset, PageSize = limit },
+                    commandType: CommandType.StoredProcedure);
+
+                var totalRecords = await multi.ReadSingleAsync<int>();
+                var roles = await multi.ReadAsync<RoleOutput>();
+
+                var pagedResult = new PagedResult<RoleOutput>
+                {
+                    TotalRecords = totalRecords,
+                    PageNumber = page,
+                    PageSize = limit,
+                    Data = roles.ToList()
+                };
+
+                return new ResponseObject<PagedResult<RoleOutput>>(StatusCodes.Status200OK, "Lấy dữ liệu thành công", pagedResult);
+            }
+            catch (Exception ex)
+            {
+                throw new CustomException(StatusCodes.Status500InternalServerError, ex.Message, "Get All Roles");
+            }
         }
+
 
         //lấy role theo id
-        public async Task<RoleOutput> GetRoleByIdAsync(int id)
+        public async Task<ResponseObject<RoleOutput>> GetRoleByIdAsync(int id)
         {
             using var connection = new SqlConnection(_connectionString);
-            var sql = "SELECT * FROM Roles WHERE Id = @Id";
-            var role = await connection.QuerySingleOrDefaultAsync<RoleOutput>(sql, new { Id = id });
-            return role;
+            var role = await connection.QuerySingleOrDefaultAsync<RoleOutput>(
+                "SELECT * FROM Roles WHERE Id = @Id", new { Id = id });
+
+            return role == null
+                    ? throw new CustomException(StatusCodes.Status404NotFound, "Không tìm thấy Role", "Get Role By Id")
+                    : _responseRole.ResponseSuccess("Lấy dữ liệu thành công", role);
         }
-        
+
         //tạo role
-        public async Task<int> CreateRoleAsync(RoleInput input)
+        public async Task<ResponseText> CreateRoleAsync(RoleInput input)
         {
             using var connection = new SqlConnection(_connectionString);
             var checkSql = "SELECT COUNT(1) FROM Roles WHERE Name = @Name";
@@ -58,36 +71,37 @@ namespace MsfServer.Application
 
             if (exists > 0)
             {
-                return -1;
+                throw new CustomException(StatusCodes.Status400BadRequest, "Role đã tồn tại", "Create Role");
             }
+
             var sql = "INSERT INTO Roles (Name) VALUES (@Name)";
             var result = await connection.ExecuteAsync(sql, input);
-            return result;
+            return ResponseText.ResponseSuccess("Thêm thành công", StatusCodes.Status201Created);
         }
-        
+
         //sửa role
-        public async Task<int> UpdateRoleAsync(RoleInput role, int id)
+        public async Task<ResponseText> UpdateRoleAsync(RoleInput role, int id)
         {
             using var connection = new SqlConnection(_connectionString);
             var checkSql = "SELECT COUNT(1) FROM Roles WHERE Name = @Name AND Id != @Id";
             var exists = await connection.ExecuteScalarAsync<int>(checkSql, new { role.Name, Id = id });
             if (exists > 0)
             {
-                return -1;
+                throw new CustomException(StatusCodes.Status400BadRequest, "Name đã tồn tại", "Update Role");
             }
             var updateSql = "UPDATE Roles SET Name = @Name WHERE Id = @Id";
             var result = await connection.ExecuteAsync(updateSql, new { role.Name, Id = id });
 
-            return result;
+            return ResponseText.ResponseSuccess("Sửa thành công", StatusCodes.Status204NoContent);
         }
+
         //xóa role
-        public async Task<int> DeleteRoleAsync(int id)
+        public async Task<ResponseText> DeleteRoleAsync(int id)
         {
             using var connection = new SqlConnection(_connectionString);
             var sql = "DELETE FROM Roles WHERE Id = @Id";
             var result = await connection.ExecuteAsync(sql, new { Id = id });
-            return result;
+            return ResponseText.ResponseSuccess("Xóa thành công", StatusCodes.Status204NoContent);
         }
     }
-
 }

@@ -1,7 +1,6 @@
 ﻿
 
 using MsfServer.Application.Contracts.Roles.RoleDto;
-using MsfServer.Domain.roles;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MsfServer.Application.Contracts.Users.UserDto

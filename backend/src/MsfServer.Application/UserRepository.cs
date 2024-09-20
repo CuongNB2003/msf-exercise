@@ -1,39 +1,58 @@
 ﻿using MsfServer.Application.Contracts.Users;
-using MsfServer.Domain.users;
 using Dapper;
 using System.Data.SqlClient;
-using MsfServer.Domain.roles;
 using MsfServer.Application.Contracts.Users.UserDto;
 using System.Data;
 using MsfServer.Application.Contracts.Roles.RoleDto;
 using MsfServer.Application.Page;
-using System.Collections.Generic;
+using MsfServer.Domain.users;
+using MsfServer.Domain.Security;
+using MsfServer.Domain.Shared.Responses;
 
 namespace MsfServer.Application
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository(string connectionString, ResponseObject<UserOutput> responseUser) : IUserRepository
     {
-        private readonly string _connectionString;
-
-        public UserRepository(string connectionString) => _connectionString = connectionString;
+        private readonly string _connectionString = connectionString;
+        private readonly ResponseObject<UserOutput> _responseUser = responseUser;
 
         // thêm user
-        public async Task<int> CreateUserAsync(UserInput user)
+        public async Task<int> CreateUserAsync(UserInput input)
         {
             using var connection = new SqlConnection(_connectionString);
 
             var checkEmailSql = "SELECT COUNT(1) FROM Users WHERE Email = @Email";
-            var emailExists = await connection.ExecuteScalarAsync<int>(checkEmailSql, new { user.Email });
+            var emailExists = await connection.ExecuteScalarAsync<int>(checkEmailSql, new { input.Email });
 
             if (emailExists > 0)
             {
-                throw new InvalidOperationException("Email already exists.");
+                return -1;
             }
+
+            byte[] salt = PasswordHasher.GenerateSalt();
+            string hashedPassword = PasswordHasher.HashPassword("111111", salt);
+
+            var user = new User
+            {
+                Name = input.Name,
+                Email = input.Email,
+                Password = hashedPassword,
+                RoleId = input.RoleId,
+                Avatar = input.Avatar
+            };
 
             var sql = @"
                     INSERT INTO Users (Name, Email, Password, RoleId, Avatar)
                     VALUES (@Name, @Email, @Password, @RoleId, @Avatar)";
-            return await connection.ExecuteAsync(sql, user);
+            var result = await connection.ExecuteAsync(sql, new
+            {
+                user.Name,
+                user.Email,
+                user.Password,
+                user.RoleId,
+                user.Avatar
+            });
+            return result;
         }
 
         // sửa user
@@ -54,7 +73,7 @@ namespace MsfServer.Application
             var sql = "DELETE FROM Users WHERE Id = @Id";
             return await connection.ExecuteAsync(sql, new { Id = id });
         }
-        
+
         // lấy user theo id
         public async Task<UserOutput> GetUserByIdAsync(int id)
         {
@@ -109,7 +128,7 @@ namespace MsfServer.Application
                 TotalRecords = totalRecords,
                 PageNumber = page,
                 PageSize = limit,
-                Data = users.ToList()
+                Data = [.. users]
             };
         }
 

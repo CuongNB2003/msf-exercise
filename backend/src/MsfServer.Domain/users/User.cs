@@ -32,6 +32,6 @@ namespace MsfServer.Domain.users
         public string? Avatar { get; set; }
 
         [ForeignKey("RoleId")]
-        public required Role Role { get; set; }
+        public Role Role { get; set; }
     }
 }
