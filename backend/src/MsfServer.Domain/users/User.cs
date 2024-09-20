@@ -1,7 +1,6 @@
-﻿
-
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using MsfServer.Domain.roles;
 
 namespace MsfServer.Domain.users
 {
@@ -12,22 +11,25 @@ namespace MsfServer.Domain.users
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(100)]
-        public string Name { get; set; }
+        [MaxLength(50)]
+        public string? Name { get; set; }
 
         [Required]
         [EmailAddress]
-        [MaxLength(100)]
-        public string Email { get; set; }
+        [MaxLength(50)]
+        public string? Email { get; set; }
 
         [Required]
         [MaxLength(100)]
-        public string Password { get; set; }
+        public string? Password { get; set; }
 
         [Required]
         public int RoleId { get; set; }
 
         [MaxLength(255)]
-        public string Avatar { get; set; }
+        public string? Avatar { get; set; }
+
+        [ForeignKey("RoleId")]
+        public Role? Role { get; set; }
     }
 }
