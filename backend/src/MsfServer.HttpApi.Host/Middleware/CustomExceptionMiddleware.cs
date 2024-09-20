@@ -3,19 +3,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using MsfServer.Domain.Shared.Exceptions;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace MsfServer.HttpApi.Host.Middleware
 {
-    public class CustomExceptionMiddleware
+    public class CustomExceptionMiddleware(RequestDelegate next, IOptions<ApiBehaviorOptions> options)
     {
-        private readonly RequestDelegate _next;
-        private readonly ApiBehaviorOptions _options;
-
-        public CustomExceptionMiddleware(RequestDelegate next, IOptions<ApiBehaviorOptions> options)
-        {
-            _next = next;
-            _options = options?.Value ?? throw new ArgumentNullException(nameof(options));
-        }
+        private readonly RequestDelegate _next = next;
+        private readonly ApiBehaviorOptions _options = options?.Value ?? throw new ArgumentNullException(nameof(options));
 
         public async Task Invoke(HttpContext context)
         {
@@ -53,21 +48,27 @@ namespace MsfServer.HttpApi.Host.Middleware
             ApplyProblemDetailsDefaults(httpContext, customErrorDetails, statusCode.Value);
             httpContext.Response.ContentType = "application/json";
             httpContext.Response.StatusCode = statusCode.Value;
-            var result = JsonConvert.SerializeObject(customErrorDetails);
+
+            var settings = new JsonSerializerSettings
+            {
+                ContractResolver = new DefaultContractResolver
+                {
+                    NamingStrategy = new CamelCaseNamingStrategy() // chuyển đổi các tên thuộc tính thành dạng camelCase
+                }
+            };
+
+            var result = JsonConvert.SerializeObject(customErrorDetails, settings);
 
             return result;
         }
 
-        private void ApplyProblemDetailsDefaults(HttpContext httpContext, CustomErrorDetails customErrorDetails, int statusCode)
+        private static void ApplyProblemDetailsDefaults(HttpContext httpContext, CustomErrorDetails customErrorDetails, int statusCode)
         {
-            if (httpContext is null)
-            {
-                throw new ArgumentNullException(nameof(httpContext));
-            }
+            ArgumentNullException.ThrowIfNull(httpContext);
             customErrorDetails.Instance = httpContext.Request.GetEncodedPathAndQuery();
             customErrorDetails.Status ??= statusCode;
-            customErrorDetails.Title ??= "Default Error Title";
-            customErrorDetails.Detail ??= "Default Error Detail";
+            customErrorDetails.Title ??= "Internal Server Error";
+            customErrorDetails.Detail ??= "";
         }
     }
 

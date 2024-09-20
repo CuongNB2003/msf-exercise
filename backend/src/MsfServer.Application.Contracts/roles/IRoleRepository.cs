@@ -11,5 +11,7 @@ namespace MsfServer.Application.Contracts.roles
         Task<ResponseText> CreateRoleAsync(RoleInput input);
         Task<ResponseText> UpdateRoleAsync(RoleInput input, int id);
         Task<ResponseText> DeleteRoleAsync(int id);
+        Task<bool> RoleExistsAsync(int id);
+        Task<bool> CheckRoleNameExistsAsync(string roleName, int? excludeId = null);
     }
 }
