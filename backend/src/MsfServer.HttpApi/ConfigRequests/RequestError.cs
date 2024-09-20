@@ -10,13 +10,10 @@ namespace MsfServer.HttpApi.ConfigRequests
         {
             return new ObjectResult(new Response
             {
-                StatusCode = StatusCodes.Status400BadRequest, 
+                StatusCode = StatusCodes.Status400BadRequest,
                 Message = message,
                 Data = data,
-            })
-            {
-                StatusCode = StatusCodes.Status400BadRequest
-            };
+            });
         }
 
         public static IActionResult NotFound(object data, string message)
@@ -26,10 +23,7 @@ namespace MsfServer.HttpApi.ConfigRequests
                 StatusCode = StatusCodes.Status404NotFound,
                 Message = message,
                 Data = data,
-            })
-            {
-                StatusCode = StatusCodes.Status404NotFound
-            };
+            });
         }
 
         public static IActionResult InternalServerError(object data, string message)
@@ -39,10 +33,7 @@ namespace MsfServer.HttpApi.ConfigRequests
                 StatusCode = StatusCodes.Status500InternalServerError,
                 Message = message,
                 Data = data,
-            })
-            {
-                StatusCode = StatusCodes.Status500InternalServerError
-            };
+            });
         }
     }
 }

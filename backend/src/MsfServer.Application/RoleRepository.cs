@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using MsfServer.Application.Contracts.roles;
 using MsfServer.Application.Contracts.Roles.RoleDto;
+using MsfServer.Application.Page;
+using MsfServer.Application.Contracts.Users.UserDto;
+using System.Data;
 
 namespace MsfServer.Application
 {
@@ -15,21 +18,37 @@ namespace MsfServer.Application
         public RoleRepository(string connectionString) => _connectionString = connectionString;
 
         //lấy tất cả role
-        public async Task<IEnumerable<Role>> GetRolesAsync()
+        public async Task<PagedResult<RoleOutput>> GetRolesAsync(int page, int limit)
         {
             using var connection = new SqlConnection(_connectionString);
-            var sql = "SELECT * FROM Roles";
-            var roles = await connection.QueryAsync<Role>(sql);
-            return roles;
+            var offset = (page - 1) * limit;
+
+            using var multi = await connection.QueryMultipleAsync(
+                "GetPagedRoles",
+                new { Offset = offset, PageSize = limit },
+                commandType: CommandType.StoredProcedure);
+
+            var totalRecords = await multi.ReadSingleAsync<int>();
+            var roles = await multi.ReadAsync<RoleOutput>();
+
+            return new PagedResult<RoleOutput>
+            {
+                TotalRecords = totalRecords,
+                PageNumber = page,
+                PageSize = limit,
+                Data = roles.ToList()
+            };
         }
+
         //lấy role theo id
-        public async Task<Role> GetRoleByIdAsync(int id)
+        public async Task<RoleOutput> GetRoleByIdAsync(int id)
         {
             using var connection = new SqlConnection(_connectionString);
             var sql = "SELECT * FROM Roles WHERE Id = @Id";
-            var role = await connection.QuerySingleOrDefaultAsync<Role>(sql, new { Id = id });
+            var role = await connection.QuerySingleOrDefaultAsync<RoleOutput>(sql, new { Id = id });
             return role;
         }
+        
         //tạo role
         public async Task<int> CreateRoleAsync(RoleInput input)
         {
@@ -45,12 +64,20 @@ namespace MsfServer.Application
             var result = await connection.ExecuteAsync(sql, input);
             return result;
         }
+        
         //sửa role
-        public async Task<int> UpdateRoleAsync(Role role)
+        public async Task<int> UpdateRoleAsync(RoleInput role, int id)
         {
             using var connection = new SqlConnection(_connectionString);
-            var sql = "UPDATE Roles SET Name = @Name WHERE Id = @Id";
-            var result = await connection.ExecuteAsync(sql, role);
+            var checkSql = "SELECT COUNT(1) FROM Roles WHERE Name = @Name AND Id != @Id";
+            var exists = await connection.ExecuteScalarAsync<int>(checkSql, new { role.Name, Id = id });
+            if (exists > 0)
+            {
+                return -1;
+            }
+            var updateSql = "UPDATE Roles SET Name = @Name WHERE Id = @Id";
+            var result = await connection.ExecuteAsync(updateSql, new { role.Name, Id = id });
+
             return result;
         }
         //xóa role

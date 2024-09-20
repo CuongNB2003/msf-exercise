@@ -17,11 +17,11 @@ namespace MsfServer.HttpApi
         public UsersController(IUserRepository userRepository) => _userRepository = userRepository;
 
         [HttpGet] // lấy tất cả users
-        public async Task<IActionResult> GetUsers()
+        public async Task<IActionResult> GetUsers(int limit, int page)
         {
             try
             {
-                var users = await _userRepository.GetUsersAsync();
+                var users = await _userRepository.GetUsersAsync(page, limit);
                 return RequestSuccess.OK(users, "Lấy dữ liệu thành công");
             }
             catch (Exception ex)
@@ -63,15 +63,16 @@ namespace MsfServer.HttpApi
         }
 
         [HttpPut("{id}")] // sửa user
-        public async Task<IActionResult> UpdateUser(int id, User user)
+        public async Task<IActionResult> UpdateUser(int id, UserInput input)
         {
             try
             {
-                if (id != user.Id)
+                var user = await _userRepository.GetUserByIdAsync(id);
+                if (user == null)
                 {
                     return RequestError.BadRequest($"ID: {id}", "User không tồn tại");
                 }
-                var result = await _userRepository.UpdateUserAsync(user);
+                var result = await _userRepository.UpdateUserAsync(input);
                 if (result > 0)
                 {
                     return RequestSuccess.NoContent(user, "Sửa thành công");

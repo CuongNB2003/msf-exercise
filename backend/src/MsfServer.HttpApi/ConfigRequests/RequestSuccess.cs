@@ -14,10 +14,7 @@ namespace MsfServer.HttpApi.ConfigRequests
                 StatusCode = StatusCodes.Status200OK,
                 Message = message,
                 Data = data,
-            })
-            {
-                StatusCode = StatusCodes.Status200OK
-            };
+            });
         }
         // sử dụng cho thêm thành công
         public static IActionResult Create(object data, string message)
@@ -27,23 +24,17 @@ namespace MsfServer.HttpApi.ConfigRequests
                 StatusCode = StatusCodes.Status201Created,
                 Message = message,
                 Data = data,
-            })
-            {
-                StatusCode = StatusCodes.Status201Created
-            };
+            });
         }
         // sử dụng cho sửa hoặc xóa thành công
         public static IActionResult NoContent(object data, string message)
         {
             return new ObjectResult(new Response
             {
-                StatusCode = StatusCodes.Status200OK,
+                StatusCode = StatusCodes.Status204NoContent,
                 Message = message,
                 Data = data,
-            })
-            {
-                StatusCode = StatusCodes.Status200OK
-            };
+            });
         }
     }
 }
