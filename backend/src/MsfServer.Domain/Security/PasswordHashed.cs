@@ -4,7 +4,7 @@ using Konscious.Security.Cryptography;
 
 namespace MsfServer.Domain.Security
 {
-    public class PasswordHasher
+    public class PasswordHashed
     {
         public static string HashPassword(string password, byte[] salt, int iterations = 4, int memorySize = 1024 * 1024, int degreeOfParallelism = 8)
         {

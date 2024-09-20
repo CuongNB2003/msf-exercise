@@ -11,5 +11,9 @@ namespace MsfServer.Application.Contracts.Users
         Task<ResponseText> CreateUserAsync(UserInput user);
         Task<ResponseText> UpdateUserAsync(UserInput user, int id);
         Task<ResponseText> DeleteUserAsync(int id);
+        Task<bool> CheckEmailExistsAsync(string email);
+        Task<bool> CheckUserExistsAsync(int id);
+        Task<string> GetUserEmailByIdAsync(int id);
+
     }
 }

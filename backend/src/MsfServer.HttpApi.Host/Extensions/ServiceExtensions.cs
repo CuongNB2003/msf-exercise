@@ -2,8 +2,8 @@
 using MsfServer.Application.Contracts.roles;
 using MsfServer.Application.Contracts.Users.UserDto;
 using MsfServer.Application.Contracts.Users;
-using MsfServer.Application;
 using MsfServer.Domain.Shared.Responses;
+using MsfServer.Application.Repositorys;
 
 namespace MsfServer.HttpApi.Host.Extensions
 {

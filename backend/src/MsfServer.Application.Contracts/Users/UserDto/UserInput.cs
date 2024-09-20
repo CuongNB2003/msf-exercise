@@ -11,7 +11,7 @@ namespace MsfServer.Application.Contracts.Users.UserDto
         [Required(ErrorMessage = "Email là bắt buộc.")]
         [EmailAddress(ErrorMessage = "Email chưa đúng định dạng.")]
         [MaxLength(50)]
-        public string? Email { get; set; }
+        public string Email { get; set; } = string.Empty; // Ensure Name is not null
 
         [Required(ErrorMessage = "RoleId là bắt buộc.")]
         public int RoleId { get; set; }
