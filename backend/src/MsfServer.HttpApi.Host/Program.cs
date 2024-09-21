@@ -2,7 +2,7 @@
 using MsfServer.EntityFrameworkCore.Database;
 using MsfServer.HttpApi;
 using MsfServer.HttpApi.Host.Extensions;
-using MsfServer.HttpApi.Host.Middleware;
+using MsfServer.HttpApi.Host.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 

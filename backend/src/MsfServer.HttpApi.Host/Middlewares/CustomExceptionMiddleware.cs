@@ -5,7 +5,7 @@ using MsfServer.Domain.Shared.Exceptions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-namespace MsfServer.HttpApi.Host.Middleware
+namespace MsfServer.HttpApi.Host.Middlewares
 {
     public class CustomExceptionMiddleware(RequestDelegate next, IOptions<ApiBehaviorOptions> options)
     {
