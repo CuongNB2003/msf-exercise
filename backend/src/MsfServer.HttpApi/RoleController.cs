@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MsfServer.Application.Contracts.roles;
-using MsfServer.Application.Contracts.Roles.RoleDto;
+using MsfServer.Application.Contracts.Roles.RoleDtos;
 
 namespace MsfServer.HttpApi
 {
@@ -27,14 +27,14 @@ namespace MsfServer.HttpApi
         }
 
         [HttpPost] // tạo role 
-        public async Task<IActionResult> CreateRole(RoleInput role)
+        public async Task<IActionResult> CreateRole(RoleInputDto role)
         {
             var result = await _roleRepository.CreateRoleAsync(role);
             return Ok(result);
         }
 
         [HttpPut("{id}")] // sửa role
-        public async Task<IActionResult> UpdateRole(int id, RoleInput input)
+        public async Task<IActionResult> UpdateRole(int id, RoleInputDto input)
         {
             var result = await _roleRepository.UpdateRoleAsync(input, id);
             return Ok(result);

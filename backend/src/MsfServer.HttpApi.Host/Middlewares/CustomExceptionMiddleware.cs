@@ -20,12 +20,12 @@ namespace MsfServer.HttpApi.Host.Middlewares
             }
             catch (CustomException ex)
             {
-                string result = CreateProblemDetails(httpContext: context, statusCode: ex.ErrorCode, title: ex.Title, detail: ex.ErrorMessage);
+                string result = CreateProblemDetails(httpContext: context, statusCode: ex.ErrorCode, error: ex.ErrorMessage);
                 await context.Response.WriteAsync(result);
             }
             catch (Exception ex)
             {
-                string result = CreateProblemDetails(httpContext: context, statusCode: StatusCodes.Status500InternalServerError, detail: ex.Message);
+                string result = CreateProblemDetails(httpContext: context, statusCode: StatusCodes.Status500InternalServerError, error: ex.Message);
                 await context.Response.WriteAsync(result);
             }
         }
@@ -33,16 +33,14 @@ namespace MsfServer.HttpApi.Host.Middlewares
         public string CreateProblemDetails(
             HttpContext httpContext,
             int? statusCode = null,
-            string? title = null,
-            string? detail = null)
+            string? error = null)
         {
             statusCode ??= 500;
 
             var customErrorDetails = new CustomErrorDetails
             {
                 Status = statusCode,
-                Title = title,
-                Detail = detail,
+                Error = error,
             };
 
             ApplyProblemDetailsDefaults(httpContext, customErrorDetails, statusCode.Value);
@@ -67,16 +65,13 @@ namespace MsfServer.HttpApi.Host.Middlewares
             ArgumentNullException.ThrowIfNull(httpContext);
             customErrorDetails.Instance = httpContext.Request.GetEncodedPathAndQuery();
             customErrorDetails.Status ??= statusCode;
-            customErrorDetails.Title ??= "Internal Server Error";
-            customErrorDetails.Detail ??= "";
         }
     }
 
     public class CustomErrorDetails
     {
         public int? Status { get; set; }
-        public string? Title { get; set; }
-        public string? Detail { get; set; }
+        public string? Error { get; set; }
         public string? Instance { get; set; }
     }
 }

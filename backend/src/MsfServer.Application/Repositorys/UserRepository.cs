@@ -1,9 +1,7 @@
 ﻿using MsfServer.Application.Contracts.Users;
 using Dapper;
 using System.Data.SqlClient;
-using MsfServer.Application.Contracts.Users.UserDto;
 using System.Data;
-using MsfServer.Application.Contracts.Roles.RoleDto;
 using MsfServer.Application.Page;
 using MsfServer.Domain.users;
 using MsfServer.Domain.Security;
@@ -11,22 +9,21 @@ using MsfServer.Domain.Shared.Responses;
 using Microsoft.AspNetCore.Http;
 using MsfServer.Domain.Shared.Exceptions;
 using MsfServer.Application.Database;
+using MsfServer.Application.Contracts.Users.UserDtos;
+using MsfServer.Application.Contracts.Roles.RoleDtos;
 
 namespace MsfServer.Application.Repositorys
 {
-    public class UserRepository(string connectionString, ResponseObject<UserOutput> responseUser) : IUserRepository
+    public class UserRepository(string connectionString, ResponseObject<UserResultDto> responseUser) : IUserRepository
     {
         private readonly string _connectionString = connectionString;
-        private readonly ResponseObject<UserOutput> _responseUser = responseUser;
+        private readonly ResponseObject<UserResultDto> _responseUser = responseUser;
 
         // thêm user
         public async Task<ResponseText> CreateUserAsync(UserInput input)
         {
             //check emmail
-            if (await CheckEmailExistsAsync(input.Email))
-            {
-                throw new CustomException(StatusCodes.Status400BadRequest, "Email đã tồn tại", "Create User");
-            }
+            await GetUByEmailAsync(input.Email);
 
             // tạo data
             byte[] salt = PasswordHashed.GenerateSalt();
@@ -59,20 +56,11 @@ namespace MsfServer.Application.Repositorys
         // sửa user
         public async Task<ResponseText> UpdateUserAsync(UserInput input, int id)
         {
-            if (!await CheckUserExistsAsync(id))
-            {
-                throw new CustomException(StatusCodes.Status404NotFound, "User không tồn tại.", "Update User");
-            }
-
-            var existingEmail = await GetUserEmailByIdAsync(id);
-
+            var user = await GetUByIdAsync(id);
             // Kiểm tra email mới có trùng với email hiện tại không
-            if (!string.Equals(existingEmail, input.Email, StringComparison.OrdinalIgnoreCase))
+            if (!string.Equals(user.Email, input.Email, StringComparison.OrdinalIgnoreCase))
             {
-                if (await CheckEmailExistsAsync(input.Email))
-                {
-                    throw new CustomException(StatusCodes.Status400BadRequest, "Email đã tồn tại", "Update User");
-                }
+                await GetUByEmailAsync(input.Email);
             }
             // cập nhật
             using var dbManager = new DatabaseConnectionManager(_connectionString);
@@ -89,10 +77,7 @@ namespace MsfServer.Application.Repositorys
         public async Task<ResponseText> DeleteUserAsync(int id)
         {
             //check user
-            if (!await CheckUserExistsAsync(id))
-            {
-                throw new CustomException(StatusCodes.Status404NotFound, "User không tồn tại.", "Delete User");
-            }
+            await GetUByIdAsync(id);
             //xóa user
             using var dbManager = new DatabaseConnectionManager(_connectionString);
             using var connection = dbManager.GetOpenConnection();
@@ -102,7 +87,7 @@ namespace MsfServer.Application.Repositorys
         }
 
         // lấy user theo id
-        public async Task<ResponseObject<UserOutput>> GetUserByIdAsync(int id)
+        public async Task<ResponseObject<UserResultDto>> GetUserByIdAsync(int id)
         {
             using var dbManager = new DatabaseConnectionManager(_connectionString);
             using var connection = dbManager.GetOpenConnection();
@@ -112,16 +97,16 @@ namespace MsfServer.Application.Repositorys
 
             using var multi = await connection.QueryMultipleAsync(sql, new { Id = id });
 
-            var user = await multi.ReadSingleOrDefaultAsync<UserOutput>();
-            var role = await multi.ReadSingleOrDefaultAsync<RoleOutput>();
+            var user = await multi.ReadSingleOrDefaultAsync<UserResultDto>();
+            var role = await multi.ReadSingleOrDefaultAsync<RoleResultDto>();
 
             if (user == null)
             {
-                throw new CustomException(StatusCodes.Status404NotFound, "Không tìm thấy User.", "Get User By Id");
+                throw new CustomException(StatusCodes.Status404NotFound, "Không tìm thấy User.");
             }
             if (role == null)
             {
-                throw new CustomException(StatusCodes.Status404NotFound, "Không tìm thấy Role.", "Get User By Id");
+                throw new CustomException(StatusCodes.Status404NotFound, "Không tìm thấy Role.");
             }
 
             user.Role = role;
@@ -130,7 +115,7 @@ namespace MsfServer.Application.Repositorys
         }
 
         // lấy tất cả user
-        public async Task<ResponseObject<PagedResult<UserOutput>>> GetUsersAsync(int page, int limit)
+        public async Task<ResponseObject<PagedResult<UserResultDto>>> GetUsersAsync(int page, int limit)
         {
             using var connection = new SqlConnection(_connectionString);
             var offset = (page - 1) * limit;
@@ -143,21 +128,21 @@ namespace MsfServer.Application.Repositorys
             var totalRecords = await multi.ReadSingleAsync<int>();
             var userRoleData = await multi.ReadAsync<dynamic>();
 
-            var users = userRoleData.Select(ur => new UserOutput
+            var users = userRoleData.Select(ur => new UserResultDto
             {
                 Id = ur.Id,
                 Name = ur.Name,
                 Email = ur.Email,
                 RoleId = ur.RoleId,
                 Avatar = ur.Avatar,
-                Role = new RoleOutput
+                Role = new RoleResultDto
                 {
                     Id = ur.RoleId,
                     Name = ur.RoleName
                 }
             }).ToList();
 
-            var pagedResult = new PagedResult<UserOutput>
+            var pagedResult = new PagedResult<UserResultDto>
             {
                 TotalRecords = totalRecords,
                 PageNumber = page,
@@ -165,36 +150,26 @@ namespace MsfServer.Application.Repositorys
                 Data = users.ToList()
             };
 
-            return new ResponseObject<PagedResult<UserOutput>>(StatusCodes.Status200OK, "Lấy dữ liệu thành công.", pagedResult);
+            return new ResponseObject<PagedResult<UserResultDto>>(StatusCodes.Status200OK, "Lấy dữ liệu thành công.", pagedResult);
         }
 
-        public async Task<bool> CheckEmailExistsAsync(string email)
+        public async Task<UserResultDto> GetUByEmailAsync(string email)
         {
             using var dbManager = new DatabaseConnectionManager(_connectionString);
             using var connection = dbManager.GetOpenConnection();
-            var checkEmailSql = "SELECT COUNT(1) FROM Users WHERE Email = @Email";
-            var emailExists = await connection.ExecuteScalarAsync<int>(checkEmailSql, new { Email = email });
-            return emailExists > 0;
+            var sql = "SELECT * FROM Users WHERE Email = @Email";
+            var user = await connection.ExecuteScalarAsync<UserResultDto>(sql, new { Email = email });
+            return user ?? throw new CustomException(StatusCodes.Status404NotFound, "User không tồn tại.");
         }
 
-        public async Task<bool> CheckUserExistsAsync(int id)
+        public async Task<UserResultDto> GetUByIdAsync(int id)
         {
             using var dbManager = new DatabaseConnectionManager(_connectionString);
             using var connection = dbManager.GetOpenConnection();
-            var checkUserSql = "SELECT COUNT(1) FROM Users WHERE Id = @Id";
-            var userExists = await connection.ExecuteScalarAsync<int>(checkUserSql, new { Id = id });
-            return userExists > 0;
+            var sql = "SELECT Email FROM Users WHERE Id = @Id";
+            var user = await connection.QuerySingleOrDefaultAsync<UserResultDto>(sql, new { Id = id });
+            return user ?? throw new CustomException(StatusCodes.Status404NotFound, "User không tồn tại.");
         }
-
-        public async Task<string> GetUserEmailByIdAsync(int id)
-        {
-            using var dbManager = new DatabaseConnectionManager(_connectionString);
-            using var connection = dbManager.GetOpenConnection();
-            var checkUserSql = "SELECT Email FROM Users WHERE Id = @Id";
-            var existingEmail = await connection.QuerySingleOrDefaultAsync<string>(checkUserSql, new { Id = id });
-            return existingEmail ?? throw new CustomException(StatusCodes.Status404NotFound, "User không tồn tại.", "Get User Email");
-        }
-
     }
 }
 

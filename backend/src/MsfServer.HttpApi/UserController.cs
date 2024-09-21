@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MsfServer.Application.Contracts.Users;
-using MsfServer.Application.Contracts.Users.UserDto;
+using MsfServer.Application.Contracts.Users.UserDtos;
 
 namespace MsfServer.HttpApi
 {
