@@ -11,22 +11,22 @@ namespace MsfServer.HttpApi.Host.Extensions
     {
         public static void AddCustomServices(this IServiceCollection services, string connectionString)
         {
+            // dịch vụ RoleRepository
             services.AddScoped<ResponseObject<RoleOutput>>(provider =>
             {
                 return new ResponseObject<RoleOutput>();
             });
-
-            services.AddScoped<ResponseObject<UserOutput>>(provider =>
-            {
-                return new ResponseObject<UserOutput>();
-            });
-
             services.AddScoped<IRoleRepository, RoleRepository>(provider =>
             {
                 var responseObject = provider.GetRequiredService<ResponseObject<RoleOutput>>();
                 return new RoleRepository(connectionString, responseObject);
             });
 
+            // dịch vụ của UserRepository
+            services.AddScoped<ResponseObject<UserOutput>>(provider =>
+            {
+                return new ResponseObject<UserOutput>();
+            });
             services.AddScoped<IUserRepository, UserRepository>(provider =>
             {
                 var responseObject = provider.GetRequiredService<ResponseObject<UserOutput>>();
