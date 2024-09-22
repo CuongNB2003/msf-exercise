@@ -22,7 +22,7 @@ namespace MsfServer.HttpApi
         [HttpGet("{id}")] // lấy user theo id
         public async Task<IActionResult> GetUser(int id)
         {
-            var user = await _userRepository.GetUserByIdAsync(id);
+            var user = await _userRepository.GetUserRoleByIdAsync(id);
             return Ok(user);
         }
 

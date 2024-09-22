@@ -8,13 +8,12 @@ namespace MsfServer.Application.Contracts.Users
     {
         // hàm trong controller
         Task<ResponseObject<PagedResult<UserResultDto>>> GetUsersAsync(int page, int limit);
-        Task<ResponseObject<UserResultDto>> GetUserByIdAsync(int id);
+        Task<ResponseObject<UserResultDto>> GetUserRoleByIdAsync(int id);
         Task<ResponseText> CreateUserAsync(UserInput user);
         Task<ResponseText> UpdateUserAsync(UserInput user, int id);
         Task<ResponseText> DeleteUserAsync(int id);
         // hàm phụ việc truy vấn
-        Task<UserResultDto> GetUByEmailAsync(string email);
-        Task<UserResultDto> GetUByIdAsync(int id);
-
+        Task<bool> CheckEmailExistsAsync(string email);
+        Task<UserResultDto> GetUserByIdAsync(int id);
     }
 }

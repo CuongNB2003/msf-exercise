@@ -7,7 +7,7 @@ using MsfServer.Domain.Shared.Exceptions;
 using MsfServer.Domain.Shared.Responses;
 using MsfServer.Application.Contracts.Roles.RoleDtos;
 using MsfServer.Application.Database;
-using MsfServer.Domain.users;
+using MsfServer.Domain.roles;
 
 namespace MsfServer.Application.Repositorys
 {
@@ -34,12 +34,12 @@ namespace MsfServer.Application.Repositorys
                 var pagedResult = new PagedResult<RoleResultDto>
                 {
                     TotalRecords = totalRecords,
-                    PageNumber = page,
-                    PageSize = limit,
+                    Page = page,
+                    Limit = limit,
                     Data = roles.ToList()
                 };
 
-                return new ResponseObject<PagedResult<RoleResultDto>>(StatusCodes.Status200OK, "Lấy dữ liệu thành công", pagedResult);
+                return new ResponseObject<PagedResult<RoleResultDto>>(StatusCodes.Status200OK, "Lấy dữ liệu thành công.", pagedResult);
         }
         //lấy role theo id
         public async Task<ResponseObject<RoleResultDto>> GetRoleByIdAsync(int id)
@@ -51,28 +51,34 @@ namespace MsfServer.Application.Repositorys
                 "SELECT * FROM Roles WHERE Id = @Id", new { Id = id });
 
             return role == null
-                    ? throw new CustomException(StatusCodes.Status404NotFound, "Không tìm thấy Role")
-                    : _responseRole.ResponseSuccess("Lấy dữ liệu thành công", role);
+                    ? throw new CustomException(StatusCodes.Status404NotFound, "Không tìm thấy Role.")
+                    : _responseRole.ResponseSuccess("Lấy dữ liệu thành công.", role);
         }
         //tạo role
         public async Task<ResponseText> CreateRoleAsync(RoleInputDto input)
         {
             // check Role Name
-            await GetRByNameAsyns(input.Name);
+            if (await CheckRoleNameExistsAsync(input.Name))
+            {
+                throw new CustomException(StatusCodes.Status409Conflict, "Role đã tồn tại.");
+            }
             // add role
             using var dbManager = new DatabaseConnectionManager(_connectionString);
             using var connection = dbManager.GetOpenConnection();
             var sql = "INSERT INTO Roles (Name) VALUES (@Name)";
             var result = await connection.ExecuteAsync(sql, input);
-            return ResponseText.ResponseSuccess("Thêm thành công", StatusCodes.Status201Created);
+            return ResponseText.ResponseSuccess("Thêm thành công.", StatusCodes.Status201Created);
         }
         //sửa role
         public async Task<ResponseText> UpdateRoleAsync(RoleInputDto input, int id)
         {
             // Kiểm tra xem role có tồn tại không
-            await GetRByIdAsyns(id);
+            await GetRoleByIdAsync(id);
             // check Role Name
-            await GetRByNameAsyns(input.Name);
+            if (await CheckRoleNameExistsAsync(input.Name))
+            {
+                throw new CustomException(StatusCodes.Status409Conflict, "Name Role đã tồn tại.");
+            }
 
             // Cập nhật role
             using var dbManager = new DatabaseConnectionManager(_connectionString);
@@ -80,39 +86,43 @@ namespace MsfServer.Application.Repositorys
             var updateSql = "UPDATE Roles SET Name = @Name WHERE Id = @Id";
             var result = await connection.ExecuteAsync(updateSql, new { input.Name, Id = id });
 
-            return ResponseText.ResponseSuccess("Sửa thành công", StatusCodes.Status204NoContent);
+            return ResponseText.ResponseSuccess("Sửa thành công.", StatusCodes.Status204NoContent);
         }
         //xóa role
         public async Task<ResponseText> DeleteRoleAsync(int id)
         {
             // Kiểm tra xem role có tồn tại không
-            await GetRByIdAsyns(id);
+            await GetRoleByIdAsync(id);
+            // kiểm tra xem có user nào liên quan đến role không 
+            var userCount = await GetUserCountByRoleIdAsync(id);
+
+            if (userCount > 0)
+            {
+                throw new CustomException(StatusCodes.Status400BadRequest, $"Không thể xóa Role vì có {userCount} User liên quan.");
+            }
 
             using var dbManager = new DatabaseConnectionManager(_connectionString);
             using var connection = dbManager.GetOpenConnection();
             var sql = "DELETE FROM Roles WHERE Id = @Id";
             var result = await connection.ExecuteAsync(sql, new { Id = id });
-            return ResponseText.ResponseSuccess("Xóa thành công", StatusCodes.Status204NoContent);
+            return ResponseText.ResponseSuccess("Xóa thành công.", StatusCodes.Status204NoContent);
         }
-  
-        public async Task<RoleResultDto> GetRByIdAsyns(int id)
+
+        public async Task<bool> CheckRoleNameExistsAsync(string name)
         {
             using var dbManager = new DatabaseConnectionManager(_connectionString);
             using var connection = dbManager.GetOpenConnection();
-
-            var sql = "SELECT * FROM Roles WHERE Id = @Id";
-            var role = await connection.ExecuteScalarAsync<RoleResultDto>(sql, new { Id = id });
-            return role ?? throw new CustomException(StatusCodes.Status404NotFound, "Role không tồn tại.");
+            var sql = "SELECT COUNT(1) FROM Roles WHERE Name = @Name";
+            var count = await connection.ExecuteScalarAsync<int>(sql, new { Name = name });
+            return count > 0;
         }
 
-        public async Task<RoleResultDto> GetRByNameAsyns(string name)
+        public async Task<int> GetUserCountByRoleIdAsync(int id)
         {
             using var dbManager = new DatabaseConnectionManager(_connectionString);
             using var connection = dbManager.GetOpenConnection();
-
-            var sql = "SELECT * FROM Roles WHERE Name = @Name";
-            var role = await connection.ExecuteScalarAsync<RoleResultDto>(sql, new { Name = name });
-            return role ?? throw new CustomException(StatusCodes.Status404NotFound, "Name không tồn tại.");
+            var checkSql = "SELECT COUNT(*) FROM Users WHERE RoleId = @RoleId";
+            return await connection.ExecuteScalarAsync<int>(checkSql, new { RoleId = id });
         }
     }
 }

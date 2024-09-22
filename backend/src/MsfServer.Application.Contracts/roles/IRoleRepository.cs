@@ -1,6 +1,7 @@
 ﻿using MsfServer.Application.Contracts.Roles.RoleDtos;
 using MsfServer.Application.Page;
 using MsfServer.Domain.Shared.Responses;
+using System.Data;
 
 namespace MsfServer.Application.Contracts.roles
 {
@@ -13,7 +14,7 @@ namespace MsfServer.Application.Contracts.roles
         Task<ResponseText> UpdateRoleAsync(RoleInputDto input, int id);
         Task<ResponseText> DeleteRoleAsync(int id);
         // hàm phụ việc truy vấn
-        Task<RoleResultDto> GetRByIdAsyns(int id);
-        Task<RoleResultDto> GetRByNameAsyns(string name);
+        Task<bool> CheckRoleNameExistsAsync(string name);
+        Task<int> GetUserCountByRoleIdAsync(int id);
     }
 }
