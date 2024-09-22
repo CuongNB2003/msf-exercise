@@ -8,6 +8,6 @@ namespace MsfServer.Application.Contracts.Authentication.AuthDtos
         public string? AccessToken { get; set; }
         public string? RefreshToken { get; set; }
         public DateTime Expiration { get; set; }
-        public UserResultDto? User { get; set; }
+        public UserLoginDto? User { get; set; }
     }
 }

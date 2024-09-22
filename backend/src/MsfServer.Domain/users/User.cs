@@ -29,6 +29,10 @@ namespace MsfServer.Domain.users
         [MaxLength(255)]
         public string? Avatar { get; set; }
 
+        [Required]
+        [MaxLength(100)]
+        public string? Salt { get; set; }
+
         [ForeignKey("RoleId")]
         public Role? Role { get; set; }
     }

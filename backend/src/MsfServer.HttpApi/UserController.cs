@@ -6,11 +6,9 @@ namespace MsfServer.HttpApi
 {
     [Route("api/user")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class UsersController(IUserRepository userRepository) : ControllerBase
     {
-        private readonly IUserRepository _userRepository;
-
-        public UsersController(IUserRepository userRepository) => _userRepository = userRepository;
+        private readonly IUserRepository _userRepository = userRepository;
 
         [HttpGet("{page}, {limit}")] // lấy tất cả users
         public async Task<IActionResult> GetUsers(int limit, int page)
@@ -22,7 +20,7 @@ namespace MsfServer.HttpApi
         [HttpGet("{id}")] // lấy user theo id
         public async Task<IActionResult> GetUser(int id)
         {
-            var user = await _userRepository.GetUserRoleByIdAsync(id);
+            var user = await _userRepository.GetUserByIdAsync(id);
             return Ok(user);
         }
 

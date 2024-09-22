@@ -1,9 +1,7 @@
 ﻿using MsfServer.Application.Contracts.Users;
 using Dapper;
-using System.Data.SqlClient;
 using System.Data;
 using MsfServer.Application.Page;
-using MsfServer.Domain.users;
 using MsfServer.Domain.Security;
 using MsfServer.Domain.Shared.Responses;
 using Microsoft.AspNetCore.Http;
@@ -31,27 +29,29 @@ namespace MsfServer.Application.Repositorys
             // tạo data
             byte[] salt = PasswordHashed.GenerateSalt();
             string hashedPassword = PasswordHashed.HashPassword("111111", salt);
-            var user = new User
+            var user = new UserDto
             {
                 Name = input.Name,
                 Email = input.Email,
                 Password = hashedPassword,
                 RoleId = input.RoleId,
-                Avatar = input.Avatar
+                Avatar = input.Avatar,
+                Salt = Convert.ToBase64String(salt)
             };
             // add user
             using var dbManager = new DatabaseConnectionManager(_connectionString);
             using var connection = dbManager.GetOpenConnection();
             var sql = @"
-                    INSERT INTO Users (Name, Email, Password, RoleId, Avatar)
-                    VALUES (@Name, @Email, @Password, @RoleId, @Avatar)";
+                    INSERT INTO Users (Name, Email, Password, RoleId, Avatar, Salt)
+                    VALUES (@Name, @Email, @Password, @RoleId, @Avatar, @Salt)";
             var result = await connection.ExecuteAsync(sql, new
             {
                 user.Name,
                 user.Email,
                 user.Password,
                 user.RoleId,
-                user.Avatar
+                user.Avatar,
+                user.Salt
             });
             return ResponseText.ResponseSuccess("Thêm thành công", StatusCodes.Status201Created);
         }
@@ -61,11 +61,11 @@ namespace MsfServer.Application.Repositorys
         {
             var user = await GetUserByIdAsync(id);
             // Kiểm tra email mới có trùng với email hiện tại không
-            if (!string.Equals(user.Email, input.Email, StringComparison.OrdinalIgnoreCase))
+            if (!string.Equals(user?.Data?.Email, input.Email, StringComparison.OrdinalIgnoreCase))
             {
                 if (await CheckEmailExistsAsync(input.Email))
                 {
-                    throw new CustomException(StatusCodes.Status409Conflict , "Email đã tồn tại.");
+                    throw new CustomException(StatusCodes.Status409Conflict, "Email đã tồn tại.");
                 }
             }
             // cập nhật
@@ -93,7 +93,7 @@ namespace MsfServer.Application.Repositorys
         }
 
         // lấy user theo id
-        public async Task<ResponseObject<UserResultDto>> GetUserRoleByIdAsync(int id)
+        public async Task<ResponseObject<UserResultDto>> GetUserByIdAsync(int id)
         {
             using var dbManager = new DatabaseConnectionManager(_connectionString);
             using var connection = dbManager.GetOpenConnection();
@@ -160,7 +160,6 @@ namespace MsfServer.Application.Repositorys
             return new ResponseObject<PagedResult<UserResultDto>>(StatusCodes.Status200OK, "Lấy dữ liệu thành công.", pagedResult);
         }
 
-
         public async Task<bool> CheckEmailExistsAsync(string email)
         {
             using var dbManager = new DatabaseConnectionManager(_connectionString);
@@ -170,14 +169,23 @@ namespace MsfServer.Application.Repositorys
             return count > 0;
         }
 
-        public async Task<UserResultDto> GetUserByIdAsync(int id)
+        public async Task<UserDto> GetUserByEmailAsync(string email)
         {
             using var dbManager = new DatabaseConnectionManager(_connectionString);
             using var connection = dbManager.GetOpenConnection();
-            var sql = "SELECT * FROM Users WHERE Id = @Id";
-            var user = await connection.QuerySingleOrDefaultAsync<UserResultDto>(sql, new { Id = id });
-            return user ?? throw new CustomException(StatusCodes.Status404NotFound, "User không tồn tại.");
+            var sql = @"
+            SELECT * FROM Users WHERE Email = @Email;
+            SELECT * FROM Roles WHERE Id = (SELECT RoleId FROM Users WHERE Email = @Email);";
+
+            using var multi = await connection.QueryMultipleAsync(sql, new { Email = email });
+
+            var user = await multi.ReadSingleOrDefaultAsync<UserDto>() ?? throw new CustomException(StatusCodes.Status404NotFound, "Email chưa đúng.");
+            var role = await multi.ReadSingleOrDefaultAsync<RoleResultDto>();
+            user.Role = role ?? throw new CustomException(StatusCodes.Status404NotFound, "Role không tồn tại.");
+
+            return user;
         }
     }
-}
+
+    }
 

@@ -7,7 +7,6 @@ using MsfServer.Domain.Shared.Exceptions;
 using MsfServer.Domain.Shared.Responses;
 using MsfServer.Application.Contracts.Roles.RoleDtos;
 using MsfServer.Application.Database;
-using MsfServer.Domain.roles;
 
 namespace MsfServer.Application.Repositorys
 {
