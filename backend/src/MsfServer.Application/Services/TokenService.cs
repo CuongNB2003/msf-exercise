@@ -11,18 +11,19 @@ using System.Text;
 
 namespace MsfServer.Application.Services
 {
-    public class TokenService(ITokenRepository tokenRepository, JwtSettings jwtSettings) : ITokenService
+    public class TokenService(ITokenRepository tokenRepository, IUserRepository userRepository, JwtSettings jwtSettings) : ITokenService
     {
         private readonly ITokenRepository _tokenRepository = tokenRepository;
+        private readonly IUserRepository _userRepository = userRepository;
         private readonly JwtSettings _jwtSettings = jwtSettings;
         // tạo ra AccessToken
-        public async Task<TokenResultDto> GenerateAccessToken(UserDto user)
+        public async Task<TokenResultDto> GenerateAccessTokenAsync(UserDto user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_jwtSettings.Key!);
 
             // Lấy các claim từ hàm GetClaims
-            var claims = await GetClaims(user);
+            var claims = await GetClaimsAsync(user);
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
@@ -38,12 +39,29 @@ namespace MsfServer.Application.Services
             return TokenResultDto.ResponseToken(tokenString, expiresAt);
         }
         // tạo ra RefreshToken
-        public Task<TokenResultDto> GenerateRefreshToken(int id)
+        public async Task<TokenResultDto> GenerateRefreshTokenAsync(UserDto user)
         {
-            throw new NotImplementedException();
+            // Generate a new refresh token
+            var refreshToken = new TokenResultDto
+            {
+                Token = Guid.NewGuid().ToString(),
+                Expires = DateTime.UtcNow.AddDays(_jwtSettings.RefreshTokenExpirationDays)
+            };
+
+            var tokenDto = new TokenDto
+            {
+                UserId = user.Id,
+                RefreshToken = refreshToken.Token,
+                ExpirationDate = DateTime.UtcNow.AddDays(_jwtSettings.RefreshTokenExpirationDays)
+            };
+
+            // Save the refresh token to the repository
+            await _tokenRepository.SaveTokenAsync(tokenDto);
+
+            return refreshToken;
         }
         // lấy GetClaims
-        public async Task<IEnumerable<Claim>> GetClaims(UserDto user)
+        public async Task<IEnumerable<Claim>> GetClaimsAsync(UserDto user)
         {
             var claims = new List<Claim>
             {
@@ -55,20 +73,14 @@ namespace MsfServer.Application.Services
 
             return await Task.FromResult(claims);
         }
-        //lấy refreshToken từ db
-        public Task<TokenDto> GetToken(string refreshToken)
-        {
-            throw new NotImplementedException();
-        }
         // tạo lại AccessToken
-        public Task<TokenResultDto> RefreshAccessToken(string refreshToken)
+        public  async Task<TokenResultDto> RefreshAccessTokenAsync(string refreshToken)
         {
-            throw new NotImplementedException();
-        }
-        // lưu token vào db
-        public Task SaveToken(TokenDto tokenDto)
-        {
-            throw new NotImplementedException();
+            var token  = await _tokenRepository.GetTokenAsync(refreshToken);
+            var user = await _userRepository.GetUserAsync(token.UserId);
+            var accessTokenNew = await GenerateAccessTokenAsync(user);
+            var refreshTokenNew = await GenerateRefreshTokenAsync(user);
+            return refreshTokenNew;
         }
     }
 }

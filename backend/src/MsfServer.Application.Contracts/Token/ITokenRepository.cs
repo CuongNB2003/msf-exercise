@@ -10,6 +10,6 @@ namespace MsfServer.Application.Contracts.Token
     {
         Task<TokenDto> GetTokenAsync(string refreshToken);
         Task<ResponseText> SaveTokenAsync(TokenDto input);
-        Task<TokenDto> GetTokenByIdAsync(int id);
+        Task<bool> CheckTokenUserIdExistsAsync(int idUser);
     }
 }

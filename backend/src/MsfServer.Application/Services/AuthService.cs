@@ -40,9 +40,12 @@ namespace MsfServer.Application.Services
             {
                 throw new CustomException(StatusCodes.Status401Unauthorized, "Sai mật khẩu.");
             }
-            var accessToken = await _tokenService.GenerateAccessToken(user);
+            // khởi tạo token
+            var accessToken = await _tokenService.GenerateAccessTokenAsync(user);
+            var refreshToken = await _tokenService.GenerateRefreshTokenAsync(user);
+            // khởi tạo user
             var userLogin = UserLoginDto.FromUserDto(user);
-            var result = LoginResultDto.CreateResult(accessToken, "", userLogin);
+            var result = LoginResultDto.CreateResult(accessToken, refreshToken, userLogin);
             return _response.ResponseSuccess("Đăng nhập thành công thành công.", result);
         }
         // đăng xuất

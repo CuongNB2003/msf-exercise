@@ -1,6 +1,4 @@
 ﻿
-using MsfServer.Domain.Shared.Responses;
-
 namespace MsfServer.Application.Contracts.Token.TokenDtos
 {
     public class TokenResultDto

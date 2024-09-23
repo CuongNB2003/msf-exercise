@@ -52,8 +52,9 @@ namespace MsfServer.HttpApi.Host.Extensions
             services.AddScoped<ITokenService, TokenService>(provider =>
             {
                 var tokenRepository = provider.GetRequiredService<ITokenRepository>();
+                var userRepository = provider.GetRequiredService<IUserRepository>();
                 var jwtSettings = provider.GetRequiredService<JwtSettings>();
-                return new TokenService(tokenRepository, jwtSettings);
+                return new TokenService(tokenRepository, userRepository, jwtSettings);
             });
 
             // service AuthService

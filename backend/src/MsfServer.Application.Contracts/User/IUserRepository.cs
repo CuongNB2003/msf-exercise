@@ -15,7 +15,7 @@ namespace MsfServer.Application.Contracts.Users
         // hàm phụ việc truy vấn
         Task<bool> CheckEmailExistsAsync(string email);
         Task<UserDto> GetUserByEmailAsync(string email);
-
+        Task<UserDto> GetUserAsync(int id);
 
     }
 }

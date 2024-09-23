@@ -20,21 +20,18 @@ namespace MsfServer.Application.Repositorys
 
             // Query to get the token by refreshToken
             var token = await connection.QuerySingleOrDefaultAsync<TokenDto>(
-                "SELECT * FROM Token WHERE RefreshToken = @RefreshToken", new { RefreshToken = refreshToken });
+                "SELECT * FROM Tokens WHERE RefreshToken = @RefreshToken", new { RefreshToken = refreshToken });
 
             return token ?? throw new CustomException(StatusCodes.Status404NotFound, "Không tìm thấy Token.");
         }
 
-        public async Task<TokenDto> GetTokenByIdAsync(int id)
+        public async Task<bool> CheckTokenUserIdExistsAsync(int idUser)
         {
             using var dbManager = new DatabaseConnectionManager(_connectionString);
             using var connection = dbManager.GetOpenConnection();
-
-            // Query to get the token by Id
-            var token = await connection.QuerySingleOrDefaultAsync<TokenDto>(
-                "SELECT * FROM Token WHERE Id = @Id", new { Id = id });
-
-            return token ?? throw new CustomException(StatusCodes.Status404NotFound, "Không tìm thấy Token.");
+            var sql = "SELECT COUNT(1) FROM Tokens WHERE UserId = @UserId";
+            var count = await connection.ExecuteScalarAsync<int>(sql, new { UserId = idUser });
+            return count > 0;
         }
 
         public async Task<ResponseText> SaveTokenAsync(TokenDto input)
@@ -42,9 +39,7 @@ namespace MsfServer.Application.Repositorys
             using var dbManager = new DatabaseConnectionManager(_connectionString);
             using var connection = dbManager.GetOpenConnection();
 
-            var token = await GetTokenByIdAsync(input.Id);
-
-            if (token == null)
+            if (!await CheckTokenUserIdExistsAsync(input.UserId))
             {
                 var insertQuery = @"
                     INSERT INTO Tokens (UserId, RefreshToken, ExpirationDate)
@@ -56,10 +51,11 @@ namespace MsfServer.Application.Repositorys
             {
                 var updateQuery = @"
                     UPDATE Tokens
-                    SET UserId = @UserId, RefreshToken = @RefreshToken, ExpirationDate = @ExpirationDate
-                    WHERE Id = @Id";
+                    SET RefreshToken = @RefreshToken, ExpirationDate = @ExpirationDate
+                    WHERE UserId = @UserId";
 
-                await connection.ExecuteAsync(updateQuery, new { input.UserId, input.RefreshToken, input.ExpirationDate});
+                await connection.ExecuteAsync(updateQuery, new { input.UserId, input.RefreshToken, input.ExpirationDate });
+
             }
             return ResponseText.ResponseSuccess("Cập nhật token thành công.", StatusCodes.Status204NoContent);
         }

@@ -185,6 +185,23 @@ namespace MsfServer.Application.Repositorys
 
             return user;
         }
+
+        public async Task<UserDto> GetUserAsync(int id)
+        {
+            using var dbManager = new DatabaseConnectionManager(_connectionString);
+            using var connection = dbManager.GetOpenConnection();
+            var sql = @"
+            SELECT * FROM Users WHERE Id = @Id;
+            SELECT * FROM Roles WHERE Id = (SELECT RoleId FROM Users WHERE Id = @Id);";
+
+            using var multi = await connection.QueryMultipleAsync(sql, new { Id = id });
+
+            var user = await multi.ReadSingleOrDefaultAsync<UserDto>() ?? throw new CustomException(StatusCodes.Status404NotFound, "Email chưa đúng.");
+            var role = await multi.ReadSingleOrDefaultAsync<RoleResultDto>();
+            user.Role = role ?? throw new CustomException(StatusCodes.Status404NotFound, "Role không tồn tại.");
+
+            return user;
+        }
     }
 
     }

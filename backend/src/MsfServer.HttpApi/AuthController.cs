@@ -9,9 +9,11 @@ namespace MsfServer.HttpApi
 {
     [Route("api/auth")]
     [ApiController]
-    public class AuthController(IAuthService authService) : ControllerBase
+    public class AuthController(IAuthService authService, ITokenService tokenService) : ControllerBase
     {
         private readonly IAuthService _authService = authService;
+        private readonly ITokenService _tokenService = tokenService;
+
         //[HttpGet("me")]
         //public async Task<IActionResult> GetUser()
         //{
@@ -22,6 +24,13 @@ namespace MsfServer.HttpApi
         public async Task<IActionResult> Login(LoginInputDto loginInput)
         {
             var result = await _authService.LoginAsync(loginInput);
+            return Ok(result);
+        }
+
+        [HttpPost("refresh-token")]
+        public async Task<IActionResult> RefreshAccessToken(string refreshToken)
+        {
+            var result = await _tokenService.RefreshAccessTokenAsync(refreshToken);
             return Ok(result);
         }
 

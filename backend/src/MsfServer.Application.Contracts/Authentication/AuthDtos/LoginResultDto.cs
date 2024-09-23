@@ -7,12 +7,12 @@ namespace MsfServer.Application.Contracts.Authentication.AuthDtos
     public class LoginResultDto
     {
         public TokenResultDto? AccessToken { get; set; }
-        public string? RefreshToken { get; set; }
+        public TokenResultDto? RefreshToken { get; set; }
         public string? Expiration { get; set; }
         public UserLoginDto? User { get; set; }
 
 
-        public static LoginResultDto CreateResult(TokenResultDto accessToken, string refreshToken, UserLoginDto user)
+        public static LoginResultDto CreateResult(TokenResultDto accessToken, TokenResultDto refreshToken, UserLoginDto user)
         {
             return new LoginResultDto
             {
