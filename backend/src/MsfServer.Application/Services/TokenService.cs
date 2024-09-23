@@ -1,5 +1,6 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using MsfServer.Application.Contracts.Authentication;
+using MsfServer.Application.Contracts.Authentication.AuthDtos;
 using MsfServer.Application.Contracts.Token;
 using MsfServer.Application.Contracts.Token.TokenDtos;
 using MsfServer.Application.Contracts.Users;
@@ -11,7 +12,11 @@ using System.Text;
 
 namespace MsfServer.Application.Services
 {
-    public class TokenService(ITokenRepository tokenRepository, IUserRepository userRepository, JwtSettings jwtSettings) : ITokenService
+    public class TokenService(
+        ITokenRepository tokenRepository, 
+        IUserRepository userRepository, 
+        JwtSettings jwtSettings
+        ) : ITokenService
     {
         private readonly ITokenRepository _tokenRepository = tokenRepository;
         private readonly IUserRepository _userRepository = userRepository;
@@ -29,6 +34,8 @@ namespace MsfServer.Application.Services
             {
                 Subject = new ClaimsIdentity(claims),
                 Expires = DateTime.UtcNow.AddMinutes(_jwtSettings.ExpireMinutes),
+                Audience = _jwtSettings.Audience,
+                Issuer = _jwtSettings.Issuer,
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
 
@@ -74,13 +81,13 @@ namespace MsfServer.Application.Services
             return await Task.FromResult(claims);
         }
         // tạo lại AccessToken
-        public  async Task<TokenResultDto> RefreshAccessTokenAsync(string refreshToken)
+        public  async Task<AuthTokenDto> RefreshAccessTokenAsync(string refreshToken)
         {
             var token  = await _tokenRepository.GetTokenAsync(refreshToken);
             var user = await _userRepository.GetUserAsync(token.UserId);
             var accessTokenNew = await GenerateAccessTokenAsync(user);
             var refreshTokenNew = await GenerateRefreshTokenAsync(user);
-            return refreshTokenNew;
+            return AuthTokenDto.GetToken(accessTokenNew, refreshTokenNew);
         }
     }
 }

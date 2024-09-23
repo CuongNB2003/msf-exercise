@@ -1,9 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using MsfServer.Domain.Security;
 using MsfServer.EntityFrameworkCore.Database;
 using MsfServer.HttpApi;
 using MsfServer.HttpApi.Host.Extensions;
 using MsfServer.HttpApi.Host.Middlewares;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,13 +22,9 @@ if (string.IsNullOrEmpty(connectionString))
 builder.Services.AddDbContext<MsfServerDbContext>(options =>
     options.UseSqlServer(connectionString));
 
-// cấu hình JWT
-var jwtSettings = builder.Configuration.GetSection("Jwt").Get<JwtSettings>();
-if (jwtSettings == null)
-{
-    throw new ArgumentNullException(nameof(jwtSettings), "JwtSettings không được để trống.");
-}
-builder.Services.AddSingleton(jwtSettings);
+// Gọi các phương thức mở rộng để cấu hình Authentication và Authorization
+builder.Services.AddCustomAuthentication(builder.Configuration);
+builder.Services.AddCustomAuthorization();
 
 // Dịch vụ của các service application 
 builder.Services.AddCustomServices(connectionString);
@@ -36,22 +36,32 @@ builder.Services.AddControllers()
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+// Gọi cấu hình Swagger
+//builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerConfiguration();
 
 var app = builder.Build();
 
 // Thêm middleware tùy chỉnh vào pipeline để xử lý ngoại lệ
 app.UseMiddleware<CustomExceptionMiddleware>();
+app.UseMiddleware<CustomAuthenticationMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    // cấu hình lại tên api và điều hướng api
+    //app.UseSwaggerUI(c =>
+    //{
+    //    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+    //    c.RoutePrefix = string.Empty;
+    //});
 }
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

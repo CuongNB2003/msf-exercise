@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MsfServer.Application.Contracts.Authentication;
 using MsfServer.Application.Contracts.Authentication.AuthDtos;
-using MsfServer.Application.Contracts.Users;
-using MsfServer.Domain.Shared.Responses;
-using System.Security.Claims;
 
 namespace MsfServer.HttpApi
 {

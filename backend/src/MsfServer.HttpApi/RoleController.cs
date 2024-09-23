@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MsfServer.Application.Contracts.Role;
 using MsfServer.Application.Contracts.Roles.RoleDtos;
@@ -8,13 +9,12 @@ namespace MsfServer.HttpApi
 {
     [Route("api/role")]
     [ApiController]
-    public class RolesController : ControllerBase
+    public class RolesController(IRoleRepository roleRepository) : ControllerBase
     {
-        private readonly IRoleRepository _roleRepository;
+        private readonly IRoleRepository _roleRepository = roleRepository;
 
-        public RolesController(IRoleRepository roleRepository) => _roleRepository = roleRepository;
-
-        [HttpGet("{page}, {limit}")] // lấy tất cả dữ liệu
+        [Authorize(Policy = "UserPolicy")]
+        [HttpGet] // lấy tất cả dữ liệu
         public async Task<IActionResult> GetRoles(int page, int limit)
         {
             var roles = await _roleRepository.GetRolesAsync(page, limit);

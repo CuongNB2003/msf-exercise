@@ -6,18 +6,16 @@ namespace MsfServer.Application.Contracts.Authentication.AuthDtos
 {
     public class LoginResultDto
     {
-        public TokenResultDto? AccessToken { get; set; }
-        public TokenResultDto? RefreshToken { get; set; }
+        public AuthTokenDto? Token { get; set; }
         public string? Expiration { get; set; }
         public UserLoginDto? User { get; set; }
 
 
-        public static LoginResultDto CreateResult(TokenResultDto accessToken, TokenResultDto refreshToken, UserLoginDto user)
+        public static LoginResultDto CreateResult(AuthTokenDto token, UserLoginDto user)
         {
             return new LoginResultDto
             {
-                AccessToken = accessToken,
-                RefreshToken = refreshToken,
+                Token = token,
                 Expiration = DateTime.Now.ToString("HH:mm:ss dd/MM/yyyy"),
                 User = user
             };

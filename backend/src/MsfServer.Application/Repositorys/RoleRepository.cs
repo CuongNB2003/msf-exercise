@@ -18,7 +18,12 @@ namespace MsfServer.Application.Repositorys
         //lấy tất cả role
         public async Task<ResponseObject<PagedResult<RoleResultDto>>> GetRolesAsync(int page, int limit)
         {
-                using var dbManager = new DatabaseConnectionManager(_connectionString);
+            if (page <= 0 || limit <= 0)
+            {
+                throw new CustomException(StatusCodes.Status400BadRequest, "Bạn cần phải truyền vào page và limit.");
+            }
+
+            using var dbManager = new DatabaseConnectionManager(_connectionString);
                 using var connection = dbManager.GetOpenConnection();
                 //thực hiện truy vấn 
                 var offset = (page - 1) * limit;

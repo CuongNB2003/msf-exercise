@@ -45,7 +45,8 @@ namespace MsfServer.Application.Services
             var refreshToken = await _tokenService.GenerateRefreshTokenAsync(user);
             // khởi tạo user
             var userLogin = UserLoginDto.FromUserDto(user);
-            var result = LoginResultDto.CreateResult(accessToken, refreshToken, userLogin);
+            var token = AuthTokenDto.GetToken (accessToken, refreshToken);
+            var result = LoginResultDto.CreateResult(token, userLogin);
             return _response.ResponseSuccess("Đăng nhập thành công thành công.", result);
         }
         // đăng xuất

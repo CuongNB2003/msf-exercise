@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Swashbuckle.AspNetCore.Annotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace MsfServer.Application.Contracts.Authentication.AuthDtos
 {
@@ -10,6 +11,7 @@ namespace MsfServer.Application.Contracts.Authentication.AuthDtos
 
         [Required(ErrorMessage = "Không được để trống PassWord")]
         [MinLength(6,ErrorMessage = "PassWord tối thiểu 6 kí tự")]
+
         public string PassWord { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Không được để trống ReCaptchaToken")]
