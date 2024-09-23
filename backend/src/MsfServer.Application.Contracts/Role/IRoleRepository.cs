@@ -1,9 +1,8 @@
 ﻿using MsfServer.Application.Contracts.Roles.RoleDtos;
 using MsfServer.Application.Page;
 using MsfServer.Domain.Shared.Responses;
-using System.Data;
 
-namespace MsfServer.Application.Contracts.roles
+namespace MsfServer.Application.Contracts.Role
 {
     public interface IRoleRepository
     {

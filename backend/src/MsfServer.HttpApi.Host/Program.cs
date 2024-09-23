@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MsfServer.Domain.Security;
 using MsfServer.EntityFrameworkCore.Database;
 using MsfServer.HttpApi;
 using MsfServer.HttpApi.Host.Extensions;
@@ -16,6 +17,16 @@ if (string.IsNullOrEmpty(connectionString))
 // Cấu hình db context
 builder.Services.AddDbContext<MsfServerDbContext>(options =>
     options.UseSqlServer(connectionString));
+// cấu hình JWT
+var jwtSettings = builder.Configuration.GetSection("Jwt").Get<JwtSettings>();
+if (jwtSettings == null)
+{
+    throw new ArgumentNullException(nameof(jwtSettings), "JwtSettings không được để trống.");
+}
+
+// Use jwtSettings after it has been declared and initialized
+builder.Services.AddSingleton(jwtSettings);
+
 
 // Dịch vụ của các service application 
 builder.Services.AddCustomServices(connectionString);

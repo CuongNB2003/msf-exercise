@@ -1,5 +1,4 @@
-﻿using MsfServer.Application.Contracts.roles;
-using MsfServer.Application.Contracts.Users;
+﻿using MsfServer.Application.Contracts.Users;
 using MsfServer.Domain.Shared.Responses;
 using MsfServer.Application.Repositorys;
 using MsfServer.Application.Contracts.Roles.RoleDtos;
@@ -8,6 +7,9 @@ using MsfServer.Application.Contracts.Services;
 using MsfServer.Application.Services;
 using MsfServer.Application.Contracts.Authentication.AuthDtos;
 using MsfServer.Application.Contracts.Authentication;
+using MsfServer.Application.Contracts.Role;
+using MsfServer.Application.Contracts.Token;
+using MsfServer.Domain.Security;
 
 namespace MsfServer.HttpApi.Host.Extensions
 {
@@ -37,8 +39,22 @@ namespace MsfServer.HttpApi.Host.Extensions
                 return new UserRepository(connectionString, responseObject);
             });
 
+            // service TokenRepository
+            services.AddScoped<ITokenRepository, TokenRepository>(provider =>
+            {
+                return new TokenRepository(connectionString);
+            });
+
             // service ReCaptchaService
             services.AddHttpClient<IReCaptchaService, ReCaptchaService>();
+
+            // service TokenService
+            services.AddScoped<ITokenService, TokenService>(provider =>
+            {
+                var tokenRepository = provider.GetRequiredService<ITokenRepository>();
+                var jwtSettings = provider.GetRequiredService<JwtSettings>();
+                return new TokenService(tokenRepository, jwtSettings);
+            });
 
             // service AuthService
             services.AddScoped<ResponseObject<LoginResultDto>>(provider =>
@@ -49,9 +65,11 @@ namespace MsfServer.HttpApi.Host.Extensions
             {
                 var reCaptchaService = provider.GetRequiredService<IReCaptchaService>();
                 var userRepository = provider.GetRequiredService<IUserRepository>();
+                var tokenService = provider.GetRequiredService<ITokenService>();
                 var response = provider.GetRequiredService<ResponseObject<LoginResultDto>>();
-                return new AuthService(reCaptchaService, userRepository, response, connectionString);
+                return new AuthService(reCaptchaService, userRepository, response, connectionString, tokenService);
             });
+
         }
     }
 }

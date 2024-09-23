@@ -11,12 +11,19 @@ using MsfServer.Domain.users;
 
 namespace MsfServer.Application.Services
 {
-    public class AuthService(IReCaptchaService reCaptchaService, IUserRepository userRepository, ResponseObject<LoginResultDto> response, string connectionString) : IAuthService
+    public class AuthService(
+        IReCaptchaService reCaptchaService, 
+        IUserRepository userRepository, 
+        ResponseObject<LoginResultDto> response, 
+        string connectionString, 
+        ITokenService tokenService
+        ) : IAuthService
     {
         private readonly IReCaptchaService _reCaptchaService = reCaptchaService;
         private readonly IUserRepository _userRepository = userRepository;
         private readonly ResponseObject<LoginResultDto> _response = response;
         private readonly string _connectionString = connectionString;
+        private readonly ITokenService _tokenService = tokenService;
 
         // đăng nhập
         public async Task<ResponseObject<LoginResultDto>> LoginAsync(LoginInputDto input)
@@ -33,21 +40,9 @@ namespace MsfServer.Application.Services
             {
                 throw new CustomException(StatusCodes.Status401Unauthorized, "Sai mật khẩu.");
             }
-            var userLogin = new UserLoginDto
-            {
-                Name = user.Name,
-                Email = user.Email,
-                Avatar = user.Avatar,
-                RoleId = user.RoleId,
-                Role = user.Role!
-            };
-            var result = new LoginResultDto
-            {
-                AccessToken = "",
-                RefreshToken = "",
-                Expiration = DateTime.Now,
-                User = userLogin
-            }; 
+            var accessToken = await _tokenService.GenerateAccessToken(user);
+            var userLogin = UserLoginDto.FromUserDto(user);
+            var result = LoginResultDto.CreateResult(accessToken, "", userLogin);
             return _response.ResponseSuccess("Đăng nhập thành công thành công.", result);
         }
         // đăng xuất

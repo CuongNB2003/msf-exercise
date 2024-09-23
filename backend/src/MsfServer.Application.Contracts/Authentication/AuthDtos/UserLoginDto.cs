@@ -1,4 +1,5 @@
 ﻿using MsfServer.Application.Contracts.Roles.RoleDtos;
+using MsfServer.Application.Contracts.Users.UserDtos;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -16,5 +17,17 @@ namespace MsfServer.Application.Contracts.Authentication.AuthDtos
         public string? Avatar { get; set; }
         [ForeignKey("RoleId")]
         public required RoleResultDto Role { get; set; }
+
+        public static UserLoginDto FromUserDto(UserDto user)
+        {
+            return new UserLoginDto
+            {
+                Name = user.Name,
+                Email = user.Email,
+                Avatar = user.Avatar,
+                RoleId = user.RoleId,
+                Role = user.Role!
+            };
+        }
     }
 }
