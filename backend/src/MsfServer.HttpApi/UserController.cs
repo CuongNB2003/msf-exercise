@@ -37,7 +37,7 @@ namespace MsfServer.HttpApi
 
         [Authorize(Roles = "admin")]
         [HttpPut("{id}")] // sửa user
-        public async Task<IActionResult> UpdateUser(int id, UpdateUserDto input)
+        public async Task<IActionResult> UpdateUser(int id, UpdateUserInput input)
         {
             var result = await _userRepository.UpdateUserAsync(input, id);
             return Ok(result);

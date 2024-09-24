@@ -51,7 +51,7 @@ namespace MsfServer.Application.Repositorys
 
 
         // sửa user
-        public async Task<ResponseText> UpdateUserAsync(UpdateUserDto input, int id)
+        public async Task<ResponseText> UpdateUserAsync(UpdateUserInput input, int id)
         {
             var user = await GetUserByIdAsync(id);
             // Kiểm tra email mới có trùng với email hiện tại không

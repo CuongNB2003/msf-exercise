@@ -2,7 +2,7 @@
 
 namespace MsfServer.Application.Contracts.User.UserDtos
 {
-    public class UpdateUserDto : CreateUserInput
+    public class UpdateUserInput : CreateUserInput
     {
         [Required(ErrorMessage = "Name là bắt buộc.")]
         [MaxLength(50)]
