@@ -18,7 +18,7 @@ namespace MsfServer.Application.Repositorys
         private readonly ResponseObject<UserResultDto> _responseUser = responseUser;
 
         // thêm user
-        public async Task<ResponseText> CreateUserAsync(UserInput input)
+        public async Task<ResponseText> CreateUserAsync(CreateUserInput input)
         {
             // Check email
             if (await CheckEmailExistsAsync(input.Email))
@@ -51,7 +51,7 @@ namespace MsfServer.Application.Repositorys
 
 
         // sửa user
-        public async Task<ResponseText> UpdateUserAsync(UserInput input, int id)
+        public async Task<ResponseText> UpdateUserAsync(UpdateUserDto input, int id)
         {
             var user = await GetUserByIdAsync(id);
             // Kiểm tra email mới có trùng với email hiện tại không
