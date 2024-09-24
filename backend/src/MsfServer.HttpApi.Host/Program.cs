@@ -32,7 +32,9 @@ builder.Services.AddCustomServices(connectionString);
 // Dịch vụ controller 
 builder.Services.AddControllers()
     .AddApplicationPart(typeof(RolesController).Assembly)
-    .AddApplicationPart(typeof(UsersController).Assembly);
+    .AddApplicationPart(typeof(UsersController).Assembly)
+    .AddApplicationPart(typeof(UserLogController).Assembly)
+    .AddApplicationPart(typeof(AuthController).Assembly);
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -63,6 +65,16 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+// Bỏ qua xác thực cho Swagger
+// Bỏ qua xác thực cho Swagger và endpoint /api/auth/login
+app.UseWhen(context => !context.Request.Path.StartsWithSegments("/swagger") && 
+!context.Request.Path.StartsWithSegments("/v3/api-docs") &&
+!context.Request.Path.StartsWithSegments("/api/auth/register") &&
+!context.Request.Path.StartsWithSegments("/api/auth/login"), appBuilder =>
+{
+    appBuilder.UseMiddleware<UserActivityLoggingMiddleware>();
+});
 
 app.MapControllers();
 

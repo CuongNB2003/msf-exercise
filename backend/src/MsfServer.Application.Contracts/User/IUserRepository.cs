@@ -9,8 +9,8 @@ namespace MsfServer.Application.Contracts.User
         // hàm trong controller
         Task<ResponseObject<PagedResult<UserResultDto>>> GetUsersAsync(int page, int limit);
         Task<ResponseObject<UserResultDto>> GetUserByIdAsync(int id);
-        Task<ResponseText> CreateUserAsync(UserInput user);
-        Task<ResponseText> UpdateUserAsync(UserInput user, int id);
+        Task<ResponseText> CreateUserAsync(CreateUserInput user);
+        Task<ResponseText> UpdateUserAsync(UpdateUserInput user, int id);
         Task<ResponseText> DeleteUserAsync(int id);
         // hàm phụ việc truy vấn
         Task<bool> CheckEmailExistsAsync(string email);
