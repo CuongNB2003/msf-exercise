@@ -59,5 +59,32 @@ namespace MsfServer.Application.Repositorys
             }
             return ResponseText.ResponseSuccess("Cập nhật token thành công.", StatusCodes.Status204NoContent);
         }
+
+        public async Task<ResponseText> DeleteTokenAsync(string idUser)
+        {
+            if (!int.TryParse(idUser, out int userId))
+            {
+                throw new CustomException(StatusCodes.Status400BadRequest, "Invalid user ID.");
+            }
+
+            // Kiểm tra xem token có tồn tại không
+            using var dbManager = new DatabaseConnectionManager(_connectionString);
+            using var connection = dbManager.GetOpenConnection();
+
+            // Xóa các token liên quan đến userId
+            var sql = "DELETE FROM Tokens WHERE UserId = @UserId";
+            var result = await connection.ExecuteAsync(sql, new { UserId = userId });
+
+            if (result > 0)
+            {
+                return ResponseText.ResponseSuccess("Xóa token thành công.", StatusCodes.Status204NoContent);
+            }
+            else
+            {
+                throw new CustomException(StatusCodes.Status404NotFound, "Không tìm thấy token cho người dùng này.");
+            }
+        }
+
+
     }
 }

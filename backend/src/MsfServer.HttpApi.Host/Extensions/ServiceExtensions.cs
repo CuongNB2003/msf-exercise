@@ -68,7 +68,8 @@ namespace MsfServer.HttpApi.Host.Extensions
                 var userRepository = provider.GetRequiredService<IUserRepository>();
                 var tokenService = provider.GetRequiredService<ITokenService>();
                 var response = provider.GetRequiredService<ResponseObject<LoginResultDto>>();
-                return new AuthService(reCaptchaService, userRepository, response, connectionString, tokenService);
+                var tokenRepository = provider.GetRequiredService<ITokenRepository>();
+                return new AuthService(reCaptchaService, userRepository, response, connectionString, tokenService, tokenRepository);
             });
 
         }

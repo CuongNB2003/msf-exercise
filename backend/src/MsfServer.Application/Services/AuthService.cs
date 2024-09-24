@@ -2,12 +2,12 @@
 using MsfServer.Application.Contracts.Authentication;
 using MsfServer.Application.Contracts.Authentication.AuthDtos;
 using MsfServer.Application.Contracts.Services;
+using MsfServer.Application.Contracts.Token;
 using MsfServer.Application.Contracts.Users;
 using MsfServer.Application.Contracts.Users.UserDtos;
 using MsfServer.Domain.Security;
 using MsfServer.Domain.Shared.Exceptions;
 using MsfServer.Domain.Shared.Responses;
-using MsfServer.Domain.users;
 
 namespace MsfServer.Application.Services
 {
@@ -16,7 +16,8 @@ namespace MsfServer.Application.Services
         IUserRepository userRepository, 
         ResponseObject<LoginResultDto> response, 
         string connectionString, 
-        ITokenService tokenService
+        ITokenService tokenService,
+        ITokenRepository tokenRepository
         ) : IAuthService
     {
         private readonly IReCaptchaService _reCaptchaService = reCaptchaService;
@@ -24,6 +25,7 @@ namespace MsfServer.Application.Services
         private readonly ResponseObject<LoginResultDto> _response = response;
         private readonly string _connectionString = connectionString;
         private readonly ITokenService _tokenService = tokenService;
+        private readonly ITokenRepository _tokenRepository = tokenRepository;
 
         // đăng nhập
         public async Task<ResponseObject<LoginResultDto>> LoginAsync(LoginInputDto input)
@@ -50,9 +52,10 @@ namespace MsfServer.Application.Services
             return _response.ResponseSuccess("Đăng nhập thành công thành công.", result);
         }
         // đăng xuất
-        public Task LogoutAsync()
+        public async Task<ResponseText> LogoutAsync(string userId)
         {
-            throw new NotImplementedException();
+            await _tokenRepository.DeleteTokenAsync(userId);
+            return ResponseText.ResponseSuccess("Đăng xuất thành công.", StatusCodes.Status200OK);
         }
         // đăng ký
         public Task<ResponseText> RegisterAsync(RegisterInputDto input)

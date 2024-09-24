@@ -29,6 +29,10 @@ namespace MsfServer.Application.Services
 
             // Lấy các claim từ hàm GetClaims
             var claims = await GetClaimsAsync(user);
+            foreach (var claim in claims)
+            {
+                System.Diagnostics.Debug.WriteLine($"Claim Type: {claim.Type}, Claim Value: {claim.Value}");
+            }
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
@@ -88,6 +92,11 @@ namespace MsfServer.Application.Services
             var accessTokenNew = await GenerateAccessTokenAsync(user);
             var refreshTokenNew = await GenerateRefreshTokenAsync(user);
             return AuthTokenDto.GetToken(accessTokenNew, refreshTokenNew);
+        }
+        // xóa RefreshToken
+        public async Task RevokeRefreshTokenAsync(string userId)
+        {
+            await _tokenRepository.DeleteTokenAsync(userId);
         }
     }
 }

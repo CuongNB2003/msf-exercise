@@ -8,7 +8,7 @@ namespace MsfServer.Application.Contracts.Authentication.AuthDtos
     {
         [Required(ErrorMessage = "Không được để trống Email")]
         [EmailAddress(ErrorMessage ="Email chưa đúng định dạng")]
-        [DefaultValue("cuong@gmail.comm")]
+        [DefaultValue("cuong@gmail.com")]
         public string Email { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Không được để trống PassWord")]

@@ -9,7 +9,7 @@ namespace MsfServer.Application.Contracts.Authentication
     {
         Task<ResponseObject<LoginResultDto>> LoginAsync(LoginInputDto input);
         Task<ResponseText> RegisterAsync(RegisterInputDto input);
-        Task LogoutAsync();
+        Task<ResponseText> LogoutAsync(string userId);
         Task<ResponseText> ChangePasswordAsync(ChangePasswordInputDto input);
         Task<ResponseText> ForgotPasswordAsync(ForgotPasswordInputDto input);
         Task<ResponseText> ResetPasswordAsync(ResetPasswordInputDto input);

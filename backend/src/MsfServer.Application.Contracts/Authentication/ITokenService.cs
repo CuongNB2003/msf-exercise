@@ -11,6 +11,5 @@ namespace MsfServer.Application.Contracts.Authentication
         Task<TokenResultDto> GenerateRefreshTokenAsync(UserDto user); // tạo RefreshToken
         Task<IEnumerable<Claim>> GetClaimsAsync(UserDto user);
         Task<AuthTokenDto> RefreshAccessTokenAsync(string refreshToken); // làm mới AccessToken
-
     }
 }

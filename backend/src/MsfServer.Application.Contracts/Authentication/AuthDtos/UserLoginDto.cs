@@ -1,11 +1,6 @@
 ﻿using MsfServer.Application.Contracts.Roles.RoleDtos;
 using MsfServer.Application.Contracts.Users.UserDtos;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MsfServer.Application.Contracts.Authentication.AuthDtos
 {
