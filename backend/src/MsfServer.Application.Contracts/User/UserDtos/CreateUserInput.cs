@@ -2,12 +2,8 @@
 
 namespace MsfServer.Application.Contracts.User.UserDtos
 {
-    public class UserInput
+    public class CreateUserInput
     {
-        [Required(ErrorMessage = "Name là bắt buộc.")]
-        [MaxLength(50)]
-        public string Name { get; set; } = string.Empty;
-
         [Required(ErrorMessage = "Email là bắt buộc.")]
         [EmailAddress(ErrorMessage = "Email chưa đúng định dạng.")]
         [MaxLength(50)]

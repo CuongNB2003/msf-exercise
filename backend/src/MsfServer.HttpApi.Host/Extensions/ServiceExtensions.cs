@@ -10,6 +10,8 @@ using MsfServer.Application.Contracts.Authentication;
 using MsfServer.Application.Contracts.Role;
 using MsfServer.Application.Contracts.Token;
 using MsfServer.Domain.Security;
+using MsfServer.Application.Contracts.UserLog;
+using MsfServer.Application.Contracts.UserLog.UserLogDtos;
 
 namespace MsfServer.HttpApi.Host.Extensions
 {
@@ -75,6 +77,16 @@ namespace MsfServer.HttpApi.Host.Extensions
                 var response = provider.GetRequiredService<ResponseObject<LoginResultDto>>();
                 var tokenRepository = provider.GetRequiredService<ITokenRepository>();
                 return new AuthService(reCaptchaService, userRepository, response, connectionString, tokenService, tokenRepository);
+            });
+            // service UserLogRepository
+            services.AddScoped<ResponseObject<UserLogDto>>(provider =>
+            {
+                return new ResponseObject<UserLogDto>();
+            });
+            services.AddScoped<IUserLogRepository, UserLogRepository>(provider =>
+            {
+                var response = provider.GetRequiredService<ResponseObject<UserLogDto>>();
+                return new UserLogRepository(connectionString, response);
             });
 
         }

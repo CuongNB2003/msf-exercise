@@ -1,19 +1,26 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MsfServer.Application.Contracts.Authentication;
 using MsfServer.Application.Contracts.Authentication.AuthDtos.InputDtos;
 using MsfServer.Application.Contracts.User;
+using MsfServer.Application.Contracts.UserLog;
+using MsfServer.Application.Contracts.UserLog.UserLogDtos;
+using MsfServer.Domain.Shared.Exceptions;
+using MsfServer.Domain.Shared.Responses;
+using MsfServer.HttpApi.Helper;
 using System.Security.Claims;
 
 namespace MsfServer.HttpApi
 {
     [Route("api/auth")]
     [ApiController]
-    public class AuthController(IAuthService authService, ITokenService tokenService, IUserRepository userRepository) : ControllerBase
+    public class AuthController(IAuthService authService, ITokenService tokenService, IUserRepository userRepository, IUserLogRepository userLogRepository) : ControllerBase
     {
         private readonly IAuthService _authService = authService;
         private readonly ITokenService _tokenService = tokenService;
-        private readonly IUserRepository _userRepository = userRepository;
+        private readonly IUserRepository _userRepository = userRepository; 
+        private readonly IUserLogRepository _userLogRepository = userLogRepository;
 
         [HttpGet("me")]
         [Authorize]
@@ -38,10 +45,19 @@ namespace MsfServer.HttpApi
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginInputDto loginInput)
         {
-            return Ok(await _authService.LoginAsync(loginInput));
+            var result = await _authService.LoginAsync(loginInput);
+            var token = result.Data!.Token!.AccessToken!.Token;
+            int idUser = TokenHelper.GetUserIdFromToken(token!);
+            var path = HttpContext.Request.Path;
+            var method = HttpContext.Request.Method;
+            var userLog = UserLogDto.CreateUserLog(idUser, path, method);
+            await _userLogRepository.CreateUserLogAsync(userLog);
+
+            return Ok(result);
         }
 
         [HttpPost("refresh-token")]
+        [Authorize]
         public async Task<IActionResult> RefreshAccessToken(string refreshToken)
         {
             return Ok(await _tokenService.RefreshAccessTokenAsync(refreshToken));
@@ -50,7 +66,17 @@ namespace MsfServer.HttpApi
         [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterInputDto registerInput)
         {
-            return Ok(await _authService.RegisterAsync(registerInput));
+            var result = await _authService.RegisterAsync(registerInput);
+            var path = HttpContext.Request.Path;
+            var method = HttpContext.Request.Method;
+            if (!int.TryParse(result.Message, out int userId))
+            {
+                throw new CustomException(StatusCodes.Status500InternalServerError, "Không thể chuyển đổi message thành số.");
+            }
+            var userLog = UserLogDto.CreateUserLog(userId, path, method);
+            await _userLogRepository.CreateUserLogAsync(userLog);
+
+            return Ok(result);
         }
 
         [HttpPost("logout")]

@@ -29,7 +29,7 @@ namespace MsfServer.Application.Services
         private readonly string _connectionString = connectionString;
         private readonly ITokenService _tokenService = tokenService;
         private readonly ITokenRepository _tokenRepository = tokenRepository;
-
+     
         // đăng nhập
         public async Task<ResponseObject<LoginResultDto>> LoginAsync(LoginInputDto input)
         {
@@ -61,7 +61,7 @@ namespace MsfServer.Application.Services
             return ResponseText.ResponseSuccess("Đăng xuất thành công.", StatusCodes.Status200OK);
         }
         // đăng ký
-        public  async Task<ResponseText> RegisterAsync(RegisterInputDto input)
+        public async Task<ResponseText> RegisterAsync(RegisterInputDto input)
         {
             if (await _userRepository.CheckEmailExistsAsync(input.Email))
             {
@@ -76,10 +76,11 @@ namespace MsfServer.Application.Services
             // Thêm người dùng
             using var dbManager = new DatabaseConnectionManager(_connectionString);
             using var connection = dbManager.GetOpenConnection();
-            var sql = @"
-            INSERT INTO Users (Name, Email, Password, RoleId, Avatar, Salt)
-            VALUES (@Name, @Email, @Password, @RoleId, @Avatar, @Salt)";
-            var result = await connection.ExecuteAsync(sql, new
+            var sqlInsert = @"
+                    INSERT INTO Users (Name, Email, Password, RoleId, Avatar, Salt)
+                    VALUES (@Name, @Email, @Password, @RoleId, @Avatar, @Salt);
+                    SELECT CAST(SCOPE_IDENTITY() as int)";
+            var userId = await connection.QuerySingleAsync<int>(sqlInsert, new
             {
                 user.Name,
                 user.Email,
@@ -89,8 +90,9 @@ namespace MsfServer.Application.Services
                 user.Salt
             });
 
-            return ResponseText.ResponseSuccess("Tạo tài khoản thành công.", StatusCodes.Status201Created);
+            return ResponseText.ResponseSuccess($"{userId}", StatusCodes.Status201Created);
         }
+
         // đổi mật khẩu
         public Task<ResponseText> ChangePasswordAsync(ChangePasswordInputDto input)
         {

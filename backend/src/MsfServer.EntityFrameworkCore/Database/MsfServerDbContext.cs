@@ -10,12 +10,24 @@ namespace MsfServer.EntityFrameworkCore.Database
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Token> Tokens { get; set; }
+        public DbSet<UserActivityLog> UserActivityLogs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
             // Cấu hình thêm nếu cần
             // tạo các giá trị mặc định cho createdAt updateAt deleteAt cho từng bảng phía dưới
+            modelBuilder.Entity<UserActivityLog>(entity =>
+            {
+                entity.Property(e => e.CreatedAt)
+                    .HasDefaultValueSql("GETDATE()");
+
+                entity.Property(e => e.UpdatedAt)
+                    .HasDefaultValueSql("NULL");
+
+                entity.Property(e => e.DeletedAt)
+                    .HasDefaultValueSql("NULL");
+            });
             modelBuilder.Entity<Role>(entity =>
             {
                 entity.Property(e => e.CreatedAt)
