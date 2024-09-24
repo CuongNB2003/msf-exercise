@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using MsfServer.Application.Contracts.Authentication;
 using MsfServer.Application.Contracts.Authentication.AuthDtos;
+using MsfServer.Application.Contracts.Authentication.AuthDtos.InputDtos;
 using MsfServer.Application.Contracts.Services;
 using MsfServer.Application.Contracts.Token;
 using MsfServer.Application.Contracts.Users;

@@ -10,6 +10,7 @@ using MsfServer.Application.Contracts.Authentication;
 using MsfServer.Application.Contracts.Role;
 using MsfServer.Application.Contracts.Token;
 using MsfServer.Domain.Security;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace MsfServer.HttpApi.Host.Extensions
 {
@@ -49,12 +50,17 @@ namespace MsfServer.HttpApi.Host.Extensions
             services.AddHttpClient<IReCaptchaService, ReCaptchaService>();
 
             // service TokenService
+            services.AddScoped<ResponseObject<AuthTokenDto>>(provider =>
+            {
+                return new ResponseObject<AuthTokenDto>();
+            });
             services.AddScoped<ITokenService, TokenService>(provider =>
             {
                 var tokenRepository = provider.GetRequiredService<ITokenRepository>();
                 var userRepository = provider.GetRequiredService<IUserRepository>();
                 var jwtSettings = provider.GetRequiredService<JwtSettings>();
-                return new TokenService(tokenRepository, userRepository, jwtSettings);
+                var response = provider.GetRequiredService<ResponseObject<AuthTokenDto>>();
+                return new TokenService(tokenRepository, userRepository, jwtSettings, response);
             });
 
             // service AuthService

@@ -1,8 +1,7 @@
 ﻿using MsfServer.Application.Contracts.Roles.RoleDtos;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace MsfServer.Application.Contracts.Users.UserDtos
+namespace MsfServer.Application.Contracts.User.UserDtos
 {
     public class UserDto
     {
@@ -15,5 +14,19 @@ namespace MsfServer.Application.Contracts.Users.UserDtos
         public string? Avatar { get; set; }
         [ForeignKey("RoleId")]
         public RoleResultDto? Role { get; set; }
+
+        public static UserDto CreateUserDto(string email, string hashedPassword, int roleId, string avatar, byte[] salt)
+        {
+            var nameFromEmail = email.Split('@')[0];
+            return new UserDto
+            {
+                Name = nameFromEmail,
+                Email = email,
+                Password = hashedPassword,
+                RoleId = roleId,
+                Avatar = avatar,
+                Salt = Convert.ToBase64String(salt)
+            };
+        }
     }
 }

@@ -1,15 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using MsfServer.Domain.roles;
 
-namespace MsfServer.Domain.users
+namespace MsfServer.Domain.Entities
 {
-    public class User
+    public class User : BaseModel
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
-
         [Required]
         [MaxLength(50)]
         public string? Name { get; set; }

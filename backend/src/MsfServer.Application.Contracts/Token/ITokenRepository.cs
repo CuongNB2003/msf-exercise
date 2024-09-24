@@ -1,7 +1,4 @@
-﻿
-using MsfServer.Application.Contracts.Roles.RoleDtos;
-using MsfServer.Application.Contracts.Token.TokenDtos;
-using MsfServer.Application.Page;
+﻿using MsfServer.Application.Contracts.Token.TokenDtos;
 using MsfServer.Domain.Shared.Responses;
 
 namespace MsfServer.Application.Contracts.Token
@@ -10,7 +7,6 @@ namespace MsfServer.Application.Contracts.Token
     {
         Task<TokenDto> GetTokenAsync(string refreshToken);
         Task<ResponseText> SaveTokenAsync(TokenDto input);
-        Task<bool> CheckTokenUserIdExistsAsync(int idUser);
         Task<ResponseText> DeleteTokenAsync(string idUser);
     }
 }

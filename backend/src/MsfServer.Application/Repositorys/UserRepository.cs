@@ -9,6 +9,7 @@ using MsfServer.Domain.Shared.Exceptions;
 using MsfServer.Application.Database;
 using MsfServer.Application.Contracts.Users.UserDtos;
 using MsfServer.Application.Contracts.Roles.RoleDtos;
+using MsfServer.Application.Contracts.User.UserDtos;
 
 namespace MsfServer.Application.Repositorys
 {
@@ -20,30 +21,23 @@ namespace MsfServer.Application.Repositorys
         // thêm user
         public async Task<ResponseText> CreateUserAsync(UserInput input)
         {
-            //check emmail
+            // Check email
             if (await CheckEmailExistsAsync(input.Email))
             {
                 throw new CustomException(StatusCodes.Status409Conflict, "Email đã tồn tại.");
             }
 
-            // tạo data
+            // Tạo dữ liệu
             byte[] salt = PasswordHashed.GenerateSalt();
             string hashedPassword = PasswordHashed.HashPassword("111111", salt);
-            var user = new UserDto
-            {
-                Name = input.Name,
-                Email = input.Email,
-                Password = hashedPassword,
-                RoleId = input.RoleId,
-                Avatar = input.Avatar,
-                Salt = Convert.ToBase64String(salt)
-            };
-            // add user
+            var user = UserDto.CreateUserDto(input.Email, hashedPassword, input.RoleId, input.Avatar, salt);
+
+            // Thêm người dùng
             using var dbManager = new DatabaseConnectionManager(_connectionString);
             using var connection = dbManager.GetOpenConnection();
             var sql = @"
-                    INSERT INTO Users (Name, Email, Password, RoleId, Avatar, Salt)
-                    VALUES (@Name, @Email, @Password, @RoleId, @Avatar, @Salt)";
+            INSERT INTO Users (Name, Email, Password, RoleId, Avatar, Salt)
+            VALUES (@Name, @Email, @Password, @RoleId, @Avatar, @Salt)";
             var result = await connection.ExecuteAsync(sql, new
             {
                 user.Name,
@@ -55,6 +49,7 @@ namespace MsfServer.Application.Repositorys
             });
             return ResponseText.ResponseSuccess("Thêm thành công", StatusCodes.Status201Created);
         }
+
 
         // sửa user
         public async Task<ResponseText> UpdateUserAsync(UserInput input, int id)

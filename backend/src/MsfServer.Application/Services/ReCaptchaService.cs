@@ -11,7 +11,7 @@ namespace MsfServer.Application.Services
     public class ReCaptchaService(HttpClient httpClient, IConfiguration configuration) : IReCaptchaService
     {
         private readonly HttpClient _httpClient = httpClient;
-        private readonly string _secretKey = configuration["ReCaptcha:SecretKey"];
+        private readonly string _secretKey = configuration["ReCaptcha:SecretKey"]!;
 
         public async Task<bool> VerifyTokenAsync(string recaptcha)
         {

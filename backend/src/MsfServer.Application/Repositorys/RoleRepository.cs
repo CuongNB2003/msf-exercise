@@ -7,7 +7,6 @@ using MsfServer.Domain.Shared.Responses;
 using MsfServer.Application.Contracts.Roles.RoleDtos;
 using MsfServer.Application.Database;
 using MsfServer.Application.Contracts.Role;
-using System.Xml.Linq;
 
 namespace MsfServer.Application.Repositorys
 {
@@ -75,6 +74,7 @@ namespace MsfServer.Application.Repositorys
             var result = await connection.ExecuteAsync(sql, input);
             return ResponseText.ResponseSuccess("Thêm thành công.", StatusCodes.Status201Created);
         }
+
         //sửa role
         public async Task<ResponseText> UpdateRoleAsync(RoleInputDto input, int id)
         {
@@ -90,11 +90,12 @@ namespace MsfServer.Application.Repositorys
             // Cập nhật role
             using var dbManager = new DatabaseConnectionManager(_connectionString);
             using var connection = dbManager.GetOpenConnection();
-            var updateSql = "UPDATE Roles SET Name = @Name WHERE Id = @Id";
+            var updateSql = "UPDATE Roles SET Name = @Name, UpdatedAt = GETDATE() WHERE Id = @Id";
             var result = await connection.ExecuteAsync(updateSql, new { input.Name, Id = id });
 
             return ResponseText.ResponseSuccess("Sửa thành công.", StatusCodes.Status204NoContent);
         }
+
         //xóa role
         public async Task<ResponseText> DeleteRoleAsync(int id)
         {

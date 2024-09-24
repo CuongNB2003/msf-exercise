@@ -1,11 +1,13 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using MsfServer.Application.Contracts.Authentication;
 using MsfServer.Application.Contracts.Authentication.AuthDtos;
+using MsfServer.Application.Contracts.Roles.RoleDtos;
 using MsfServer.Application.Contracts.Token;
 using MsfServer.Application.Contracts.Token.TokenDtos;
+using MsfServer.Application.Contracts.User.UserDtos;
 using MsfServer.Application.Contracts.Users;
-using MsfServer.Application.Contracts.Users.UserDtos;
 using MsfServer.Domain.Security;
+using MsfServer.Domain.Shared.Responses;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -15,12 +17,14 @@ namespace MsfServer.Application.Services
     public class TokenService(
         ITokenRepository tokenRepository, 
         IUserRepository userRepository, 
-        JwtSettings jwtSettings
+        JwtSettings jwtSettings,
+        ResponseObject<AuthTokenDto> response
         ) : ITokenService
     {
         private readonly ITokenRepository _tokenRepository = tokenRepository;
         private readonly IUserRepository _userRepository = userRepository;
         private readonly JwtSettings _jwtSettings = jwtSettings;
+        private readonly ResponseObject<AuthTokenDto> _response = response;
         // tạo ra AccessToken
         public async Task<TokenResultDto> GenerateAccessTokenAsync(UserDto user)
         {
@@ -85,18 +89,13 @@ namespace MsfServer.Application.Services
             return await Task.FromResult(claims);
         }
         // tạo lại AccessToken
-        public  async Task<AuthTokenDto> RefreshAccessTokenAsync(string refreshToken)
+        public  async Task<ResponseObject<AuthTokenDto>> RefreshAccessTokenAsync(string refreshToken)
         {
             var token  = await _tokenRepository.GetTokenAsync(refreshToken);
             var user = await _userRepository.GetUserAsync(token.UserId);
             var accessTokenNew = await GenerateAccessTokenAsync(user);
             var refreshTokenNew = await GenerateRefreshTokenAsync(user);
-            return AuthTokenDto.GetToken(accessTokenNew, refreshTokenNew);
-        }
-        // xóa RefreshToken
-        public async Task RevokeRefreshTokenAsync(string userId)
-        {
-            await _tokenRepository.DeleteTokenAsync(userId);
+            return _response.ResponseSuccess("Khởi tạo token thành công.", AuthTokenDto.GetToken(accessTokenNew, refreshTokenNew));
         }
     }
 }

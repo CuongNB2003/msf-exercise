@@ -1,7 +1,7 @@
 ﻿
 using System.ComponentModel.DataAnnotations;
 
-namespace MsfServer.Application.Contracts.Authentication.AuthDtos
+namespace MsfServer.Application.Contracts.Authentication.AuthDtos.InputDtos
 {
     public class RegisterInputDto
     {

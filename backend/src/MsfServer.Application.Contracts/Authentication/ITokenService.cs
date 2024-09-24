@@ -1,6 +1,7 @@
 ﻿using MsfServer.Application.Contracts.Authentication.AuthDtos;
 using MsfServer.Application.Contracts.Token.TokenDtos;
-using MsfServer.Application.Contracts.Users.UserDtos;
+using MsfServer.Application.Contracts.User.UserDtos;
+using MsfServer.Domain.Shared.Responses;
 using System.Security.Claims;
 
 namespace MsfServer.Application.Contracts.Authentication
@@ -10,6 +11,6 @@ namespace MsfServer.Application.Contracts.Authentication
         Task<TokenResultDto> GenerateAccessTokenAsync(UserDto user); // tạo AccessToken
         Task<TokenResultDto> GenerateRefreshTokenAsync(UserDto user); // tạo RefreshToken
         Task<IEnumerable<Claim>> GetClaimsAsync(UserDto user);
-        Task<AuthTokenDto> RefreshAccessTokenAsync(string refreshToken); // làm mới AccessToken
+        Task<ResponseObject<AuthTokenDto>> RefreshAccessTokenAsync(string refreshToken); // làm mới AccessToken
     }
 }

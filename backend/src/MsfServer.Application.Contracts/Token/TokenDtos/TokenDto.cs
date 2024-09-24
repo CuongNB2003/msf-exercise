@@ -1,4 +1,4 @@
-﻿using MsfServer.Application.Contracts.Users.UserDtos;
+﻿using MsfServer.Application.Contracts.User.UserDtos;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

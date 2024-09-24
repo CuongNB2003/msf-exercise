@@ -1,5 +1,5 @@
 ﻿using MsfServer.Application.Contracts.Roles.RoleDtos;
-using MsfServer.Application.Contracts.Users.UserDtos;
+using MsfServer.Application.Contracts.User.UserDtos;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MsfServer.Application.Contracts.Authentication.AuthDtos

@@ -1,13 +1,10 @@
 ﻿
-using MsfServer.Application.Contracts.Token.TokenDtos;
-using MsfServer.Application.Contracts.Users.UserDtos;
-
 namespace MsfServer.Application.Contracts.Authentication.AuthDtos
 {
     public class LoginResultDto
     {
         public AuthTokenDto? Token { get; set; }
-        public string? Expiration { get; set; }
+        public DateTime? Expiration { get; set; }
         public UserLoginDto? User { get; set; }
 
 
@@ -16,7 +13,7 @@ namespace MsfServer.Application.Contracts.Authentication.AuthDtos
             return new LoginResultDto
             {
                 Token = token,
-                Expiration = DateTime.Now.ToString("HH:mm:ss dd/MM/yyyy"),
+                Expiration = DateTime.Now,
                 User = user
             };
         }
