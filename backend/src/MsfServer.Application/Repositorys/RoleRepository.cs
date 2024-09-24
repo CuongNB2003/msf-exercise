@@ -7,6 +7,7 @@ using MsfServer.Domain.Shared.Responses;
 using MsfServer.Application.Contracts.Roles.RoleDtos;
 using MsfServer.Application.Database;
 using MsfServer.Application.Contracts.Role;
+using System.Xml.Linq;
 
 namespace MsfServer.Application.Repositorys
 {
@@ -61,6 +62,7 @@ namespace MsfServer.Application.Repositorys
         //tạo role
         public async Task<ResponseText> CreateRoleAsync(RoleInputDto input)
         {
+            input.Name = input.Name.ToLower();
             // check Role Name
             if (await CheckRoleNameExistsAsync(input.Name))
             {
@@ -76,6 +78,7 @@ namespace MsfServer.Application.Repositorys
         //sửa role
         public async Task<ResponseText> UpdateRoleAsync(RoleInputDto input, int id)
         {
+            input.Name = input.Name.ToLower();
             // Kiểm tra xem role có tồn tại không
             await GetRoleByIdAsync(id);
             // check Role Name
@@ -114,6 +117,7 @@ namespace MsfServer.Application.Repositorys
 
         public async Task<bool> CheckRoleNameExistsAsync(string name)
         {
+            name = name.ToLower();
             using var dbManager = new DatabaseConnectionManager(_connectionString);
             using var connection = dbManager.GetOpenConnection();
             var sql = "SELECT COUNT(1) FROM Roles WHERE Name = @Name";
