@@ -1,9 +1,15 @@
-﻿using MsfServer.Application.Contracts.Roles.RoleDto;
-using MsfServer.Application.Contracts.roles;
-using MsfServer.Application.Contracts.Users.UserDto;
-using MsfServer.Application.Contracts.Users;
+﻿using MsfServer.Application.Contracts.User;
 using MsfServer.Domain.Shared.Responses;
 using MsfServer.Application.Repositorys;
+using MsfServer.Application.Contracts.Role.RoleDtos;
+using MsfServer.Application.Contracts.User.UserDtos;
+using MsfServer.Application.Contracts.Services;
+using MsfServer.Application.Services;
+using MsfServer.Application.Contracts.Authentication.AuthDtos;
+using MsfServer.Application.Contracts.Authentication;
+using MsfServer.Application.Contracts.Role;
+using MsfServer.Application.Contracts.Token;
+using MsfServer.Domain.Security;
 
 namespace MsfServer.HttpApi.Host.Extensions
 {
@@ -11,27 +17,66 @@ namespace MsfServer.HttpApi.Host.Extensions
     {
         public static void AddCustomServices(this IServiceCollection services, string connectionString)
         {
-            // dịch vụ RoleRepository
-            services.AddScoped<ResponseObject<RoleOutput>>(provider =>
+            // service RoleRepository
+            services.AddScoped<ResponseObject<RoleResultDto>>(provider =>
             {
-                return new ResponseObject<RoleOutput>();
+                return new ResponseObject<RoleResultDto>();
             });
             services.AddScoped<IRoleRepository, RoleRepository>(provider =>
             {
-                var responseObject = provider.GetRequiredService<ResponseObject<RoleOutput>>();
+                var responseObject = provider.GetRequiredService<ResponseObject<RoleResultDto>>();
                 return new RoleRepository(connectionString, responseObject);
             });
 
-            // dịch vụ của UserRepository
-            services.AddScoped<ResponseObject<UserOutput>>(provider =>
+            // service UserRepository
+            services.AddScoped<ResponseObject<UserResultDto>>(provider =>
             {
-                return new ResponseObject<UserOutput>();
+                return new ResponseObject<UserResultDto>();
             });
             services.AddScoped<IUserRepository, UserRepository>(provider =>
             {
-                var responseObject = provider.GetRequiredService<ResponseObject<UserOutput>>();
+                var responseObject = provider.GetRequiredService<ResponseObject<UserResultDto>>();
                 return new UserRepository(connectionString, responseObject);
             });
+
+            // service TokenRepository
+            services.AddScoped<ITokenRepository, TokenRepository>(provider =>
+            {
+                return new TokenRepository(connectionString);
+            });
+
+            // service ReCaptchaService
+            services.AddHttpClient<IReCaptchaService, ReCaptchaService>();
+
+            // service TokenService
+            services.AddScoped<ResponseObject<AuthTokenDto>>(provider =>
+            {
+                return new ResponseObject<AuthTokenDto>();
+            });
+            services.AddScoped<ITokenService, TokenService>(provider =>
+            {
+                var tokenRepository = provider.GetRequiredService<ITokenRepository>();
+                var userRepository = provider.GetRequiredService<IUserRepository>();
+                var jwtSettings = provider.GetRequiredService<JwtSettings>();
+                var response = provider.GetRequiredService<ResponseObject<AuthTokenDto>>();
+                return new TokenService(tokenRepository, userRepository, jwtSettings, response);
+            });
+
+            // service AuthService
+            services.AddScoped<ResponseObject<LoginResultDto>>(provider =>
+            {
+                return new ResponseObject<LoginResultDto>();
+            });
+            services.AddScoped<IAuthService, AuthService>(provider =>
+            {
+                var reCaptchaService = provider.GetRequiredService<IReCaptchaService>();
+                var userRepository = provider.GetRequiredService<IUserRepository>();
+                var tokenService = provider.GetRequiredService<ITokenService>();
+                var response = provider.GetRequiredService<ResponseObject<LoginResultDto>>();
+                var tokenRepository = provider.GetRequiredService<ITokenRepository>();
+                return new AuthService(reCaptchaService, userRepository, response, connectionString, tokenService, tokenRepository);
+            });
+
         }
     }
 }
