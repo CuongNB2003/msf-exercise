@@ -1,11 +1,11 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using MsfServer.Application.Contracts.Authentication;
 using MsfServer.Application.Contracts.Authentication.AuthDtos;
-using MsfServer.Application.Contracts.Roles.RoleDtos;
+using MsfServer.Application.Contracts.Role.RoleDtos;
 using MsfServer.Application.Contracts.Token;
 using MsfServer.Application.Contracts.Token.TokenDtos;
 using MsfServer.Application.Contracts.User.UserDtos;
-using MsfServer.Application.Contracts.Users;
+using MsfServer.Application.Contracts.User;
 using MsfServer.Domain.Security;
 using MsfServer.Domain.Shared.Responses;
 using System.IdentityModel.Tokens.Jwt;

@@ -1,9 +1,8 @@
 ﻿using MsfServer.Application.Contracts.User.UserDtos;
-using MsfServer.Application.Contracts.Users.UserDtos;
 using MsfServer.Application.Page;
 using MsfServer.Domain.Shared.Responses;
 
-namespace MsfServer.Application.Contracts.Users
+namespace MsfServer.Application.Contracts.User
 {
     public interface IUserRepository
     {

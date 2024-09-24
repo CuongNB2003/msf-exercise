@@ -1,8 +1,8 @@
-﻿using MsfServer.Application.Contracts.Users;
+﻿using MsfServer.Application.Contracts.User;
 using MsfServer.Domain.Shared.Responses;
 using MsfServer.Application.Repositorys;
-using MsfServer.Application.Contracts.Roles.RoleDtos;
-using MsfServer.Application.Contracts.Users.UserDtos;
+using MsfServer.Application.Contracts.Role.RoleDtos;
+using MsfServer.Application.Contracts.User.UserDtos;
 using MsfServer.Application.Contracts.Services;
 using MsfServer.Application.Services;
 using MsfServer.Application.Contracts.Authentication.AuthDtos;
@@ -10,7 +10,6 @@ using MsfServer.Application.Contracts.Authentication;
 using MsfServer.Application.Contracts.Role;
 using MsfServer.Application.Contracts.Token;
 using MsfServer.Domain.Security;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace MsfServer.HttpApi.Host.Extensions
 {

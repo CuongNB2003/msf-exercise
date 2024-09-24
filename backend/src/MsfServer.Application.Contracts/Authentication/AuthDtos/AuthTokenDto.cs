@@ -1,6 +1,5 @@
 ﻿
 using MsfServer.Application.Contracts.Token.TokenDtos;
-using MsfServer.Application.Contracts.Users.UserDtos;
 
 namespace MsfServer.Application.Contracts.Authentication.AuthDtos
 {

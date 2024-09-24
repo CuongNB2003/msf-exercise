@@ -1,7 +1,7 @@
 ﻿
 using MsfServer.Application.Contracts.Authentication.AuthDtos;
 using MsfServer.Application.Contracts.Authentication.AuthDtos.InputDtos;
-using MsfServer.Application.Contracts.Users.UserDtos;
+using MsfServer.Application.Contracts.User.UserDtos;
 using MsfServer.Domain.Shared.Responses;
 
 namespace MsfServer.Application.Contracts.Authentication

@@ -1,5 +1,5 @@
 ﻿
-namespace MsfServer.Application.Contracts.Roles.RoleDtos
+namespace MsfServer.Application.Contracts.Role.RoleDtos
 {
     public class RoleResultDto
     {

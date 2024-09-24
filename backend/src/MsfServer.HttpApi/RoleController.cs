@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MsfServer.Application.Contracts.Role;
-using MsfServer.Application.Contracts.Roles.RoleDtos;
+using MsfServer.Application.Contracts.Role.RoleDtos;
 using Newtonsoft.Json.Linq;
 
 namespace MsfServer.HttpApi

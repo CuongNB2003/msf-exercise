@@ -1,4 +1,4 @@
-﻿using MsfServer.Application.Contracts.Users;
+﻿using MsfServer.Application.Contracts.User;
 using Dapper;
 using System.Data;
 using MsfServer.Application.Page;
@@ -7,9 +7,8 @@ using MsfServer.Domain.Shared.Responses;
 using Microsoft.AspNetCore.Http;
 using MsfServer.Domain.Shared.Exceptions;
 using MsfServer.Application.Database;
-using MsfServer.Application.Contracts.Users.UserDtos;
-using MsfServer.Application.Contracts.Roles.RoleDtos;
 using MsfServer.Application.Contracts.User.UserDtos;
+using MsfServer.Application.Contracts.Role.RoleDtos;
 
 namespace MsfServer.Application.Repositorys
 {

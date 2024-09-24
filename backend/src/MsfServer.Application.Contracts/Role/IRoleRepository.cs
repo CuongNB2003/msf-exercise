@@ -1,4 +1,4 @@
-﻿using MsfServer.Application.Contracts.Roles.RoleDtos;
+﻿using MsfServer.Application.Contracts.Role.RoleDtos;
 using MsfServer.Application.Page;
 using MsfServer.Domain.Shared.Responses;
 

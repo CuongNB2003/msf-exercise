@@ -1,4 +1,4 @@
-﻿using MsfServer.Application.Contracts.Roles.RoleDtos;
+﻿using MsfServer.Application.Contracts.Role.RoleDtos;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MsfServer.Application.Contracts.User.UserDtos

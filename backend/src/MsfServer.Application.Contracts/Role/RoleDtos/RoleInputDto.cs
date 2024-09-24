@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MsfServer.Application.Contracts.Roles.RoleDtos
+namespace MsfServer.Application.Contracts.Role.RoleDtos
 {
     public class RoleInputDto
     {

@@ -4,7 +4,7 @@ using System.Data;
 using Microsoft.AspNetCore.Http;
 using MsfServer.Domain.Shared.Exceptions;
 using MsfServer.Domain.Shared.Responses;
-using MsfServer.Application.Contracts.Roles.RoleDtos;
+using MsfServer.Application.Contracts.Role.RoleDtos;
 using MsfServer.Application.Database;
 using MsfServer.Application.Contracts.Role;
 

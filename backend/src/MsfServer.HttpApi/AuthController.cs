@@ -2,8 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MsfServer.Application.Contracts.Authentication;
 using MsfServer.Application.Contracts.Authentication.AuthDtos.InputDtos;
-using MsfServer.Application.Contracts.Users;
-using System.IdentityModel.Tokens.Jwt;
+using MsfServer.Application.Contracts.User;
 using System.Security.Claims;
 
 namespace MsfServer.HttpApi
