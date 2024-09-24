@@ -1,24 +1,25 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using MsfServer.Application.Contracts.Users;
-using MsfServer.Application.Contracts.Users.UserDto;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using MsfServer.Application.Contracts.User.UserDtos;
+using MsfServer.Application.Contracts.User;
 
 namespace MsfServer.HttpApi
 {
     [Route("api/user")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class UsersController(IUserRepository userRepository) : ControllerBase
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IUserRepository _userRepository = userRepository;
 
-        public UsersController(IUserRepository userRepository) => _userRepository = userRepository;
-
-        [HttpGet("{page}, {limit}")] // lấy tất cả users
+        [Authorize(Roles = "admin,user")]
+        [HttpGet()] // lấy tất cả users
         public async Task<IActionResult> GetUsers(int limit, int page)
         {
             var users = await _userRepository.GetUsersAsync(page, limit);
             return Ok(users);
         }
 
+        [Authorize(Roles = "admin")]
         [HttpGet("{id}")] // lấy user theo id
         public async Task<IActionResult> GetUser(int id)
         {
@@ -26,6 +27,7 @@ namespace MsfServer.HttpApi
             return Ok(user);
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPost] // thêm user
         public async Task<IActionResult> CreateUser(UserInput user)
         {
@@ -33,6 +35,7 @@ namespace MsfServer.HttpApi
             return Ok(result);
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPut("{id}")] // sửa user
         public async Task<IActionResult> UpdateUser(int id, UserInput input)
         {
@@ -40,6 +43,7 @@ namespace MsfServer.HttpApi
             return Ok(result);
         }
 
+        [Authorize(Roles = "admin")]
         [HttpDelete("{id}")] // xóa user
         public async Task<IActionResult> DeleteUser(int id)
         {
