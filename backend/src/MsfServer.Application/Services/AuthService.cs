@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Dapper;
+using Microsoft.AspNetCore.Http;
 using MsfServer.Application.Contracts.Authentication;
 using MsfServer.Application.Contracts.Authentication.AuthDtos;
 using MsfServer.Application.Contracts.Authentication.AuthDtos.InputDtos;
@@ -6,6 +7,7 @@ using MsfServer.Application.Contracts.Services;
 using MsfServer.Application.Contracts.Token;
 using MsfServer.Application.Contracts.User;
 using MsfServer.Application.Contracts.User.UserDtos;
+using MsfServer.Application.Database;
 using MsfServer.Domain.Security;
 using MsfServer.Domain.Shared.Exceptions;
 using MsfServer.Domain.Shared.Responses;
@@ -59,9 +61,35 @@ namespace MsfServer.Application.Services
             return ResponseText.ResponseSuccess("Đăng xuất thành công.", StatusCodes.Status200OK);
         }
         // đăng ký
-        public Task<ResponseText> RegisterAsync(RegisterInputDto input)
+        public  async Task<ResponseText> RegisterAsync(RegisterInputDto input)
         {
-            throw new NotImplementedException();
+            if (await _userRepository.CheckEmailExistsAsync(input.Email))
+            {
+                throw new CustomException(StatusCodes.Status409Conflict, "Email đã tồn tại.");
+            }
+
+            // Tạo dữ liệu
+            byte[] salt = PasswordHashed.GenerateSalt();
+            string hashedPassword = PasswordHashed.HashPassword(input.PassWord, salt);
+            var user = UserDto.CreateUserDto(input.Name, input.Email, hashedPassword, 3, input.Avatar, salt);
+
+            // Thêm người dùng
+            using var dbManager = new DatabaseConnectionManager(_connectionString);
+            using var connection = dbManager.GetOpenConnection();
+            var sql = @"
+            INSERT INTO Users (Name, Email, Password, RoleId, Avatar, Salt)
+            VALUES (@Name, @Email, @Password, @RoleId, @Avatar, @Salt)";
+            var result = await connection.ExecuteAsync(sql, new
+            {
+                user.Name,
+                user.Email,
+                user.Password,
+                user.RoleId,
+                user.Avatar,
+                user.Salt
+            });
+
+            return ResponseText.ResponseSuccess("Tạo tài khoản thành công.", StatusCodes.Status201Created);
         }
         // đổi mật khẩu
         public Task<ResponseText> ChangePasswordAsync(ChangePasswordInputDto input)

@@ -15,12 +15,25 @@ namespace MsfServer.Application.Contracts.User.UserDtos
         [ForeignKey("RoleId")]
         public RoleResultDto? Role { get; set; }
 
-        public static UserDto CreateUserDto(string email, string hashedPassword, int roleId, string avatar, byte[] salt)
+        public static UserDto CreateUserAdminDto(string email, string hashedPassword, int roleId, string avatar, byte[] salt)
         {
             var nameFromEmail = email.Split('@')[0];
             return new UserDto
             {
                 Name = nameFromEmail,
+                Email = email,
+                Password = hashedPassword,
+                RoleId = roleId,
+                Avatar = avatar,
+                Salt = Convert.ToBase64String(salt)
+            };
+        }
+
+        public static UserDto CreateUserDto(string name, string email, string hashedPassword, int roleId, string avatar, byte[] salt)
+        {
+            return new UserDto
+            {
+                Name = name,
                 Email = email,
                 Password = hashedPassword,
                 RoleId = roleId,

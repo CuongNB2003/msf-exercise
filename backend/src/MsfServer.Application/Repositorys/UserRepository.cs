@@ -29,7 +29,7 @@ namespace MsfServer.Application.Repositorys
             // Tạo dữ liệu
             byte[] salt = PasswordHashed.GenerateSalt();
             string hashedPassword = PasswordHashed.HashPassword("111111", salt);
-            var user = UserDto.CreateUserDto(input.Email, hashedPassword, input.RoleId, input.Avatar, salt);
+            var user = UserDto.CreateUserAdminDto(input.Email, hashedPassword, input.RoleId, input.Avatar, salt);
 
             // Thêm người dùng
             using var dbManager = new DatabaseConnectionManager(_connectionString);
@@ -66,12 +66,20 @@ namespace MsfServer.Application.Repositorys
             using var dbManager = new DatabaseConnectionManager(_connectionString);
             using var connection = dbManager.GetOpenConnection();
             var updateSql = @"
-            UPDATE Users
-            SET Name = @Name, Email = @Email, RoleId = @RoleId, Avatar = @Avatar
-            WHERE Id = @Id";
-            var result = await connection.ExecuteAsync(updateSql, new { input.Name, input.Email, input.RoleId, input.Avatar, Id = id });
+                UPDATE Users
+                SET Name = @Name, Email = @Email, RoleId = @RoleId, Avatar = @Avatar, UpdatedAt = GETDATE() 
+                WHERE Id = @Id";
+            var result = await connection.ExecuteAsync(updateSql, new
+            {
+                input.Name,
+                input.Email,
+                input.RoleId,
+                input.Avatar,
+                Id = id
+            });
             return ResponseText.ResponseSuccess("Sửa thành công.", StatusCodes.Status204NoContent);
         }
+
 
         // xóa user
         public async Task<ResponseText> DeleteUserAsync(int id)

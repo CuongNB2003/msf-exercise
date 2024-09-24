@@ -20,11 +20,6 @@ namespace MsfServer.Application.Contracts.Authentication.AuthDtos.InputDtos
         [MaxLength(50, ErrorMessage = "Vượt quá kí tự cho phép.")]
         public string PassWord { get; set; } = string.Empty;
 
-
-        [Required(ErrorMessage = "RoleId là bắt buộc.")]
-        public int RoleId { get; set; }
-
-
         [MaxLength(255, ErrorMessage = "Vượt quá kí tự cho phép.")]
         public string Avatar { get; set; } = string.Empty;
     }

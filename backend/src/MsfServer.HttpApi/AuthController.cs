@@ -47,11 +47,11 @@ namespace MsfServer.HttpApi
             return Ok(await _tokenService.RefreshAccessTokenAsync(refreshToken));
         }
 
-        //[HttpPost("register")]
-        //public async Task<IActionResult> Register(RegisterInputDto registerInput)
-        //{
-        //    return Ok();
-        //}
+        [HttpPost("register")]
+        public async Task<IActionResult> Register(RegisterInputDto registerInput)
+        {
+            return Ok(await _authService.RegisterAsync(registerInput));
+        }
 
         [HttpPost("logout")]
         [Authorize]
