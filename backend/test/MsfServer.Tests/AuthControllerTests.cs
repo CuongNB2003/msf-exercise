@@ -8,10 +8,9 @@ using MsfServer.Application.Contracts.Log;
 using MsfServer.Application.Contracts.User;
 using MsfServer.Application.Contracts.User.UserDtos;
 using MsfServer.Domain.Shared.Responses;
-using MsfServer.HttpApi;
 using System.Security.Claims;
 
-namespace MsfServer.Tests
+namespace MsfServer.HttpApi.Tests
 {
     public class AuthControllerTests
     {
@@ -141,7 +140,6 @@ namespace MsfServer.Tests
         {
             // giả lập dữ liệu kiểm thử
             var refreshToken = "valid_refresh_token";
-            var newAccessToken = "new_access_token";
             var authTokenDto = new AuthTokenDto { AccessToken = null, RefreshToken = null };
             var responseObject = new ResponseObject<AuthTokenDto> { Data = authTokenDto, Status = 200, Message = "ok" };
             _tokenServiceMock.Setup(service => service.RefreshAccessTokenAsync(refreshToken)).ReturnsAsync(responseObject);

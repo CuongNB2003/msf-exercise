@@ -1,14 +1,11 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Moq;
 using MsfServer.Application.Contracts.Role;
 using MsfServer.Application.Contracts.Role.RoleDtos;
 using MsfServer.Application.Page;
 using MsfServer.Domain.Shared.Responses;
-using MsfServer.HttpApi;
 
-namespace MsfServer.Tests
+namespace MsfServer.HttpApi.Tests
 {
     public class RolesControllerTests
     {
@@ -21,7 +18,7 @@ namespace MsfServer.Tests
             _controller = new RolesController(_mockRepo.Object);
         }
 
-        [Fact]
+        [Fact] // test controller lấy tất cả role
         public async Task GetRoles_ReturnsOkResult_WithListOfRoles()
         {
             // Arrange
@@ -44,7 +41,7 @@ namespace MsfServer.Tests
             Assert.Single(returnValue.Data!.Data);
         }
 
-        [Fact]
+        [Fact] // test controller lấy role theo id
         public async Task GetRole_ReturnsOkResult_WithRole()
         {
             // Arrange
@@ -61,7 +58,7 @@ namespace MsfServer.Tests
             Assert.Equal(1, returnValue.Data!.Id);
         }
 
-        [Fact]
+        [Fact] // test controller tạo role
         public async Task CreateRole_ReturnsOkResult_WithCreatedRole()
         {
             // Arrange
@@ -78,7 +75,7 @@ namespace MsfServer.Tests
             Assert.Equal("Role created successfully", returnValue.Message);
         }
 
-        [Fact]
+        [Fact] // test controller update role
         public async Task UpdateRole_ReturnsOkResult_WithUpdatedRole()
         {
             // Arrange
@@ -95,7 +92,7 @@ namespace MsfServer.Tests
             Assert.Equal("Role updated successfully", returnValue.Message);
         }
 
-        [Fact]
+        [Fact] // test controller xóa role
         public async Task DeleteRole_ReturnsOkResult()
         {
             // Arrange
