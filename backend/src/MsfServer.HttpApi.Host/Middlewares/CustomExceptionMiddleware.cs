@@ -30,10 +30,7 @@ namespace MsfServer.HttpApi.Host.Middlewares
             }
         }
 
-        public string CreateProblemDetails(
-            HttpContext httpContext,
-            int? statusCode = null,
-            string? error = null)
+        public string CreateProblemDetails(HttpContext httpContext,int? statusCode = null, string? error = null)
         {
             statusCode ??= 500;
 

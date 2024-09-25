@@ -47,6 +47,7 @@ var app = builder.Build();
 // Thêm middleware tùy chỉnh vào pipeline để xử lý ngoại lệ
 app.UseMiddleware<CustomExceptionMiddleware>();
 app.UseMiddleware<CustomAuthenticationMiddleware>();
+app.UseMiddleware<LoggingMiddleware>(); 
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -65,13 +66,6 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
-
-// Bỏ qua xác thực cho Swagger
-app.UseWhen(context => !context.Request.Path.StartsWithSegments("/swagger") &&
-!context.Request.Path.StartsWithSegments("/v3/api-docs"), appBuilder =>
-{
-    appBuilder.UseMiddleware<LoggingMiddleware>();
-});
 
 app.MapControllers();
 

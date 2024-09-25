@@ -90,7 +90,7 @@ namespace MsfServer.Application.Services
                 user.Salt
             });
 
-            return ResponseText.ResponseSuccess($"{userId}", StatusCodes.Status201Created);
+            return ResponseText.ResponseSuccess("Đăng ký tài khoản thành công.", StatusCodes.Status201Created);
         }
 
         // đổi mật khẩu

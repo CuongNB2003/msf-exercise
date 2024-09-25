@@ -5,18 +5,11 @@ using MsfServer.EntityFrameworkCore.Database;
 
 namespace MsfServer.HttpApi.Host.Middlewares
 {
-    public class LoggingMiddleware
+    public class LoggingMiddleware(RequestDelegate next, ILogger<LoggingMiddleware> logger, IServiceProvider serviceProvider)
     {
-        private readonly RequestDelegate _next;
-        private readonly ILogger<LoggingMiddleware> _logger;
-        private readonly IServiceProvider _serviceProvider;
-
-        public LoggingMiddleware(RequestDelegate next, ILogger<LoggingMiddleware> logger, IServiceProvider serviceProvider)
-        {
-            _next = next;
-            _logger = logger;
-            _serviceProvider = serviceProvider;
-        }
+        private readonly RequestDelegate _next = next;
+        private readonly ILogger<LoggingMiddleware> _logger = logger;
+        private readonly IServiceProvider _serviceProvider = serviceProvider;
 
         public async Task InvokeAsync(HttpContext context)
         {
