@@ -1,10 +1,7 @@
 ﻿
-using MsfServer.Application.Contracts.User.UserDtos;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace MsfServer.Application.Contracts.UserLog.UserLogDtos
+namespace MsfServer.Application.Contracts.Log.LogDtos
 {
-    public class UserLogDto
+    public class LogDto
     {
         public int UserId { get; set; }
         public string? Path { get; set; }
@@ -16,9 +13,9 @@ namespace MsfServer.Application.Contracts.UserLog.UserLogDtos
 
 
         // Phương thức tạo UserLogDto
-        public static UserLogDto CreateUserLog(int userId, string? path, string? method)
+        public static LogDto CreateUserLog(int userId, string? path, string? method)
         {
-            return new UserLogDto
+            return new LogDto
             {
                 UserId = userId,
                 Path = path,

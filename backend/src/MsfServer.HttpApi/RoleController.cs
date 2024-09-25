@@ -15,6 +15,7 @@ namespace MsfServer.HttpApi
         [HttpGet] // lấy tất cả dữ liệu
         public async Task<IActionResult> GetRoles(int page, int limit)
         {
+            //Thang thuoc phong ban nào moi thục hiện tiếp theo
             var roles = await _roleRepository.GetRolesAsync(page, limit);
             return Ok(roles);
         }
@@ -27,7 +28,7 @@ namespace MsfServer.HttpApi
             return Ok(role);
         }
 
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         [HttpPost] // tạo role 
         public async Task<IActionResult> CreateRole(RoleInputDto role)
         {

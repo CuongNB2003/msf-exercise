@@ -27,7 +27,7 @@ namespace MsfServer.Tests
             // Arrange
             var roles = new PagedResult<RoleResultDto>
             {
-                Data = new List<RoleResultDto> { new RoleResultDto { Id = 1, Name = "Admin" } },
+                Data = [new RoleResultDto { Id = 1, Name = "Admin" }],
                 TotalRecords = 1,
                 Limit = 1,
                 Page = 1

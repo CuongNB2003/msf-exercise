@@ -67,13 +67,10 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 // Bỏ qua xác thực cho Swagger
-// Bỏ qua xác thực cho Swagger và endpoint /api/auth/login
-app.UseWhen(context => !context.Request.Path.StartsWithSegments("/swagger") && 
-!context.Request.Path.StartsWithSegments("/v3/api-docs") &&
-!context.Request.Path.StartsWithSegments("/api/auth/register") &&
-!context.Request.Path.StartsWithSegments("/api/auth/login"), appBuilder =>
+app.UseWhen(context => !context.Request.Path.StartsWithSegments("/swagger") &&
+!context.Request.Path.StartsWithSegments("/v3/api-docs"), appBuilder =>
 {
-    appBuilder.UseMiddleware<UserActivityLoggingMiddleware>();
+    appBuilder.UseMiddleware<LoggingMiddleware>();
 });
 
 app.MapControllers();
