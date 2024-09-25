@@ -1,26 +1,17 @@
 ﻿
+using System.ComponentModel.DataAnnotations;
+
 namespace MsfServer.Application.Contracts.Log.LogDtos
 {
     public class LogDto
     {
-        public int UserId { get; set; }
-        public string? Path { get; set; }
+        public int Id { get; set; }
         public string? Method { get; set; }
-        // dùng để gán khi truy vấn
-        public string? RoleName { get; set; }
+        public int StatusCode { get; set; }
+        public string? Url { get; set; }
+        public string? ClientIpAddress { get; set; }
         public string? UserName { get; set; }
-        public string? UserEmail { get; set; }
-
-
-        // Phương thức tạo UserLogDto
-        public static LogDto CreateUserLog(int userId, string? path, string? method)
-        {
-            return new LogDto
-            {
-                UserId = userId,
-                Path = path,
-                Method = method
-            };
-        }
+        public int Duration { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 }

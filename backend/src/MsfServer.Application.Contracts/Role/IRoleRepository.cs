@@ -1,5 +1,5 @@
 ﻿using MsfServer.Application.Contracts.Role.RoleDtos;
-using MsfServer.Application.Page;
+using MsfServer.Domain.Shared.PagedResults;
 using MsfServer.Domain.Shared.Responses;
 
 namespace MsfServer.Application.Contracts.Role

@@ -1,5 +1,4 @@
-﻿
-namespace MsfServer.Application.Page
+﻿namespace MsfServer.Domain.Shared.PagedResults
 {
     public class PagedResult<T>
     {

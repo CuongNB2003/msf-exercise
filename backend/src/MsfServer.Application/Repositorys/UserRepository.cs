@@ -1,21 +1,20 @@
 ﻿using MsfServer.Application.Contracts.User;
 using Dapper;
 using System.Data;
-using MsfServer.Application.Page;
 using MsfServer.Domain.Security;
 using MsfServer.Domain.Shared.Responses;
 using Microsoft.AspNetCore.Http;
 using MsfServer.Domain.Shared.Exceptions;
-using MsfServer.Application.Database;
 using MsfServer.Application.Contracts.User.UserDtos;
 using MsfServer.Application.Contracts.Role.RoleDtos;
+using MsfServer.Domain.Shared.PagedResults;
+using MsfServer.Application.Dapper;
 
 namespace MsfServer.Application.Repositorys
 {
-    public class UserRepository(string connectionString, ResponseObject<UserResultDto> responseUser) : IUserRepository
+    public class UserRepository(string connectionString) : IUserRepository
     {
         private readonly string _connectionString = connectionString;
-        private readonly ResponseObject<UserResultDto> _responseUser = responseUser;
 
         // thêm user
         public async Task<ResponseText> CreateUserAsync(CreateUserInput input)
@@ -32,8 +31,8 @@ namespace MsfServer.Application.Repositorys
             var user = UserDto.CreateUserAdminDto(input.Email, hashedPassword, input.RoleId, input.Avatar, salt);
 
             // Thêm người dùng
-            using var dbManager = new DatabaseConnectionManager(_connectionString);
-            using var connection = dbManager.GetOpenConnection();
+            using var dapperContext = new DapperContext(_connectionString);
+            using var connection = dapperContext.GetOpenConnection();
             var sql = @"
             INSERT INTO Users (Name, Email, Password, RoleId, Avatar, Salt)
             VALUES (@Name, @Email, @Password, @RoleId, @Avatar, @Salt)";
@@ -49,7 +48,6 @@ namespace MsfServer.Application.Repositorys
             return ResponseText.ResponseSuccess("Thêm thành công", StatusCodes.Status201Created);
         }
 
-
         // sửa user
         public async Task<ResponseText> UpdateUserAsync(UpdateUserInput input, int id)
         {
@@ -63,8 +61,8 @@ namespace MsfServer.Application.Repositorys
                 }
             }
             // cập nhật
-            using var dbManager = new DatabaseConnectionManager(_connectionString);
-            using var connection = dbManager.GetOpenConnection();
+            using var dapperContext = new DapperContext(_connectionString);
+            using var connection = dapperContext.GetOpenConnection();
             var updateSql = @"
                 UPDATE Users
                 SET Name = @Name, Email = @Email, RoleId = @RoleId, Avatar = @Avatar, UpdatedAt = GETDATE() 
@@ -80,15 +78,14 @@ namespace MsfServer.Application.Repositorys
             return ResponseText.ResponseSuccess("Sửa thành công.", StatusCodes.Status204NoContent);
         }
 
-
         // xóa user
         public async Task<ResponseText> DeleteUserAsync(int id)
         {
             //check user
             await GetUserByIdAsync(id);
             //xóa user
-            using var dbManager = new DatabaseConnectionManager(_connectionString);
-            using var connection = dbManager.GetOpenConnection();
+            using var dapperContext = new DapperContext(_connectionString);
+            using var connection = dapperContext.GetOpenConnection();
             var deleteSql = "DELETE FROM Users WHERE Id = @Id";
             var result = await connection.ExecuteAsync(deleteSql, new { Id = id });
             return ResponseText.ResponseSuccess("Xóa thành công.", StatusCodes.Status204NoContent);
@@ -97,8 +94,8 @@ namespace MsfServer.Application.Repositorys
         // lấy user theo id
         public async Task<ResponseObject<UserResultDto>> GetUserByIdAsync(int id)
         {
-            using var dbManager = new DatabaseConnectionManager(_connectionString);
-            using var connection = dbManager.GetOpenConnection();
+            using var dapperContext = new DapperContext(_connectionString);
+            using var connection = dapperContext.GetOpenConnection();
             var sql = @"
                     SELECT * FROM Users WHERE Id = @Id;
                     SELECT * FROM Roles WHERE Id = (SELECT RoleId FROM Users WHERE Id = @Id);";
@@ -116,10 +113,9 @@ namespace MsfServer.Application.Repositorys
             {
                 throw new CustomException(StatusCodes.Status404NotFound, "Không tìm thấy Role.");
             }
-
             user.Role = role;
+            return ResponseObject<UserResultDto>.CreateResponse("Lấy dữ liệu thành công.", user);
 
-            return _responseUser.ResponseSuccess("Lấy dữ liệu thành công.", user);
         }
 
         // lấy tất cả user
@@ -129,9 +125,8 @@ namespace MsfServer.Application.Repositorys
             {
                 throw new CustomException(StatusCodes.Status400BadRequest, "Bạn cần phải truyền vào page và limit.");
             }
-
-            using var dbManager = new DatabaseConnectionManager(_connectionString);
-            using var connection = dbManager.GetOpenConnection();
+            using var dapperContext = new DapperContext(_connectionString);
+            using var connection = dapperContext.GetOpenConnection();
             var offset = (page - 1) * limit;
 
             using var multi = await connection.QueryMultipleAsync(
@@ -164,13 +159,13 @@ namespace MsfServer.Application.Repositorys
                 Data = users
             };
 
-            return new ResponseObject<PagedResult<UserResultDto>>(StatusCodes.Status200OK, "Lấy dữ liệu thành công.", pagedResult);
+            return ResponseObject<PagedResult<UserResultDto>>.CreateResponse("Lấy dữ liệu thành công.", pagedResult);
         }
 
         public async Task<bool> CheckEmailExistsAsync(string email)
         {
-            using var dbManager = new DatabaseConnectionManager(_connectionString);
-            using var connection = dbManager.GetOpenConnection();
+            using var dapperContext = new DapperContext(_connectionString);
+            using var connection = dapperContext.GetOpenConnection();
             var sql = "SELECT COUNT(1) FROM Users WHERE Email = @Email";
             var count = await connection.ExecuteScalarAsync<int>(sql, new { Email = email });
             return count > 0;
@@ -178,8 +173,8 @@ namespace MsfServer.Application.Repositorys
 
         public async Task<UserDto> GetUserByEmailAsync(string email)
         {
-            using var dbManager = new DatabaseConnectionManager(_connectionString);
-            using var connection = dbManager.GetOpenConnection();
+            using var dapperContext = new DapperContext(_connectionString);
+            using var connection = dapperContext.GetOpenConnection();
             var sql = @"
             SELECT * FROM Users WHERE Email = @Email;
             SELECT * FROM Roles WHERE Id = (SELECT RoleId FROM Users WHERE Email = @Email);";
@@ -195,8 +190,8 @@ namespace MsfServer.Application.Repositorys
 
         public async Task<UserDto> GetUserAsync(int id)
         {
-            using var dbManager = new DatabaseConnectionManager(_connectionString);
-            using var connection = dbManager.GetOpenConnection();
+            using var dapperContext = new DapperContext(_connectionString);
+            using var connection = dapperContext.GetOpenConnection();
             var sql = @"
             SELECT * FROM Users WHERE Id = @Id;
             SELECT * FROM Roles WHERE Id = (SELECT RoleId FROM Users WHERE Id = @Id);";

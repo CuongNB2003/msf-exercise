@@ -16,15 +16,21 @@ namespace MsfServer.Domain.Shared.Responses
             Message = message;
             Data = data;
         }
-        public ResponseObject(int status, string message)
+        public ResponseObject(string message, T data)
         {
-            Status = status;
+            Status = StatusCodes.Status200OK;
             Message = message;
+            Data = data;
         }
 
         public ResponseObject<T> ResponseSuccess(string message, T data)
         {
             return new ResponseObject<T>(StatusCodes.Status200OK, message, data);
+        }
+
+        public static ResponseObject<T> CreateResponse(string message, T data)
+        {
+            return new ResponseObject<T>(message, data);
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using MsfServer.Application.Contracts.Log.LogDtos;
-using MsfServer.Application.Page;
+using MsfServer.Domain.Shared.PagedResults;
 using MsfServer.Domain.Shared.Responses;
 
 namespace MsfServer.Application.Contracts.Log
@@ -8,7 +8,7 @@ namespace MsfServer.Application.Contracts.Log
     {
         // hàm trong controller 
         Task<ResponseObject<PagedResult<LogDto>>> GetLogsAsync(int page, int limit);
-        //Task<ResponseObject<UserLogDto>> GetUserLogByUserIdAsync(int id);
+        Task<ResponseObject<LogDto>> GetLogByIdAsync(int id);
         //Task<ResponseText> CreateLogAsync(LogDto input);
         //Task<ResponseText> UpdateUserLogAsync(UserLogDto input, int id);
         //Task<ResponseText> DeleteUserLogAsync(int id);

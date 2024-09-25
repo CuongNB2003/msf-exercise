@@ -17,14 +17,12 @@ namespace MsfServer.Application.Services
     public class TokenService(
         ITokenRepository tokenRepository, 
         IUserRepository userRepository, 
-        JwtSettings jwtSettings,
-        ResponseObject<AuthTokenDto> response
+        JwtSettings jwtSettings
         ) : ITokenService
     {
         private readonly ITokenRepository _tokenRepository = tokenRepository;
         private readonly IUserRepository _userRepository = userRepository;
         private readonly JwtSettings _jwtSettings = jwtSettings;
-        private readonly ResponseObject<AuthTokenDto> _response = response;
         // tạo ra AccessToken
         public async Task<TokenResultDto> GenerateAccessTokenAsync(UserDto user)
         {
@@ -92,7 +90,7 @@ namespace MsfServer.Application.Services
             var user = await _userRepository.GetUserAsync(token.UserId);
             var accessTokenNew = await GenerateAccessTokenAsync(user);
             var refreshTokenNew = await GenerateRefreshTokenAsync(user);
-            return _response.ResponseSuccess("Khởi tạo token thành công.", AuthTokenDto.GetToken(accessTokenNew, refreshTokenNew));
+            return ResponseObject<AuthTokenDto>.CreateResponse("Khởi tạo token thành công.", AuthTokenDto.GetToken(accessTokenNew, refreshTokenNew));
         }
     }
 }

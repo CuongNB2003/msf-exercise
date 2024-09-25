@@ -2,7 +2,7 @@
 using Moq;
 using MsfServer.Application.Contracts.Role;
 using MsfServer.Application.Contracts.Role.RoleDtos;
-using MsfServer.Application.Page;
+using MsfServer.Domain.Shared.PagedResults;
 using MsfServer.Domain.Shared.Responses;
 
 namespace MsfServer.HttpApi.Tests

@@ -26,5 +26,18 @@ namespace MsfServer.Domain.Entities
 
         [Required]
         public int Duration { get; set; }
+
+        public static RequestLog AddLogEntry(string? method, int statusCode, string? url, string? clientIpAddress, string? userName, int duration)
+        {
+            return new RequestLog
+            {
+                Method = method,
+                StatusCode = statusCode,
+                Url = url,
+                ClientIpAddress = clientIpAddress,
+                UserName = userName,
+                Duration = duration,
+            };
+        }
     }
 }

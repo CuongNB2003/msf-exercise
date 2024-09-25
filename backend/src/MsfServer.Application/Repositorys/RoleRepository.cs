@@ -1,19 +1,18 @@
 ﻿using Dapper;
-using MsfServer.Application.Page;
 using System.Data;
 using Microsoft.AspNetCore.Http;
 using MsfServer.Domain.Shared.Exceptions;
 using MsfServer.Domain.Shared.Responses;
 using MsfServer.Application.Contracts.Role.RoleDtos;
-using MsfServer.Application.Database;
 using MsfServer.Application.Contracts.Role;
+using MsfServer.Domain.Shared.PagedResults;
+using MsfServer.Application.Dapper;
 
 namespace MsfServer.Application.Repositorys
 {
-    public class RoleRepository(string connectionString, ResponseObject<RoleResultDto> responseRole) : IRoleRepository
+    public class RoleRepository(string connectionString) : IRoleRepository
     {
         private readonly string _connectionString = connectionString;
-        private readonly ResponseObject<RoleResultDto> _responseRole = responseRole;
 
         //lấy tất cả role
         public async Task<ResponseObject<PagedResult<RoleResultDto>>> GetRolesAsync(int page, int limit)
@@ -23,40 +22,39 @@ namespace MsfServer.Application.Repositorys
                 throw new CustomException(StatusCodes.Status400BadRequest, "Bạn cần phải truyền vào page và limit.");
             }
 
-            using var dbManager = new DatabaseConnectionManager(_connectionString);
-                using var connection = dbManager.GetOpenConnection();
-                //thực hiện truy vấn 
-                var offset = (page - 1) * limit;
-                using var multi = await connection.QueryMultipleAsync(
-                    "GetPagedRoles",
-                    new { Offset = offset, PageSize = limit },
-                    commandType: CommandType.StoredProcedure);
+            using var dapperContext = new DapperContext(_connectionString);
+            using var connection = dapperContext.GetOpenConnection();
+            //thực hiện truy vấn 
+            var offset = (page - 1) * limit;
+            using var multi = await connection.QueryMultipleAsync(
+                 "GetPagedRoles",
+                 new { Offset = offset, PageSize = limit },
+                 commandType: CommandType.StoredProcedure);
 
-                var totalRecords = await multi.ReadSingleAsync<int>();
-                var roles = await multi.ReadAsync<RoleResultDto>();
+            var totalRecords = await multi.ReadSingleAsync<int>();
+            var roles = await multi.ReadAsync<RoleResultDto>();
+            var pagedResult = new PagedResult<RoleResultDto>
+            {
+                TotalRecords = totalRecords,
+                Page = page,
+                Limit = limit,
+                Data = roles.ToList()
+            };
 
-                var pagedResult = new PagedResult<RoleResultDto>
-                {
-                    TotalRecords = totalRecords,
-                    Page = page,
-                    Limit = limit,
-                    Data = roles.ToList()
-                };
-
-                return new ResponseObject<PagedResult<RoleResultDto>>(StatusCodes.Status200OK, "Lấy dữ liệu thành công.", pagedResult);
+            return ResponseObject<PagedResult<RoleResultDto>>.CreateResponse("Lấy dữ liệu thành công.", pagedResult);
         }
         //lấy role theo id
         public async Task<ResponseObject<RoleResultDto>> GetRoleByIdAsync(int id)
         {
-            using var dbManager = new DatabaseConnectionManager(_connectionString);
-            using var connection = dbManager.GetOpenConnection();
+            using var dapperContext = new DapperContext(_connectionString);
+            using var connection = dapperContext.GetOpenConnection();
             //truy vấn lấy role theo id
             var role = await connection.QuerySingleOrDefaultAsync<RoleResultDto>(
                 "SELECT * FROM Roles WHERE Id = @Id", new { Id = id });
 
             return role == null
                     ? throw new CustomException(StatusCodes.Status404NotFound, "Không tìm thấy Role.")
-                    : _responseRole.ResponseSuccess("Lấy dữ liệu thành công.", role);
+                    : ResponseObject<RoleResultDto>.CreateResponse("Lấy dữ liệu thành công.", role);
         }
         //tạo role
         public async Task<ResponseText> CreateRoleAsync(RoleInputDto input)
@@ -68,8 +66,8 @@ namespace MsfServer.Application.Repositorys
                 throw new CustomException(StatusCodes.Status409Conflict, "Role đã tồn tại.");
             }
             // add role
-            using var dbManager = new DatabaseConnectionManager(_connectionString);
-            using var connection = dbManager.GetOpenConnection();
+            using var dapperContext = new DapperContext(_connectionString);
+            using var connection = dapperContext.GetOpenConnection();
             var sql = "INSERT INTO Roles (Name) VALUES (@Name)";
             var result = await connection.ExecuteAsync(sql, input);
             return ResponseText.ResponseSuccess("Thêm thành công.", StatusCodes.Status201Created);
@@ -88,8 +86,8 @@ namespace MsfServer.Application.Repositorys
             }
 
             // Cập nhật role
-            using var dbManager = new DatabaseConnectionManager(_connectionString);
-            using var connection = dbManager.GetOpenConnection();
+            using var dapperContext = new DapperContext(_connectionString);
+            using var connection = dapperContext.GetOpenConnection();
             var updateSql = "UPDATE Roles SET Name = @Name, UpdatedAt = GETDATE() WHERE Id = @Id";
             var result = await connection.ExecuteAsync(updateSql, new { input.Name, Id = id });
 
@@ -109,8 +107,8 @@ namespace MsfServer.Application.Repositorys
                 throw new CustomException(StatusCodes.Status400BadRequest, $"Không thể xóa Role vì có {userCount} User liên quan.");
             }
 
-            using var dbManager = new DatabaseConnectionManager(_connectionString);
-            using var connection = dbManager.GetOpenConnection();
+            using var dapperContext = new DapperContext(_connectionString);
+            using var connection = dapperContext.GetOpenConnection();
             var sql = "DELETE FROM Roles WHERE Id = @Id";
             var result = await connection.ExecuteAsync(sql, new { Id = id });
             return ResponseText.ResponseSuccess("Xóa thành công.", StatusCodes.Status204NoContent);
@@ -119,8 +117,8 @@ namespace MsfServer.Application.Repositorys
         public async Task<bool> CheckRoleNameExistsAsync(string name)
         {
             name = name.ToLower();
-            using var dbManager = new DatabaseConnectionManager(_connectionString);
-            using var connection = dbManager.GetOpenConnection();
+            using var dapperContext = new DapperContext(_connectionString);
+            using var connection = dapperContext.GetOpenConnection();
             var sql = "SELECT COUNT(1) FROM Roles WHERE Name = @Name";
             var count = await connection.ExecuteScalarAsync<int>(sql, new { Name = name });
             return count > 0;
@@ -128,8 +126,8 @@ namespace MsfServer.Application.Repositorys
 
         public async Task<int> GetUserCountByRoleIdAsync(int id)
         {
-            using var dbManager = new DatabaseConnectionManager(_connectionString);
-            using var connection = dbManager.GetOpenConnection();
+            using var dapperContext = new DapperContext(_connectionString);
+            using var connection = dapperContext.GetOpenConnection();
             var checkSql = "SELECT COUNT(*) FROM Users WHERE RoleId = @RoleId";
             return await connection.ExecuteScalarAsync<int>(checkSql, new { RoleId = id });
         }

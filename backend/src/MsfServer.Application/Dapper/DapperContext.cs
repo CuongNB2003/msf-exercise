@@ -1,10 +1,14 @@
-﻿using System.Data.SqlClient;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
+using MsfServer.Domain.Shared.Exceptions;
+using System.Data.SqlClient;
 
-namespace MsfServer.Application.Database
+namespace MsfServer.Application.Dapper
 {
-    public class DatabaseConnectionManager(string connectionString) : IDisposable
+    public class DapperContext(string connectionString) : IDisposable
     {
-        private readonly string _connectionString = connectionString ?? throw new ArgumentNullException(nameof(connectionString));
+        private readonly string _connectionString = connectionString ?? 
+            throw new CustomException(StatusCodes.Status500InternalServerError, "Không kết nối được với cơ sở dữ liệu.");
         private SqlConnection? _connection;
 
         public SqlConnection GetOpenConnection()
@@ -27,5 +31,4 @@ namespace MsfServer.Application.Database
             }
         }
     }
-
 }
