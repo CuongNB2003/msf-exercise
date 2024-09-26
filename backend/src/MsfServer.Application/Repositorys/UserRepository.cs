@@ -33,18 +33,20 @@ namespace MsfServer.Application.Repositorys
             // Thêm người dùng
             using var dapperContext = new DapperContext(_connectionString);
             using var connection = dapperContext.GetOpenConnection();
-            var sql = @"
-            INSERT INTO Users (Name, Email, Password, RoleId, Avatar, Salt)
-            VALUES (@Name, @Email, @Password, @RoleId, @Avatar, @Salt)";
-            var result = await connection.ExecuteAsync(sql, new
-            {
-                user.Name,
-                user.Email,
-                user.Password,
-                user.RoleId,
-                user.Avatar,
-                user.Salt
-            });
+            var userId = await connection.ExecuteAsync(
+                "User_Insert",
+                 new
+                 {
+                     user.Name,
+                     user.Email,
+                     user.Password,
+                     user.RoleId,
+                     user.Avatar,
+                     user.Salt
+                 },
+                     commandType: CommandType.StoredProcedure
+            );
+
             return ResponseText.ResponseSuccess("Thêm thành công", StatusCodes.Status201Created);
         }
 
@@ -130,7 +132,7 @@ namespace MsfServer.Application.Repositorys
             var offset = (page - 1) * limit;
 
             using var multi = await connection.QueryMultipleAsync(
-                "GetPagedUsers",
+                "User_GetAll",
                 new { Offset = offset, PageSize = limit },
                 commandType: CommandType.StoredProcedure);
 

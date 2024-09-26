@@ -21,7 +21,7 @@ namespace MsfServer.HttpApi.Host.Extensions
             services.AddHttpClient<IReCaptchaService, ReCaptchaService>();
 
             // những service sử dụng AddSingleton khởi tạo từ đầu
-            //services.AddSingleton<DapperContext>();
+            //services.AddSingleton<DapperContext>(connectionString);
 
             // những service sử dụng AddTransient khởi tạo khi đc gọi
             services.AddTransient<IRoleRepository, RoleRepository>(provider =>{ return new RoleRepository(connectionString); });
@@ -29,6 +29,7 @@ namespace MsfServer.HttpApi.Host.Extensions
             services.AddTransient<ITokenRepository, TokenRepository>(provider =>{ return new TokenRepository(connectionString); });
             services.AddTransient<ILogRepository, LogRepository>(provider => { return new LogRepository(connectionString); });
             services.AddTransient<ITokenService, TokenService>();
+
             services.AddTransient<IAuthService, AuthService>(provider => {
                 var reCaptchaService = provider.GetRequiredService<IReCaptchaService>();
                 var userRepository = provider.GetRequiredService<IUserRepository>();

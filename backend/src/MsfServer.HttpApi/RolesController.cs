@@ -28,7 +28,7 @@ namespace MsfServer.HttpApi
             return Ok(role);
         }
 
-        //[Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin")]
         [HttpPost] // tạo role 
         public async Task<IActionResult> CreateRole(RoleInputDto role)
         {

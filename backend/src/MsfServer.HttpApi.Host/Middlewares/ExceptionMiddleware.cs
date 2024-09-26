@@ -1,14 +1,12 @@
 ﻿using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using MsfServer.Application.Contracts.Log.LogDtos;
 using MsfServer.Domain.Entities;
 using MsfServer.Domain.Shared.Exceptions;
 using MsfServer.Domain.Shared.Responses;
 using MsfServer.EntityFrameworkCore.Database;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using System.IO;
 
 namespace MsfServer.HttpApi.Host.Middlewares
 {

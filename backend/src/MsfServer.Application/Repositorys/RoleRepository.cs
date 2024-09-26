@@ -27,7 +27,7 @@ namespace MsfServer.Application.Repositorys
             //thực hiện truy vấn 
             var offset = (page - 1) * limit;
             using var multi = await connection.QueryMultipleAsync(
-                 "GetPagedRoles",
+                 "Role_GetAll",
                  new { Offset = offset, PageSize = limit },
                  commandType: CommandType.StoredProcedure);
 

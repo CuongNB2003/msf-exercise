@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
 using MsfServer.Domain.Shared.Exceptions;
 using System.Data.SqlClient;
 

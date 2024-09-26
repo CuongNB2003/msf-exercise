@@ -1,12 +1,11 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using MsfServer.Application.Contracts.Log;
 
 namespace MsfServer.HttpApi
 {
     [Route("api/log")]
     [ApiController]
-    public class LogController(ILogRepository logRepository) : ControllerBase
+    public class LogsController(ILogRepository logRepository) : ControllerBase
     {
         private readonly ILogRepository _logRepository = logRepository;
 

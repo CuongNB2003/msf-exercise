@@ -11,6 +11,7 @@ using MsfServer.Application.Dapper;
 using MsfServer.Domain.Security;
 using MsfServer.Domain.Shared.Exceptions;
 using MsfServer.Domain.Shared.Responses;
+using System.Data;
 
 namespace MsfServer.Application.Services
 {
@@ -75,18 +76,19 @@ namespace MsfServer.Application.Services
             // Thêm người dùng
             using var dapperContext = new DapperContext(_connectionString);
             using var connection = dapperContext.GetOpenConnection();
-            var sqlInsert = @"
-                    INSERT INTO Users (Name, Email, Password, RoleId, Avatar, Salt)
-                    VALUES (@Name, @Email, @Password, @RoleId, @Avatar, @Salt)";
-            var userId = await connection.QuerySingleAsync<int>(sqlInsert, new
-            {
-                user.Name,
-                user.Email,
-                user.Password,
-                user.RoleId,
-                user.Avatar,
-                user.Salt
-            });
+            var userId = await connection.ExecuteAsync(
+                "User_Insert",
+                 new
+                 {
+                     user.Name,
+                     user.Email,
+                     user.Password,
+                     user.RoleId,
+                     user.Avatar,
+                     user.Salt
+                 },
+                     commandType: CommandType.StoredProcedure
+            );
 
             return ResponseText.ResponseSuccess("Đăng ký tài khoản thành công.", StatusCodes.Status201Created);
         }

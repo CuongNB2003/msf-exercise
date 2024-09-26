@@ -14,9 +14,18 @@ namespace MsfServer.Application.Repositorys
     public class LogRepository(string connectionString) : ILogRepository
     {
         private readonly string _connectionString = connectionString;
-        public Task<ResponseObject<LogDto>> GetLogByIdAsync(int id)
+        //lấy role theo id
+        public async Task<ResponseObject<LogDto>> GetLogByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            using var dapperContext = new DapperContext(_connectionString);
+            using var connection = dapperContext.GetOpenConnection();
+            //truy vấn lấy role theo id
+            var role = await connection.QuerySingleOrDefaultAsync<LogDto>(
+                "SELECT * FROM RequestLogs WHERE Id = @Id", new { Id = id });
+
+            return role == null
+                    ? throw new CustomException(StatusCodes.Status404NotFound, "Không tìm thấy Log.")
+                    : ResponseObject<LogDto>.CreateResponse("Lấy dữ liệu thành công.", role);
         }
 
         public async Task<ResponseObject<PagedResult<LogDto>>> GetLogsAsync(int page, int limit)
@@ -31,7 +40,7 @@ namespace MsfServer.Application.Repositorys
             var offset = (page - 1) * limit;
 
             using var multi = await connection.QueryMultipleAsync(
-                "GetPagedLogs",
+                "Log_GetAll",
                 new { Offset = offset, PageSize = limit },
                 commandType: CommandType.StoredProcedure);
 
