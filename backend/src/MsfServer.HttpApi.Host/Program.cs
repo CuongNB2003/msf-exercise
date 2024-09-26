@@ -1,13 +1,7 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
-using MsfServer.Domain.Security;
+﻿using Microsoft.EntityFrameworkCore;
 using MsfServer.EntityFrameworkCore.Database;
-using MsfServer.HttpApi;
 using MsfServer.HttpApi.Host.Extensions;
 using MsfServer.HttpApi.Host.Middlewares;
-using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,51 +24,29 @@ builder.Services.AddCustomAuthorization();
 builder.Services.AddCustomServices(connectionString);
 
 // Dịch vụ controller 
-builder.Services.AddControllers()
-    .AddApplicationPart(typeof(RolesController).Assembly)
-    .AddApplicationPart(typeof(UsersController).Assembly)
-    .AddApplicationPart(typeof(UserLogController).Assembly)
-    .AddApplicationPart(typeof(AuthController).Assembly);
+builder.Services.AddControllers();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 // Gọi cấu hình Swagger
-//builder.Services.AddSwaggerGen();
 builder.Services.AddSwaggerConfiguration();
 
 var app = builder.Build();
 
 // Thêm middleware tùy chỉnh vào pipeline để xử lý ngoại lệ
-app.UseMiddleware<CustomExceptionMiddleware>();
-app.UseMiddleware<CustomAuthenticationMiddleware>();
+app.UseMiddleware<ExceptionMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-    // cấu hình lại tên api và điều hướng api
-    //app.UseSwaggerUI(c =>
-    //{
-    //    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-    //    c.RoutePrefix = string.Empty;
-    //});
 }
 
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
-
-// Bỏ qua xác thực cho Swagger
-// Bỏ qua xác thực cho Swagger và endpoint /api/auth/login
-app.UseWhen(context => !context.Request.Path.StartsWithSegments("/swagger") && 
-!context.Request.Path.StartsWithSegments("/v3/api-docs") &&
-!context.Request.Path.StartsWithSegments("/api/auth/register") &&
-!context.Request.Path.StartsWithSegments("/api/auth/login"), appBuilder =>
-{
-    appBuilder.UseMiddleware<UserActivityLoggingMiddleware>();
-});
 
 app.MapControllers();
 

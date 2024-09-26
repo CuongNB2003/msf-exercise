@@ -7,29 +7,28 @@ using MsfServer.Application.Contracts.Services;
 using MsfServer.Application.Contracts.Token;
 using MsfServer.Application.Contracts.User;
 using MsfServer.Application.Contracts.User.UserDtos;
-using MsfServer.Application.Database;
+using MsfServer.Application.Dapper;
 using MsfServer.Domain.Security;
 using MsfServer.Domain.Shared.Exceptions;
 using MsfServer.Domain.Shared.Responses;
+using System.Data;
 
 namespace MsfServer.Application.Services
 {
     public class AuthService(
         IReCaptchaService reCaptchaService, 
         IUserRepository userRepository, 
-        ResponseObject<LoginResultDto> response, 
-        string connectionString, 
         ITokenService tokenService,
-        ITokenRepository tokenRepository
+        ITokenRepository tokenRepository,
+        string connectionString
         ) : IAuthService
     {
         private readonly IReCaptchaService _reCaptchaService = reCaptchaService;
         private readonly IUserRepository _userRepository = userRepository;
-        private readonly ResponseObject<LoginResultDto> _response = response;
-        private readonly string _connectionString = connectionString;
         private readonly ITokenService _tokenService = tokenService;
         private readonly ITokenRepository _tokenRepository = tokenRepository;
-     
+        private readonly string _connectionString = connectionString;
+
         // đăng nhập
         public async Task<ResponseObject<LoginResultDto>> LoginAsync(LoginInputDto input)
         {
@@ -52,7 +51,8 @@ namespace MsfServer.Application.Services
             var userLogin = UserLoginDto.FromUserDto(user);
             var token = AuthTokenDto.GetToken (accessToken, refreshToken);
             var result = LoginResultDto.CreateResult(token, userLogin);
-            return _response.ResponseSuccess("Đăng nhập thành công thành công.", result);
+
+            return ResponseObject<LoginResultDto>.CreateResponse("Đăng nhậpthành công.", result);
         }
         // đăng xuất
         public async Task<ResponseText> LogoutAsync(string userId)
@@ -74,23 +74,23 @@ namespace MsfServer.Application.Services
             var user = UserDto.CreateUserDto(input.Name, input.Email, hashedPassword, 3, input.Avatar, salt);
 
             // Thêm người dùng
-            using var dbManager = new DatabaseConnectionManager(_connectionString);
-            using var connection = dbManager.GetOpenConnection();
-            var sqlInsert = @"
-                    INSERT INTO Users (Name, Email, Password, RoleId, Avatar, Salt)
-                    VALUES (@Name, @Email, @Password, @RoleId, @Avatar, @Salt);
-                    SELECT CAST(SCOPE_IDENTITY() as int)";
-            var userId = await connection.QuerySingleAsync<int>(sqlInsert, new
-            {
-                user.Name,
-                user.Email,
-                user.Password,
-                user.RoleId,
-                user.Avatar,
-                user.Salt
-            });
+            using var dapperContext = new DapperContext(_connectionString);
+            using var connection = dapperContext.GetOpenConnection();
+            var userId = await connection.ExecuteAsync(
+                "User_Insert",
+                 new
+                 {
+                     user.Name,
+                     user.Email,
+                     user.Password,
+                     user.RoleId,
+                     user.Avatar,
+                     user.Salt
+                 },
+                     commandType: CommandType.StoredProcedure
+            );
 
-            return ResponseText.ResponseSuccess($"{userId}", StatusCodes.Status201Created);
+            return ResponseText.ResponseSuccess("Đăng ký tài khoản thành công.", StatusCodes.Status201Created);
         }
 
         // đổi mật khẩu

@@ -12,6 +12,6 @@ namespace MsfServer.Application.Contracts.User.UserDtos
         public string? Avatar { get; set; }
 
         [ForeignKey("RoleId")]
-        public required RoleResultDto Role { get; set; }
+        public RoleResultDto? Role { get; set; }
     }
 }

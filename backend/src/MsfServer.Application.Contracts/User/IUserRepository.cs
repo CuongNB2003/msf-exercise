@@ -1,5 +1,5 @@
 ﻿using MsfServer.Application.Contracts.User.UserDtos;
-using MsfServer.Application.Page;
+using MsfServer.Domain.Shared.PagedResults;
 using MsfServer.Domain.Shared.Responses;
 
 namespace MsfServer.Application.Contracts.User

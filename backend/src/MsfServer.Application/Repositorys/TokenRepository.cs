@@ -1,9 +1,8 @@
-﻿
-using Dapper;
+﻿using Dapper;
 using Microsoft.AspNetCore.Http;
 using MsfServer.Application.Contracts.Token;
 using MsfServer.Application.Contracts.Token.TokenDtos;
-using MsfServer.Application.Database;
+using MsfServer.Application.Dapper;
 using MsfServer.Domain.Shared.Exceptions;
 using MsfServer.Domain.Shared.Responses;
 using System.Data;
@@ -15,8 +14,8 @@ namespace MsfServer.Application.Repositorys
         private readonly string _connectionString = connectionString;
         public async Task<TokenDto> GetTokenAsync(string refreshToken)
         {
-            using var dbManager = new DatabaseConnectionManager(_connectionString);
-            using var connection = dbManager.GetOpenConnection();
+            using var dapperContext = new DapperContext(_connectionString);
+            using var connection = dapperContext.GetOpenConnection();
 
             // Query to get the token by refreshToken
             var token = await connection.QuerySingleOrDefaultAsync<TokenDto>(
@@ -27,8 +26,8 @@ namespace MsfServer.Application.Repositorys
 
         public async Task<ResponseText> SaveTokenAsync(TokenDto input)
         {
-            using var dbManager = new DatabaseConnectionManager(_connectionString);
-            using var connection = dbManager.GetOpenConnection();
+            using var dapperContext = new DapperContext(_connectionString);
+            using var connection = dapperContext.GetOpenConnection();
 
             var parameters = new
             {
@@ -51,8 +50,8 @@ namespace MsfServer.Application.Repositorys
             }
 
             // Kiểm tra xem token có tồn tại không
-            using var dbManager = new DatabaseConnectionManager(_connectionString);
-            using var connection = dbManager.GetOpenConnection();
+            using var dapperContext = new DapperContext(_connectionString);
+            using var connection = dapperContext.GetOpenConnection();
 
             // Xóa các token liên quan đến userId
             var sql = "DELETE FROM Tokens WHERE UserId = @UserId";
