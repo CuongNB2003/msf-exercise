@@ -3,6 +3,7 @@ using Dapper;
 using Microsoft.AspNetCore.Http;
 using MsfServer.Application.Contracts.Log;
 using MsfServer.Application.Contracts.Log.LogDtos;
+using MsfServer.Application.Contracts.Token.TokenDtos;
 using MsfServer.Application.Dapper;
 using MsfServer.Domain.Shared.Exceptions;
 using MsfServer.Domain.Shared.PagedResults;
@@ -14,6 +15,7 @@ namespace MsfServer.Application.Repositorys
     public class LogRepository(string connectionString) : ILogRepository
     {
         private readonly string _connectionString = connectionString;
+
         //lấy role theo id
         public async Task<ResponseObject<LogDto>> GetLogByIdAsync(int id)
         {
@@ -57,6 +59,5 @@ namespace MsfServer.Application.Repositorys
 
             return ResponseObject<PagedResult<LogDto>>.CreateResponse("Lấy dữ liệu thành công.", pagedResult);
         }
-
     }
 }
