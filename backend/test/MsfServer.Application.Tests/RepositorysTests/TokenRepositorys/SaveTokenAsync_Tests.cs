@@ -28,18 +28,6 @@ namespace MsfServer.Application.Tests.RepositorysTests.TokenRepositorys
                 RefreshToken = "sample_refresh_token",
                 ExpirationDate = DateTime.UtcNow.AddDays(7)
             };
-
-            //_mockConnection.Setup(conn => conn.ExecuteAsync(
-            //    "SaveToken",
-            //    It.IsAny<object>(),
-            //    null,
-            //    null,
-            //    CommandType.StoredProcedure))
-            //    .ReturnsAsync(1);
-
-            // Inject mock connection vào repository
-            //var repository = new LogRepository(_mockConnection.Object);
-
             // Act
             var result = await _repository.SaveTokenAsync(tokenDto);
 
