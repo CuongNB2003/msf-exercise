@@ -15,22 +15,16 @@ export class AuthService {
     constructor(private http: HttpClient, private errorHandlingService: ErrorHandlingService) { }
 
     login(loginInput: LoginInput): Observable<LoginResponse> {
-        return this.http.post<LoginResponse>(`${apiUrl}/login`, loginInput)
-            .pipe(
-                catchError((error: HttpErrorResponse) =>
-                    this.errorHandlingService.getErrorObservable(error)
-                )
-            );
+        return this.http.post<LoginResponse>(`${apiUrl}/login`, loginInput).pipe(
+            catchError((error: HttpErrorResponse) => this.errorHandlingService.getErrorObservable(error))
+        );
 
     }
 
     register(registerInput: RegisterInput): Observable<ResponseText> {
-        return this.http.post<ResponseText>(`${apiUrl}/register`, registerInput)
-            .pipe(
-                catchError((error: HttpErrorResponse) =>
-                    this.errorHandlingService.getErrorObservable(error)
-                )
-            );
+        return this.http.post<ResponseText>(`${apiUrl}/register`, registerInput).pipe(
+            catchError((error: HttpErrorResponse) => this.errorHandlingService.getErrorObservable(error))
+        );
     }
 
     isLoggedIn(): boolean {
@@ -46,15 +40,10 @@ export class AuthService {
         let headers = new HttpHeaders();
         if (accessTokenString) {
             const token: Token = JSON.parse(accessTokenString) as Token;
-            headers = headers.set('Authorization', `${token.token}`);
-        } else {
-            console.error('Access token is null');
+            headers = headers.set('Authorization', `Beare ${token.token}`);
         }
-        return this.http.post<ResponseText>(`${apiUrl}/logout`, {}, { headers })
-            .pipe(
-                catchError((error: HttpErrorResponse) =>
-                    this.errorHandlingService.getErrorObservable(error)
-                )
-            );
+        return this.http.post<ResponseText>(`${apiUrl}/logout`, {}, { headers }).pipe(
+            catchError((error: HttpErrorResponse) => this.errorHandlingService.getErrorObservable(error))
+        );
     }
 }

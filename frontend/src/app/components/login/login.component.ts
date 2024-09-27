@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { AuthService } from '../../services/auth/auth.service';
 import { Router } from '@angular/router';
 import { RecaptchaFormsModule, RecaptchaModule } from 'ng-recaptcha';
 import { CommonModule } from '@angular/common';
 import { InputComponent } from '../../ui/input/input.component';
 import { ButtonComponent } from '../../ui/button/button.component';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -71,7 +71,7 @@ export class LoginComponent implements OnInit {
             const lockUntil = new Date().getTime() + this.lockoutTime;
             this.updateLockoutMessage(lockUntil);
           } else {
-            alert(`Đăng nhập thất bại: ${error.message}. Bạn còn ${this.maxAttempts - attempts - 1} lần thử.`);
+            alert(`Đăng nhập thất bại: ${error}. Bạn còn ${this.maxAttempts - attempts - 1} lần thử.`);
           }
           this.captchaRef.reset();
         },

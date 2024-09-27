@@ -9,8 +9,7 @@ export class ErrorHandlingService {
   handleError(error: HttpErrorResponse): string {
     const { error: response } = error;
 
-    if (response?.Detail) return response.Detail;
-    if (response?.message) return response.message;
+    if (response?.error) return response.error;
     if (response?.errors) {
       const errors = response.errors;
       for (const key in errors) {

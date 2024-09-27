@@ -10,9 +10,9 @@ import {
   matSettingsOutline,
   matVideocamOutline,
 } from '@ng-icons/material-icons/outline';
+import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth/auth.service';
 import { User } from '../../services/auth/auth.interface';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header-layout',
@@ -66,8 +66,8 @@ export class HeaderLayoutComponent implements OnInit {
         localStorage.removeItem('user');
         this.router.navigate(['/login']);
       },
-      error(err) {
-
+      error(error) {
+        alert(`Đăng xuất thất bại: ${error}`);
       },
 
     })

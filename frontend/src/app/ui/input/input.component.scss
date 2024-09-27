@@ -1,5 +1,6 @@
 .formGroup {
     position: relative;
+    margin-bottom: 30px;
 
     .input-container {
         position: relative;
@@ -8,14 +9,14 @@
             display: block;
             height: 50px;
             width: 100%;
-            border: 1.5px solid #000000;
-            border-radius: 15px;
+            border: 1.5px solid var(--border);
+            border-radius: 5px;
             padding: 0 10px;
             font-size: 14px;
             font-weight: 300;
 
             &.is-invalid {
-                border: 1px solid red;
+                border: 1px solid var(--error);
             }
 
             &[type="password"] {
@@ -40,7 +41,7 @@
         position: absolute;
         top: 55px;
         left: 10px;
-        color: red;
+        color: var(--error);
         font-size: 0.875em;
     }
 }

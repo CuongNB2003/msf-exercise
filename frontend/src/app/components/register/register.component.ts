@@ -3,9 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, ValidatorFn } from '@angular/forms';
 import { InputComponent } from '../../ui/input/input.component';
 import { ButtonComponent } from '../../ui/button/button.component';
-import { AuthService } from '../../services/auth/auth.service';
 import { Router } from '@angular/router';
-import { RegisterInput, User } from '../../services/auth/auth.interface';
+import { AuthService } from '../../services/auth/auth.service';
+import { RegisterInput } from '../../services/auth/auth.interface';
 @Component({
   selector: 'app-register',
   standalone: true,
