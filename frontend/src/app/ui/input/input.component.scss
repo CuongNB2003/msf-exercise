@@ -1,0 +1,46 @@
+.formGroup {
+    position: relative;
+
+    .input-container {
+        position: relative;
+
+        input {
+            display: block;
+            height: 50px;
+            width: 100%;
+            border: 1.5px solid #000000;
+            border-radius: 15px;
+            padding: 0 10px;
+            font-size: 14px;
+            font-weight: 300;
+
+            &.is-invalid {
+                border: 1px solid red;
+            }
+
+            &[type="password"] {
+                padding-right: 40px;
+            }
+        }
+
+        .password-container {
+            position: absolute;
+            right: 10px;
+            top: 25%;
+
+            .material-icons {
+                cursor: pointer;
+                font-size: 24px;
+                line-height: 1;
+            }
+        }
+    }
+
+    .error-message {
+        position: absolute;
+        top: 55px;
+        left: 10px;
+        color: red;
+        font-size: 0.875em;
+    }
+}

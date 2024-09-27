@@ -8,9 +8,12 @@ import { filter, map } from 'rxjs';
   standalone: true,
   imports: [RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit {
+  title(title: any) {
+    throw new Error('Method not implemented.');
+  }
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,

@@ -5,14 +5,13 @@ import { InputComponent } from '../../ui/input/input.component';
 import { ButtonComponent } from '../../ui/button/button.component';
 import { AuthService } from '../../services/auth/auth.service';
 import { Router } from '@angular/router';
-import { User } from '../../services/auth/auth.interface';
-
+import { RegisterInput, User } from '../../services/auth/auth.interface';
 @Component({
   selector: 'app-register',
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule, InputComponent, ButtonComponent],
   templateUrl: './register.component.html',
-  styleUrl: './register.component.css'
+  styleUrl: './register.component.scss'
 })
 export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
@@ -40,28 +39,28 @@ export class RegisterComponent implements OnInit {
       const email = this.registerForm.get('email')?.value;
       const password = this.registerForm.get('password')?.value;
 
-      const user: User = {
-        id: 1,
-        fullName: fullName,
+      const input: RegisterInput = {
+        name: fullName,
         email: email,
-        password: password,
+        passWord: password,
         avatar: '',
-        role: '',
       }
 
-      this.authService.register(user).subscribe({
+      this.authService.register(input).subscribe({
         next: () => {
           this.isSubmitting = false;
           this.router.navigate(['/login']);
         },
         error: (error) => {
           this.isSubmitting = false;
-          alert(`Đăng nhập thất bại: ${error.message}`);
+          alert(`Đăng ký thất bại: ${error}`);
         },
         complete: () => {
           console.log('Register request completed');
         }
       });
+
+
 
     } else {
       this.registerForm.markAllAsTouched();

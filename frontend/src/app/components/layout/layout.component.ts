@@ -9,7 +9,7 @@ import { SidebarLayoutComponent } from '../../ui/sidebar-layout/sidebar-layout.c
   standalone: true,
   imports: [RouterModule, HeaderLayoutComponent, FooterLayoutComponent, SidebarLayoutComponent],
   templateUrl: './layout.component.html',
-  styleUrl: './layout.component.css'
+  styleUrl: './layout.component.scss'
 })
 export class LayoutComponent {
 

@@ -1,39 +1,39 @@
-import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { catchError, Observable, throwError } from "rxjs";
-import baseURL from "../baseURL";
-import { LoginResponse, User } from "./auth.interface";
-import { ErrorHandlerService } from "../error-handler.service";
-import { Router } from "@angular/router";
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { LoginInput, LoginResponse, RegisterInput, ResponseText, Token } from './auth.interface';
 
-const httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'Application/json' })
-
-}
+import baseURL from '../baseURL';
+import { ErrorHandlingService } from '../error-handing/error-handing.service';
 const apiUrl = `${baseURL}api/auth`;
-const apiCaptcha = `${baseURL}api/captcha`
 
 @Injectable({
     providedIn: 'root'
 })
-
 export class AuthService {
-    constructor(private http: HttpClient, private errorHandler: ErrorHandlerService, private router: Router) { }
+    constructor(private http: HttpClient, private errorHandlingService: ErrorHandlingService) { }
 
-    login(email: string, password: string, reCaptchaToken: string): Observable<LoginResponse> {
-        return this.http.post<LoginResponse>(`${apiUrl}/login`, { email, password, reCaptchaToken },).pipe(
-            catchError(this.errorHandler.handlerError)
-        );
+    login(loginInput: LoginInput): Observable<LoginResponse> {
+        return this.http.post<LoginResponse>(`${apiUrl}/login`, loginInput)
+            .pipe(
+                catchError((error: HttpErrorResponse) =>
+                    this.errorHandlingService.getErrorObservable(error)
+                )
+            );
+
     }
 
-    register(user: User): Observable<LoginResponse> {
-        return this.http.post<LoginResponse>(`${apiUrl}/register`, user, { headers: httpOptions.headers }).pipe(
-            catchError(this.errorHandler.handlerError)
-        );
+    register(registerInput: RegisterInput): Observable<ResponseText> {
+        return this.http.post<ResponseText>(`${apiUrl}/register`, registerInput)
+            .pipe(
+                catchError((error: HttpErrorResponse) =>
+                    this.errorHandlingService.getErrorObservable(error)
+                )
+            );
     }
 
     isLoggedIn(): boolean {
-
         if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
             return !!localStorage.getItem('accessToken');
         } else {
@@ -41,9 +41,20 @@ export class AuthService {
         }
     }
 
-    logout() {
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('userData');
-        this.router.navigate(['/login']);
+    logout(): Observable<ResponseText> {
+        const accessTokenString = localStorage.getItem('accessToken');
+        let headers = new HttpHeaders();
+        if (accessTokenString) {
+            const token: Token = JSON.parse(accessTokenString) as Token;
+            headers = headers.set('Authorization', `${token.token}`);
+        } else {
+            console.error('Access token is null');
+        }
+        return this.http.post<ResponseText>(`${apiUrl}/logout`, {}, { headers })
+            .pipe(
+                catchError((error: HttpErrorResponse) =>
+                    this.errorHandlingService.getErrorObservable(error)
+                )
+            );
     }
 }

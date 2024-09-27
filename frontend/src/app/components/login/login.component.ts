@@ -12,13 +12,13 @@ import { ButtonComponent } from '../../ui/button/button.component';
   standalone: true,
   imports: [RecaptchaModule, ReactiveFormsModule, CommonModule, InputComponent, ButtonComponent, RecaptchaFormsModule],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrl: './login.component.scss'
 })
 export class LoginComponent implements OnInit {
   @ViewChild('captchaRef') captchaRef: any;
   loginForm: FormGroup;
   isSubmitting = false;
-  maxAttempts: number = 1;
+  maxAttempts: number = 5;
   lockoutTime: number = 30 * 1000;
   lockoutMessage: string = '';
   isLocked: boolean = false;
@@ -37,10 +37,10 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  onSubmit(): void {
+  loginHandler(): void {
     if (this.loginForm.valid && !this.isLocked) {
       const email = this.loginForm.get('email')?.value;
-      const password = this.loginForm.get('password')?.value;
+      const passWord = this.loginForm.get('password')?.value;
       const reCaptchaToken = this.loginForm.get('recaptcha')?.value;
 
       const attempts = this.getAttempts();
@@ -51,13 +51,16 @@ export class LoginComponent implements OnInit {
         return;
       }
 
+
+
       this.isSubmitting = true;
-      this.authService.login(email, password, reCaptchaToken).subscribe({
+      this.authService.login({ email, passWord, reCaptchaToken }).subscribe({
         next: (response) => {
           this.isSubmitting = false;
           this.resetAttempts();
-          localStorage.setItem('userData', JSON.stringify(response.data.data));
-          localStorage.setItem('accessToken', JSON.stringify(response.data.accessToken));
+          localStorage.setItem('user', JSON.stringify(response.data.user));
+          localStorage.setItem('accessToken', JSON.stringify(response.data.token.accessToken));
+          localStorage.setItem('refreshToken', JSON.stringify(response.data.token.refreshToken));
           this.router.navigate(['/']);
         },
         error: (error) => {

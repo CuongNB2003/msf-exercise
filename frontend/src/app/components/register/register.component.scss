@@ -1,0 +1,50 @@
+.bg-color {
+    background-color: #ffffff;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    form {
+        width: 375px;
+        position: absolute;
+        transform: translate(-50%, -50%);
+        top: 50%;
+        left: 50%;
+        border-radius: 10px;
+        backdrop-filter: blur(10px);
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+        padding: 50px 35px;
+        display: flex;
+        flex-direction: column;
+        row-gap: 35px;
+
+        h3 {
+            font-size: 32px;
+            font-weight: 600;
+            text-align: left;
+            user-select: none;
+        }
+
+        .container-login {
+            margin-left: 10px;
+            margin-top: 8px;
+            display: flex;
+
+            a {
+                font-weight: bold;
+                margin-left: 4px;
+                user-select: none;
+                color: #000000;
+                text-decoration: none;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+
+    }
+
+}

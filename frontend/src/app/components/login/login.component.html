@@ -1,9 +1,6 @@
 <div class="bg-color">
-    <div class="background">
-        <div class="shape"></div>
-        <div class="shape"></div>
-    </div>
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" id="loginForm">
+
+    <form [formGroup]="loginForm" (ngSubmit)="loginHandler()" id="loginForm">
         <h3>Hãy đăng nhập</h3>
 
         <app-input [formGroup]="loginForm" controlName="email" placeholder="Nhập email"
