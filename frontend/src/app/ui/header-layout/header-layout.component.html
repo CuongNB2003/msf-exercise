@@ -1,15 +1,14 @@
 <header class="header-container">
     <div class="header-left-region">
         <button class="main-link" title="Công cụ khởi động ứng dụng">
-            <img src="https://angular.dev/assets/images/press-kit/angular_icon_gradient.gif" alt="" width="100%"
-                height="100%">
+            <img src="angular_white.png" alt="" width="100%" height="100%">
         </button>
     </div>
 
     <div class="header-center-region">
         <div class="center-region-l">
             <div class="logo">
-                <span>Xin chào {{ username }}</span>
+                <span>Xin chào {{ username }} {{role}}</span>
             </div>
             <div class="search">
                 <ng-icon class="icon" name="matSearchOutline"></ng-icon>
@@ -102,8 +101,8 @@
     <div class="profile-container" *ngIf="isProfileVisible">
         <div class="profile-header">
             <div class="profile-logo">
-                <img src="logo.png" alt="Microsoft Logo" />
-                <span>Microsoft</span>
+                <img src="angular_wordmark_black.png" alt="" />
+                <!-- <span>Microsoft</span> -->
             </div>
             <p class="sign-out" (click)="onLogout()">Đăng xuất</p>
         </div>
@@ -117,8 +116,8 @@
             <div class="profile-info">
                 <h2>{{ username }}</h2>
                 <p>{{ email }}</p>
-                <a href="#">My Microsoft account</a>
-                <a href="#">My profile</a>
+                <a href="#">Chỉnh sửa tài khoản</a>
+                <a href="#">Xem thông tin</a>
             </div>
         </div>
     </div>

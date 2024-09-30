@@ -35,6 +35,7 @@ import { User } from '../../services/auth/auth.interface';
 export class HeaderLayoutComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router) { }
   username: string = "";
+  role: string = "";
   email: string = "";
   userImage: string | null = null;
   defaultImage: string = 'avatar.jpg';
@@ -44,7 +45,8 @@ export class HeaderLayoutComponent implements OnInit {
     const userDataString = localStorage.getItem('user');
     if (userDataString) {
       const userData: User = JSON.parse(userDataString) as User;
-      this.username = userData.role.name == "admin" ? userData.name + " Admin" : userData.name;
+      this.username = userData.name;
+      this.role = userData.role.name == "admin" ? "Admin" : "";
       this.email = userData.email;
       this.userImage = userData.avatar;
     }
