@@ -31,7 +31,23 @@ builder.Services.AddEndpointsApiExplorer();
 // Gọi cấu hình Swagger
 builder.Services.AddSwaggerConfiguration();
 
+// cấu hình cros
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigins",
+        builder =>
+        {
+            builder.WithOrigins("http://localhost:4200")
+                   .AllowAnyHeader()
+                   .AllowAnyMethod()
+                   .AllowCredentials();
+        });
+});
+
 var app = builder.Build();
+
+//thêm cấu hình cros ở đây
+app.UseCors("AllowSpecificOrigins");
 
 // Thêm middleware tùy chỉnh vào pipeline để xử lý ngoại lệ
 app.UseMiddleware<ExceptionMiddleware>();

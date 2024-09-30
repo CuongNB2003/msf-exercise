@@ -1,33 +1,27 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { AuthService } from '../../services/auth/auth.service';
 import { Router } from '@angular/router';
 import { RecaptchaFormsModule, RecaptchaModule } from 'ng-recaptcha';
 import { CommonModule } from '@angular/common';
 import { InputComponent } from '../../ui/input/input.component';
 import { ButtonComponent } from '../../ui/button/button.component';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [RecaptchaModule, ReactiveFormsModule, CommonModule, InputComponent, ButtonComponent, RecaptchaFormsModule],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrl: './login.component.scss'
 })
 export class LoginComponent implements OnInit {
   @ViewChild('captchaRef') captchaRef: any;
   loginForm: FormGroup;
   isSubmitting = false;
-  maxAttempts: number = 1;
-  lockoutTime: number = 30 * 1000;
-  lockoutMessage: string = '';
-  isLocked: boolean = false;
-
-  ngOnInit(): void {
-    if (typeof window !== 'undefined') {
-      this.checkLockoutStatus();
-    }
-  }
+  maxAttempts = 5;
+  lockoutTime = 30 * 1000; // 30 giây
+  lockoutMessage = '';
+  isLocked = false; // Sửa lỗi kiểu `boolean | undefined`
 
   constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
     this.loginForm = this.fb.group({
@@ -37,48 +31,70 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  onSubmit(): void {
-    if (this.loginForm.valid && !this.isLocked) {
-      const email = this.loginForm.get('email')?.value;
-      const password = this.loginForm.get('password')?.value;
-      const reCaptchaToken = this.loginForm.get('recaptcha')?.value;
+  ngOnInit(): void {
+    this.checkLockoutStatus();
+  }
 
-      const attempts = this.getAttempts();
-      const lockedUntil = this.getLockedUntil();
-
-      if (lockedUntil && new Date().getTime() < lockedUntil) {
-        this.updateLockoutMessage(lockedUntil);
-        return;
-      }
-
-      this.isSubmitting = true;
-      this.authService.login(email, password, reCaptchaToken).subscribe({
-        next: (response) => {
-          this.isSubmitting = false;
-          this.resetAttempts();
-          localStorage.setItem('userData', JSON.stringify(response.data.data));
-          localStorage.setItem('accessToken', JSON.stringify(response.data.accessToken));
-          this.router.navigate(['/']);
-        },
-        error: (error) => {
-          this.isSubmitting = false;
-          this.incrementAttempts();
-          if (attempts + 1 >= this.maxAttempts) {
-            this.lockAccount();
-            const lockUntil = new Date().getTime() + this.lockoutTime;
-            this.updateLockoutMessage(lockUntil);
-          } else {
-            alert(`Đăng nhập thất bại: ${error.message}. Bạn còn ${this.maxAttempts - attempts - 1} lần thử.`);
-          }
-          this.captchaRef.reset();
-        },
-        complete: () => {
-          console.log('Login request completed');
-        }
-      });
-    } else {
+  loginHandler(): void {
+    if (this.loginForm.invalid || this.isLocked) {
       this.loginForm.markAllAsTouched();
+      return;
     }
+
+    const { email, password, recaptcha } = this.getFormValues();
+    const attempts = this.getAttempts();
+
+    if (this.isAccountLocked()) {
+      this.updateLockoutMessage();
+      return;
+    }
+
+    this.isSubmitting = true;
+    this.authService.login({ email, passWord: password, reCaptchaToken: recaptcha }).subscribe({
+      next: (response) => this.handleSuccessfulLogin(response),
+      error: (error) => this.handleLoginError(error, attempts),
+      complete: () => console.log('Đăng nhập thành công')
+    });
+  }
+
+  private handleSuccessfulLogin(response: any): void {
+    this.isSubmitting = false;
+    this.resetAttempts();
+    this.storeUserData(response.data);
+    this.redirectUser(response.data.user.role.name);
+  }
+
+  private handleLoginError(error: any, attempts: number): void {
+    this.isSubmitting = false;
+    this.incrementAttempts();
+    const remainingAttempts = this.maxAttempts - attempts - 1;
+
+    if (remainingAttempts <= 0) {
+      this.lockAccount();
+      this.updateLockoutMessage();
+    } else {
+      alert(`Đăng nhập thất bại: ${error}. Bạn còn ${remainingAttempts} lần thử.`);
+    }
+    this.captchaRef.reset();
+  }
+
+  private getFormValues(): any {
+    return {
+      email: this.loginForm.get('email')?.value,
+      password: this.loginForm.get('password')?.value,
+      recaptcha: this.loginForm.get('recaptcha')?.value
+    };
+  }
+
+  private storeUserData(data: any): void {
+    localStorage.setItem('user', JSON.stringify(data.user));
+    localStorage.setItem('accessToken', JSON.stringify(data.token.accessToken));
+    localStorage.setItem('refreshToken', JSON.stringify(data.token.refreshToken));
+  }
+
+  private redirectUser(role: string): void {
+    const route = role === 'admin' ? '/admin' : '/';
+    this.router.navigate([route]);
   }
 
   isInvalid(controlName: string): boolean {
@@ -86,22 +102,40 @@ export class LoginComponent implements OnInit {
     return control ? control.invalid && (control.dirty || control.touched) : false;
   }
 
+  // xử lý khóa tài khoản
   private getAttempts(): number {
-    return parseInt(localStorage.getItem('loginAttempts') || '0', 10);
+    if (typeof window !== 'undefined' && localStorage) {
+      return parseInt(localStorage.getItem('loginAttempts') || '0', 10);
+    }
+    return 0;
   }
 
   private incrementAttempts(): void {
-    const attempts = this.getAttempts() + 1;
-    localStorage.setItem('loginAttempts', attempts.toString());
+    if (typeof window !== 'undefined' && localStorage) {
+      const attempts = this.getAttempts() + 1;
+      localStorage.setItem('loginAttempts', attempts.toString());
+    }
   }
 
   private resetAttempts(): void {
-    localStorage.removeItem('loginAttempts');
+    if (typeof window !== 'undefined' && localStorage) {
+      localStorage.removeItem('loginAttempts');
+    }
   }
 
   private lockAccount(): void {
-    const lockUntil = new Date().getTime() + this.lockoutTime;
-    localStorage.setItem('lockedUntil', lockUntil.toString());
+    if (typeof window !== 'undefined' && localStorage) {
+      const lockUntil = new Date().getTime() + this.lockoutTime;
+      localStorage.setItem('lockedUntil', lockUntil.toString());
+    }
+  }
+
+  private isAccountLocked(): boolean {
+    if (typeof window !== 'undefined' && localStorage) {
+      const lockedUntil = this.getLockedUntil();
+      return lockedUntil !== null && new Date().getTime() < lockedUntil;
+    }
+    return false;
   }
 
   private getLockedUntil(): number | null {
@@ -113,31 +147,37 @@ export class LoginComponent implements OnInit {
   }
 
   private checkLockoutStatus(): void {
-    const lockedUntil = this.getLockedUntil();
-    if (lockedUntil && new Date().getTime() < lockedUntil) {
-      this.updateLockoutMessage(lockedUntil);
+    if (this.isAccountLocked()) {
+      this.updateLockoutMessage();
     }
   }
 
-  private updateLockoutMessage(lockUntil: number): void {
+  private updateLockoutMessage(): void {
+    const lockedUntil = this.getLockedUntil();
+    if (!lockedUntil) return;
+
     const updateMessage = () => {
-      const remainingTime = lockUntil - new Date().getTime();
+      const remainingTime = lockedUntil - new Date().getTime();
       if (remainingTime <= 0) {
         clearInterval(intervalId);
-        this.isLocked = false;
-        this.lockoutMessage = '';
-        this.resetAttempts();
-        localStorage.removeItem('lockedUntil');
+        this.unlockAccount();
       } else {
-        const minutes = Math.floor(remainingTime / 60000);
         const seconds = Math.floor((remainingTime % 60000) / 1000);
         this.lockoutMessage = `Tài khoản của bạn đã bị khóa. Vui lòng thử lại sau ${seconds} giây.`;
       }
     };
 
     this.isLocked = true;
-    updateMessage(); // Initial call to set the message immediately
-    const intervalId = setInterval(updateMessage, 1000); // Update every second
+    updateMessage(); // Cập nhật lần đầu
+    const intervalId = setInterval(updateMessage, 1000); // Cập nhật mỗi giây
   }
 
+  private unlockAccount(): void {
+    if (typeof window !== 'undefined' && localStorage) {
+      this.isLocked = false;
+      this.lockoutMessage = '';
+      this.resetAttempts();
+      localStorage.removeItem('lockedUntil');
+    }
+  }
 }

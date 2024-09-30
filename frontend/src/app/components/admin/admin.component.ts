@@ -5,12 +5,13 @@ import { FooterLayoutComponent } from '../../ui/footer-layout/footer-layout.comp
 import { SidebarLayoutComponent } from '../../ui/sidebar-layout/sidebar-layout.component';
 
 @Component({
-  selector: 'app-layout',
+  selector: 'app-admin',
   standalone: true,
   imports: [RouterModule, HeaderLayoutComponent, FooterLayoutComponent, SidebarLayoutComponent],
-  templateUrl: './layout.component.html',
-  styleUrl: './layout.component.scss'
+  templateUrl: './admin.component.html',
+  styleUrl: './admin.component.scss'
+
 })
-export class LayoutComponent {
+export class AdminComponent {
 
 }

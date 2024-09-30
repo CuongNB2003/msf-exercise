@@ -7,7 +7,7 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './input.component.html',
-  styleUrl: './input.component.css'
+  styleUrl: './input.component.scss'
 })
 export class InputComponent {
   @Input() formGroup!: FormGroup;
@@ -38,9 +38,6 @@ export class InputComponent {
       } else if (control.errors['minlength']) {
         return `Độ dài tối thiểu là ${control.errors['minlength'].requiredLength} ký tự`;
       }
-    }
-    if (this.formGroup.errors?.['mismatch'] && this.controlName === 'confirmPass') {
-      return 'Mật khẩu không khớp';
     }
     return null;
   }

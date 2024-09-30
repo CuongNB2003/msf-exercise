@@ -10,7 +10,9 @@ import {
   matSettingsOutline,
   matVideocamOutline,
 } from '@ng-icons/material-icons/outline';
+import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth/auth.service';
+import { User } from '../../services/auth/auth.interface';
 
 @Component({
   selector: 'app-header-layout',
@@ -31,7 +33,7 @@ import { AuthService } from '../../services/auth/auth.service';
   ],
 })
 export class HeaderLayoutComponent implements OnInit {
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private router: Router) { }
   username: string = "";
   email: string = "";
   userImage: string | null = null;
@@ -39,15 +41,15 @@ export class HeaderLayoutComponent implements OnInit {
   isProfileVisible: boolean = false;
 
   ngOnInit(): void {
-    const userDataString = localStorage.getItem('userData');
+    const userDataString = localStorage.getItem('user');
     if (userDataString) {
-      const userData = JSON.parse(userDataString);
-      this.username = userData.fullName;
-      this.userImage = userData.avatar;
+      const userData: User = JSON.parse(userDataString) as User;
+      this.username = userData.role.name == "admin" ? userData.name + " Admin" : userData.name;
       this.email = userData.email;
+      this.userImage = userData.avatar;
     }
 
-    if (!this.userImage) {
+    if (!this.userImage || this.userImage == 'string') {
       this.userImage = this.defaultImage;
     }
   }
@@ -57,6 +59,17 @@ export class HeaderLayoutComponent implements OnInit {
   }
 
   onLogout() {
-    this.authService.logout();
+    this.authService.logout().subscribe({
+      next: () => {
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+        localStorage.removeItem('user');
+        this.router.navigate(['/login']);
+      },
+      error(error) {
+        alert(`Đăng xuất thất bại: ${error}`);
+      },
+      complete: () => console.log('Đăng xuất thành công')
+    })
   }
 }
