@@ -2,22 +2,28 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { filter, map } from 'rxjs';
+import { NgProgressbar } from 'ngx-progressbar';
+import { NgProgressRouter } from 'ngx-progressbar/router';
+import { NgProgressHttp } from 'ngx-progressbar/http';
+import { NgProgress } from '@ngx-progressbar/core';
+import { RefreshTokenResponse, Token } from './services/auth/auth.interface';
+import { ResponseObject } from './services/config/response';
+import { HttpClient } from '@angular/common/http';
+import { AuthService } from './services/auth/auth.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [NgProgressbar, NgProgressRouter, NgProgressHttp, RouterOutlet,],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrls: ['./app.component.scss'] // Sửa thành styleUrls
 })
 export class AppComponent implements OnInit {
-  title(title: any) {
-    throw new Error('Method not implemented.');
-  }
+  private isRefreshing = false;
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private titleService: Title
+    private titleService: Title,
   ) { }
 
   ngOnInit() {
@@ -33,5 +39,10 @@ export class AppComponent implements OnInit {
     ).subscribe(title => {
       this.titleService.setTitle(title);
     });
+  }
+
+  // Triển khai phương thức title
+  title(newTitle: string) {
+    this.titleService.setTitle(newTitle);
   }
 }

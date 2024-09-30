@@ -44,9 +44,9 @@ export class HeaderLayoutComponent implements OnInit {
     const userDataString = localStorage.getItem('user');
     if (userDataString) {
       const userData: User = JSON.parse(userDataString) as User;
-      this.username = userData.name,
-        this.email = userData.email,
-        this.userImage = userData.avatar
+      this.username = userData.role.name == "admin" ? userData.name + " Admin" : userData.name;
+      this.email = userData.email;
+      this.userImage = userData.avatar;
     }
 
     if (!this.userImage || this.userImage == 'string') {
@@ -69,7 +69,7 @@ export class HeaderLayoutComponent implements OnInit {
       error(error) {
         alert(`Đăng xuất thất bại: ${error}`);
       },
-
+      complete: () => console.log('Đăng xuất thành công')
     })
   }
 }

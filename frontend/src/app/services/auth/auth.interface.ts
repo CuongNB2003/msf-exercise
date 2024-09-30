@@ -21,16 +21,23 @@ export interface User {
     role: Role;
 }
 
-export interface LoginResponse {
-    status: number;
-    message: string;
-    data: {
-        token: TokenData;
-        expiration: string;
-        user: User;
-    };
+// dữ liệu trả  về
+export interface MeResponse extends User {
+    id: number;
 }
 
+export interface LoginResponse {
+    token: TokenData;
+    expiration: string;
+    user: User;
+}
+
+export interface RefreshTokenResponse {
+    accessToken: Token;
+    refreshToken: Token;
+}
+
+// input
 export interface RegisterInput {
     name: string,
     email: string,
@@ -44,7 +51,4 @@ export interface LoginInput {
     reCaptchaToken: string
 }
 
-export interface ResponseText {
-    status: number,
-    message: string
-}
+

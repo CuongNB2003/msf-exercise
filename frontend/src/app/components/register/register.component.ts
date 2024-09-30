@@ -13,15 +13,11 @@ import { RegisterInput } from '../../services/auth/auth.interface';
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent {
   registerForm: FormGroup;
   hidePassWord = true;
   hideConfirmPass = true;
   isSubmitting = false;
-
-  ngOnInit(): void {
-
-  }
 
   constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
     this.registerForm = this.fb.group({
@@ -31,45 +27,43 @@ export class RegisterComponent implements OnInit {
     });
   }
 
-  onSubmit(): void {
-    this.registerForm.updateValueAndValidity();
-    if (this.registerForm.valid) {
-      this.isSubmitting = true;
-      const fullName = this.registerForm.get('fullName')?.value;
-      const email = this.registerForm.get('email')?.value;
-      const password = this.registerForm.get('password')?.value;
-
-      const input: RegisterInput = {
-        name: fullName,
-        email: email,
-        passWord: password,
-        avatar: '',
-      }
-
-      this.authService.register(input).subscribe({
-        next: () => {
-          this.isSubmitting = false;
-          this.router.navigate(['/login']);
-        },
-        error: (error) => {
-          this.isSubmitting = false;
-          alert(`Đăng ký thất bại: ${error}`);
-        },
-        complete: () => {
-          console.log('Register request completed');
-        }
-      });
-
-
-
-    } else {
+  registerHandler(): void {
+    if (this.registerForm.invalid) {
       this.registerForm.markAllAsTouched();
+      return;
     }
+    const { fullName, email, password } = this.getFormValues();
+    this.isSubmitting = true;
+    const input: RegisterInput = {
+      name: fullName,
+      email: email,
+      passWord: password,
+      avatar: ''
+    };
+
+    this.authService.register(input).subscribe({
+      next: () => this.handleSuccessfulRegister(),
+      error: (error) => this.handleRegisterError(error),
+      complete: () => console.log('Đăng ký thành công')
+    });
   }
 
-  isInvalid(controlName: string): boolean {
-    const control = this.registerForm.get(controlName);
-    return (control && control.invalid && (control.dirty || control.touched)) ?? false;
+  private getFormValues(): any {
+    return {
+      fullName: this.registerForm.get('fullName')?.value,
+      email: this.registerForm.get('email')?.value,
+      password: this.registerForm.get('password')?.value,
+    };
   }
 
+  private handleSuccessfulRegister(): void {
+    this.isSubmitting = false;
+    this.router.navigate(['/login']);
+  }
+
+  private handleRegisterError(error: any): void {
+    this.isSubmitting = false;
+    alert(`Đăng ký thất bại: ${error}`);
+  }
 }
+

@@ -46,6 +46,9 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+//thêm cấu hình cros ở đây
+app.UseCors("AllowSpecificOrigins");
+
 // Thêm middleware tùy chỉnh vào pipeline để xử lý ngoại lệ
 app.UseMiddleware<ExceptionMiddleware>();
 
@@ -57,8 +60,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-//thêm cấu hình cros ở đây
-app.UseCors("AllowSpecificOrigins");
 
 app.UseAuthentication();
 app.UseAuthorization();

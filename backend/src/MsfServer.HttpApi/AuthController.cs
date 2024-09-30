@@ -45,7 +45,7 @@ namespace MsfServer.HttpApi
         }
 
         [HttpPost("refresh-token")]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> RefreshAccessToken(string refreshToken)
         {
             return Ok(await _tokenService.RefreshAccessTokenAsync(refreshToken));
