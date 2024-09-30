@@ -3,8 +3,7 @@ main {
     display: flex;
     column-gap: 5px;
 
-}
-
-router-outlet {
-    flex-grow: 1;
+    router-outlet {
+        flex-grow: 1;
+    }
 }

@@ -75,7 +75,7 @@ export class HomeComponent {
   isLayoutVisible = false;
   isClassic = true;
 
-  constructor(private elementRef: ElementRef, private renderer: Renderer2) { }
+  constructor() { }
 
   toggleDialogLayout(): void {
     this.isLayoutVisible = !this.isLayoutVisible;

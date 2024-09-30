@@ -1,0 +1,72 @@
+.bg-color {
+    background: linear-gradient(45deg, var(--color1), var(--color2));
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    form {
+        height: 468px;
+        width: 375px;
+        position: absolute;
+        transform: translate(-50%, -50%);
+        top: 50%;
+        left: 50%;
+        border-radius: 10px;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 0 40px var(--box-shadow);
+        padding: 35px;
+
+        h3 {
+            font-size: 32px;
+            font-weight: bold;
+            text-align: left;
+            user-select: none;
+            margin-bottom: 10px;
+        }
+
+        .container-recaptcha {
+            height: 74px;
+            position: relative;
+            margin-bottom: 30px;
+
+            .error-msg-captcha {
+                position: absolute;
+                top: 56px;
+                left: 10px;
+                color: red;
+                font-size: 0.875em;
+            }
+        }
+
+        .forgot-password {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+
+            .left {
+                align-self: flex-start;
+                color: #000000;
+                text-decoration: none;
+                font-size: 14px;
+                font-weight: 550;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+
+            .right {
+                align-self: flex-end;
+                color: #000000;
+                text-decoration: none;
+                font-size: 14px;
+                font-weight: 550;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+}

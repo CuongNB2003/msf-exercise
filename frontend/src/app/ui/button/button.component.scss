@@ -1,0 +1,23 @@
+button {
+    user-select: none;
+    width: 100%;
+    background: linear-gradient(45deg, var(--color2), var(--color1));
+    // background-color: var(--bg-button);
+    color: var(--text-button);
+    padding: 15px 0;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+
+    &:disabled {
+        background-color: var(--bg-button-disabled);
+        cursor: not-allowed;
+    }
+
+    &:active {
+        transform: scale(0.95);
+        box-shadow: 0 5px 10px var(--box-shadow);
+    }
+}

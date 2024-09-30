@@ -5,8 +5,13 @@ import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { AuthGuard } from './guards/auth/auth.guard';
-import { title } from 'process';
+import { AdminComponent } from './components/admin/admin.component';
+import { AdminGuard } from './guards/admin/admin.guard';
+import { TitleService } from './services/title/title.service';
 
+export function getTitle(titleService: TitleService, suffix: string): string {
+    return titleService.getTitle(suffix);
+}
 
 export const routes: Routes = [
     {
@@ -17,7 +22,25 @@ export const routes: Routes = [
             {
                 path: '',
                 component: HomeComponent,
-                data: { title: 'CuongNB | Trang Chủ' }
+                data: { title: getTitle(new TitleService(), 'Trang Chủ') }
+            },
+
+        ]
+    },
+    {
+        path: 'admin',
+        component: AdminComponent,
+        canActivate: [AdminGuard],
+        children: [
+            {
+                path: '',
+                component: HomeComponent,
+                data: { title: getTitle(new TitleService(), 'Admin') }
+            },
+            {
+                path: 'user',
+                component: HomeComponent,
+                data: { title: getTitle(new TitleService(), 'Admin') }
             },
 
         ]
@@ -25,11 +48,17 @@ export const routes: Routes = [
     {
         path: 'login',
         component: LoginComponent,
-        data: { title: 'CuongNB | Đăng nhập' }
+        data: { title: getTitle(new TitleService(), 'Đăng nhập') }
+
     },
     {
         path: 'register',
         component: RegisterComponent,
-        data: { title: 'CuongNB | Đăng ký' }
+        data: { title: getTitle(new TitleService(), 'Đăng ký') }
+
     },
+    {
+        path: '**',
+        redirectTo: 'login',
+    }
 ];
