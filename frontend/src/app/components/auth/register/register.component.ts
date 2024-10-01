@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, ValidatorFn } from '@angular/forms';
-import { InputComponent } from '../../ui/input/input.component';
-import { ButtonComponent } from '../../ui/button/button.component';
+import { InputComponent } from '../../../ui/input/input.component';
+import { ButtonComponent } from '../../../ui/button/button.component';
+import { AuthService } from '../../../services/auth/auth.service';
 import { Router } from '@angular/router';
-import { AuthService } from '../../services/auth/auth.service';
-import { RegisterInput } from '../../services/auth/auth.interface';
+import { RegisterInput } from '../../../services/auth/auth.interface';
 @Component({
   selector: 'app-register',
   standalone: true,

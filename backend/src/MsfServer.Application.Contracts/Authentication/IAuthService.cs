@@ -14,6 +14,6 @@ namespace MsfServer.Application.Contracts.Authentication
         Task<ResponseText> ChangePasswordAsync(ChangePasswordInputDto input);
         Task<ResponseText> ForgotPasswordAsync(ForgotPasswordInputDto input);
         Task<ResponseText> ResetPasswordAsync(ResetPasswordInputDto input);
-        Task<ResponseObject<UserResultDto>> GetUserAsync();
+        Task<ResponseObject<UserLoginDto>> GetUserAsync(int IdUser);
     }
 }

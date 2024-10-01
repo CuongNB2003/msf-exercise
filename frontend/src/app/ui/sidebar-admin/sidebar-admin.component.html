@@ -1,1 +1,43 @@
-<p>sidebar-admin works!</p>
+<div class="sidebar">
+    <!-- Menu -->
+    <ul class="menu">
+        <li>
+            <a class="active" routerLink="/admin">
+                <span class="material-icons">home</span>
+                Home
+            </a>
+        </li>
+        <li>
+            <a routerLink="dashboard">
+                <span class="material-icons">dashboard</span>
+                Dashboard
+            </a>
+        </li>
+        <li class="dropdown" [class.open]="isOpen">
+            <a class="dropdown-toggle" (click)="toggleDropdown($event)">
+                <span class="material-icons">build</span>
+                Administration
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                    <a routerLink="users">
+                        <span class="material-icons">diversity_1</span>
+                        Users
+                    </a>
+                </li>
+                <li>
+                    <a routerLink="roles">
+                        <span class="material-icons">admin_panel_settings</span>
+                        Roles
+                    </a>
+                </li>
+                <li>
+                    <a routerLink="logs">
+                        <span class="material-icons">description</span>
+                        Logs
+                    </a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>

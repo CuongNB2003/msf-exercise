@@ -1,9 +1,0 @@
-main {
-    height: calc(100% - 48px);
-    display: flex;
-    column-gap: 5px;
-
-    router-outlet {
-        flex-grow: 1;
-    }
-}

@@ -14,7 +14,7 @@ namespace MsfServer.HttpApi
     {
         private readonly IAuthService _authService = authService;
         private readonly ITokenService _tokenService = tokenService;
-        private readonly IUserRepository _userRepository = userRepository; 
+        private readonly IUserRepository _userRepository = userRepository;
         private readonly ILogRepository _userLogRepository = userLogRepository;
 
         [HttpGet("me")]
@@ -32,7 +32,7 @@ namespace MsfServer.HttpApi
                 return BadRequest("Id user không hợp lệ.");
             }
 
-            var user = await _userRepository.GetUserByIdAsync(userId);
+            var user = await _authService.GetUserAsync(userId);
             return Ok(user);
         }
 
@@ -63,7 +63,7 @@ namespace MsfServer.HttpApi
         public async Task<IActionResult> Logout()
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            if(userId == null)
+            if (userId == null)
             {
                 return BadRequest("Id user bị null.");
             }

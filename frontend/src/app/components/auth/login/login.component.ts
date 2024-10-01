@@ -3,9 +3,9 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Router } from '@angular/router';
 import { RecaptchaFormsModule, RecaptchaModule } from 'ng-recaptcha';
 import { CommonModule } from '@angular/common';
-import { InputComponent } from '../../ui/input/input.component';
-import { ButtonComponent } from '../../ui/button/button.component';
-import { AuthService } from '../../services/auth/auth.service';
+import { InputComponent } from '../../../ui/input/input.component';
+import { ButtonComponent } from '../../../ui/button/button.component';
+import { AuthService } from '../../../services/auth/auth.service';
 
 @Component({
   selector: 'app-login',
