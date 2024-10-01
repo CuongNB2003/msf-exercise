@@ -8,6 +8,8 @@ import { AuthGuard } from './guards/auth/auth.guard';
 import { AdminComponent } from './components/admin/admin.component';
 import { AdminGuard } from './guards/admin/admin.guard';
 import { TitleService } from './services/title/title.service';
+import { RoleComponent } from './components/role/role.component';
+import { UserComponent } from './components/user/user.component';
 
 export function getTitle(titleService: TitleService, suffix: string): string {
     return titleService.getTitle(suffix);
@@ -33,14 +35,14 @@ export const routes: Routes = [
         canActivate: [AdminGuard],
         children: [
             {
-                path: '',
-                component: HomeComponent,
-                data: { title: getTitle(new TitleService(), 'Admin') }
+                path: 'role',
+                component: RoleComponent,
+                data: { title: getTitle(new TitleService(), 'Role') }
             },
             {
                 path: 'user',
-                component: HomeComponent,
-                data: { title: getTitle(new TitleService(), 'Admin') }
+                component: UserComponent,
+                data: { title: getTitle(new TitleService(), 'User') }
             },
 
         ]

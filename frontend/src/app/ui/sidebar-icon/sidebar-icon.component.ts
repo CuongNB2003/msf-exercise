@@ -6,10 +6,10 @@ import { matDatasetOutline } from '@ng-icons/material-icons/outline';
   selector: 'app-sidebar-layout',
   standalone: true,
   imports: [NgIconComponent],
-  templateUrl: './sidebar-layout.component.html',
-  styleUrl: './sidebar-layout.component.scss',
+  templateUrl: './sidebar-icon.component.html',
+  styleUrl: './sidebar-icon.component.scss',
   viewProviders: [provideIcons({ matDatasetOutline })],
 })
-export class SidebarLayoutComponent {
+export class SidebarIconComponent {
 
 }
