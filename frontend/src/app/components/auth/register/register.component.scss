@@ -1,5 +1,5 @@
 .bg-color {
-    background: linear-gradient(45deg, var(--color1), var(--color2));
+    background: linear-gradient(45deg, var(--bg-color1), var(--bg-color2));
     height: 100vh;
     display: flex;
     justify-content: center;
@@ -30,7 +30,7 @@
             a {
                 font-weight: 550;
                 margin-left: 4px;
-                color: #000000;
+                color: var(--text);
                 text-decoration: none;
 
                 &:hover {

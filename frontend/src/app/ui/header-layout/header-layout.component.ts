@@ -11,8 +11,8 @@ import {
   matVideocamOutline,
 } from '@ng-icons/material-icons/outline';
 import { Router } from '@angular/router';
-import { AuthService } from '../../services/auth/auth.service';
 import { User } from '../../services/auth/auth.interface';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-header-layout',

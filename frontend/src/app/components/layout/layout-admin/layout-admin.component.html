@@ -1,5 +1,9 @@
 <app-header-layout />
 <main>
     <app-sidebar-admin />
-    <router-outlet />
+    <ng-scrollbar>
+        <div class="main">
+            <router-outlet />
+        </div>
+    </ng-scrollbar>
 </main>

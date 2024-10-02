@@ -1,9 +1,8 @@
 button {
     user-select: none;
     width: 100%;
-    background: linear-gradient(45deg, var(--color2), var(--color1));
-    // background-color: var(--bg-button);
-    color: var(--text-button);
+    background: linear-gradient(45deg, var(--bg-color2), var(--bg-color1));
+    color: var(--text);
     padding: 15px 0;
     font-size: 18px;
     font-weight: 600;

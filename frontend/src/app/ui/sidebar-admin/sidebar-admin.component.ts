@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 
 @Component({
   selector: 'app-sidebar-admin',
   standalone: true,
-  imports: [NgScrollbarModule, RouterLink],
+  imports: [NgScrollbarModule, RouterLink, RouterLinkActive],
   templateUrl: './sidebar-admin.component.html',
   styleUrl: './sidebar-admin.component.scss'
 })

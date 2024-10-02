@@ -11,9 +11,9 @@
             width: 100%;
             border: 1.5px solid var(--border);
             border-radius: 5px;
+            outline: none;
             padding: 0 10px;
             font-size: 14px;
-            font-weight: 300;
 
             &.is-invalid {
                 border: 1px solid var(--error);

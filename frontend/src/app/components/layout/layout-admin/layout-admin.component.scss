@@ -1,9 +1,40 @@
 main {
-    height: calc(100% - 48px);
     display: flex;
-    column-gap: 5px;
+    background-color: var(--color-menu-hover);
+    height: 100%;
 
-    router-outlet {
-        flex-grow: 1;
+    ng-scrollbar {
+        flex: 1;
+        --scrollbar-thickness: 10;
+        --scrollbar-track-color: #d3d3d3;
+        // height: 100%;
+
+        ::ng-deep {
+            .ng-scrollbar-button {
+                box-sizing: border-box;
+                border: 1px solid #484848 !important;
+            }
+
+            .ng-scrollbar-track {
+                box-sizing: border-box;
+            }
+
+            .ng-scrollbar-thumb {
+                border-radius: 20px;
+                background-image: radial-gradient(circle farthest-corner at 10% 20%,
+                        var(--bg-color1) 0.1%,
+                        var(--bg-color2) 94.2%);
+            }
+
+            .ng-scrollbar-sticky {
+                background: white;
+            }
+        }
+
+        .main {
+            background-color: var(--color-menu-hover);
+            position: relative;
+            transition: all 0.2s ease;
+        }
     }
 }

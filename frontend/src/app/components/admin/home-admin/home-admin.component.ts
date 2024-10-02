@@ -1,5 +1,4 @@
-import { Component } from '@angular/core';
-
+import { AfterViewInit, Component, HostListener, OnInit, Renderer2 } from '@angular/core';
 @Component({
   selector: 'app-home-admin',
   standalone: true,
@@ -8,5 +7,4 @@ import { Component } from '@angular/core';
   styleUrl: './home-admin.component.scss'
 })
 export class HomeAdminComponent {
-
 }

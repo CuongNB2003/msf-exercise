@@ -3,7 +3,7 @@ import { Routes } from '@angular/router';
 import { TitleService } from './services/title/title.service';
 import { LayoutUserComponent } from './components/layout/layout-user/layout-user.component';
 import { AuthGuard } from './guards/auth/auth.guard';
-import { HomeComponent } from './components/user/home/home.component';
+import { HomeComponent } from './components/client/home/home.component';
 import { LayoutAdminComponent } from './components/layout/layout-admin/layout-admin.component';
 import { AdminGuard } from './guards/admin/admin.guard';
 import { RoleComponent } from './components/admin/role/role.component';
@@ -40,7 +40,7 @@ export const routes: Routes = [
             {
                 path: '',
                 component: HomeAdminComponent,
-                data: { title: getTitle(new TitleService(), 'Home') }
+                data: { title: getTitle(new TitleService(), 'Admin') }
             },
             {
                 path: 'dashboard',

@@ -13,10 +13,7 @@ export const AuthGuard: CanActivateFn = (route, state) => {
       if (user.role.name == "user") {
         return true;
       } else {
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
-        localStorage.removeItem('user');
-        router.navigate(['/login']);
+        router.navigate(['/admin']);
         return false;
       }
     } else {

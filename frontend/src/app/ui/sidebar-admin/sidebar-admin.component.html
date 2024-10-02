@@ -2,13 +2,13 @@
     <!-- Menu -->
     <ul class="menu">
         <li>
-            <a class="active" routerLink="/admin">
+            <a routerLink="/admin" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
                 <span class="material-icons">home</span>
                 Home
             </a>
         </li>
         <li>
-            <a routerLink="dashboard">
+            <a routerLink="/admin/dashboard" routerLinkActive="active">
                 <span class="material-icons">dashboard</span>
                 Dashboard
             </a>
@@ -20,19 +20,19 @@
             </a>
             <ul class="dropdown-menu">
                 <li>
-                    <a routerLink="users">
+                    <a routerLink="/admin/users" routerLinkActive="active">
                         <span class="material-icons">diversity_1</span>
                         Users
                     </a>
                 </li>
                 <li>
-                    <a routerLink="roles">
+                    <a routerLink="/admin/roles" routerLinkActive="active">
                         <span class="material-icons">admin_panel_settings</span>
                         Roles
                     </a>
                 </li>
                 <li>
-                    <a routerLink="logs">
+                    <a routerLink="/admin/logs" routerLinkActive="active">
                         <span class="material-icons">description</span>
                         Logs
                     </a>
