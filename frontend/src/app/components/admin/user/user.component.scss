@@ -23,6 +23,7 @@
                 align-items: center;
 
                 .btn {
+                    height: 32px;
                     margin-left: 10px;
                     padding: 5px 10px;
                     border: none;
@@ -44,6 +45,7 @@
                 }
 
                 .btn-none {
+                    height: 32px;
                     margin-left: 10px;
                     padding: 5px 10px;
                     border: none;
@@ -154,7 +156,7 @@
                                 cursor: pointer;
                                 display: flex;
                                 align-items: center;
-                                padding: 5px 10px;
+                                padding: 6px;
 
                                 .material-icons {
                                     font-size: 1.2rem;
@@ -163,11 +165,11 @@
                                 }
 
                                 &::after {
-                                    margin-left: auto; // Đặt mũi tên ở bên phải
+                                    margin-left: 5px;
                                     font-size: 1.2rem;
                                     color: var(--bg-white);
-                                    font-family: 'Material Icons'; // Chỉ định font cho Material Icons
-                                    content: 'keyboard_arrow_down'; // Mặc định là mũi tên xuống
+                                    font-family: 'Material Icons';
+                                    content: 'keyboard_arrow_down';
                                 }
                             }
                         }

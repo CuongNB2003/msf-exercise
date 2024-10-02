@@ -15,7 +15,7 @@ export class LogComponent implements OnInit {
   logs: Log[] = [];
   totalRecords: number = 0;
   page: number = 1;
-  limit: number = 100;
+  limit: number = 10;
 
   constructor(private logService: LogService) { }
 
