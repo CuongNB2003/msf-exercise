@@ -8,7 +8,7 @@ export interface TokenData {
     refreshToken: Token;
 }
 
-export interface Role {
+export interface RoleAuth {
     id: number;
     name: string;
 }
@@ -18,7 +18,7 @@ export interface User {
     email: string;
     roleId: number;
     avatar: string;
-    role: Role;
+    role: RoleAuth;
 }
 
 // dữ liệu trả  về

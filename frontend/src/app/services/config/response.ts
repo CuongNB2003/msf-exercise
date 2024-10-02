@@ -9,8 +9,9 @@ export interface ResponseObject<T> {
     data: T;
 }
 
-export interface ResponseArray<T> {
-    status: number;
-    message: string;
+export interface PagedResult<T> {
+    totalRecords: number;
+    page: number;
+    limit: number;
     data: T[];
 }

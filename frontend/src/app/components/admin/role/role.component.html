@@ -1,3 +1,58 @@
-<div style="border-radius: 10px;">
-    <p>role works!</p>
+<div class="user-container">
+    <div class="breadcrumb">Breadcrumb</div>
+    <div class="main">
+        <div class="top-bar">
+            <h1>Quyền</h1>
+            <div class="actions">
+                <button class="btn">
+                    <span class="material-icons">add</span>
+                    Thêm quyền
+                </button>
+            </div>
+        </div>
+        <div class="search-bar">
+            <input type="search" placeholder="Search users...">
+            <button>
+                <span class="material-icons">search</span>
+            </button>
+        </div>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Hành động</th>
+                        <th>Tên</th>
+                        <th>Số lượng người dùng</th>
+                        <th>Ngày tạo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let role of roles">
+                        <td>
+                            <button class="action-btn">
+                                <span class="material-icons">settings</span>
+                                Actions
+                            </button>
+                        </td>
+                        <td>{{ role.name }}</td>
+                        <td>{{ role.countUser }}</td>
+                        <td>{{ formatDate(role.createdAt) }}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div>
+                <div class="total">
+                    <p>{{totalRecords}} Total</p>
+                </div>
+                <div class="pagination">
+                    <button class="page-btn">&lt;</button>
+                    <button class="page-btn">1</button>
+                    <button class="page-btn">2</button>
+                    <button class="page-btn">3</button>
+                    <button class="page-btn">&gt;</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
