@@ -31,7 +31,7 @@ namespace MsfServer.Application.Services
         private readonly string _connectionString = connectionString;
 
         // đăng nhập
-        public async Task<ResponseObject<LoginResultDto>> LoginAsync(LoginInputDto input)
+        public async Task<ResponseObject<LoginResponse>> LoginAsync(LoginInput input)
         {
             //if (!await _reCaptchaService.VerifyTokenAsync(input.ReCaptchaToken))
             //{
@@ -49,11 +49,11 @@ namespace MsfServer.Application.Services
             var accessToken = await _tokenService.GenerateAccessTokenAsync(user);
             var refreshToken = await _tokenService.GenerateRefreshTokenAsync(user);
             // khởi tạo user
-            var userLogin = UserLoginDto.FromUserDto(user);
-            var token = AuthTokenDto.GetToken(accessToken, refreshToken);
-            var result = LoginResultDto.CreateResult(token, userLogin);
+            var userLogin = UserLogin.FromUserDto(user);
+            var token = TokenLogin.GetToken(accessToken, refreshToken);
+            var result = LoginResponse.CreateResult(token, userLogin);
 
-            return ResponseObject<LoginResultDto>.CreateResponse("Đăng nhậpthành công.", result);
+            return ResponseObject<LoginResponse>.CreateResponse("Đăng nhậpthành công.", result);
         }
         // đăng xuất
         public async Task<ResponseText> LogoutAsync(string userId)
@@ -62,7 +62,7 @@ namespace MsfServer.Application.Services
             return ResponseText.ResponseSuccess("Đăng xuất thành công.", StatusCodes.Status200OK);
         }
         // đăng ký
-        public async Task<ResponseText> RegisterAsync(RegisterInputDto input)
+        public async Task<ResponseText> RegisterAsync(RegisterInput input)
         {
             if (await _userRepository.CheckEmailExistsAsync(input.Email))
             {
@@ -95,7 +95,7 @@ namespace MsfServer.Application.Services
         }
 
         // lấy thông tin 
-        public async Task<ResponseObject<UserLoginDto>> GetUserAsync(int IdUser)
+        public async Task<ResponseObject<UserLogin>> GetMeAsync(int IdUser)
         {
             using var dapperContext = new DapperContext(_connectionString);
             using var connection = dapperContext.GetOpenConnection();
@@ -105,8 +105,8 @@ namespace MsfServer.Application.Services
 
             using var multi = await connection.QueryMultipleAsync(sql, new { Id = IdUser });
 
-            var user = await multi.ReadSingleOrDefaultAsync<UserLoginDto>();
-            var role = await multi.ReadSingleOrDefaultAsync<RoleResultDto>();
+            var user = await multi.ReadSingleOrDefaultAsync<UserLogin>();
+            var role = await multi.ReadSingleOrDefaultAsync<RoleDto>();
 
             if (user == null)
             {
@@ -117,21 +117,21 @@ namespace MsfServer.Application.Services
                 throw new CustomException(StatusCodes.Status404NotFound, "Không tìm thấy Role.");
             }
             user.Role = role;
-            return ResponseObject<UserLoginDto>.CreateResponse("Lấy dữ liệu thành công.", user);
+            return ResponseObject<UserLogin>.CreateResponse("Lấy dữ liệu thành công.", user);
         }
 
         // đổi mật khẩu
-        public Task<ResponseText> ChangePasswordAsync(ChangePasswordInputDto input)
+        public Task<ResponseText> ChangePasswordAsync(ChangePasswordInput input)
         {
             throw new NotImplementedException();
         }
         // quên mật khẩu
-        public Task<ResponseText> ForgotPasswordAsync(ForgotPasswordInputDto input)
+        public Task<ResponseText> ForgotPasswordAsync(ForgotPasswordInput input)
         {
             throw new NotImplementedException();
         }
         // đặt lại mật khẩu
-        public Task<ResponseText> ResetPasswordAsync(ResetPasswordInputDto input)
+        public Task<ResponseText> ResetPasswordAsync(ResetPasswordInput input)
         {
             throw new NotImplementedException();
         }

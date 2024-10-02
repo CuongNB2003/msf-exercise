@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { LoginInput, LoginResponse, MeResponse, RefreshTokenResponse, RegisterInput, Token } from './auth.interface';
+import { LoginInput, LoginResponse, RefreshTokenResponse, RegisterInput, UserLogin } from './auth.interface';
 import baseURL from '../config/baseURL';
 import { ErrorHandingService } from '../error-handing/error-handing.service';
 import { ResponseObject, ResponseText } from '../config/response';
@@ -39,8 +39,8 @@ export class AuthService {
     );
   }
 
-  me(): Observable<ResponseObject<MeResponse>> {
-    return this.http.get<ResponseObject<MeResponse>>(`${apiUrl}/me`).pipe(
+  me(): Observable<ResponseObject<UserLogin>> {
+    return this.http.get<ResponseObject<UserLogin>>(`${apiUrl}/me`).pipe(
       catchError((error: HttpErrorResponse) => this.errorHandingService.getErrorObservable(error))
     )
   }

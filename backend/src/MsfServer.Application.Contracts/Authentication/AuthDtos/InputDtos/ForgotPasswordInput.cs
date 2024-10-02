@@ -2,7 +2,7 @@
 
 namespace MsfServer.Application.Contracts.Authentication.AuthDtos.InputDtos
 {
-    public class ForgotPasswordInputDto
+    public class ForgotPasswordInput
     {
         [Required(ErrorMessage = "Email là bắt buộc.")]
         [EmailAddress(ErrorMessage = "Email chưa đúng định dạng.")]

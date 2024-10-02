@@ -1,16 +1,16 @@
 ﻿
 namespace MsfServer.Application.Contracts.Authentication.AuthDtos
 {
-    public class LoginResultDto
+    public class LoginResponse
     {
-        public AuthTokenDto? Token { get; set; }
+        public TokenLogin? Token { get; set; }
         public DateTime? Expiration { get; set; }
-        public UserLoginDto? User { get; set; }
+        public UserLogin? User { get; set; }
 
 
-        public static LoginResultDto CreateResult(AuthTokenDto token, UserLoginDto user)
+        public static LoginResponse CreateResult(TokenLogin token, UserLogin user)
         {
-            return new LoginResultDto
+            return new LoginResponse
             {
                 Token = token,
                 Expiration = DateTime.Now,

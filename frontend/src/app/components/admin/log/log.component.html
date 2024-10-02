@@ -33,38 +33,25 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
+                    <tr *ngFor="let log of logs">
                         <td>
                             <button class="action-btn">
                                 <span class="material-icons">settings</span>
                                 Actions
                             </button>
                         </td>
-                        <td>500 Get api/user</td>
-                        <td>cuongnb</td>
-                        <td>1.1.1.1.1</td>
-                        <td>2000s</td>
-                        <td>11:53:12 2/10/2024</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <button class="action-btn">
-                                <span class="material-icons">settings</span>
-                                Actions
-                            </button>
-                        </td>
-                        <td>200 Get api/auth/login</td>
-                        <td></td>
-                        <td>1.1.1.1.1</td>
-                        <td>20s</td>
-                        <td>11:53:12 2/10/2024</td>
+                        <td>{{log.statusCode}} {{log.method}} {{log.url}}</td>
+                        <td>{{log.userName}} </td>
+                        <td>{{log.clientIpAddress}} </td>
+                        <td>{{(log.duration / 1000).toFixed(2)}} giây </td>
+                        <td>{{ formatDate(log.createdAt) }}</td>
                     </tr>
                 </tbody>
             </table>
 
             <div>
                 <div class="total">
-                    <p>Tổng cộng 2</p>
+                    <p>Tổng cộng {{totalRecords}}</p>
                 </div>
                 <div class="pagination">
                     <button class="page-btn">&lt;</button>

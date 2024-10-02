@@ -36,35 +36,24 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
+                    <tr *ngFor="let user of users">
                         <td>
                             <button class="action-btn">
                                 <span class="material-icons">settings</span>
                                 Actions
                             </button>
                         </td>
-                        <td>CuongNB</td>
-                        <td>cuongAgmail.com</td>
-                        <td>admin</td>
-                        <td>2 ngày trước</td>
-                    </tr>
-                    <tr>
-                        <td><button class="action-btn">
-                                <span class="material-icons">settings</span>
-                                Actions
-                            </button>
-                        </td>
-                        <td>Huyền</td>
-                        <td>huyenAgmail.com</td>
-                        <td>user</td>
-                        <td>1 ngày trước</td>
+                        <td>{{ user.name }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.role.name }}</td>
+                        <td>{{ formatDate(user.createdAt) }}</td>
                     </tr>
                 </tbody>
             </table>
 
             <div>
                 <div class="total">
-                    <p>25 Total</p>
+                    <p>Tổng cộng {{totalRecords}}</p>
                 </div>
                 <div class="pagination">
                     <button class="page-btn">&lt;</button>

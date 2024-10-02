@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { User } from '../../services/auth/auth.interface';
+import { UserLogin } from '../../services/auth/auth.interface';
 
 export const AdminGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
@@ -9,7 +9,7 @@ export const AdminGuard: CanActivateFn = (route, state) => {
     const userInfo = localStorage.getItem('user');
 
     if (userInfo) {
-      const user: User = JSON.parse(userInfo) as User
+      const user: UserLogin = JSON.parse(userInfo) as UserLogin
       if (user.role.name == "admin") {
         return true;
       } else {

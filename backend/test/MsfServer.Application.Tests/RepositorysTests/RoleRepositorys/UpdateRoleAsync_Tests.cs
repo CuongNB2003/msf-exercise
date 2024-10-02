@@ -21,7 +21,7 @@ namespace MsfServer.Application.Tests.RepositorysTests.RoleRepositorys
         [Fact] // sửa name với id đúng
         public async Task UpdateRoleAsync_ShouldReturnSuccess_WhenRoleIsUpdated()
         {
-            var input = new RoleInputDto { Name = "updated_role" };
+            var input = new RoleInput { Name = "updated_role" };
             int roleId = 6;
             var result = await _repository.UpdateRoleAsync(input, roleId);
             Assert.Equal("Sửa thành công.", result.Message);
@@ -30,7 +30,7 @@ namespace MsfServer.Application.Tests.RepositorysTests.RoleRepositorys
         [Fact] // sửa role với id đúng nhưng name đã tồn tại
         public async Task UpdateRoleAsync_ShouldThrowCustomException_WhenRoleNameExists()
         {
-            var input = new RoleInputDto { Name = "admin" };
+            var input = new RoleInput { Name = "admin" };
             int roleId = 7;
             await Assert.ThrowsAsync<CustomException>(() => _repository.UpdateRoleAsync(input, roleId));
         }

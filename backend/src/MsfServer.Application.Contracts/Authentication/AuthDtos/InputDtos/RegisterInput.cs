@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MsfServer.Application.Contracts.Authentication.AuthDtos.InputDtos
 {
-    public class RegisterInputDto
+    public class RegisterInput
     {
         [Required(ErrorMessage = "Name là bắt buộc.")]
         [MaxLength(50, ErrorMessage = "Vượt quá kí tự cho phép.")]

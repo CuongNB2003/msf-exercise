@@ -3,7 +3,7 @@
 
 namespace MsfServer.Application.Contracts.Authentication.AuthDtos.InputDtos
 {
-    public class ChangePasswordInputDto
+    public class ChangePasswordInput
     {
         [Required(ErrorMessage = "Mật khẩu hiện tại là bắt buộc.")]
         public string CurrentPassword { get; set; } = string.Empty;

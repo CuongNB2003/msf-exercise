@@ -1,7 +1,7 @@
 ﻿
 namespace MsfServer.Application.Contracts.Role.RoleDtos
 {
-    public class RoleResultDto
+    public class RoleResponse
     {
         public int Id { get; set; }
         public string? Name { get; set; }

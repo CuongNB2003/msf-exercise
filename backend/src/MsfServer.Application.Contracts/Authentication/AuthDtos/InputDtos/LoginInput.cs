@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MsfServer.Application.Contracts.Authentication.AuthDtos.InputDtos
 {
-    public class LoginInputDto
+    public class LoginInput
     {
         [Required(ErrorMessage = "Không được để trống Email")]
         [EmailAddress(ErrorMessage = "Email chưa đúng định dạng")]

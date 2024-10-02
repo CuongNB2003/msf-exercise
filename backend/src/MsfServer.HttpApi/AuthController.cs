@@ -2,20 +2,16 @@
 using Microsoft.AspNetCore.Mvc;
 using MsfServer.Application.Contracts.Authentication;
 using MsfServer.Application.Contracts.Authentication.AuthDtos.InputDtos;
-using MsfServer.Application.Contracts.Log;
-using MsfServer.Application.Contracts.User;
 using System.Security.Claims;
 
 namespace MsfServer.HttpApi
 {
     [Route("api/auth")]
     [ApiController]
-    public class AuthController(IAuthService authService, ITokenService tokenService, IUserRepository userRepository, ILogRepository userLogRepository) : ControllerBase
+    public class AuthController(IAuthService authService, ITokenService tokenService) : ControllerBase
     {
         private readonly IAuthService _authService = authService;
         private readonly ITokenService _tokenService = tokenService;
-        private readonly IUserRepository _userRepository = userRepository;
-        private readonly ILogRepository _userLogRepository = userLogRepository;
 
         [HttpGet("me")]
         [Authorize]
@@ -32,13 +28,13 @@ namespace MsfServer.HttpApi
                 return BadRequest("Id user không hợp lệ.");
             }
 
-            var user = await _authService.GetUserAsync(userId);
+            var user = await _authService.GetMeAsync(userId);
             return Ok(user);
         }
 
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(LoginInputDto loginInput)
+        public async Task<IActionResult> Login(LoginInput loginInput)
         {
             var result = await _authService.LoginAsync(loginInput);
             return Ok(result);
@@ -52,7 +48,7 @@ namespace MsfServer.HttpApi
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register(RegisterInputDto registerInput)
+        public async Task<IActionResult> Register(RegisterInput registerInput)
         {
             var result = await _authService.RegisterAsync(registerInput);
             return Ok(result);

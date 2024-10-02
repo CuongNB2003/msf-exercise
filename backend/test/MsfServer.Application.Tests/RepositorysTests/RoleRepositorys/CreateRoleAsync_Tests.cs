@@ -22,7 +22,7 @@ namespace MsfServer.Application.Tests.RepositorysTests.RoleRepositorys
         [Fact] // tạo role mới 
         public async Task CreateRoleAsync_ShouldReturnSuccess_WhenRoleIsCreated()
         {
-            var input = new RoleInputDto { Name = "ấdfasdf" };
+            var input = new RoleInput { Name = "ấdfasdf" };
             var result = await _repository.CreateRoleAsync(input);
             Assert.Equal("Thêm thành công.", result.Message);
             Assert.Equal(StatusCodes.Status201Created, result.Status);
@@ -30,7 +30,7 @@ namespace MsfServer.Application.Tests.RepositorysTests.RoleRepositorys
         [Fact] // tạo role mới nhưng name đã tồn tại
         public async Task CreateRoleAsync_ShouldThrowCustomException_WhenRoleNameExists()
         {
-            var input = new RoleInputDto { Name = "user" };
+            var input = new RoleInput { Name = "user" };
             await Assert.ThrowsAsync<CustomException>(() => _repository.CreateRoleAsync(input));
         }
     }

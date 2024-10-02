@@ -15,3 +15,8 @@ export interface PagedResult<T> {
     limit: number;
     data: T[];
 }
+
+export interface Token {
+    token: string;
+    expires: string;
+}

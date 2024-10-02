@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RoleService } from '../../../services/role/role.service';
 import { CommonModule } from '@angular/common';
-import { Role } from '../../../services/role/role.interface';
+import { RoleResponse } from '../../../services/role/role.interface';
 import moment from 'moment';
 import 'moment/locale/vi';
 
@@ -12,8 +12,8 @@ import 'moment/locale/vi';
   templateUrl: './role.component.html',
   styleUrls: ['./role.component.scss']
 })
-export class RoleComponent {
-  roles: Role[] = [];
+export class RoleComponent implements OnInit {
+  roles: RoleResponse[] = [];
   totalRecords: number = 0;
   page: number = 1;
   limit: number = 10;
@@ -21,10 +21,10 @@ export class RoleComponent {
   constructor(private roleService: RoleService) { }
 
   ngOnInit(): void {
-    this.loadUsers();
+    this.loadRoles();
   }
 
-  loadUsers(): void {
+  loadRoles(): void {
     this.roleService.getAll(this.page, this.limit).subscribe({
       next: (response) => {
         this.roles = response.data.data;
@@ -33,13 +33,13 @@ export class RoleComponent {
       error: (err) => {
         alert(`Không lấy được dữ liệu: ${err}`);
       },
-      complete: () => console.log("Lấy dữ liệu thành công")
+      complete: () => console.log("Lấy dữ liệu role thành công")
     });
   }
 
   onPageChange(newPage: number): void {
     this.page = newPage;
-    this.loadUsers();
+    this.loadRoles();
   }
 
   formatDate(date: Date): string {

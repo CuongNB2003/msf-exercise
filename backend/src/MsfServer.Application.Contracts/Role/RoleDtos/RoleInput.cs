@@ -2,7 +2,7 @@
 
 namespace MsfServer.Application.Contracts.Role.RoleDtos
 {
-    public class RoleInputDto
+    public class RoleInput
     {
         [Required(ErrorMessage = "Tên quyền là bắt buộc.")]
         public string Name { get; set; } = string.Empty;

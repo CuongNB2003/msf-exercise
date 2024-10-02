@@ -2,6 +2,7 @@ main {
     display: flex;
     background-color: var(--color-menu-hover);
     height: 100%;
+    padding-bottom: 50px;
 
     ng-scrollbar {
         flex: 1;

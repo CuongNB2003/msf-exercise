@@ -15,7 +15,7 @@ namespace MsfServer.Application.Repositorys
         private readonly string _connectionString = connectionString;
 
         //lấy tất cả role
-        public async Task<ResponseObject<PagedResult<RoleResultDto>>> GetRolesAsync(int page, int limit)
+        public async Task<ResponseObject<PagedResult<RoleResponse>>> GetRolesAsync(int page, int limit)
         {
             if (page <= 0 || limit <= 0)
             {
@@ -32,8 +32,8 @@ namespace MsfServer.Application.Repositorys
                  commandType: CommandType.StoredProcedure);
 
             var totalRecords = await multi.ReadSingleAsync<int>();
-            var roles = await multi.ReadAsync<RoleResultDto>();
-            var pagedResult = new PagedResult<RoleResultDto>
+            var roles = await multi.ReadAsync<RoleResponse>();
+            var pagedResult = new PagedResult<RoleResponse>
             {
                 TotalRecords = totalRecords,
                 Page = page,
@@ -41,23 +41,23 @@ namespace MsfServer.Application.Repositorys
                 Data = roles.ToList()
             };
 
-            return ResponseObject<PagedResult<RoleResultDto>>.CreateResponse("Lấy dữ liệu thành công.", pagedResult);
+            return ResponseObject<PagedResult<RoleResponse>>.CreateResponse("Lấy dữ liệu thành công.", pagedResult);
         }
         //lấy role theo id
-        public async Task<ResponseObject<RoleResultDto>> GetRoleByIdAsync(int id)
+        public async Task<ResponseObject<RoleResponse>> GetRoleByIdAsync(int id)
         {
             using var dapperContext = new DapperContext(_connectionString);
             using var connection = dapperContext.GetOpenConnection();
             //truy vấn lấy role theo id
-            var role = await connection.QuerySingleOrDefaultAsync<RoleResultDto>(
+            var role = await connection.QuerySingleOrDefaultAsync<RoleResponse>(
                 "SELECT * FROM Roles WHERE Id = @Id", new { Id = id });
 
             return role == null
                     ? throw new CustomException(StatusCodes.Status404NotFound, "Không tìm thấy Role.")
-                    : ResponseObject<RoleResultDto>.CreateResponse("Lấy dữ liệu thành công.", role);
+                    : ResponseObject<RoleResponse>.CreateResponse("Lấy dữ liệu thành công.", role);
         }
         //tạo role
-        public async Task<ResponseText> CreateRoleAsync(RoleInputDto input)
+        public async Task<ResponseText> CreateRoleAsync(RoleInput input)
         {
             input.Name = input.Name.ToLower();
             // check Role Name
@@ -74,7 +74,7 @@ namespace MsfServer.Application.Repositorys
         }
 
         //sửa role
-        public async Task<ResponseText> UpdateRoleAsync(RoleInputDto input, int id)
+        public async Task<ResponseText> UpdateRoleAsync(RoleInput input, int id)
         {
             input.Name = input.Name.ToLower();
             // Kiểm tra xem role có tồn tại không
