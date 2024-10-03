@@ -24,7 +24,7 @@ namespace MsfServer.Application.Services
         private readonly IUserRepository _userRepository = userRepository;
         private readonly JwtSettings _jwtSettings = jwtSettings;
         // tạo ra AccessToken
-        public async Task<TokenResultDto> GenerateAccessTokenAsync(UserDto user)
+        public async Task<TokenResponse> GenerateAccessTokenAsync(UserDto user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_jwtSettings.Key!);
@@ -45,13 +45,13 @@ namespace MsfServer.Application.Services
             var tokenString = tokenHandler.WriteToken(token);
             var expiresAt = DateTime.UtcNow.AddMinutes(_jwtSettings.ExpireMinutes);
 
-            return TokenResultDto.ResponseToken(tokenString, expiresAt);
+            return TokenResponse.ResponseToken(tokenString, expiresAt);
         }
         // tạo ra RefreshToken
-        public async Task<TokenResultDto> GenerateRefreshTokenAsync(UserDto user)
+        public async Task<TokenResponse> GenerateRefreshTokenAsync(UserDto user)
         {
             // Generate a new refresh token
-            var refreshToken = new TokenResultDto
+            var refreshToken = new TokenResponse
             {
                 Token = Guid.NewGuid().ToString(),
                 Expires = DateTime.UtcNow.AddDays(_jwtSettings.RefreshTokenExpirationDays)
@@ -84,13 +84,13 @@ namespace MsfServer.Application.Services
             return await Task.FromResult(claims);
         }
         // tạo lại AccessToken
-        public  async Task<ResponseObject<AuthTokenDto>> RefreshAccessTokenAsync(string refreshToken)
+        public  async Task<ResponseObject<TokenLogin>> RefreshAccessTokenAsync(string refreshToken)
         {
             var token  = await _tokenRepository.GetTokenAsync(refreshToken);
             var user = await _userRepository.GetUserAsync(token.UserId);
             var accessTokenNew = await GenerateAccessTokenAsync(user);
             var refreshTokenNew = await GenerateRefreshTokenAsync(user);
-            return ResponseObject<AuthTokenDto>.CreateResponse("Khởi tạo token thành công.", AuthTokenDto.GetToken(accessTokenNew, refreshTokenNew));
+            return ResponseObject<TokenLogin>.CreateResponse("Khởi tạo token thành công.", TokenLogin.GetToken(accessTokenNew, refreshTokenNew));
         }
     }
 }

@@ -7,8 +7,8 @@ namespace MsfServer.Application.Contracts.User
     public interface IUserRepository
     {
         // hàm trong controller
-        Task<ResponseObject<PagedResult<UserResultDto>>> GetUsersAsync(int page, int limit);
-        Task<ResponseObject<UserResultDto>> GetUserByIdAsync(int id);
+        Task<ResponseObject<PagedResult<UserResponse>>> GetUsersAsync(int page, int limit);
+        Task<ResponseObject<UserResponse>> GetUserByIdAsync(int id);
         Task<ResponseText> CreateUserAsync(CreateUserInput user);
         Task<ResponseText> UpdateUserAsync(UpdateUserInput user, int id);
         Task<ResponseText> DeleteUserAsync(int id);

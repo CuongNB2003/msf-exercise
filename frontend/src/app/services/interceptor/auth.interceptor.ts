@@ -1,10 +1,10 @@
-import { HttpInterceptorFn, HttpResponse } from '@angular/common/http';
-import { AuthService } from '../auth/auth.service';
-import { RefreshTokenResponse, Token } from '../auth/auth.interface';
-import { ResponseObject } from '../config/response';
+import { HttpInterceptorFn } from '@angular/common/http';
+import { RefreshTokenResponse } from '../auth/auth.interface';
+import { ResponseObject, Token } from '../config/response';
 import { inject } from '@angular/core';
 import { switchMap, catchError, filter, take } from 'rxjs/operators';
-import { Subject, of } from 'rxjs';
+import { Subject } from 'rxjs';
+import { AuthService } from '../auth/auth.service';
 
 let isRefreshing = false;
 const refreshTokenSubject: Subject<string> = new Subject<string>();

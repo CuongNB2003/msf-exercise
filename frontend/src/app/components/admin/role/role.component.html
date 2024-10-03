@@ -1,0 +1,62 @@
+<div class="user-container">
+    <div class="breadcrumb">Breadcrumb</div>
+    <div class="main">
+        <div class="top-bar">
+            <h1>Quyền</h1>
+            <div class="actions">
+                <button class="btn">
+                    <span class="material-icons">add</span>
+                    Thêm quyền
+                </button>
+            </div>
+        </div>
+        <div class="search-bar">
+            <input type="search" placeholder="Search users...">
+            <button>
+                <span class="material-icons">search</span>
+            </button>
+        </div>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Hành động</th>
+                        <th>Tên</th>
+                        <th>Số lượng người dùng</th>
+                        <th>Ngày tạo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let role of roles">
+                        <td>
+                            <div class="dropdown" [class.show]="isDropdownOpen[role.id]">
+                                <button class="dropdown-toggle" (click)="toggleDropdown(role.id)"
+                                    [ngClass]="{'open': isDropdownOpen[role.id]}" type="button">
+                                    <span class="material-icons">settings</span>
+                                    Actions
+                                </button>
+                                <ul class="dropdown-menu" [class.show]="isDropdownOpen[role.id]">
+                                    <li><button class="dropdown-item">Xem chi tiết</button></li>
+                                    <li><button class="dropdown-item">Sửa quyền</button></li>
+                                    <li><button class="dropdown-item">Xóa quyền</button></li>
+                                </ul>
+                            </div>
+                        </td>
+                        <td>{{ role.name }}</td>
+                        <td>{{ role.countUser }}</td>
+                        <td>{{ formatDate(role.createdAt) }}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div>
+                <div class="total">
+                    <p>Tổng cộng {{totalItems}}</p>
+                </div>
+                <app-pagination [totalItems]="totalItems" [itemsPerPage]="itemsPerPage" [currentPage]="currentPage"
+                    (pageChanged)="onPageChange($event)">
+                </app-pagination>
+            </div>
+        </div>
+    </div>
+</div>

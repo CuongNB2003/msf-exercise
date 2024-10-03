@@ -11,8 +11,8 @@ import {
   matVideocamOutline,
 } from '@ng-icons/material-icons/outline';
 import { Router } from '@angular/router';
+import { UserLogin } from '../../services/auth/auth.interface';
 import { AuthService } from '../../services/auth/auth.service';
-import { User } from '../../services/auth/auth.interface';
 
 @Component({
   selector: 'app-header-layout',
@@ -35,6 +35,7 @@ import { User } from '../../services/auth/auth.interface';
 export class HeaderLayoutComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router) { }
   username: string = "";
+  role: string = "";
   email: string = "";
   userImage: string | null = null;
   defaultImage: string = 'avatar.jpg';
@@ -43,8 +44,9 @@ export class HeaderLayoutComponent implements OnInit {
   ngOnInit(): void {
     const userDataString = localStorage.getItem('user');
     if (userDataString) {
-      const userData: User = JSON.parse(userDataString) as User;
-      this.username = userData.role.name == "admin" ? userData.name + " Admin" : userData.name;
+      const userData: UserLogin = JSON.parse(userDataString) as UserLogin;
+      this.username = userData.name;
+      this.role = userData.role.name == "admin" ? "Admin" : "";
       this.email = userData.email;
       this.userImage = userData.avatar;
     }

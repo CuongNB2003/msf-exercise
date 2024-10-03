@@ -1,0 +1,87 @@
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    background-color: var(--bs-white); // Màu nền trắng nhẹ
+    padding-top: 20px;
+    top: 0;
+    left: 0;
+    border-right: 1px solid var(--bs-gray-200); // Đường viền mỏng bên phải
+    overflow: hidden; // Đảm bảo không tràn nội dung
+    box-shadow: 2px 0 5px var(--bs-black-100); // Đổ bóng nhẹ cho sidebar
+
+    // Menu
+    .menu {
+        padding-left: 0;
+        margin-bottom: 0;
+        list-style: none;
+
+        li {
+            margin-bottom: 5px;
+        }
+
+        a {
+            display: flex;
+            align-items: center;
+            padding: 10px 20px;
+            color: var(--bs-black);
+            text-decoration: none;
+            font-size: 1rem;
+            transition: background-color 0.2s ease-in-out;
+
+            &:hover {
+                background-color: var(--bs-gray-200);
+                border-radius: 4px;
+                color: var(--bs-blue);
+            }
+
+            &.active {
+                font-weight: bold;
+                background-color: var(--bs-gray-200);
+
+                .material-icons {
+                    color: var(--bs-blue);
+                }
+            }
+
+            .material-icons {
+                margin-right: 10px;
+                font-size: 1.2rem;
+            }
+        }
+
+        // Dropdown menu cho Administration
+        .dropdown {
+            position: relative;
+
+            .dropdown-toggle {
+                display: flex;
+                align-items: center; // Căn giữa các thành phần
+
+                &::after {
+                    margin-left: auto; // Đặt mũi tên ở bên phải
+                    font-size: 1.2rem;
+                    color: var(--bs-black);
+                    font-family: 'Material Icons'; // Chỉ định font cho Material Icons
+                    content: 'keyboard_arrow_down'; // Mặc định là mũi tên xuống
+                }
+
+                &.open::after {
+                    content: 'keyboard_arrow_up'; // Thay đổi thành mũi tên lên khi mở
+                }
+            }
+
+            .dropdown-menu {
+                display: none;
+
+                a {
+                    padding: 10px 45px;
+                }
+            }
+
+            &.open .dropdown-menu {
+                display: block;
+            }
+        }
+
+    }
+}

@@ -14,7 +14,7 @@ using System.Text;
 namespace MsfServer.HttpApi.Host.Middlewares
 {
     public class ExceptionMiddleware(
-        RequestDelegate next, 
+        RequestDelegate next,
         //IOptions<ApiBehaviorOptions> options, 
         IServiceProvider serviceProvider,
         IConfiguration configuration
@@ -83,7 +83,7 @@ namespace MsfServer.HttpApi.Host.Middlewares
             }
         }
 
-        public string CreateProblemDetails(HttpContext httpContext,int? statusCode = null, string? error = null)
+        public string CreateProblemDetails(HttpContext httpContext, int? statusCode = null, string? error = null)
         {
             statusCode ??= 500;
 
@@ -118,7 +118,7 @@ namespace MsfServer.HttpApi.Host.Middlewares
         }
         public async Task CreateLog(HttpContext context, int statusCode, int duration)
         {
-            string path = $"{context.Request.Path}{context.Request.QueryString}";
+            string path = context.Request.Path;
             var method = context.Request.Method;
             var clientIpAddress = context.Request.Headers["X-Forwarded-For"].FirstOrDefault() ?? context.Connection.RemoteIpAddress?.ToString();
             var userName = context.User.FindFirst("name")?.Value ?? "";

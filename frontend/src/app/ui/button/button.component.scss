@@ -1,23 +1,22 @@
 button {
-    user-select: none;
     width: 100%;
-    background: linear-gradient(45deg, var(--color2), var(--color1));
-    // background-color: var(--bg-button);
-    color: var(--text-button);
+    background: linear-gradient(45deg, var(--bs-blue), var(--bs-orange));
+    color: var(--bs-black);
     padding: 15px 0;
     font-size: 18px;
     font-weight: 600;
     border-radius: 5px;
     cursor: pointer;
+    border: none;
     transition: transform 0.1s ease, box-shadow 0.1s ease;
 
     &:disabled {
-        background-color: var(--bg-button-disabled);
+        background-color: var(--bs-gray-200);
         cursor: not-allowed;
     }
 
     &:active {
         transform: scale(0.95);
-        box-shadow: 0 5px 10px var(--box-shadow);
+        box-shadow: 0 5px 10px var(--bs-black-100);
     }
 }
