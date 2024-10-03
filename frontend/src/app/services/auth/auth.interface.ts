@@ -1,35 +1,24 @@
-export interface Token {
-    token: string;
-    expires: string;
-}
+import { Token } from "../config/response";
+import { RoleDto } from "../role/role.interface";
 
-export interface TokenData {
+
+export interface TokenLogin {
     accessToken: Token;
     refreshToken: Token;
 }
 
-export interface Role {
-    id: number;
-    name: string;
-}
-
-export interface User {
+export interface UserLogin {
     name: string;
     email: string;
     roleId: number;
     avatar: string;
-    role: Role;
-}
-
-// dữ liệu trả  về
-export interface MeResponse extends User {
-    id: number;
+    role: RoleDto;
 }
 
 export interface LoginResponse {
-    token: TokenData;
+    token: TokenLogin;
     expiration: string;
-    user: User;
+    user: UserLogin;
 }
 
 export interface RefreshTokenResponse {

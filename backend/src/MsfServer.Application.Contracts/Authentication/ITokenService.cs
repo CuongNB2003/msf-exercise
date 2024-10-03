@@ -8,9 +8,9 @@ namespace MsfServer.Application.Contracts.Authentication
 {
     public interface ITokenService
     {
-        Task<TokenResultDto> GenerateAccessTokenAsync(UserDto user); // tạo AccessToken
-        Task<TokenResultDto> GenerateRefreshTokenAsync(UserDto user); // tạo RefreshToken
+        Task<TokenResponse> GenerateAccessTokenAsync(UserDto user); // tạo AccessToken
+        Task<TokenResponse> GenerateRefreshTokenAsync(UserDto user); // tạo RefreshToken
         Task<IEnumerable<Claim>> GetClaimsAsync(UserDto user);
-        Task<ResponseObject<AuthTokenDto>> RefreshAccessTokenAsync(string refreshToken); // làm mới AccessToken
+        Task<ResponseObject<TokenLogin>> RefreshAccessTokenAsync(string refreshToken); // làm mới AccessToken
     }
 }

@@ -30,6 +30,7 @@
     "@ngx-progressbar/http": "^5.3.2",
     "@ngx-progressbar/router": "^5.3.2",
     "express": "^4.18.2",
+    "moment": "^2.30.1",
     "ng-recaptcha": "^13.2.1",
     "ngx-progressbar": "^12.0.2",
     "ngx-scrollbar": "^15.1.3",

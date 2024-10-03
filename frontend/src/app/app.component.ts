@@ -5,11 +5,6 @@ import { filter, map } from 'rxjs';
 import { NgProgressbar } from 'ngx-progressbar';
 import { NgProgressRouter } from 'ngx-progressbar/router';
 import { NgProgressHttp } from 'ngx-progressbar/http';
-import { NgProgress } from '@ngx-progressbar/core';
-import { RefreshTokenResponse, Token } from './services/auth/auth.interface';
-import { ResponseObject } from './services/config/response';
-import { HttpClient } from '@angular/common/http';
-import { AuthService } from './services/auth/auth.service';
 
 @Component({
   selector: 'app-root',

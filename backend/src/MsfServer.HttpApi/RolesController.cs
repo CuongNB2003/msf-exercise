@@ -30,7 +30,7 @@ namespace MsfServer.HttpApi
 
         [Authorize(Roles = "admin")]
         [HttpPost] // tạo role 
-        public async Task<IActionResult> CreateRole(RoleInputDto role)
+        public async Task<IActionResult> CreateRole(RoleInput role)
         {
             var result = await _roleRepository.CreateRoleAsync(role);
             return Ok(result);
@@ -38,7 +38,7 @@ namespace MsfServer.HttpApi
 
         [Authorize(Roles = "admin")]
         [HttpPut("{id}")] // sửa role
-        public async Task<IActionResult> UpdateRole(int id, RoleInputDto input)
+        public async Task<IActionResult> UpdateRole(int id, RoleInput input)
         {
             var result = await _roleRepository.UpdateRoleAsync(input, id);
             return Ok(result);

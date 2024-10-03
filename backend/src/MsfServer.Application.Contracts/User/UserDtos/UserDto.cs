@@ -13,7 +13,7 @@ namespace MsfServer.Application.Contracts.User.UserDtos
         public int RoleId { get; set; }
         public string? Avatar { get; set; }
         [ForeignKey("RoleId")]
-        public RoleResultDto? Role { get; set; }
+        public RoleDto? Role { get; set; }
 
         public static UserDto CreateUserAdminDto(string email, string hashedPassword, int roleId, string avatar, byte[] salt)
         {
