@@ -1,5 +1,5 @@
 .header-container {
-    background-color: #0f6cbd;
+    background-color: var(--bs-blue);
     align-items: center;
     display: flex;
     position: relative;
@@ -8,7 +8,7 @@
         height: 48px;
 
         &:hover {
-            background-color: #0c3b5e;
+            background-color: var(--bs-blue-dark);
         }
 
         button.main-link {
@@ -21,7 +21,7 @@
 
             .icon {
                 font-size: 26px;
-                color: white;
+                color: var(--bs-white);
             }
         }
     }
@@ -44,7 +44,7 @@
 
                 span {
                     font-weight: 700;
-                    color: white;
+                    color: var(--bs-white);
                 }
             }
 
@@ -53,14 +53,14 @@
                 display: flex;
                 flex: 1 0 auto;
                 min-width: 356px;
-                box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+                box-shadow: var(--bs-black-100) 0px 7px 29px 0px;
 
                 .icon {
                     position: absolute;
                     font-size: 20px;
                     height: 100%;
                     padding: 0 4px;
-                    color: gray;
+                    color: var(--bs-gray);
                 }
 
                 input {
@@ -89,7 +89,8 @@
                     width: 48px;
 
                     &:hover {
-                        background-color: #0c3b5e;
+                        background-color: var(--bs-blue-dark);
+
                     }
 
                     button.main-link {
@@ -103,7 +104,7 @@
 
                         .icon {
                             font-size: 20px;
-                            color: white;
+                            color: var(--bs-white);
                         }
                     }
                 }
@@ -118,7 +119,7 @@
                     }
 
                     .label-call {
-                        color: white;
+                        color: var(--bs-white);
                     }
                 }
             }
@@ -129,7 +130,7 @@
                 width: 48px;
 
                 &:hover {
-                    background-color: #0c3b5e;
+                    background-color: var(--bs-blue-dark);
                 }
 
                 button.main-link {
@@ -143,7 +144,7 @@
 
                     .icon {
                         font-size: 18px;
-                        color: white;
+                        color: var(--bs-white);
                     }
                 }
             }
@@ -154,7 +155,7 @@
         height: 48px;
 
         &:hover {
-            background-color: #0c3b5e;
+            background-color: var(--bs-blue-dark);
         }
 
         button.main-link {
@@ -173,8 +174,8 @@
                     font-size: 16px;
                     text-align: center;
                     line-height: 30px;
-                    color: white;
-                    border: 1px solid white;
+                    color: var(--bs-white);
+                    border: 1px solid var(--bs-white);
                 }
 
                 .user-image {
@@ -189,16 +190,18 @@
     }
 
     .profile-container {
-        z-index: 100;
+        z-index: 10000;
         position: absolute;
         right: 0;
         top: 50px;
+        border-radius: 8px;
+        margin-top: 4px;
+        margin-right: 4px;
         display: flex;
         flex-direction: column;
         align-items: center;
-        background-color: #f3f3f3;
-        // background-color: #333;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        background-color: var(--bs-gray-100);
+        box-shadow: 0 2px 4px var(--bs-black-100);
 
         .profile-header {
             display: flex;
@@ -215,12 +218,6 @@
                     height: 30px;
                     margin-right: 8px;
                 }
-
-                span {
-                    font-size: 18px;
-                    font-weight: bold;
-                    color: #333;
-                }
             }
 
             .sign-out {
@@ -228,8 +225,8 @@
                 padding: 15px;
 
                 &:hover {
-                    color: #0078d4;
-                    background-color: rgba(0, 0, 0, .08);
+                    color: var(--bs-blue);
+                    background-color: var(--bs-black-100);
                 }
             }
         }
@@ -253,16 +250,6 @@
                     height: 100%;
                     object-fit: cover;
                 }
-
-                .camera-icon {
-                    position: absolute;
-                    bottom: 0;
-                    right: 0;
-                    background-color: rgba(0, 0, 0, 0.5);
-                    color: white;
-                    padding: 5px;
-                    border-radius: 50%;
-                }
             }
 
             .profile-info {
@@ -272,16 +259,16 @@
                 h2 {
                     margin: 0;
                     font-size: 24px;
-                    color: #333;
+                    color: var(--bs-black);
                 }
 
                 p {
                     margin: 5px 0;
-                    color: #666;
+                    color: var(--bs-gray);
                 }
 
                 a {
-                    color: #0078d4;
+                    color: var(--bs-blue);
                     text-decoration: none;
                     margin-top: 5px;
 

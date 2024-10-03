@@ -4,19 +4,24 @@ import { CommonModule } from '@angular/common';
 import { RoleResponse } from '../../../services/role/role.interface';
 import moment from 'moment';
 import 'moment/locale/vi';
+import { PaginationComponent } from '../../../ui/pagination/pagination.component';
 
 @Component({
   selector: 'app-role',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, PaginationComponent],
   templateUrl: './role.component.html',
   styleUrls: ['./role.component.scss']
 })
 export class RoleComponent implements OnInit {
   roles: RoleResponse[] = [];
-  totalRecords: number = 0;
+  totalItems: number = 0;
   page: number = 1;
   limit: number = 10;
+  currentPage: number = this.page;
+  itemsPerPage: number = this.limit;
+  isDropdownOpen: { [key: number]: boolean } = {};
+
 
   constructor(private roleService: RoleService) { }
 
@@ -28,7 +33,7 @@ export class RoleComponent implements OnInit {
     this.roleService.getAll(this.page, this.limit).subscribe({
       next: (response) => {
         this.roles = response.data.data;
-        this.totalRecords = response.data.totalRecords;
+        this.totalItems = response.data.totalRecords;
       },
       error: (err) => {
         alert(`Không lấy được dữ liệu: ${err}`);
@@ -37,15 +42,20 @@ export class RoleComponent implements OnInit {
     });
   }
 
-  onPageChange(newPage: number): void {
-    this.page = newPage;
-    this.loadRoles();
-  }
-
   formatDate(date: Date): string {
     var relative = moment(date).locale('vi').fromNow();
     var multiple = moment(date).locale('vi').format('Do MMM YYYY');
     return relative + ", " + multiple;
+  }
+
+  toggleDropdown(id: number) {
+    this.isDropdownOpen[id] = !this.isDropdownOpen[id];
+  }
+
+  onPageChange(newPage: number): void {
+    this.currentPage = newPage;
+    this.page = newPage;
+    this.loadRoles();
   }
 
 }

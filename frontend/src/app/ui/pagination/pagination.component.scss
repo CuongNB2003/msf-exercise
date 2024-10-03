@@ -1,0 +1,56 @@
+.pagination {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+
+    .page-item {
+        display: flex;
+        align-items: center;
+
+        &.disabled {
+            cursor: not-allowed;
+            opacity: 0.2;
+
+            .page-link {
+                pointer-events: none;
+                cursor: not-allowed;
+
+                &:hover {
+                    background-color: transparent;
+                }
+            }
+        }
+
+        &.active {
+            .page-link {
+                color: var(--bs-white);
+                background-color: var(--bs-blue);
+                border-radius: 10px;
+            }
+        }
+
+        .page-link {
+            display: block;
+            background-color: var(--bs-white);
+            padding: 5px 10px;
+            color: var(--bs-black);
+            text-decoration: none;
+            cursor: pointer; // Con trỏ chuột cho các nút bình thường
+
+            &:hover {
+                background-color: var(--bs-gray-200);
+                color: var(--bs-black);
+                border-radius: 10px;
+            }
+        }
+
+        .material-icons {
+            font-size: 0.8rem;
+
+            &.first-page {
+                font-size: 1.2rem;
+            }
+        }
+    }
+}

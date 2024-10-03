@@ -10,7 +10,7 @@
 }
 
 body {
-    background-color: #f5f5f5;
+    background-color: var(--bs-gray-200);
     font-size: 15px;
     height: 100vh;
     overflow: hidden;
@@ -22,16 +22,36 @@ app-home {
 }
 
 :root {
-    --bg-color1: #ff7f50;
-    --bg-color2: #1e90ff;
-    --bg-white: #ffffff;
-    --color-primary: #0f6cbd;
-    --bg-button-disabled: #cccccc;
-    --box-shadow: #08071099;
-    --light-gray: #0000001a;
-    --border: #000000;
-    --error: #ff0000;
-    --text: #000000;
-    --color-icon: #333333;
-    --color-menu-hover: #e9ecef;
+    --bs-blue: #0d6efd;
+    --bs-blue-dark: #0056b3;
+    --bs-pink: #d63384;
+    --bs-red: #ff0000;
+    --bs-orange: #ff7f50;
+    --bs-yellow: #ffc107;
+    --bs-green: #198754;
+    --bs-teal: #20c997;
+    --bs-cyan: #0dcaf0;
+    --bs-black: #000;
+    --bs-black-100: #0000001a;
+    --bs-black-200: #08071099;
+    --bs-white: #ffffff;
+    --bs-gray: #6c757d;
+    --bs-gray-dark: #343a40;
+    --bs-gray-100: #f8f9fa;
+    --bs-gray-200: #e9ecef;
+    --bs-gray-300: #dee2e6;
+    --bs-gray-400: #ced4da;
+    --bs-gray-500: #adb5bd;
+    --bs-gray-600: #6c757d;
+    --bs-gray-700: #495057;
+    --bs-gray-800: #343a40;
+    --bs-gray-900: #212529;
+    --bs-primary: #355dff;
+    --bs-secondary: #6c5dd3;
+    --bs-success: #4fbf67;
+    --bs-info: #438aa7;
+    --bs-warning: #ff9f38;
+    --bs-danger: #c00d49;
+    --bs-light: #e6ebef;
+    --bs-dark: #062a44;
 }

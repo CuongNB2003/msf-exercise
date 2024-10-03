@@ -1,5 +1,5 @@
 .sidebar-container {
-    background-color: var(--bg-white);
+    background-color: var(--bs-white);
     // height: 100vh;
     height: 100%;
     width: 48px;
@@ -25,13 +25,13 @@
 
         &.active {
             .nav-link {
-                background-color: var(--bg-white);
+                background-color: var(--bs-white);
             }
         }
 
         &:hover {
             .nav-link {
-                background-color: var(--bg-white);
+                background-color: var(--bs-white);
             }
 
             .label {
@@ -59,11 +59,11 @@
             position: absolute;
             width: max-content;
             left: 50px;
-            background-color: var(--bg-white);
+            background-color: var(--bs-white);
             padding: 2px 10px;
             font-size: 13px;
             border-radius: 4px;
-            box-shadow: var(--box-shadow) 0px 7px 29px 0px;
+            box-shadow: var(--bs-gray-200) 0px 7px 29px 0px;
             z-index: 2;
         }
     }

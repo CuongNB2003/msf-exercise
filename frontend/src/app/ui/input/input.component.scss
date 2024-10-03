@@ -9,14 +9,14 @@
             display: block;
             height: 50px;
             width: 100%;
-            border: 1.5px solid var(--border);
             border-radius: 5px;
             outline: none;
+            border: none;
             padding: 0 10px;
             font-size: 14px;
 
             &.is-invalid {
-                border: 1px solid var(--error);
+                border: 1px solid var(--bs-red);
             }
 
             &[type="password"] {
@@ -41,7 +41,7 @@
         position: absolute;
         top: 55px;
         left: 10px;
-        color: var(--error);
+        color: var(--bs-red);
         font-size: 0.875em;
     }
 }

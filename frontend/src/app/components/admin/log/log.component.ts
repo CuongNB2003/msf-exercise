@@ -1,21 +1,26 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit } from '@angular/core';
 import { Log } from '../../../services/log/log.interface';
 import { LogService } from '../../../services/log/log.service';
 import moment from 'moment';
 import 'moment/locale/vi';
+import { PaginationComponent } from '../../../ui/pagination/pagination.component';
+
 @Component({
   selector: 'app-log',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, PaginationComponent],
   templateUrl: './log.component.html',
   styleUrl: './log.component.scss'
 })
 export class LogComponent implements OnInit {
   logs: Log[] = [];
-  totalRecords: number = 0;
+  totalItems: number = 0;
   page: number = 1;
   limit: number = 10;
+  currentPage: number = this.page;
+  itemsPerPage: number = this.limit;
+  isDropdownOpen: { [key: number]: boolean } = {};
 
   constructor(private logService: LogService) { }
 
@@ -27,7 +32,7 @@ export class LogComponent implements OnInit {
     this.logService.getAll(this.page, this.limit).subscribe({
       next: (response) => {
         this.logs = response.data.data;
-        this.totalRecords = response.data.totalRecords;
+        this.totalItems = response.data.totalRecords;
       },
       error: (err) => {
         alert(`Không lấy được dữ liệu: ${err}`);
@@ -36,10 +41,14 @@ export class LogComponent implements OnInit {
     });
   }
 
-
   formatDate(date: Date): string {
     var relative = moment(date).locale('vi').fromNow();
-    var multiple = moment(date).locale('vi').format('Do MMM YYYY');
-    return relative
+    return relative;
+  }
+
+  onPageChange(newPage: number): void {
+    this.currentPage = newPage;
+    this.page = newPage;
+    this.loadLogs();
   }
 }

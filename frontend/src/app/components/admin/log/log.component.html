@@ -35,9 +35,9 @@
                 <tbody>
                     <tr *ngFor="let log of logs">
                         <td>
-                            <button class="action-btn">
-                                <span class="material-icons">settings</span>
-                                Actions
+                            <button class="dropdown-toggle" type="button">
+                                <span class="material-icons">visibility</span>
+                                Xem chi tiết
                             </button>
                         </td>
                         <td>{{log.statusCode}} {{log.method}} {{log.url}}</td>
@@ -51,15 +51,11 @@
 
             <div>
                 <div class="total">
-                    <p>Tổng cộng {{totalRecords}}</p>
+                    <p>Tổng cộng {{totalItems}}</p>
                 </div>
-                <div class="pagination">
-                    <button class="page-btn">&lt;</button>
-                    <button class="page-btn">1</button>
-                    <button class="page-btn">2</button>
-                    <button class="page-btn">3</button>
-                    <button class="page-btn">&gt;</button>
-                </div>
+                <app-pagination [totalItems]="totalItems" [itemsPerPage]="itemsPerPage" [currentPage]="currentPage"
+                    (pageChanged)="onPageChange($event)">
+                </app-pagination>
             </div>
         </div>
     </div>

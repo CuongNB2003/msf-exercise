@@ -1,5 +1,5 @@
 .bg-color {
-    background: linear-gradient(45deg, var(--bg-color1), var(--bg-color2));
+    background: linear-gradient(45deg, var(--bs-orange), var(--bs-blue));
     height: 100vh;
     display: flex;
     justify-content: center;
@@ -13,7 +13,7 @@
         left: 50%;
         border-radius: 10px;
         backdrop-filter: blur(10px);
-        box-shadow: 0 0 40px var(--box-shadow);
+        box-shadow: 0 0 40px var(--bs-black-200);
         padding: 35px;
 
         h3 {
@@ -30,7 +30,7 @@
             a {
                 font-weight: 550;
                 margin-left: 4px;
-                color: var(--text);
+                color: var(--bs-black);
                 text-decoration: none;
 
                 &:hover {

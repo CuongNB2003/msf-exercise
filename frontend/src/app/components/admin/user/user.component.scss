@@ -15,7 +15,7 @@
 
             h1 {
                 font-size: 24px;
-                color: #333;
+                color: var(--bs-black);
             }
 
             .actions {
@@ -28,14 +28,14 @@
                     padding: 5px 10px;
                     border: none;
                     border-radius: 5px;
-                    background-color: #007bff;
-                    color: #fff;
+                    background-color: var(--bs-blue);
+                    color: var(--bs-white);
                     font-weight: 500;
                     display: flex;
                     align-items: center;
 
                     &:hover {
-                        background-color: #0056b3;
+                        background-color: var(--bs-blue-dark);
                     }
 
                     .material-icons {
@@ -50,15 +50,15 @@
                     padding: 5px 10px;
                     border: none;
                     border-radius: 5px;
-                    background-color: #fff;
-                    color: #007bff;
+                    background-color: var(--bs-white);
+                    color: var(--bs-blue);
                     font-weight: 500;
                     display: flex;
                     align-items: center;
 
                     &:hover {
-                        background-color: #007bff;
-                        color: #fff;
+                        background-color: var(--bs-blue);
+                        color: var(--bs-white);
                     }
 
                     .material-icons {
@@ -75,13 +75,14 @@
             margin-bottom: 20px;
             border-radius: 8px;
             padding: 20px 30px;
-            background-color: white;
+            background-color: var(--bs-white);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 
             input {
                 flex: 1;
                 padding: 10px;
-                border: 1px solid #ccc;
+                border: 1px solid var(--bs-black-100);
+                background-color: var(--bs-gray-200);
                 outline: none;
                 border-top-left-radius: 10px;
                 border-bottom-left-radius: 10px;
@@ -93,13 +94,13 @@
                 border: none;
                 border-top-right-radius: 10px;
                 border-bottom-right-radius: 10px;
-                background-color: #007bff;
-                color: #fff;
+                background-color: var(--bs-blue);
+                color: var(--bs-white);
                 transition: background-color 0.3s ease;
                 padding-top: 5px;
 
                 &:hover {
-                    background-color: #0056b3;
+                    background-color: var(--bs-blue-dark);
                 }
 
                 .material-icons {
@@ -110,7 +111,7 @@
 
 
         .table-container {
-            background-color: white;
+            background-color: var(--bs-white);
             border-radius: 8px;
 
             table {
@@ -121,7 +122,6 @@
                     border-radius: 8px;
 
                     th {
-                        background-color: white;
                         padding: 10px;
                         text-align: left;
 
@@ -138,38 +138,81 @@
                 th,
                 td {
                     padding: 10px;
-                    border-bottom: 1px solid #ddd;
+                    border-bottom: 1px solid var(--bs-gray-200);
                 }
 
                 tbody {
                     tr {
                         &:hover {
-                            background-color: var(--color-menu-hover);
+                            background-color: var(--bs-gray-200);
                         }
 
                         td {
-                            .action-btn {
-                                border-radius: 8px;
-                                border: none;
-                                background: #007bff;
-                                color: var(--bg-white);
-                                cursor: pointer;
-                                display: flex;
-                                align-items: center;
-                                padding: 6px;
+                            .dropdown {
+                                position: relative;
+                                display: inline-block;
 
-                                .material-icons {
-                                    font-size: 1.2rem;
-                                    color: var(--bg-white);
-                                    margin-right: 5px;
+                                .dropdown-toggle {
+                                    border-radius: 8px;
+                                    border: none;
+                                    background: var(--bs-blue);
+                                    color: var(--bs-white);
+                                    cursor: pointer;
+                                    display: flex;
+                                    align-items: center;
+                                    padding: 6px;
+
+                                    .material-icons {
+                                        font-size: 1.2rem;
+                                        color: var(--bs-white);
+                                        margin-right: 5px;
+                                    }
+
+                                    &::after {
+                                        margin-left: 5px;
+                                        font-size: 1.2rem;
+                                        color: var(--bs-white);
+                                        font-family: 'Material Icons';
+                                        content: 'keyboard_arrow_down';
+                                    }
+
+                                    &.open::after {
+                                        content: 'keyboard_arrow_up'; // Thay đổi thành mũi tên lên khi mở
+                                    }
+
+                                    &:hover {
+                                        background-color: var(--bs-blue-dark);
+                                    }
                                 }
 
-                                &::after {
-                                    margin-left: 5px;
-                                    font-size: 1.2rem;
-                                    color: var(--bg-white);
-                                    font-family: 'Material Icons';
-                                    content: 'keyboard_arrow_down';
+                                .dropdown-menu {
+                                    background-color: var(--bs-white);
+                                    border-radius: 8px;
+                                    z-index: 1000; // Đảm bảo menu nổi trên các phần tử khác
+                                    position: absolute; // Giữ menu ngay bên dưới nút
+                                    display: none;
+                                    list-style: none;
+                                    border: 1px solid var(--bs-gray-200);
+                                    padding-top: 8px;
+                                    padding-bottom: 8px;
+                                    margin-top: 3px;
+
+                                    &.show {
+                                        display: block;
+                                    }
+
+                                    .dropdown-item {
+                                        background-color: var(--bs-white);
+                                        width: 150px;
+                                        padding: 10px 16px;
+                                        cursor: pointer;
+                                        display: flex;
+                                        border: none;
+
+                                        &:hover {
+                                            background-color: var(--bs-gray-200);
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -181,34 +224,16 @@
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
+                margin-left: 30px;
+                margin-right: 30px;
+                margin-bottom: 30px;
+                margin-top: 10px;
 
                 .total {
-                    margin-left: 30px;
                     display: flex;
                     align-items: center;
-                }
-
-                .pagination {
-                    display: flex;
-                    justify-content: center;
-                    margin-top: 20px;
-
-                    .page-btn {
-                        color: #fff;
-                        border: none;
-                        padding: 10px 15px;
-                        margin: 0 5px;
-                        cursor: pointer;
-                        transition: background-color 0.3s ease;
-
-                        &:hover {
-                            background-color: #0056b3;
-                        }
-
-                        &:active {
-                            background-color: #007bff;
-                        }
-                    }
+                    color: var(--bs-black);
+                    font-size: 16px;
                 }
             }
         }

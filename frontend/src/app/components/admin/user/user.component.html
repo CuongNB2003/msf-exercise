@@ -38,10 +38,18 @@
                 <tbody>
                     <tr *ngFor="let user of users">
                         <td>
-                            <button class="action-btn">
-                                <span class="material-icons">settings</span>
-                                Actions
-                            </button>
+                            <div class="dropdown">
+                                <button class="dropdown-toggle" (click)="toggleDropdown(user.id)"
+                                    [ngClass]="{'open': isDropdownOpen[user.id]}" type="button">
+                                    <span class="material-icons">settings</span>
+                                    Actions
+                                </button>
+                                <ul class="dropdown-menu" [class.show]="isDropdownOpen[user.id]">
+                                    <li><button class="dropdown-item">Xem chi tiết</button></li>
+                                    <li><button class="dropdown-item">Sửa người dùng</button></li>
+                                    <li><button class="dropdown-item">Xóa người dùng</button></li>
+                                </ul>
+                            </div>
                         </td>
                         <td>{{ user.name }}</td>
                         <td>{{ user.email }}</td>
@@ -53,15 +61,11 @@
 
             <div>
                 <div class="total">
-                    <p>Tổng cộng {{totalRecords}}</p>
+                    <p>Tổng cộng {{totalItems}}</p>
                 </div>
-                <div class="pagination">
-                    <button class="page-btn">&lt;</button>
-                    <button class="page-btn">1</button>
-                    <button class="page-btn">2</button>
-                    <button class="page-btn">3</button>
-                    <button class="page-btn">&gt;</button>
-                </div>
+                <app-pagination [totalItems]="totalItems" [itemsPerPage]="itemsPerPage" [currentPage]="currentPage"
+                    (pageChanged)="onPageChange($event)">
+                </app-pagination>
             </div>
         </div>
     </div>
