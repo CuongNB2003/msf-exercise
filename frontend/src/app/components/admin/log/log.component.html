@@ -40,7 +40,19 @@
                                 Xem chi tiết
                             </button>
                         </td>
-                        <td>{{log.statusCode}} {{log.method}} {{log.url}}</td>
+                        <td>
+                            <div class="http-request">
+                                <span class="rounded" [ngClass]="{
+                                    information: log.statusCode >= 100 && log.statusCode <= 199,
+                                    successful: log.statusCode >= 200 && log.statusCode <= 299,
+                                    redirection: log.statusCode >= 300 && log.statusCode <= 399,
+                                    error: log.statusCode >= 400
+                                }">{{log.statusCode}}
+                                </span>
+                                <span class="rounded {{log.method}}">{{log.method}}</span>
+                                <span>{{log.url}}</span>
+                            </div>
+                        </td>
                         <td>{{log.userName}} </td>
                         <td>{{log.clientIpAddress}} </td>
                         <td>{{(log.duration / 1000).toFixed(2)}} giây </td>
@@ -49,7 +61,7 @@
                 </tbody>
             </table>
 
-            <div>
+            <div class="table-bottom">
                 <div class="total">
                     <p>Tổng cộng {{totalItems}}</p>
                 </div>

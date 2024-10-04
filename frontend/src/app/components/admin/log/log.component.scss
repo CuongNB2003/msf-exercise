@@ -116,7 +116,7 @@
 
                 th,
                 td {
-                    padding: 15px;
+                    padding: 10px;
                     border-bottom: 1px solid var(--bs-gray-200);
                 }
 
@@ -148,19 +148,53 @@
                                     background-color: var(--bs-blue-dark);
                                 }
                             }
+
+                            .http-request {
+                                display: flex;
+                                align-items: center;
+                                column-gap: 10px;
+                                justify-content: left;
+
+                                .rounded {
+                                    padding: 6px 12px;
+                                    background-color: var(--bs-gray-300);
+                                    border-radius: 8px;
+                                    color: var(--bs-white);
+
+                                    &.information,
+                                    &.GET {
+                                        background-color: var(--bs-get);
+                                    }
+
+                                    &.successful,
+                                    &.POST {
+                                        background-color: var(--bs-post);
+                                    }
+
+                                    &.redirection,
+                                    &.PUT {
+                                        background-color: var(--bs-put);
+                                    }
+
+                                    &.error,
+                                    &.DELETE {
+                                        background-color: var(--bs-delete);
+                                    }
+                                }
+                            }
                         }
                     }
                 }
             }
 
-            div {
+            .table-bottom {
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
-                margin-left: 30px;
-                margin-right: 30px;
-                margin-bottom: 30px;
-                margin-top: 10px;
+                padding-left: 30px;
+                padding-right: 30px;
+                padding-bottom: 30px;
+                padding-top: 10px;
 
                 .total {
                     display: flex;
