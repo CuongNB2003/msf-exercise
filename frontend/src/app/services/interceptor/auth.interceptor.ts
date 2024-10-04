@@ -63,8 +63,8 @@ function handleClonedRequest(request: any, token: string) {
   return clonedRequest;
 }
 
-function isTokenExpiringSoon(expiration: string, bufferTime: number = 30000): boolean {
+function isTokenExpiringSoon(expiration: Date): boolean {
   const expiryTime = new Date(expiration).getTime();
   const currentTime = new Date().getTime();
-  return (expiryTime - currentTime) < bufferTime;
+  return expiryTime < currentTime;
 }

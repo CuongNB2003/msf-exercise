@@ -1,3 +1,4 @@
+import { ResponseObject, Token } from './../../../services/config/response';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -6,6 +7,9 @@ import { CommonModule } from '@angular/common';
 import { InputComponent } from '../../../ui/input/input.component';
 import { ButtonComponent } from '../../../ui/button/button.component';
 import { AuthService } from '../../../services/auth/auth.service';
+import moment from 'moment';
+import 'moment/locale/vi';
+import { LoginResponse } from '../../../services/auth/auth.interface';
 
 @Component({
   selector: 'app-login',
@@ -51,13 +55,13 @@ export class LoginComponent implements OnInit {
 
     this.isSubmitting = true;
     this.authService.login({ email, passWord: password, reCaptchaToken: recaptcha }).subscribe({
-      next: (response) => this.handleSuccessfulLogin(response),
+      next: (response: ResponseObject<LoginResponse>) => this.handleSuccessfulLogin(response),
       error: (error) => this.handleLoginError(error, attempts),
       complete: () => console.log('Đăng nhập thành công')
     });
   }
 
-  private handleSuccessfulLogin(response: any): void {
+  private handleSuccessfulLogin(response: ResponseObject<LoginResponse>): void {
     this.isSubmitting = false;
     this.resetAttempts();
     this.storeUserData(response.data);
@@ -86,10 +90,17 @@ export class LoginComponent implements OnInit {
     };
   }
 
-  private storeUserData(data: any): void {
+  private storeUserData(data: LoginResponse): void {
     localStorage.setItem('user', JSON.stringify(data.user));
     localStorage.setItem('accessToken', JSON.stringify(data.token.accessToken));
     localStorage.setItem('refreshToken', JSON.stringify(data.token.refreshToken));
+    console.log("thời gian còn lại của accessToken", this.formatDate(data.token.accessToken.expires));
+
+  }
+
+  formatDate(date: Date): string {
+    var relative = moment(date).locale('vi').format('LTS');
+    return relative;
   }
 
   private redirectUser(role: string): void {

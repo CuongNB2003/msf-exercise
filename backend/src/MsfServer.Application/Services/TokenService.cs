@@ -15,8 +15,8 @@ using System.Text;
 namespace MsfServer.Application.Services
 {
     public class TokenService(
-        ITokenRepository tokenRepository, 
-        IUserRepository userRepository, 
+        ITokenRepository tokenRepository,
+        IUserRepository userRepository,
         JwtSettings jwtSettings
         ) : ITokenService
     {
@@ -84,9 +84,9 @@ namespace MsfServer.Application.Services
             return await Task.FromResult(claims);
         }
         // tạo lại AccessToken
-        public  async Task<ResponseObject<TokenLogin>> RefreshAccessTokenAsync(string refreshToken)
+        public async Task<ResponseObject<TokenLogin>> RefreshAccessTokenAsync(string refreshToken)
         {
-            var token  = await _tokenRepository.GetTokenAsync(refreshToken);
+            var token = await _tokenRepository.GetTokenAsync(refreshToken);
             var user = await _userRepository.GetUserAsync(token.UserId);
             var accessTokenNew = await GenerateAccessTokenAsync(user);
             var refreshTokenNew = await GenerateRefreshTokenAsync(user);

@@ -37,7 +37,7 @@ export class LogComponent implements OnInit {
       error: (err) => {
         alert(`Không lấy được dữ liệu: ${err}`);
       },
-      complete: () => console.log("Lấy dữ liệu thành công")
+      complete: () => console.log("Lấy dữ liệu log thành công")
     });
   }
 
