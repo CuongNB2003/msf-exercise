@@ -21,6 +21,12 @@ export const AuthGuard: CanActivateFn = (route, state) => {
         router.navigate(['/login']);
         return false;
       }
+    } else {
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+      localStorage.removeItem('user');
+      router.navigate(['/login']);
+      return false;
     }
     if (userInfo) {
       const user: UserLogin = JSON.parse(userInfo) as UserLogin
@@ -31,6 +37,9 @@ export const AuthGuard: CanActivateFn = (route, state) => {
         return false;
       }
     } else {
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+      localStorage.removeItem('user');
       router.navigate(['/login']);
       return false;
     }

@@ -1,19 +1,18 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { Log } from '../../../services/log/log.interface';
-import { LogService } from '../../../services/log/log.service';
+import { Component } from '@angular/core';
+import { PaginationComponent } from '../../../../ui/pagination/pagination.component';
+import { Log } from '../../../../services/log/log.interface';
+import { LogService } from '../../../../services/log/log.service';
 import moment from 'moment';
-import 'moment/locale/vi';
-import { PaginationComponent } from '../../../ui/pagination/pagination.component';
 
 @Component({
-  selector: 'app-log',
+  selector: 'app-log-list',
   standalone: true,
   imports: [CommonModule, PaginationComponent],
-  templateUrl: './log.component.html',
-  styleUrl: './log.component.scss'
+  templateUrl: './log-list.component.html',
+  styleUrl: './log-list.component.scss'
 })
-export class LogComponent implements OnInit {
+export class LogListComponent {
   logs: Log[] = [];
   totalItems: number = 0;
   page: number = 1;

@@ -1,20 +1,19 @@
-import { Component, OnInit } from '@angular/core';
-import { RoleService } from '../../../services/role/role.service';
 import { CommonModule } from '@angular/common';
-import { RoleResponse } from '../../../services/role/role.interface';
+import { Component } from '@angular/core';
+import { PaginationComponent } from '../../../../ui/pagination/pagination.component';
+import { UserService } from '../../../../services/user/user.service';
+import { UserResponse } from '../../../../services/user/user.interface';
 import moment from 'moment';
-import 'moment/locale/vi';
-import { PaginationComponent } from '../../../ui/pagination/pagination.component';
 
 @Component({
-  selector: 'app-role',
+  selector: 'app-user-list',
   standalone: true,
   imports: [CommonModule, PaginationComponent],
-  templateUrl: './role.component.html',
-  styleUrls: ['./role.component.scss']
+  templateUrl: './user-list.component.html',
+  styleUrl: './user-list.component.scss'
 })
-export class RoleComponent implements OnInit {
-  roles: RoleResponse[] = [];
+export class UserListComponent {
+  users: UserResponse[] = [];
   totalItems: number = 0;
   page: number = 1;
   limit: number = 10;
@@ -23,22 +22,23 @@ export class RoleComponent implements OnInit {
   isDropdownOpen: { [key: number]: boolean } = {};
 
 
-  constructor(private roleService: RoleService) { }
+  constructor(private userService: UserService) { }
 
   ngOnInit(): void {
-    this.loadRoles();
+    this.loadUsers();
   }
 
-  loadRoles(): void {
-    this.roleService.getAll(this.page, this.limit).subscribe({
+
+  loadUsers(): void {
+    this.userService.getAll(this.page, this.limit).subscribe({
       next: (response) => {
-        this.roles = response.data.data;
+        this.users = response.data.data;
         this.totalItems = response.data.totalRecords;
       },
       error: (err) => {
         alert(`Không lấy được dữ liệu: ${err}`);
       },
-      complete: () => console.log("Lấy dữ liệu role thành công")
+      complete: () => console.log("Lấy dữ liệu user thành công")
     });
   }
 
@@ -55,7 +55,6 @@ export class RoleComponent implements OnInit {
   onPageChange(newPage: number): void {
     this.currentPage = newPage;
     this.page = newPage;
-    this.loadRoles();
+    this.loadUsers();
   }
-
 }
