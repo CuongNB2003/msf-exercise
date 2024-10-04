@@ -153,10 +153,10 @@
                                 display: flex;
                                 align-items: center;
                                 column-gap: 10px;
-                                justify-content: left;
+                                // justify-content: left;
 
                                 .rounded {
-                                    padding: 6px 12px;
+                                    padding: 3px 6px;
                                     background-color: var(--bs-gray-300);
                                     border-radius: 8px;
                                     color: var(--bs-white);
