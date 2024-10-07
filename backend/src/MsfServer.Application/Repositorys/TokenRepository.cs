@@ -1,7 +1,7 @@
 ﻿using Dapper;
 using Microsoft.AspNetCore.Http;
 using MsfServer.Application.Contracts.Token;
-using MsfServer.Application.Contracts.Token.TokenDtos;
+using MsfServer.Application.Contracts.Token.Dto;
 using MsfServer.Application.Dapper;
 using MsfServer.Domain.Shared.Exceptions;
 using MsfServer.Domain.Shared.Responses;

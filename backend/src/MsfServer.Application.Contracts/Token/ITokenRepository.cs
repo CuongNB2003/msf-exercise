@@ -1,4 +1,4 @@
-﻿using MsfServer.Application.Contracts.Token.TokenDtos;
+﻿using MsfServer.Application.Contracts.Token.Dto;
 using MsfServer.Domain.Shared.Responses;
 
 namespace MsfServer.Application.Contracts.Token

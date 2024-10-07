@@ -1,5 +1,5 @@
 ﻿
-namespace MsfServer.Application.Contracts.Token.TokenDtos
+namespace MsfServer.Application.Contracts.Token.Dto
 {
     public class TokenResponse
     {

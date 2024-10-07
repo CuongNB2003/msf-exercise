@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MsfServer.Application.Contracts.User.UserDtos
+namespace MsfServer.Application.Contracts.User.Dto
 {
     public class CreateUserInput
     {

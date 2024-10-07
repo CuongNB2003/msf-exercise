@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MsfServer.Application.Contracts.Authentication;
-using MsfServer.Application.Contracts.Authentication.AuthDtos.InputDtos;
+using MsfServer.Application.Contracts.Authentication.AuthDto.InputDto;
 using System.Security.Claims;
 
 namespace MsfServer.HttpApi

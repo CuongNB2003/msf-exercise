@@ -1,7 +1,7 @@
 ﻿
-using MsfServer.Application.Contracts.Token.TokenDtos;
+using MsfServer.Application.Contracts.Token.Dto;
 
-namespace MsfServer.Application.Contracts.Authentication.AuthDtos
+namespace MsfServer.Application.Contracts.Authentication.AuthDto
 {
     public class TokenLogin
     {

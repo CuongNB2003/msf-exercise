@@ -1,16 +1,19 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, Inject, OnInit } from '@angular/core';
 import { RoleDto, RoleResponse } from '../../../../services/role/role.interface';
 import { CommonModule } from '@angular/common';
 import { RoleService } from '../../../../services/role/role.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import moment from 'moment';
+import { log } from 'console';
 
 @Component({
   selector: 'app-role-detail',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './role-detail.component.html',
-  styleUrl: './role-detail.component.scss'
+  styleUrl: './role-detail.component.scss',
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+
 })
 export class RoleDetailComponent implements OnInit {
   constructor(
@@ -34,6 +37,8 @@ export class RoleDetailComponent implements OnInit {
     this.roleService.getRoleById(this.data.id).subscribe({
       next: (response) => {
         this.role = response.data;
+        console.log(response.data.countUser);
+
       },
       error: (err) => {
         alert(`Không lấy được dữ liệu: ${err}`);
@@ -46,6 +51,7 @@ export class RoleDetailComponent implements OnInit {
     var time = moment(date).format('D/M/YYYY h:mm A');
     return time;
   }
+
   close(): void {
     this.dialogRef.close();
   }

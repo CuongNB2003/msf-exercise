@@ -1,15 +1,11 @@
 ﻿using MsfServer.Application.Contracts.User;
-using MsfServer.Domain.Shared.Responses;
 using MsfServer.Application.Repositorys;
-using MsfServer.Application.Contracts.Services;
 using MsfServer.Application.Services;
-using MsfServer.Application.Contracts.Authentication.AuthDtos;
 using MsfServer.Application.Contracts.Authentication;
 using MsfServer.Application.Contracts.Role;
 using MsfServer.Application.Contracts.Token;
 using MsfServer.Application.Contracts.Log;
-using MsfServer.Application.Dapper;
-using MsfServer.Application.Contracts.Role.RoleDtos;
+using MsfServer.Application.Contracts.ReCaptcha;
 
 namespace MsfServer.HttpApi.Host.Extensions
 {

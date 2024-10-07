@@ -1,7 +1,5 @@
 ﻿
-using System.ComponentModel.DataAnnotations;
-
-namespace MsfServer.Application.Contracts.Log.LogDtos
+namespace MsfServer.Application.Contracts.Log.Dto
 {
     public class LogDto
     {
@@ -13,5 +11,6 @@ namespace MsfServer.Application.Contracts.Log.LogDtos
         public string? UserName { get; set; }
         public int Duration { get; set; }
         public DateTime CreatedAt { get; set; }
+        public int TotalLog { get; set; }
     }
 }

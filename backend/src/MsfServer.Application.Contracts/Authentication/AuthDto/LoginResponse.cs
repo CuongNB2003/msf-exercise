@@ -1,5 +1,5 @@
 ﻿
-namespace MsfServer.Application.Contracts.Authentication.AuthDtos
+namespace MsfServer.Application.Contracts.Authentication.AuthDto
 {
     public class LoginResponse
     {

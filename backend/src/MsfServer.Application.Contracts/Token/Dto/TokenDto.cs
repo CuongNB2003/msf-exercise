@@ -1,7 +1,7 @@
-﻿using MsfServer.Application.Contracts.User.UserDtos;
+﻿using MsfServer.Application.Contracts.User.Dto;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace MsfServer.Application.Contracts.Token.TokenDtos
+namespace MsfServer.Application.Contracts.Token.Dto
 {
     public class TokenDto
     {

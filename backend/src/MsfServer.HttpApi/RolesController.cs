@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MsfServer.Application.Contracts.Role;
-using MsfServer.Application.Contracts.Role.RoleDtos;
+using MsfServer.Application.Contracts.Role.Dto;
 
 namespace MsfServer.HttpApi
 {
@@ -11,7 +11,7 @@ namespace MsfServer.HttpApi
     {
         private readonly IRoleRepository _roleRepository = roleRepository;
 
-        [Authorize(Roles = "admin,user")]
+        //[Authorize(Roles = "admin,user")]
         [HttpGet] // lấy tất cả dữ liệu
         public async Task<IActionResult> GetRoles(int page, int limit)
         {
@@ -20,7 +20,7 @@ namespace MsfServer.HttpApi
             return Ok(roles);
         }
 
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         [HttpGet("{id}")] // lấy theo id
         public async Task<IActionResult> GetRole(int id)
         {
@@ -28,7 +28,7 @@ namespace MsfServer.HttpApi
             return Ok(role);
         }
 
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         [HttpPost] // tạo role 
         public async Task<IActionResult> CreateRole(RoleInput role)
         {
@@ -36,7 +36,7 @@ namespace MsfServer.HttpApi
             return Ok(result);
         }
 
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         [HttpPut("{id}")] // sửa role
         public async Task<IActionResult> UpdateRole(int id, RoleInput input)
         {
@@ -44,7 +44,7 @@ namespace MsfServer.HttpApi
             return Ok(result);
         }
 
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         [HttpDelete("{id}")] // xóa role
         public async Task<IActionResult> DeleteRole(int id)
         {

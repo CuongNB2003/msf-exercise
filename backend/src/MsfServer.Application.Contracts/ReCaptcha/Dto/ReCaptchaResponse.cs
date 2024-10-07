@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace MsfServer.Application.Contracts.Services.ServicesDtos
+namespace MsfServer.Application.Contracts.ReCaptcha.Dto
 {
     public class ReCaptchaResponse
     {

@@ -1,6 +1,6 @@
-﻿using MsfServer.Application.Contracts.Authentication.AuthDtos;
-using MsfServer.Application.Contracts.Token.TokenDtos;
-using MsfServer.Application.Contracts.User.UserDtos;
+﻿using MsfServer.Application.Contracts.Authentication.AuthDto;
+using MsfServer.Application.Contracts.Token.Dto;
+using MsfServer.Application.Contracts.User.Dto;
 using MsfServer.Domain.Shared.Responses;
 using System.Security.Claims;
 

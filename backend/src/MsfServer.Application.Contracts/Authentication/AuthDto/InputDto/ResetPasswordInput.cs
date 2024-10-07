@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MsfServer.Application.Contracts.Authentication.AuthDtos.InputDtos
+namespace MsfServer.Application.Contracts.Authentication.AuthDto.InputDto
 {
     public class ResetPasswordInput
     {

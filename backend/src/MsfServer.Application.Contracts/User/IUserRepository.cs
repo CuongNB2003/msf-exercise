@@ -1,4 +1,4 @@
-﻿using MsfServer.Application.Contracts.User.UserDtos;
+﻿using MsfServer.Application.Contracts.User.Dto;
 using MsfServer.Domain.Shared.PagedResults;
 using MsfServer.Domain.Shared.Responses;
 
