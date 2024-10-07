@@ -1,11 +1,8 @@
 ﻿
 using Dapper;
-using Microsoft.AspNetCore.Http;
 using MsfServer.Application.Contracts.Log;
 using MsfServer.Application.Contracts.Log.Dto;
-using MsfServer.Application.Contracts.Role.Dto;
 using MsfServer.Application.Dapper;
-using MsfServer.Domain.Shared.Exceptions;
 using MsfServer.Domain.Shared.PagedResults;
 using MsfServer.Domain.Shared.Responses;
 using System.Data;
@@ -36,15 +33,15 @@ namespace MsfServer.Application.Repositorys
                 new { Page = page, Limit = limit },
                 commandType: CommandType.StoredProcedure);
 
-            var userLogs = await multi.ReadAsync<LogDto>();
-            var firstLog = userLogs.FirstOrDefault();
+            var logs = await multi.ReadAsync<LogDto>();
+            var firstLog = logs.FirstOrDefault();
             // Tạo đối tượng PagedResult để trả về
             var pagedResult = new PagedResult<LogDto>
             {
                 TotalRecords = firstLog?.TotalLog ?? 0,
                 Page = page,
                 Limit = limit,
-                Data = userLogs.ToList() ?? new List<LogDto>()
+                Data = logs.ToList() ?? []
             };
 
             return ResponseObject<PagedResult<LogDto>>.CreateResponse("Lấy dữ liệu thành công.", pagedResult);

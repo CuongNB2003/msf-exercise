@@ -17,28 +17,22 @@ namespace MsfServer.Application.Repositorys
         //lấy tất cả role
         public async Task<ResponseObject<PagedResult<RoleResponse>>> GetRolesAsync(int page, int limit)
         {
-            if (page <= 0 || limit <= 0)
-            {
-                throw new CustomException(StatusCodes.Status400BadRequest, "Bạn cần phải truyền vào page và limit.");
-            }
-
             using var dapperContext = new DapperContext(_connectionString);
             using var connection = dapperContext.GetOpenConnection();
-            //thực hiện truy vấn 
-            var offset = (page - 1) * limit;
             using var multi = await connection.QueryMultipleAsync(
                  "Role_GetAll",
-                 new { Offset = offset, PageSize = limit },
+                 new { Page = page, Limit = limit },
                  commandType: CommandType.StoredProcedure);
 
-            var totalRecords = await multi.ReadSingleAsync<int>();
             var roles = await multi.ReadAsync<RoleResponse>();
+            var firstLog = roles.FirstOrDefault();
+
             var pagedResult = new PagedResult<RoleResponse>
             {
-                TotalRecords = totalRecords,
+                TotalRecords = firstLog?.TotalRole ?? 0,
                 Page = page,
                 Limit = limit,
-                Data = roles.ToList()
+                Data = roles.ToList() ?? []
             };
 
             return ResponseObject<PagedResult<RoleResponse>>.CreateResponse("Lấy dữ liệu thành công.", pagedResult);
