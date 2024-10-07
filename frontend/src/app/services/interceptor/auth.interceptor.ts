@@ -28,13 +28,15 @@ export const authInterceptor: HttpInterceptorFn = (request, next) => {
     if (!isRefreshing) {
       isRefreshing = true;
       return authService.refreshToken(refreshToken.token).pipe(
-        switchMap((response: ResponseObject<RefreshTokenResponse>) => {
+        switchMap((res: ResponseObject<RefreshTokenResponse>) => {
           isRefreshing = false;
-          localStorage.setItem('accessToken', JSON.stringify(response.data.accessToken));
-          localStorage.setItem('refreshToken', JSON.stringify(response.data.refreshToken));
+          localStorage.setItem('accessToken', JSON.stringify(res.data.accessToken));
+          localStorage.setItem('refreshToken', JSON.stringify(res.data.refreshToken));
+          console.log("Token cũ", refreshToken.expires);
+          console.log("Token cũ", res.data.refreshToken.expires);
           console.log("Token hết hạn rồi đang call nhá");
-          refreshTokenSubject.next(response.data.accessToken.token);
-          return next(handleClonedRequest(request, response.data.accessToken.token));
+          refreshTokenSubject.next(res.data.accessToken.token);
+          return next(handleClonedRequest(request, res.data.accessToken.token));
         }),
         catchError((error) => {
           isRefreshing = false;

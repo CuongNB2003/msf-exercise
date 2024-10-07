@@ -35,7 +35,7 @@
                 <tbody>
                     <tr *ngFor="let log of logs">
                         <td>
-                            <button class="dropdown-toggle" type="button">
+                            <button class="dropdown-toggle" type="button" (click)="openDialog(log.id)">
                                 <span class="material-icons">visibility</span>
                                 Xem chi tiết
                             </button>
@@ -63,7 +63,7 @@
 
             <div class="table-bottom">
                 <div class="total">
-                    <p>Tổng cộng {{totalItems}}</p>
+                    Tổng cộng {{totalItems}}
                 </div>
                 <app-pagination [totalItems]="totalItems" [itemsPerPage]="itemsPerPage" [currentPage]="currentPage"
                     (pageChanged)="onPageChange($event)">

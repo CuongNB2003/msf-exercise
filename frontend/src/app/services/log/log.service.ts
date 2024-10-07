@@ -19,4 +19,10 @@ export class LogService {
       catchError((error: HttpErrorResponse) => this.errorHandingService.getErrorObservable(error))
     )
   }
+
+  getLogById(id: number): Observable<ResponseObject<Log>> {
+    return this.http.get<ResponseObject<Log>>(`${apiUrl}/${id}`).pipe(
+      catchError((error: HttpErrorResponse) => this.errorHandingService.getErrorObservable(error))
+    )
+  }
 }

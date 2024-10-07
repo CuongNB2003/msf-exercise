@@ -11,10 +11,9 @@ import { NgProgressHttp } from 'ngx-progressbar/http';
   standalone: true,
   imports: [NgProgressbar, NgProgressRouter, NgProgressHttp, RouterOutlet,],
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'] // Sửa thành styleUrls
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  private isRefreshing = false;
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,

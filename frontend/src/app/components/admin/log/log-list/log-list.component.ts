@@ -4,6 +4,9 @@ import { PaginationComponent } from '../../../../ui/pagination/pagination.compon
 import { Log } from '../../../../services/log/log.interface';
 import { LogService } from '../../../../services/log/log.service';
 import moment from 'moment';
+import { MatDialog } from '@angular/material/dialog';
+import { LogDetailComponent } from '../log-detail/log-detail.component';
+import { log } from 'console';
 
 @Component({
   selector: 'app-log-list',
@@ -21,7 +24,7 @@ export class LogListComponent {
   itemsPerPage: number = this.limit;
   isDropdownOpen: { [key: number]: boolean } = {};
 
-  constructor(private logService: LogService) { }
+  constructor(private logService: LogService, private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.loadLogs();
@@ -49,5 +52,12 @@ export class LogListComponent {
     this.currentPage = newPage;
     this.page = newPage;
     this.loadLogs();
+  }
+
+  openDialog(id: number): void {
+    const dialogRef = this.dialog.open(LogDetailComponent, {
+      width: '600px',
+      data: { id: id }
+    });
   }
 }

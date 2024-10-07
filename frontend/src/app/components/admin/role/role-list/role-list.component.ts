@@ -4,6 +4,8 @@ import moment from 'moment';
 import { PaginationComponent } from '../../../../ui/pagination/pagination.component';
 import { RoleResponse } from '../../../../services/role/role.interface';
 import { RoleService } from '../../../../services/role/role.service';
+import { MatDialog } from '@angular/material/dialog';
+import { RoleDetailComponent } from '../role-detail/role-detail.component';
 
 @Component({
   selector: 'app-role-list',
@@ -22,7 +24,7 @@ export class RoleListComponent {
   isDropdownOpen: { [key: number]: boolean } = {};
 
 
-  constructor(private roleService: RoleService) { }
+  constructor(private roleService: RoleService, private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.loadRoles();
@@ -55,6 +57,13 @@ export class RoleListComponent {
     this.currentPage = newPage;
     this.page = newPage;
     this.loadRoles();
+  }
+
+  openDialogDetail(id: number): void {
+    const dialogRef = this.dialog.open(RoleDetailComponent, {
+      width: '600px',
+      data: { id: id }
+    });
   }
 
 }

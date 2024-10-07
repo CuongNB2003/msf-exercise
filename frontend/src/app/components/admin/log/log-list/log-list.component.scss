@@ -159,25 +159,31 @@
                                     background-color: var(--bs-gray-300);
                                     border-radius: 8px;
                                     color: var(--bs-white);
+                                    font-size: 13px;
+                                    font-weight: bold;
 
                                     &.information,
                                     &.GET {
-                                        background-color: var(--bs-get);
+                                        color: var(--bs-get);
+                                        background-color: var(--bs-background-get);
                                     }
 
                                     &.successful,
                                     &.POST {
-                                        background-color: var(--bs-post);
+                                        color: var(--bs-post);
+                                        background-color: var(--bs-background-post);
                                     }
 
                                     &.redirection,
                                     &.PUT {
-                                        background-color: var(--bs-put);
+                                        color: var(--bs-put);
+                                        background-color: var(--bs-background-put);
                                     }
 
                                     &.error,
                                     &.DELETE {
-                                        background-color: var(--bs-delete);
+                                        color: var(--bs-delete);
+                                        background-color: var(--bs-background-delete);
                                     }
                                 }
                             }
@@ -193,13 +199,12 @@
                 padding-left: 30px;
                 padding-right: 30px;
                 padding-bottom: 30px;
-                padding-top: 10px;
+                padding-top: 20px;
 
                 .total {
-                    display: flex;
-                    align-items: center;
                     color: var(--bs-black);
                     font-size: 16px;
+                    margin-top: 15px;
                 }
             }
         }

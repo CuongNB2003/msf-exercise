@@ -55,6 +55,7 @@ namespace MsfServer.Application.Services
             {
                 Token = Guid.NewGuid().ToString(),
                 Expires = DateTime.UtcNow.AddDays(_jwtSettings.RefreshTokenExpirationDays)
+                // Expires = DateTime.UtcNow.AddMinutes(_jwtSettings.ExpireMinutes)
             };
 
             var tokenDto = new TokenDto
@@ -62,6 +63,7 @@ namespace MsfServer.Application.Services
                 UserId = user.Id,
                 RefreshToken = refreshToken.Token,
                 ExpirationDate = DateTime.UtcNow.AddDays(_jwtSettings.RefreshTokenExpirationDays)
+                // ExpirationDate = DateTime.UtcNow.AddMinutes(_jwtSettings.ExpireMinutes)
             };
 
             // Save the refresh token to the repository

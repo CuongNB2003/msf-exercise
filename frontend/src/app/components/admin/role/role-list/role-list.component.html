@@ -36,8 +36,13 @@
                                     Actions
                                 </button>
                                 <ul class="dropdown-menu" [class.show]="isDropdownOpen[role.id]">
-                                    <li><button class="dropdown-item">Xem chi tiết</button></li>
-                                    <li><button class="dropdown-item">Sửa quyền</button></li>
+                                    <li>
+                                        <button class="dropdown-item" type="button" (click)="openDialogDetail(role.id)">
+                                            Xem chi tiết
+                                        </button>
+                                    </li>
+                                    <li><button class=" dropdown-item">Sửa quyền</button>
+                                    </li>
                                     <li><button class="dropdown-item">Xóa quyền</button></li>
                                 </ul>
                             </div>

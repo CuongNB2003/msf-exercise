@@ -2,12 +2,13 @@ main {
     display: flex;
     background-color: var(--color-menu-hover);
     height: 100%;
-    padding-bottom: 50px;
+    padding-bottom: 60px;
+    overflow: hidden;
 
     ng-scrollbar {
         flex: 1;
         --scrollbar-thickness: 10;
-        --scrollbar-track-color: #d3d3d3;
+        --scrollbar-track-color: var(--bs-gray-500);
         // height: 100%;
 
         ::ng-deep {
@@ -23,17 +24,13 @@ main {
             .ng-scrollbar-thumb {
                 border-radius: 20px;
                 background-image: radial-gradient(circle farthest-corner at 10% 20%,
-                        var(--bg-color1) 0.1%,
-                        var(--bg-color2) 94.2%);
-            }
-
-            .ng-scrollbar-sticky {
-                background: white;
+                        var(--bs-blue) 0.1%,
+                        var(--bs-orange) 94.2%);
             }
         }
 
         .main {
-            background-color: var(--color-menu-hover);
+            background-color: var(--bs-gray-200);
             position: relative;
             transition: all 0.2s ease;
         }

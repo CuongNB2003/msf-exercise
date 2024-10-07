@@ -9,6 +9,12 @@
     user-select: none;
 }
 
+.cdk-global-scrollblock {
+    overflow: hidden;
+    left: 0px;
+    top: 0px;
+}
+
 body {
     background-color: var(--bs-gray-200);
     font-size: 15px;
@@ -58,7 +64,8 @@ app-home {
     --bs-put: #fca130;
     --bs-get: #438aa7;
     --bs-delete: #c00d49;
-
+    --bs-background-post: #49cc8f1a;
+    --bs-background-put: #fca1301a;
+    --bs-background-get: #61affe1a;
+    --bs-background-delete: #f93e3e1a;
 }
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
