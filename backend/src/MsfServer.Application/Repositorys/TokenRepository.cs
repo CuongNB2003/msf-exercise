@@ -17,9 +17,10 @@ namespace MsfServer.Application.Repositorys
             using var dapperContext = new DapperContext(_connectionString);
             using var connection = dapperContext.GetOpenConnection();
 
-            // Query to get the token by refreshToken
             var token = await connection.QuerySingleOrDefaultAsync<TokenDto>(
-                "SELECT * FROM Tokens WHERE RefreshToken = @RefreshToken", new { RefreshToken = refreshToken });
+                "Token_GetByRefreshToken",
+                new { RefreshToken = refreshToken },
+                commandType: CommandType.StoredProcedure);
 
             return token ?? throw new CustomException(StatusCodes.Status404NotFound, "Không tìm thấy Token.");
         }
@@ -36,7 +37,7 @@ namespace MsfServer.Application.Repositorys
                 input.ExpirationDate
             };
 
-            await connection.ExecuteAsync("SaveToken", parameters, commandType: CommandType.StoredProcedure);
+            await connection.ExecuteAsync("Token_Save", parameters, commandType: CommandType.StoredProcedure);
 
             return ResponseText.ResponseSuccess("Cập nhật token thành công.", StatusCodes.Status204NoContent);
         }
@@ -44,27 +45,14 @@ namespace MsfServer.Application.Repositorys
 
         public async Task<ResponseText> DeleteTokenAsync(string idUser)
         {
-            if (!int.TryParse(idUser, out int userId))
-            {
-                throw new CustomException(StatusCodes.Status400BadRequest, "Invalid user ID.");
-            }
-
-            // Kiểm tra xem token có tồn tại không
             using var dapperContext = new DapperContext(_connectionString);
             using var connection = dapperContext.GetOpenConnection();
+            var result = await connection.ExecuteAsync(
+                "Token_DeleteByUserId",
+                new { UserIdString = idUser },
+                commandType: CommandType.StoredProcedure);
 
-            // Xóa các token liên quan đến userId
-            var sql = "DELETE FROM Tokens WHERE UserId = @UserId";
-            var result = await connection.ExecuteAsync(sql, new { UserId = userId });
-
-            if (result > 0)
-            {
-                return ResponseText.ResponseSuccess("Xóa token thành công.", StatusCodes.Status204NoContent);
-            }
-            else
-            {
-                throw new CustomException(StatusCodes.Status404NotFound, "Không tìm thấy token cho người dùng này.");
-            }
+            return ResponseText.ResponseSuccess("Xóa token thành công.", StatusCodes.Status204NoContent);
         }
 
 
