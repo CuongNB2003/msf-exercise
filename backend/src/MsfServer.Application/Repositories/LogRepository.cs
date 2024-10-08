@@ -7,7 +7,7 @@ using MsfServer.Domain.Shared.PagedResults;
 using MsfServer.Domain.Shared.Responses;
 using System.Data;
 
-namespace MsfServer.Application.Repositorys
+namespace MsfServer.Application.Repositories
 {
     public class LogRepository(string connectionString) : ILogRepository
     {

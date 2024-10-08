@@ -5,9 +5,10 @@ using MsfServer.Application.Contracts.Token.Dto;
 using MsfServer.Application.Dapper;
 using MsfServer.Domain.Shared.Exceptions;
 using MsfServer.Domain.Shared.Responses;
+using Newtonsoft.Json;
 using System.Data;
 
-namespace MsfServer.Application.Repositorys
+namespace MsfServer.Application.Repositories
 {
     public class TokenRepository(string connectionString) : ITokenRepository
     {
@@ -30,17 +31,25 @@ namespace MsfServer.Application.Repositorys
             using var dapperContext = new DapperContext(_connectionString);
             using var connection = dapperContext.GetOpenConnection();
 
-            var parameters = new
+            // Tạo JSON từ đối tượng TokenDto
+            var jsonInput = new TokenJsonDto
             {
-                input.UserId,
-                input.RefreshToken,
-                input.ExpirationDate
+                UserId = input.UserId,
+                RefreshToken = input.RefreshToken,
+                ExpirationDate = input.ExpirationDate.ToString("yyyy-MM-ddTHH:mm:ss"),
             };
 
+            // Chuyển đổi đối tượng thành chuỗi JSON
+            string json = JsonConvert.SerializeObject(jsonInput);
+
+            var parameters = new { JsonInput = json };
+
+            // Thực hiện gọi Stored Procedure với một tham số JSON
             await connection.ExecuteAsync("Token_Save", parameters, commandType: CommandType.StoredProcedure);
 
             return ResponseText.ResponseSuccess("Cập nhật token thành công.", StatusCodes.Status204NoContent);
         }
+
 
 
         public async Task<ResponseText> DeleteTokenAsync(string idUser)

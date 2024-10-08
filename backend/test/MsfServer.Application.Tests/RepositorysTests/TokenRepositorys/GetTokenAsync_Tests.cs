@@ -2,7 +2,7 @@
 using Dapper;
 using Moq;
 using MsfServer.Application.Contracts.Token.TokenDtos;
-using MsfServer.Application.Repositorys;
+using MsfServer.Application.Repositories;
 using MsfServer.Domain.Shared.Exceptions;
 using System.Data;
 

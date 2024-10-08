@@ -10,7 +10,7 @@ using MsfServer.Domain.Shared.PagedResults;
 using MsfServer.Application.Dapper;
 using MsfServer.Application.Contracts.Role.Dto;
 
-namespace MsfServer.Application.Repositorys
+namespace MsfServer.Application.Repositories
 {
     public class UserRepository(string connectionString) : IUserRepository
     {
