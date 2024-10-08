@@ -1,10 +1,10 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, Input } from '@angular/core';
 import { ErrorHandingService } from '../error-handing/error-handing.service';
 import baseURL from '../config/baseURL';
 import { catchError, Observable } from 'rxjs';
-import { PagedResult, ResponseObject } from '../config/response';
-import { RoleDto, RoleResponse } from './role.interface';
+import { PagedResult, ResponseObject, ResponseText } from '../config/response';
+import { InputRole, RoleDto, RoleResponse } from './role.interface';
 const apiUrl = `${baseURL}api/role`;
 @Injectable({
   providedIn: 'root'
@@ -21,6 +21,24 @@ export class RoleService {
 
   getRoleById(id: number): Observable<ResponseObject<RoleResponse>> {
     return this.http.get<ResponseObject<RoleResponse>>(`${apiUrl}/${id}`).pipe(
+      catchError((error: HttpErrorResponse) => this.errorHandingService.getErrorObservable(error))
+    )
+  }
+
+  createRole(input: InputRole): Observable<ResponseText> {
+    return this.http.post<ResponseText>(`${apiUrl}`, { input }).pipe(
+      catchError((error: HttpErrorResponse) => this.errorHandingService.getErrorObservable(error))
+    )
+  }
+
+  updateRole(input: InputRole, id: number): Observable<ResponseText> {
+    return this.http.put<ResponseText>(`${apiUrl}/${id}`, { input }).pipe(
+      catchError((error: HttpErrorResponse) => this.errorHandingService.getErrorObservable(error))
+    )
+  }
+
+  deleteRole(id: number): Observable<ResponseText> {
+    return this.http.delete<ResponseText>(`${apiUrl}/${id}`).pipe(
       catchError((error: HttpErrorResponse) => this.errorHandingService.getErrorObservable(error))
     )
   }

@@ -9,3 +9,16 @@ export interface UserResponse {
     createdAt: Date,
     role: RoleDto
 }
+
+export interface InputCreateUser {
+    email: string,
+    role: number,
+    avatar: string
+}
+
+export interface InputUpdateUser {
+    email: string,
+    roleI: number,
+    avatar: string,
+    name: string
+}
