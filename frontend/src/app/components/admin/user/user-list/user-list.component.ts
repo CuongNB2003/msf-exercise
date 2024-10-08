@@ -4,6 +4,8 @@ import { PaginationComponent } from '../../../../ui/pagination/pagination.compon
 import { UserService } from '../../../../services/user/user.service';
 import { UserResponse } from '../../../../services/user/user.interface';
 import moment from 'moment';
+import { UserDetailComponent } from '../user-detail/user-detail.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-user-list',
@@ -22,7 +24,7 @@ export class UserListComponent {
   isDropdownOpen: { [key: number]: boolean } = {};
 
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.loadUsers();
@@ -69,5 +71,12 @@ export class UserListComponent {
     this.currentPage = newPage;
     this.page = newPage;
     this.loadUsers();
+  }
+
+  openDialogDetail(id: number): void {
+    const dialogRef = this.dialog.open(UserDetailComponent, {
+      width: '600px',
+      data: { id: id }
+    });
   }
 }

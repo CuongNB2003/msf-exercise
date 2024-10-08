@@ -45,7 +45,9 @@
                                     Actions
                                 </button>
                                 <ul class="dropdown-menu" [class.show]="isDropdownOpen[user.id]">
-                                    <li><button class="dropdown-item">Xem chi tiết</button></li>
+                                    <li><button class="dropdown-item" type="button" (click)="openDialogDetail(user.id)">
+                                            Xem chi tiết
+                                        </button></li>
                                     <li><button class="dropdown-item">Sửa người dùng</button></li>
                                     <li><button class="dropdown-item">Xóa người dùng</button></li>
                                 </ul>
