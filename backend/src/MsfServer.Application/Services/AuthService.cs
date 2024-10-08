@@ -13,6 +13,7 @@ using MsfServer.Domain.Security;
 using MsfServer.Domain.Shared.Exceptions;
 using MsfServer.Domain.Shared.Responses;
 using System.Data;
+using Newtonsoft.Json;
 
 namespace MsfServer.Application.Services
 {
@@ -45,9 +46,10 @@ namespace MsfServer.Application.Services
             {
                 throw new CustomException(StatusCodes.Status401Unauthorized, "Sai mật khẩu.");
             }
+            var userData = UserResponse.UserData(user.Id, user.Name!, user.Email!, user.Role!, user.RoleId);
             // khởi tạo token
-            var accessToken = await _tokenService.GenerateAccessTokenAsync(user);
-            var refreshToken = await _tokenService.GenerateRefreshTokenAsync(user);
+            var accessToken = await _tokenService.GenerateAccessTokenAsync(userData);
+            var refreshToken = await _tokenService.GenerateRefreshTokenAsync(userData);
             // khởi tạo user
             var userLogin = UserLogin.FromUserDto(user);
             var token = TokenLogin.GetToken(accessToken, refreshToken);
@@ -64,31 +66,18 @@ namespace MsfServer.Application.Services
         // đăng ký
         public async Task<ResponseText> RegisterAsync(RegisterInput input)
         {
-            if (await _userRepository.CheckEmailExistsAsync(input.Email))
-            {
-                throw new CustomException(StatusCodes.Status409Conflict, "Email đã tồn tại.");
-            }
-
             // Tạo dữ liệu
             byte[] salt = PasswordHashed.GenerateSalt();
             string hashedPassword = PasswordHashed.HashPassword(input.PassWord, salt);
             var user = UserDto.CreateUserDto(input.Name, input.Email, hashedPassword, 3, input.Avatar, salt);
-
+            var userJson = JsonConvert.SerializeObject(user);
             // Thêm người dùng
             using var dapperContext = new DapperContext(_connectionString);
             using var connection = dapperContext.GetOpenConnection();
             var userId = await connection.ExecuteAsync(
-                "User_Insert",
-                 new
-                 {
-                     user.Name,
-                     user.Email,
-                     user.Password,
-                     user.RoleId,
-                     user.Avatar,
-                     user.Salt
-                 },
-                     commandType: CommandType.StoredProcedure
+                "User_Create",
+                 new { UserJson = userJson },
+                 commandType: CommandType.StoredProcedure
             );
 
             return ResponseText.ResponseSuccess("Đăng ký tài khoản thành công.", StatusCodes.Status201Created);
@@ -99,23 +88,21 @@ namespace MsfServer.Application.Services
         {
             using var dapperContext = new DapperContext(_connectionString);
             using var connection = dapperContext.GetOpenConnection();
-            var sql = @"
-                    SELECT * FROM Users WHERE Id = @Id;
-                    SELECT * FROM Roles WHERE Id = (SELECT RoleId FROM Users WHERE Id = @Id);";
 
-            using var multi = await connection.QueryMultipleAsync(sql, new { Id = IdUser });
+            using var multi = await connection.QueryMultipleAsync(
+                "User_GetById",
+                new { Id = IdUser },
+                commandType: CommandType.StoredProcedure
+            );
 
             var user = await multi.ReadSingleOrDefaultAsync<UserLogin>();
             var role = await multi.ReadSingleOrDefaultAsync<RoleDto>();
 
-            if (user == null)
+            if (user == null || role == null)
             {
-                throw new CustomException(StatusCodes.Status404NotFound, "Không tìm thấy User.");
+                throw new CustomException(StatusCodes.Status404NotFound, "Không tìm thấy User hoặc Role.");
             }
-            if (role == null)
-            {
-                throw new CustomException(StatusCodes.Status404NotFound, "Không tìm thấy Role.");
-            }
+
             user.Role = role;
             return ResponseObject<UserLogin>.CreateResponse("Lấy dữ liệu thành công.", user);
         }

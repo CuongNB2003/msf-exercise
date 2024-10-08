@@ -24,11 +24,11 @@ namespace MsfServer.Application.Repositories
                  commandType: CommandType.StoredProcedure);
 
             var roles = await multi.ReadAsync<RoleResponse>();
-            var firstLog = roles.FirstOrDefault();
+            var firstRole = roles.FirstOrDefault();
 
             var pagedResult = new PagedResult<RoleResponse>
             {
-                TotalRecords = firstLog?.TotalRole ?? 0,
+                TotalRecords = firstRole?.TotalRole ?? 0,
                 Page = page,
                 Limit = limit,
                 Data = roles.ToList() ?? []
