@@ -18,4 +18,10 @@ export class UserService {
       catchError((error: HttpErrorResponse) => this.errorHandingService.getErrorObservable(error))
     )
   }
+
+  getUserById(id: number): Observable<ResponseObject<UserResponse>> {
+    return this.http.get<ResponseObject<UserResponse>>(`${apiUrl}/${id}`).pipe(
+      catchError((error: HttpErrorResponse) => this.errorHandingService.getErrorObservable(error))
+    )
+  }
 }

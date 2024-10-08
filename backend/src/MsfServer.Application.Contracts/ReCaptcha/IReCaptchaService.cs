@@ -1,5 +1,4 @@
-﻿
-namespace MsfServer.Application.Contracts.Services
+﻿namespace MsfServer.Application.Contracts.ReCaptcha
 {
     public interface IReCaptchaService
     {

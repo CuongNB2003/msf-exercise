@@ -6,6 +6,7 @@ import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/
 import { progressInterceptor } from 'ngx-progressbar/http';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { authInterceptor } from './services/interceptor/auth.interceptor';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 
 export const appConfig: ApplicationConfig = {
@@ -14,7 +15,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideClientHydration(),
     provideHttpClient(withFetch(), withInterceptors([authInterceptor, progressInterceptor])),
-    provideAnimations(),
+    provideAnimations(), provideAnimationsAsync(),
     // provideNgProgressRouter({
     //   startEvents: [GuardsCheckEnd],
     //   completeEvents: [NavigationEnd],

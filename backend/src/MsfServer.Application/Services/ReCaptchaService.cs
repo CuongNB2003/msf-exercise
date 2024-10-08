@@ -1,10 +1,10 @@
 ﻿
 using Microsoft.Extensions.Configuration;
-using MsfServer.Application.Contracts.Services.ServicesDtos;
-using MsfServer.Application.Contracts.Services;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Http;
 using MsfServer.Domain.Shared.Exceptions;
+using MsfServer.Application.Contracts.ReCaptcha;
+using MsfServer.Application.Contracts.ReCaptcha.Dto;
 
 namespace MsfServer.Application.Services
 {
@@ -15,8 +15,6 @@ namespace MsfServer.Application.Services
 
         public async Task<bool> VerifyTokenAsync(string recaptcha)
         {
-            try
-            {
                 var response = await _httpClient.PostAsync($"https://www.google.com/recaptcha/api/siteverify?secret={_secretKey}&response={recaptcha}", null);
                 if (response.IsSuccessStatusCode)
                 {
@@ -34,15 +32,7 @@ namespace MsfServer.Application.Services
                 {
                     throw new CustomException(StatusCodes.Status500InternalServerError, "Không thể xác minh reCAPTCHA token.");
                 }
-            }
-            catch (HttpRequestException e)
-            {
-                throw new CustomException(StatusCodes.Status500InternalServerError, $"Yêu cầu lỗi: {e.Message}");
-            }
-            catch (Exception e)
-            {
-                throw new CustomException(StatusCodes.Status500InternalServerError, $"Có lỗi sảy ra: {e.Message}");
-            }
+    
         }
     }
 

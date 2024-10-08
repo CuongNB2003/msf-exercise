@@ -9,6 +9,12 @@
     user-select: none;
 }
 
+.cdk-global-scrollblock {
+    overflow: hidden;
+    left: 0px;
+    top: 0px;
+}
+
 body {
     background-color: var(--bs-gray-200);
     font-size: 15px;
@@ -54,4 +60,12 @@ app-home {
     --bs-danger: #c00d49;
     --bs-light: #e6ebef;
     --bs-dark: #062a44;
+    --bs-post: #4fbf67;
+    --bs-put: #fca130;
+    --bs-get: #438aa7;
+    --bs-delete: #c00d49;
+    --bs-background-post: #49cc8f1a;
+    --bs-background-put: #fca1301a;
+    --bs-background-get: #61affe1a;
+    --bs-background-delete: #f93e3e1a;
 }
