@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import {
   matAppsOutline,
@@ -56,10 +56,6 @@ export class HeaderLayoutComponent implements OnInit {
     }
   }
 
-  toggleProfile(): void {
-    this.isProfileVisible = !this.isProfileVisible;
-  }
-
   onLogout() {
     this.authService.logout().subscribe({
       next: () => {
@@ -73,5 +69,18 @@ export class HeaderLayoutComponent implements OnInit {
       },
       complete: () => console.log('Đăng xuất thành công')
     })
+  }
+
+  toggleProfile(event: Event) {
+    event.stopPropagation();
+    this.isProfileVisible = !this.isProfileVisible;
+  }
+
+  @HostListener('document:click', ['$event'])
+  onClickOutside(event: Event) {
+    const targetElement = event.target as HTMLElement;
+    if (!targetElement.closest('.profile-container') && !targetElement.closest('.main-link')) {
+      this.isProfileVisible = false;
+    }
   }
 }

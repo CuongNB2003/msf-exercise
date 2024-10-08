@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import moment from 'moment';
 import { PaginationComponent } from '../../../../ui/pagination/pagination.component';
 import { RoleResponse } from '../../../../services/role/role.interface';
@@ -49,8 +49,21 @@ export class RoleListComponent {
     return relative + ", " + multiple;
   }
 
-  toggleDropdown(id: number) {
-    this.isDropdownOpen[id] = !this.isDropdownOpen[id];
+  toggleDropdown(event: Event, roleId: number) {
+    event.stopPropagation();
+    this.isDropdownOpen[roleId] = !this.isDropdownOpen[roleId];
+  }
+
+  @HostListener('document:click', ['$event'])
+  onClickOutside(event: Event) {
+    const targetElement = event.target as HTMLElement;
+    for (const roleId in this.isDropdownOpen) {
+      if (this.isDropdownOpen.hasOwnProperty(roleId)) {
+        if (!targetElement.closest('.dropdown') && !targetElement.closest('.dropdown-toggle')) {
+          this.isDropdownOpen[roleId] = false;
+        }
+      }
+    }
   }
 
   onPageChange(newPage: number): void {

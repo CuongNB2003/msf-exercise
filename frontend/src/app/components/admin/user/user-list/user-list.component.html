@@ -24,7 +24,7 @@
                 <span class="material-icons">search</span>
             </button>
         </div>
-        <div class="table-container">
+        <div class="table-container" (click)="onClickOutside($event)">
             <table>
                 <thead>
                     <tr>
@@ -39,7 +39,7 @@
                     <tr *ngFor="let user of users">
                         <td>
                             <div class="dropdown">
-                                <button class="dropdown-toggle" (click)="toggleDropdown(user.id)"
+                                <button class="dropdown-toggle" (click)="toggleDropdown($event, user.id)"
                                     [ngClass]="{'open': isDropdownOpen[user.id]}" type="button">
                                     <span class="material-icons">settings</span>
                                     Actions
