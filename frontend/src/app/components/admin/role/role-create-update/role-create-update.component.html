@@ -1,0 +1,29 @@
+<h2 mat-dialog-title>Thêm người dùng</h2>
+
+<mat-tab-group>
+    <mat-tab label="Thông tin người dùng">
+        <form class="user-form" [formGroup]="createUserFrom">
+            <div style="height: 20px;"></div>
+            <app-input [formGroup]="createUserFrom" controlName="email" className="bg-input" placeholder="Nhập email"
+                errorMessage="Vui lòng nhập email hợp lệ" type="email"></app-input>
+
+            <app-input [formGroup]="createUserFrom" controlName="name" className="bg-input" placeholder="Nhập name"
+                errorMessage="Vui lòng nhập tên của bạn" type="text"></app-input>
+        </form>
+    </mat-tab>
+
+    <mat-tab label="Quyền">
+        <div class="roles-list">
+            <mat-checkbox *ngFor="let role of roles" [(ngModel)]="selectedRoles[role.id]"
+                (ngModelChange)="onCheckboxChange($event, role)">
+                {{ role.name }}
+            </mat-checkbox>
+        </div>
+    </mat-tab>
+</mat-tab-group>
+
+<div mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-raised-button color="primary" (click)="createHandle()">Save</button>
+</div>
+<!-- </mat-dialog-content> -->

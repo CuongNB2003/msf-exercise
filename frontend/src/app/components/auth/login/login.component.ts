@@ -1,20 +1,27 @@
-import { ResponseObject, Token } from './../../../services/config/response';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RecaptchaFormsModule, RecaptchaModule } from 'ng-recaptcha-2';
 import { CommonModule } from '@angular/common';
-import { InputComponent } from '../../../ui/input/input.component';
-import { ButtonComponent } from '../../../ui/button/button.component';
-import { AuthService } from '../../../services/auth/auth.service';
 import moment from 'moment';
-import 'moment/locale/vi';
-import { LoginResponse } from '../../../services/auth/auth.interface';
+import { ButtonComponent } from '@ui/button/button.component';
+import { InputComponent } from '@ui/input/input.component';
+import { AuthService } from '@services/auth/auth.service';
+import { ResponseObject } from '@services/config/response';
+import { LoginResponse } from '@services/auth/auth.interface';
+
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [RecaptchaModule, ReactiveFormsModule, CommonModule, InputComponent, ButtonComponent, RecaptchaFormsModule],
+  imports: [
+    RecaptchaModule,
+    ReactiveFormsModule,
+    CommonModule,
+    InputComponent,
+    ButtonComponent,
+    RecaptchaFormsModule
+  ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })

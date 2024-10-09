@@ -1,9 +1,9 @@
-import { LogService } from './../../../../services/log/log.service';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import moment from 'moment';
-import { Log } from '../../../../services/log/log.interface';
 import { CommonModule } from '@angular/common';
+import { Log } from '@services/log/log.interface';
+import { LogService } from '@services/log/log.service';
 
 @Component({
   selector: 'app-log-detail',

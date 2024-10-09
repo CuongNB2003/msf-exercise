@@ -2,6 +2,15 @@
     position: relative;
     margin-bottom: 30px;
 
+    &.bg-input {
+        .input-container {
+            input {
+                border: 1px solid var(--bs-black);
+            }
+        }
+
+    }
+
     .input-container {
         position: relative;
 

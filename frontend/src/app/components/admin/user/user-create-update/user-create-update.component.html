@@ -1,0 +1,32 @@
+<div class="title-dialog">
+    <h2>{{ data.id ? "Sửa người dùng" : "Thêm người dùng"}}</h2>
+    <span class="material-icons" (click)="close()">close</span>
+</div>
+
+<mat-tab-group>
+    <mat-tab label="Thông tin người dùng">
+        <form class="user-form" [formGroup]="createUserForm">
+            <div style="height: 20px;"></div>
+            <app-input [formGroup]="createUserForm" controlName="email" className="bg-input" placeholder="Nhập email"
+                errorMessage="Vui lòng nhập email hợp lệ" type="email"></app-input>
+
+            <!-- Sử dụng *ngIf để hiển thị hoặc ẩn thành phần dựa trên giá trị của data.id -->
+            <app-input *ngIf="data.id" [formGroup]="createUserForm" controlName="name" className="bg-input"
+                placeholder="Nhập name" errorMessage="Vui lòng nhập tên của bạn" type="text"></app-input>
+        </form>
+    </mat-tab>
+
+    <mat-tab label="Quyền">
+        <div class="roles-list">
+            <mat-checkbox *ngFor="let role of roles" [(ngModel)]="selectedRoles[role.id]"
+                (ngModelChange)="onCheckboxChange($event, role)">
+                {{ role.name }}
+            </mat-checkbox>
+        </div>
+    </mat-tab>
+</mat-tab-group>
+
+<div mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Hủy</button>
+    <button mat-raised-button color="primary" (click)="onSubmit()">{{ data.id ? "Sửa" : "Thêm"}}</button>
+</div>

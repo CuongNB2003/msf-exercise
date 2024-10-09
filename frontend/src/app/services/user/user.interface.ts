@@ -12,13 +12,13 @@ export interface UserResponse {
 
 export interface InputCreateUser {
     email: string,
-    role: number,
+    roleId: number,
     avatar: string
 }
 
 export interface InputUpdateUser {
     email: string,
-    roleI: number,
+    roleId: number,
     avatar: string,
     name: string
 }

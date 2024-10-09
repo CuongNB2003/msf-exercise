@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { HeaderLayoutComponent } from '../../../ui/header-layout/header-layout.component';
-import { FooterLayoutComponent } from '../../../ui/footer-layout/footer-layout.component';
-import { SidebarAdminComponent } from '../../../ui/sidebar-admin/sidebar-admin.component';
+import { FooterLayoutComponent } from '@ui/footer-layout/footer-layout.component';
+import { HeaderLayoutComponent } from '@ui/header-layout/header-layout.component';
+import { SidebarAdminComponent } from '@ui/sidebar-admin/sidebar-admin.component';
 import { NgScrollbar } from 'ngx-scrollbar';
 
 @Component({

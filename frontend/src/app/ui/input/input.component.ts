@@ -14,6 +14,7 @@ export class InputComponent {
   @Input() controlName!: string;
   @Input() placeholder!: string;
   @Input() type: string = 'text';
+  @Input() className?: string;
 
   isPasswordVisible: boolean = false;
 

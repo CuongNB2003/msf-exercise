@@ -26,13 +26,13 @@ export class UserService {
   }
 
   createUser(input: InputCreateUser): Observable<ResponseText> {
-    return this.http.post<ResponseText>(`${apiUrl}`, { input }).pipe(
+    return this.http.post<ResponseText>(`${apiUrl}`, input).pipe(
       catchError((error: HttpErrorResponse) => this.errorHandingService.getErrorObservable(error))
     )
   }
 
   updateUser(input: InputUpdateUser, id: number): Observable<ResponseText> {
-    return this.http.put<ResponseText>(`${apiUrl}/${id}`, { input }).pipe(
+    return this.http.put<ResponseText>(`${apiUrl}/${id}`, input).pipe(
       catchError((error: HttpErrorResponse) => this.errorHandingService.getErrorObservable(error))
     )
   }

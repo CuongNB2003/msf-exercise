@@ -1,11 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, HostListener } from '@angular/core';
-import { PaginationComponent } from '../../../../ui/pagination/pagination.component';
-import { UserService } from '../../../../services/user/user.service';
-import { UserResponse } from '../../../../services/user/user.interface';
 import moment from 'moment';
+import 'moment/locale/vi';
 import { UserDetailComponent } from '../user-detail/user-detail.component';
 import { MatDialog } from '@angular/material/dialog';
+import { PaginationComponent } from '@ui/pagination/pagination.component';
+import { UserResponse } from '@services/user/user.interface';
+import { UserService } from '@services/user/user.service';
+import { UserCreateUpdateComponent } from '../user-create-update/user-create-update.component';
+
 
 @Component({
   selector: 'app-user-list',
@@ -77,6 +80,26 @@ export class UserListComponent {
     const dialogRef = this.dialog.open(UserDetailComponent, {
       width: '600px',
       data: { id: id }
+    });
+  }
+
+  openDialogCreate(): void {
+    const dialogRef = this.dialog.open(UserCreateUpdateComponent, {
+      width: '600px',
+      data: {
+        id: null,
+        load: () => this.loadUsers(),
+      }
+    });
+  }
+
+  openDialogUpdate(id: number): void {
+    const dialogRef = this.dialog.open(UserCreateUpdateComponent, {
+      width: '600px',
+      data: {
+        id: id,
+        load: () => this.loadUsers(),
+      }
     });
   }
 }

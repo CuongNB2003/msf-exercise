@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { PaginationComponent } from '../../../../ui/pagination/pagination.component';
-import { Log } from '../../../../services/log/log.interface';
-import { LogService } from '../../../../services/log/log.service';
 import moment from 'moment';
+import 'moment/locale/vi';
 import { MatDialog } from '@angular/material/dialog';
+import { PaginationComponent } from '@ui/pagination/pagination.component';
+import { LogService } from '@services/log/log.service';
 import { LogDetailComponent } from '../log-detail/log-detail.component';
-import { log } from 'console';
+import { Log } from '@services/log/log.interface';
 
 @Component({
   selector: 'app-log-list',

@@ -1,11 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, HostListener } from '@angular/core';
-import moment from 'moment';
-import { PaginationComponent } from '../../../../ui/pagination/pagination.component';
-import { RoleResponse } from '../../../../services/role/role.interface';
-import { RoleService } from '../../../../services/role/role.service';
 import { MatDialog } from '@angular/material/dialog';
+import { RoleResponse } from '@services/role/role.interface';
+import { RoleService } from '@services/role/role.service';
+import { PaginationComponent } from '@ui/pagination/pagination.component';
+import moment from 'moment';
+import 'moment/locale/vi';
 import { RoleDetailComponent } from '../role-detail/role-detail.component';
+import { RoleCreateUpdateComponent } from '../role-create-update/role-create-update.component';
 
 @Component({
   selector: 'app-role-list',
@@ -76,6 +78,12 @@ export class RoleListComponent {
     const dialogRef = this.dialog.open(RoleDetailComponent, {
       width: '600px',
       data: { id: id }
+    });
+  }
+
+  openDialogCreate(): void {
+    const dialogRef = this.dialog.open(RoleCreateUpdateComponent, {
+      width: '600px',
     });
   }
 

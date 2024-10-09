@@ -1,8 +1,7 @@
-import { RoleDto } from './../../../../services/role/role.interface';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, Inject, OnInit } from '@angular/core';
-import { UserService } from '../../../../services/user/user.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { UserResponse } from '../../../../services/user/user.interface';
+import { UserResponse } from '@services/user/user.interface';
+import { UserService } from '@services/user/user.service';
 import moment from 'moment';
 
 @Component({
