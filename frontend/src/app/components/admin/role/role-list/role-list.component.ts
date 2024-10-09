@@ -9,6 +9,7 @@ import 'moment/locale/vi';
 import { RoleDetailComponent } from '../role-detail/role-detail.component';
 import { RoleCreateUpdateComponent } from '../role-create-update/role-create-update.component';
 import { MessageService } from 'primeng/api';
+import { RoleDeleteComponent } from '../role-delete/role-delete.component';
 
 @Component({
   selector: 'app-role-list',
@@ -86,7 +87,30 @@ export class RoleListComponent {
   openDialogCreate(): void {
     const dialogRef = this.dialog.open(RoleCreateUpdateComponent, {
       width: '600px',
+      data: {
+        id: null,
+        load: () => this.loadRoles(),
+      }
     });
   }
 
+  openDialogUpdate(id: number): void {
+    const dialogRef = this.dialog.open(RoleCreateUpdateComponent, {
+      width: '600px',
+      data: {
+        id: id,
+        load: () => this.loadRoles(),
+      }
+    });
+  }
+
+  openDialogDelete(id: number): void {
+    const dialogRef = this.dialog.open(RoleDeleteComponent, {
+      width: '600px',
+      data: {
+        id: id,
+        load: () => this.loadRoles(),
+      }
+    });
+  }
 }

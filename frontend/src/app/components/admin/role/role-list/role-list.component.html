@@ -41,9 +41,16 @@
                                             Xem chi tiết
                                         </button>
                                     </li>
-                                    <li><button class=" dropdown-item">Sửa quyền</button>
+                                    <li>
+                                        <button class="dropdown-item" type="button" (click)="openDialogUpdate(role.id)">
+                                            Sửa quyền
+                                        </button>
                                     </li>
-                                    <li><button class="dropdown-item">Xóa quyền</button></li>
+                                    <li>
+                                        <button class="dropdown-item" type="button" (click)="openDialogDelete(role.id)">
+                                            Xóa quyền
+                                        </button>
+                                    </li>
                                 </ul>
                             </div>
                         </td>

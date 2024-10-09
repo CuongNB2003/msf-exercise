@@ -26,13 +26,13 @@ export class RoleService {
   }
 
   createRole(input: InputRole): Observable<ResponseText> {
-    return this.http.post<ResponseText>(`${apiUrl}`, { input }).pipe(
+    return this.http.post<ResponseText>(`${apiUrl}`, input).pipe(
       catchError((error: HttpErrorResponse) => this.errorHandingService.getErrorObservable(error))
     )
   }
 
   updateRole(input: InputRole, id: number): Observable<ResponseText> {
-    return this.http.put<ResponseText>(`${apiUrl}/${id}`, { input }).pipe(
+    return this.http.put<ResponseText>(`${apiUrl}/${id}`, input).pipe(
       catchError((error: HttpErrorResponse) => this.errorHandingService.getErrorObservable(error))
     )
   }
