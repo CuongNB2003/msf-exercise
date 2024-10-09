@@ -1,4 +1,4 @@
-<div [formGroup]="formGroup" class="formGroup">
+<div [formGroup]="formGroup" [className]="'formGroup ' + className">
     <div class="input-container">
         <input [type]="type === 'password' && !isPasswordVisible ? 'password' : 'text'" [formControlName]="controlName"
             [ngClass]="{'is-invalid': isInvalid(controlName)}" [placeholder]="placeholder">

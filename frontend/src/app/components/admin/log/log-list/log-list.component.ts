@@ -1,12 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { PaginationComponent } from '../../../../ui/pagination/pagination.component';
-import { Log } from '../../../../services/log/log.interface';
-import { LogService } from '../../../../services/log/log.service';
 import moment from 'moment';
+import 'moment/locale/vi';
 import { MatDialog } from '@angular/material/dialog';
+import { PaginationComponent } from '@ui/pagination/pagination.component';
+import { LogService } from '@services/log/log.service';
 import { LogDetailComponent } from '../log-detail/log-detail.component';
-import { log } from 'console';
+import { Log } from '@services/log/log.interface';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-log-list',
@@ -24,7 +25,7 @@ export class LogListComponent {
   itemsPerPage: number = this.limit;
   isDropdownOpen: { [key: number]: boolean } = {};
 
-  constructor(private logService: LogService, private dialog: MatDialog) { }
+  constructor(private messageService: MessageService, private logService: LogService, private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.loadLogs();
@@ -33,11 +34,12 @@ export class LogListComponent {
   loadLogs(): void {
     this.logService.getAll(this.page, this.limit).subscribe({
       next: (response) => {
+        // this.messageService.add({ severity: 'success', summary: 'Success', detail: response.message });
         this.logs = response.data.data;
         this.totalItems = response.data.totalRecords;
       },
       error: (err) => {
-        alert(`Không lấy được dữ liệu: ${err}`);
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: err });
       },
       complete: () => console.log("Lấy dữ liệu log thành công")
     });

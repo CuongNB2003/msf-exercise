@@ -1,11 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { Component, HostListener } from '@angular/core';
-import { PaginationComponent } from '../../../../ui/pagination/pagination.component';
-import { UserService } from '../../../../services/user/user.service';
-import { UserResponse } from '../../../../services/user/user.interface';
 import moment from 'moment';
+import 'moment/locale/vi';
 import { UserDetailComponent } from '../user-detail/user-detail.component';
 import { MatDialog } from '@angular/material/dialog';
+import { PaginationComponent } from '@ui/pagination/pagination.component';
+import { UserResponse } from '@services/user/user.interface';
+import { UserService } from '@services/user/user.service';
+import { UserCreateUpdateComponent } from '../user-create-update/user-create-update.component';
+import { MessageService } from 'primeng/api';
+import { UserDeleteComponent } from '../user-delete/user-delete.component';
+
 
 @Component({
   selector: 'app-user-list',
@@ -24,7 +29,7 @@ export class UserListComponent {
   isDropdownOpen: { [key: number]: boolean } = {};
 
 
-  constructor(private userService: UserService, private dialog: MatDialog) { }
+  constructor(private userService: UserService, private dialog: MatDialog, private messageService: MessageService,) { }
 
   ngOnInit(): void {
     this.loadUsers();
@@ -34,11 +39,12 @@ export class UserListComponent {
   loadUsers(): void {
     this.userService.getAll(this.page, this.limit).subscribe({
       next: (response) => {
+        // this.messageService.add({ severity: 'success', summary: 'Success', detail: response.message });
         this.users = response.data.data;
         this.totalItems = response.data.totalRecords;
       },
       error: (err) => {
-        alert(`Không lấy được dữ liệu: ${err}`);
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: err });
       },
       complete: () => console.log("Lấy dữ liệu user thành công")
     });
@@ -77,6 +83,36 @@ export class UserListComponent {
     const dialogRef = this.dialog.open(UserDetailComponent, {
       width: '600px',
       data: { id: id }
+    });
+  }
+
+  openDialogCreate(): void {
+    const dialogRef = this.dialog.open(UserCreateUpdateComponent, {
+      width: '600px',
+      data: {
+        id: null,
+        load: () => this.loadUsers(),
+      }
+    });
+  }
+
+  openDialogUpdate(id: number): void {
+    const dialogRef = this.dialog.open(UserCreateUpdateComponent, {
+      width: '600px',
+      data: {
+        id: id,
+        load: () => this.loadUsers(),
+      }
+    });
+  }
+
+  openDialogDelete(id: number): void {
+    const dialogRef = this.dialog.open(UserDeleteComponent, {
+      width: '600px',
+      data: {
+        id: id,
+        load: () => this.loadUsers(),
+      }
     });
   }
 }

@@ -1,3 +1,25 @@
+/* Import PrimeNG styles */
+@import 'primeng/resources/themes/saga-blue/theme.css';
+@import 'primeng/resources/primeng.min.css';
+@import 'primeicons/primeicons.css';
+
+// custom lại toast
+.custom-toast {
+    .p-toast-message {
+        margin-top: 10px;
+        padding: 6px 10px;
+
+        .p-toast-message-icon {
+            margin-right: 5px;
+            transform: scale(0.8);
+        }
+    }
+
+    .p-toast-summary {
+        font-weight: bold;
+    }
+}
+
 /* You can add global styles to this file, and also import other style files */
 *,
 *:before,

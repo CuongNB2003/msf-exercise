@@ -1,10 +1,10 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, Inject, OnInit } from '@angular/core';
-import { RoleDto, RoleResponse } from '../../../../services/role/role.interface';
 import { CommonModule } from '@angular/common';
-import { RoleService } from '../../../../services/role/role.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import moment from 'moment';
-import { log } from 'console';
+import { RoleService } from '@services/role/role.service';
+import { RoleResponse } from '@services/role/role.interface';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-role-detail',
@@ -17,6 +17,7 @@ import { log } from 'console';
 })
 export class RoleDetailComponent implements OnInit {
   constructor(
+    private messageService: MessageService,
     private roleService: RoleService,
     public dialogRef: MatDialogRef<RoleDetailComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
@@ -36,12 +37,11 @@ export class RoleDetailComponent implements OnInit {
   getRoleById(): void {
     this.roleService.getRoleById(this.data.id).subscribe({
       next: (response) => {
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: response.message });
         this.role = response.data;
-        console.log(response.data.countUser);
-
       },
       error: (err) => {
-        alert(`Không lấy được dữ liệu: ${err}`);
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: err });
       },
       complete: () => console.log("Lấy dữ liệu role theo id thành công")
     });

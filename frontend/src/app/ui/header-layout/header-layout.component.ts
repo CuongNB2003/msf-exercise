@@ -11,8 +11,9 @@ import {
   matVideocamOutline,
 } from '@ng-icons/material-icons/outline';
 import { Router } from '@angular/router';
-import { UserLogin } from '../../services/auth/auth.interface';
-import { AuthService } from '../../services/auth/auth.service';
+import { AuthService } from '@services/auth/auth.service';
+import { UserLogin } from '@services/auth/auth.interface';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-header-layout',
@@ -33,7 +34,7 @@ import { AuthService } from '../../services/auth/auth.service';
   ],
 })
 export class HeaderLayoutComponent implements OnInit {
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService, private router: Router, private messageService: MessageService,) { }
   username: string = "";
   role: string = "";
   email: string = "";
@@ -58,14 +59,15 @@ export class HeaderLayoutComponent implements OnInit {
 
   onLogout() {
     this.authService.logout().subscribe({
-      next: () => {
+      next: (res) => {
+        this.messageService.add({ severity: 'info', summary: 'Info', detail: res.message });
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
         localStorage.removeItem('user');
         this.router.navigate(['/login']);
       },
-      error(error) {
-        alert(`Đăng xuất thất bại: ${error}`);
+      error: (error) => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
       },
       complete: () => console.log('Đăng xuất thành công')
     })

@@ -1,11 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { Component, HostListener } from '@angular/core';
-import moment from 'moment';
-import { PaginationComponent } from '../../../../ui/pagination/pagination.component';
-import { RoleResponse } from '../../../../services/role/role.interface';
-import { RoleService } from '../../../../services/role/role.service';
 import { MatDialog } from '@angular/material/dialog';
+import { RoleResponse } from '@services/role/role.interface';
+import { RoleService } from '@services/role/role.service';
+import { PaginationComponent } from '@ui/pagination/pagination.component';
+import moment from 'moment';
+import 'moment/locale/vi';
 import { RoleDetailComponent } from '../role-detail/role-detail.component';
+import { RoleCreateUpdateComponent } from '../role-create-update/role-create-update.component';
+import { MessageService } from 'primeng/api';
+import { RoleDeleteComponent } from '../role-delete/role-delete.component';
 
 @Component({
   selector: 'app-role-list',
@@ -24,7 +28,7 @@ export class RoleListComponent {
   isDropdownOpen: { [key: number]: boolean } = {};
 
 
-  constructor(private roleService: RoleService, private dialog: MatDialog) { }
+  constructor(private messageService: MessageService, private roleService: RoleService, private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.loadRoles();
@@ -33,11 +37,12 @@ export class RoleListComponent {
   loadRoles(): void {
     this.roleService.getAll(this.page, this.limit).subscribe({
       next: (response) => {
+        // this.messageService.add({ severity: 'success', summary: 'Success', detail: response.message });
         this.roles = response.data.data;
         this.totalItems = response.data.totalRecords;
       },
       error: (err) => {
-        alert(`Không lấy được dữ liệu: ${err}`);
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: err });
       },
       complete: () => console.log("Lấy dữ liệu role thành công")
     });
@@ -79,4 +84,33 @@ export class RoleListComponent {
     });
   }
 
+  openDialogCreate(): void {
+    const dialogRef = this.dialog.open(RoleCreateUpdateComponent, {
+      width: '600px',
+      data: {
+        id: null,
+        load: () => this.loadRoles(),
+      }
+    });
+  }
+
+  openDialogUpdate(id: number): void {
+    const dialogRef = this.dialog.open(RoleCreateUpdateComponent, {
+      width: '600px',
+      data: {
+        id: id,
+        load: () => this.loadRoles(),
+      }
+    });
+  }
+
+  openDialogDelete(id: number): void {
+    const dialogRef = this.dialog.open(RoleDeleteComponent, {
+      width: '600px',
+      data: {
+        id: id,
+        load: () => this.loadRoles(),
+      }
+    });
+  }
 }

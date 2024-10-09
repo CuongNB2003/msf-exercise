@@ -1,9 +1,10 @@
-import { LogService } from './../../../../services/log/log.service';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import moment from 'moment';
-import { Log } from '../../../../services/log/log.interface';
 import { CommonModule } from '@angular/common';
+import { Log } from '@services/log/log.interface';
+import { LogService } from '@services/log/log.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-log-detail',
@@ -24,7 +25,7 @@ export class LogDetailComponent implements OnInit {
     duration: 0,
     createdAt: new Date()
   };
-  constructor(private logService: LogService, public dialogRef: MatDialogRef<LogDetailComponent>, @Inject(MAT_DIALOG_DATA) public data: any) { }
+  constructor(private messageService: MessageService, private logService: LogService, public dialogRef: MatDialogRef<LogDetailComponent>, @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit(): void {
     this.getLogById();
@@ -33,10 +34,11 @@ export class LogDetailComponent implements OnInit {
   getLogById(): void {
     this.logService.getLogById(this.data.id).subscribe({
       next: (response) => {
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: response.message });
         this.log = response.data;
       },
       error: (err) => {
-        alert(`Không lấy được dữ liệu: ${err}`);
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: err });
       },
       complete: () => console.log("Lấy dữ liệu log theo id thành công")
     });

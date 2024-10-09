@@ -5,11 +5,18 @@ import { filter, map } from 'rxjs';
 import { NgProgressbar } from 'ngx-progressbar';
 import { NgProgressRouter } from 'ngx-progressbar/router';
 import { NgProgressHttp } from 'ngx-progressbar/http';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [NgProgressbar, NgProgressRouter, NgProgressHttp, RouterOutlet,],
+  imports: [
+    NgProgressbar,
+    NgProgressRouter,
+    NgProgressHttp,
+    RouterOutlet,
+    ToastModule
+  ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })

@@ -4,7 +4,7 @@
         <div class="top-bar">
             <h1>Quyền</h1>
             <div class="actions">
-                <button class="btn">
+                <button class="btn" type="button" (click)="openDialogCreate()">
                     <span class="material-icons">add</span>
                     Thêm quyền
                 </button>
@@ -41,9 +41,16 @@
                                             Xem chi tiết
                                         </button>
                                     </li>
-                                    <li><button class=" dropdown-item">Sửa quyền</button>
+                                    <li>
+                                        <button class="dropdown-item" type="button" (click)="openDialogUpdate(role.id)">
+                                            Sửa quyền
+                                        </button>
                                     </li>
-                                    <li><button class="dropdown-item">Xóa quyền</button></li>
+                                    <li>
+                                        <button class="dropdown-item" type="button" (click)="openDialogDelete(role.id)">
+                                            Xóa quyền
+                                        </button>
+                                    </li>
                                 </ul>
                             </div>
                         </td>

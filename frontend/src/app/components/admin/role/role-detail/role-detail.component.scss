@@ -29,39 +29,6 @@ mat-dialog-content {
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-
-                .rounded {
-                    padding: 5px 10px;
-                    background-color: var(--bs-gray-300);
-                    border-radius: 8px;
-                    color: var(--bs-white);
-                    font-size: 13px;
-                    font-weight: bold;
-
-                    &.information,
-                    &.GET {
-                        color: var(--bs-get);
-                        background-color: var(--bs-background-get);
-                    }
-
-                    &.successful,
-                    &.POST {
-                        color: var(--bs-post);
-                        background-color: var(--bs-background-post);
-                    }
-
-                    &.redirection,
-                    &.PUT {
-                        color: var(--bs-put);
-                        background-color: var(--bs-background-put);
-                    }
-
-                    &.error,
-                    &.DELETE {
-                        color: var(--bs-delete);
-                        background-color: var(--bs-background-delete);
-                    }
-                }
             }
         }
     }
