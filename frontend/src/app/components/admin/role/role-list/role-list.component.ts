@@ -8,6 +8,7 @@ import moment from 'moment';
 import 'moment/locale/vi';
 import { RoleDetailComponent } from '../role-detail/role-detail.component';
 import { RoleCreateUpdateComponent } from '../role-create-update/role-create-update.component';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-role-list',
@@ -26,7 +27,7 @@ export class RoleListComponent {
   isDropdownOpen: { [key: number]: boolean } = {};
 
 
-  constructor(private roleService: RoleService, private dialog: MatDialog) { }
+  constructor(private messageService: MessageService, private roleService: RoleService, private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.loadRoles();
@@ -35,11 +36,12 @@ export class RoleListComponent {
   loadRoles(): void {
     this.roleService.getAll(this.page, this.limit).subscribe({
       next: (response) => {
+        // this.messageService.add({ severity: 'success', summary: 'Success', detail: response.message });
         this.roles = response.data.data;
         this.totalItems = response.data.totalRecords;
       },
       error: (err) => {
-        alert(`Không lấy được dữ liệu: ${err}`);
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: err });
       },
       complete: () => console.log("Lấy dữ liệu role thành công")
     });

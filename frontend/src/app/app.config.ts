@@ -7,13 +7,7 @@ import { progressInterceptor } from 'ngx-progressbar/http';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { authInterceptor } from './services/interceptor/auth.interceptor';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatTabsModule } from '@angular/material/tabs';
-import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MessageService } from 'primeng/api';
 
 
 export const appConfig: ApplicationConfig = {
@@ -22,20 +16,8 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideClientHydration(),
     provideHttpClient(withFetch(), withInterceptors([authInterceptor, progressInterceptor])),
-    provideAnimations(), provideAnimationsAsync(),
-    // provideNgProgressRouter({
-    //   startEvents: [GuardsCheckEnd],
-    //   completeEvents: [NavigationEnd],
-    //   minDuration: 1000,
-    // }),
-    importProvidersFrom(
-      MatDialogModule,
-      MatButtonModule,
-      MatIconModule,
-      MatFormFieldModule,
-      MatInputModule,
-      MatTabsModule,
-      MatCheckboxModule
-    )
+    provideAnimations(),
+    provideAnimationsAsync(),
+    MessageService
   ]
 };

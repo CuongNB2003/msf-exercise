@@ -4,6 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import moment from 'moment';
 import { RoleService } from '@services/role/role.service';
 import { RoleResponse } from '@services/role/role.interface';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-role-detail',
@@ -16,6 +17,7 @@ import { RoleResponse } from '@services/role/role.interface';
 })
 export class RoleDetailComponent implements OnInit {
   constructor(
+    private messageService: MessageService,
     private roleService: RoleService,
     public dialogRef: MatDialogRef<RoleDetailComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
@@ -35,12 +37,11 @@ export class RoleDetailComponent implements OnInit {
   getRoleById(): void {
     this.roleService.getRoleById(this.data.id).subscribe({
       next: (response) => {
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: response.message });
         this.role = response.data;
-        console.log(response.data.countUser);
-
       },
       error: (err) => {
-        alert(`Không lấy được dữ liệu: ${err}`);
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: err });
       },
       complete: () => console.log("Lấy dữ liệu role theo id thành công")
     });

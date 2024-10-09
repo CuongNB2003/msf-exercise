@@ -8,6 +8,7 @@ import { PaginationComponent } from '@ui/pagination/pagination.component';
 import { UserResponse } from '@services/user/user.interface';
 import { UserService } from '@services/user/user.service';
 import { UserCreateUpdateComponent } from '../user-create-update/user-create-update.component';
+import { MessageService } from 'primeng/api';
 
 
 @Component({
@@ -27,7 +28,7 @@ export class UserListComponent {
   isDropdownOpen: { [key: number]: boolean } = {};
 
 
-  constructor(private userService: UserService, private dialog: MatDialog) { }
+  constructor(private userService: UserService, private dialog: MatDialog, private messageService: MessageService,) { }
 
   ngOnInit(): void {
     this.loadUsers();
@@ -37,11 +38,12 @@ export class UserListComponent {
   loadUsers(): void {
     this.userService.getAll(this.page, this.limit).subscribe({
       next: (response) => {
+        // this.messageService.add({ severity: 'success', summary: 'Success', detail: response.message });
         this.users = response.data.data;
         this.totalItems = response.data.totalRecords;
       },
       error: (err) => {
-        alert(`Không lấy được dữ liệu: ${err}`);
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: err });
       },
       complete: () => console.log("Lấy dữ liệu user thành công")
     });

@@ -9,6 +9,7 @@ import { InputComponent } from '@ui/input/input.component';
 import { AuthService } from '@services/auth/auth.service';
 import { ResponseObject } from '@services/config/response';
 import { LoginResponse } from '@services/auth/auth.interface';
+import { MessageService } from 'primeng/api';
 
 
 @Component({
@@ -34,7 +35,7 @@ export class LoginComponent implements OnInit {
   lockoutMessage = '';
   isLocked = false; // Sửa lỗi kiểu `boolean | undefined`
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
+  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router, private messageService: MessageService,) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
@@ -69,6 +70,7 @@ export class LoginComponent implements OnInit {
   }
 
   private handleSuccessfulLogin(response: ResponseObject<LoginResponse>): void {
+    this.messageService.add({ severity: 'info', summary: 'Info', detail: response.message });
     this.isSubmitting = false;
     this.resetAttempts();
     this.storeUserData(response.data);
@@ -84,7 +86,7 @@ export class LoginComponent implements OnInit {
       this.lockAccount();
       this.updateLockoutMessage();
     } else {
-      alert(`Đăng nhập thất bại: ${error}. Bạn còn ${remainingAttempts} lần thử.`);
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: `Đăng nhập thất bại: ${error}. Bạn còn ${remainingAttempts} lần thử.` });
     }
     this.captchaRef.reset();
   }
