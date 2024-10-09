@@ -1,5 +1,5 @@
 <div class="title-dialog">
-    <h2>Chi tiết Quyền</h2>
+    <h2>{{ data.id ? "Sửa quyền" : "Thêm quyền"}}</h2>
     <span class="material-icons" (click)="close()">close</span>
 </div>
 
@@ -24,5 +24,5 @@
 
 <div mat-dialog-actions align="end">
     <button mat-button mat-dialog-close>Cancel</button>
-    <button mat-raised-button color="primary" (click)="createHandle()">Save</button>
+    <button mat-raised-button color="primary" (click)="onSubmit()">Save</button>
 </div>
