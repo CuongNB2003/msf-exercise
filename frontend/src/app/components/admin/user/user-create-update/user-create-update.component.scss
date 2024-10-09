@@ -1,0 +1,35 @@
+.title-dialog {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 20px;
+    padding-left: 30px;
+    padding-right: 30px;
+
+    h2 {
+        font-size: 24px;
+        color: var(--bs-black);
+    }
+}
+
+mat-tab-group {
+    min-height: 400px;
+    padding: 0px 30px;
+
+    .mat-tab-body-wrapper {
+        height: 100%;
+    }
+
+    .user-form {
+        max-height: 350px;
+        overflow-y: auto;
+    }
+
+    .roles-list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding: 16px;
+    }
+
+}

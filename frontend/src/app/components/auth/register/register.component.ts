@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, ValidatorFn } from '@angular/forms';
-import { InputComponent } from '../../../ui/input/input.component';
-import { ButtonComponent } from '../../../ui/button/button.component';
 import { Router } from '@angular/router';
-import { RegisterInput } from '../../../services/auth/auth.interface';
-import { AuthService } from '../../../services/auth/auth.service';
+import { RegisterInput } from '@services/auth/auth.interface';
+import { AuthService } from '@services/auth/auth.service';
+import { ButtonComponent } from '@ui/button/button.component';
+import { InputComponent } from '@ui/input/input.component';
+import { MessageService } from 'primeng/api';
 @Component({
   selector: 'app-register',
   standalone: true,
@@ -19,7 +20,7 @@ export class RegisterComponent {
   hideConfirmPass = true;
   isSubmitting = false;
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
+  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router, private messageService: MessageService,) {
     this.registerForm = this.fb.group({
       fullName: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
@@ -42,7 +43,7 @@ export class RegisterComponent {
     };
 
     this.authService.register(input).subscribe({
-      next: () => this.handleSuccessfulRegister(),
+      next: (res) => this.handleSuccessfulRegister(res),
       error: (error) => this.handleRegisterError(error),
       complete: () => console.log('Đăng ký thành công')
     });
@@ -56,14 +57,15 @@ export class RegisterComponent {
     };
   }
 
-  private handleSuccessfulRegister(): void {
+  private handleSuccessfulRegister(res: any): void {
+    this.messageService.add({ severity: 'info', summary: 'Info', detail: res.message });
     this.isSubmitting = false;
     this.router.navigate(['/login']);
   }
 
   private handleRegisterError(error: any): void {
+    this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
     this.isSubmitting = false;
-    alert(`Đăng ký thất bại: ${error}`);
   }
 }
 

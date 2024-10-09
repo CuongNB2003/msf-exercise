@@ -1,6 +1,6 @@
 ﻿
-using MsfServer.Application.Contracts.Authentication.AuthDtos;
-using MsfServer.Application.Contracts.Authentication.AuthDtos.InputDtos;
+using MsfServer.Application.Contracts.Authentication.AuthDto.InputDto;
+using MsfServer.Application.Contracts.Authentication.AuthDto;
 using MsfServer.Domain.Shared.Responses;
 
 namespace MsfServer.Application.Contracts.Authentication

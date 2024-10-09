@@ -3,7 +3,7 @@ using Dapper;
 using Microsoft.AspNetCore.Http;
 using Moq;
 using MsfServer.Application.Contracts.Token.TokenDtos;
-using MsfServer.Application.Repositorys;
+using MsfServer.Application.Repositories;
 using System.Data;
 
 namespace MsfServer.Application.Tests.RepositorysTests.TokenRepositorys

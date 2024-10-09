@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Moq;
-using MsfServer.Application.Repositorys;
+using MsfServer.Application.Repositories;
 using MsfServer.Domain.Shared.Exceptions;
 using System.Data;
 

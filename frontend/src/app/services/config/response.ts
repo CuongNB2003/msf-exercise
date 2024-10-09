@@ -18,5 +18,5 @@ export interface PagedResult<T> {
 
 export interface Token {
     token: string;
-    expires: string;
+    expires: Date;
 }

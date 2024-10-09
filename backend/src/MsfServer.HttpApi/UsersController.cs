@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MsfServer.Application.Contracts.User.UserDtos;
+using MsfServer.Application.Contracts.User.Dto;
 using MsfServer.Application.Contracts.User;
 
 namespace MsfServer.HttpApi
@@ -11,7 +11,7 @@ namespace MsfServer.HttpApi
     {
         private readonly IUserRepository _userRepository = userRepository;
 
-        [Authorize(Roles = "admin,user")]
+        //[Authorize(Roles = "admin,user")]
         [HttpGet()] // lấy tất cả users
         public async Task<IActionResult> GetUsers(int limit, int page)
         {

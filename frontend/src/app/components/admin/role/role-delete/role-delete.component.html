@@ -1,0 +1,12 @@
+<div class="title-dialog">
+    <h2>Xóa quyền</h2>
+    <span class="material-icons" (click)="close()">close</span>
+</div>
+<div class="content-dialog">
+    <span>Bạn có chắc chắn muốn xóa quyền này ?</span>
+</div>
+
+<div mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-raised-button color="primary" (click)="deleteHandle()">Save</button>
+</div>

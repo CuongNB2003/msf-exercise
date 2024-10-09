@@ -1,0 +1,29 @@
+<mat-dialog-content>
+    <div class="title-dialog">
+        <h2>Chi tiết người dùng</h2>
+        <span class="material-icons" (click)="close()">close</span>
+    </div>
+    <mat-tab-group>
+        <div class="detail-container">
+            <div class="detail-item">
+                <strong>Họ và Tên:</strong>
+                <span>{{ user.name }}</span>
+            </div>
+            <div class="detail-item">
+                <strong>Email:</strong>
+                <span>{{ user.email }}</span>
+            </div>
+            <div class="detail-item">
+                <strong>Quyền:</strong>
+                <span>{{ user.role.name }}</span>
+            </div>
+            <div class="detail-item">
+                <strong>Gia nhập:</strong>
+                <span>{{ formatDate(user.createdAt) }}</span>
+            </div>
+        </div>
+    </mat-tab-group>
+    <div class="dialog-actions">
+        <button mat-button (click)="close()">Thoát</button>
+    </div>
+</mat-dialog-content>

@@ -1,3 +1,25 @@
+/* Import PrimeNG styles */
+@import 'primeng/resources/themes/saga-blue/theme.css';
+@import 'primeng/resources/primeng.min.css';
+@import 'primeicons/primeicons.css';
+
+// custom lại toast
+.custom-toast {
+    .p-toast-message {
+        margin-top: 10px;
+        padding: 6px 10px;
+
+        .p-toast-message-icon {
+            margin-right: 5px;
+            transform: scale(0.8);
+        }
+    }
+
+    .p-toast-summary {
+        font-weight: bold;
+    }
+}
+
 /* You can add global styles to this file, and also import other style files */
 *,
 *:before,
@@ -7,6 +29,12 @@
     box-sizing: border-box;
     font-family: 'Roboto', sans-serif;
     user-select: none;
+}
+
+.cdk-global-scrollblock {
+    overflow: hidden;
+    left: 0px;
+    top: 0px;
 }
 
 body {
@@ -54,4 +82,12 @@ app-home {
     --bs-danger: #c00d49;
     --bs-light: #e6ebef;
     --bs-dark: #062a44;
+    --bs-post: #4fbf67;
+    --bs-put: #fca130;
+    --bs-get: #438aa7;
+    --bs-delete: #c00d49;
+    --bs-background-post: #49cc8f1a;
+    --bs-background-put: #fca1301a;
+    --bs-background-get: #61affe1a;
+    --bs-background-delete: #f93e3e1a;
 }

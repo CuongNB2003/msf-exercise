@@ -1,4 +1,4 @@
-﻿using MsfServer.Application.Contracts.User.UserDtos;
+﻿using MsfServer.Application.Contracts.User.Dto;
 using MsfServer.Domain.Shared.PagedResults;
 using MsfServer.Domain.Shared.Responses;
 
@@ -13,9 +13,7 @@ namespace MsfServer.Application.Contracts.User
         Task<ResponseText> UpdateUserAsync(UpdateUserInput user, int id);
         Task<ResponseText> DeleteUserAsync(int id);
         // hàm phụ việc truy vấn
-        Task<bool> CheckEmailExistsAsync(string email);
         Task<UserDto> GetUserByEmailAsync(string email);
-        Task<UserDto> GetUserAsync(int id);
 
     }
 }

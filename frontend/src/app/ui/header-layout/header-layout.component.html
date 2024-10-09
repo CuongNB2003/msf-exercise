@@ -88,36 +88,39 @@
         </div>
     </div>
 
-    <div class="header-right-region">
-        <button class="main-link" title="Trình quản lý tài khoản của {{ username }}">
-            <div class="user-box">
-                <div class="user-image" (click)="toggleProfile()">
-                    <img [src]="userImage" alt="User Image" />
+    <div (click)="onClickOutside($event)">
+        <!-- Nội dung trang của bạn -->
+        <div class="header-right-region">
+            <button class="main-link" title="Trình quản lý tài khoản của {{ username }}">
+                <div class="user-box">
+                    <div class="user-image" (click)="toggleProfile($event)">
+                        <img [src]="userImage" alt="User Image" />
+                    </div>
                 </div>
-            </div>
-        </button>
-    </div>
-
-    <div class="profile-container" *ngIf="isProfileVisible">
-        <div class="profile-header">
-            <div class="profile-logo">
-                <img src="angular_wordmark_black.png" alt="" />
-                <!-- <span>Microsoft</span> -->
-            </div>
-            <p class="sign-out" (click)="onLogout()">Đăng xuất</p>
+            </button>
         </div>
-        <div class="profile-content">
-            <div class="profile-avatar">
-                <img [src]="userImage" alt="User Image" />
-                <div class="camera-icon">
-                    <i class="fas fa-camera"></i>
+
+        <div class="profile-container" *ngIf="isProfileVisible">
+            <div class="profile-header">
+                <div class="profile-logo">
+                    <img src="angular_wordmark_black.png" alt="" />
+                    <!-- <span>Microsoft</span> -->
                 </div>
+                <p class="sign-out" (click)="onLogout()">Đăng xuất</p>
             </div>
-            <div class="profile-info">
-                <h2>{{ username }}</h2>
-                <p>{{ email }}</p>
-                <a href="#">Chỉnh sửa tài khoản</a>
-                <a href="#">Xem thông tin</a>
+            <div class="profile-content">
+                <div class="profile-avatar">
+                    <img [src]="userImage" alt="User Image" />
+                    <div class="camera-icon">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                </div>
+                <div class="profile-info">
+                    <h2>{{ username }}</h2>
+                    <p>{{ email }}</p>
+                    <a href="#">Chỉnh sửa tài khoản</a>
+                    <a href="#">Xem thông tin</a>
+                </div>
             </div>
         </div>
     </div>

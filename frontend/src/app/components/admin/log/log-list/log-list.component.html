@@ -1,0 +1,74 @@
+<div class="log-container">
+    <div class="breadcrumb">Breadcrumb</div>
+    <div class="main">
+        <div class="top-bar">
+            <h1>Nhật ký yêu cầu</h1>
+            <div class="actions">
+                <button class="btn-none">
+                    <span class="material-icons">note_add</span>
+                    Import
+                </button>
+                <button class="btn-none">
+                    <span class="material-icons">upload_file</span>
+                    Export
+                </button>
+            </div>
+        </div>
+        <div class="search-bar">
+            <input type="search" placeholder="Search logs...">
+            <button>
+                <span class="material-icons">search</span>
+            </button>
+        </div>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Hành động</th>
+                        <th>Yêu cầu HTTP</th>
+                        <th>Người dùng</th>
+                        <th>Địa chỉ IP</th>
+                        <th>Thời gian thực hiện</th>
+                        <th>Thời gian truy cập</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let log of logs">
+                        <td>
+                            <button class="dropdown-toggle" type="button" (click)="openDialog(log.id)">
+                                <span class="material-icons">visibility</span>
+                                Xem chi tiết
+                            </button>
+                        </td>
+                        <td>
+                            <div class="http-request">
+                                <span class="rounded" [ngClass]="{
+                                    information: log.statusCode >= 100 && log.statusCode <= 199,
+                                    successful: log.statusCode >= 200 && log.statusCode <= 299,
+                                    redirection: log.statusCode >= 300 && log.statusCode <= 399,
+                                    error: log.statusCode >= 400
+                                }">{{log.statusCode}}
+                                </span>
+                                <span class="rounded {{log.method}}">{{log.method}}</span>
+                                <span>{{log.url}}</span>
+                            </div>
+                        </td>
+                        <td>{{log.userName}} </td>
+                        <td>{{log.clientIpAddress}} </td>
+                        <td>{{(log.duration / 1000).toFixed(2)}} giây </td>
+                        <td>{{ formatDate(log.createdAt) }}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="table-bottom">
+                <div class="total">
+                    Tổng cộng {{totalItems}}
+                </div>
+                <app-pagination [totalItems]="totalItems" [itemsPerPage]="itemsPerPage" [currentPage]="currentPage"
+                    (pageChanged)="onPageChange($event)">
+                </app-pagination>
+            </div>
+        </div>
+    </div>
+</div>

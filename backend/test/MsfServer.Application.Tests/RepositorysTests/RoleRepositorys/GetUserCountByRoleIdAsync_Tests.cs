@@ -1,5 +1,5 @@
 ﻿using Moq;
-using MsfServer.Application.Repositorys;
+using MsfServer.Application.Repositories;
 using System.Data;
 
 namespace MsfServer.Application.Tests.RepositorysTests.RoleRepositorys

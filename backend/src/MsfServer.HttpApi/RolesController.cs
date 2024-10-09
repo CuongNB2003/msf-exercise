@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MsfServer.Application.Contracts.Role;
-using MsfServer.Application.Contracts.Role.RoleDtos;
+using MsfServer.Application.Contracts.Role.Dto;
 
 namespace MsfServer.HttpApi
 {
