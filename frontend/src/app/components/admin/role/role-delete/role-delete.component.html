@@ -1,1 +1,12 @@
-<p>role-delete works!</p>
+<h2 mat-dialog-title>Thêm người dùng</h2>
+
+<form class="user-form" [formGroup]="deleteUserFrom">
+    <div style="height: 20px;"></div>
+    <app-input [formGroup]="deleteUserFrom" controlName="name" className="bg-input" placeholder="Nhập name"
+        errorMessage="Vui lòng nhập tên của bạn" type="text"></app-input>
+</form>
+
+<div mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-raised-button color="primary" (click)="deleteHandle()">Save</button>
+</div>

@@ -55,7 +55,11 @@
                                             Sửa người dùng
                                         </button>
                                     </li>
-                                    <li><button class="dropdown-item">Xóa người dùng</button></li>
+                                    <li>
+                                        <button class="dropdown-item" type="button" (click)="openDialogDelete(user.id)">
+                                            Xóa người dùng
+                                        </button>
+                                    </li>
                                 </ul>
                             </div>
                         </td>

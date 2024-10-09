@@ -1,4 +1,7 @@
-<h2 mat-dialog-title>Thêm người dùng</h2>
+<div class="title-dialog">
+    <h2>Chi tiết Quyền</h2>
+    <span class="material-icons" (click)="close()">close</span>
+</div>
 
 <mat-tab-group>
     <mat-tab label="Thông tin người dùng">
@@ -26,4 +29,3 @@
     <button mat-button mat-dialog-close>Cancel</button>
     <button mat-raised-button color="primary" (click)="createHandle()">Save</button>
 </div>
-<!-- </mat-dialog-content> -->

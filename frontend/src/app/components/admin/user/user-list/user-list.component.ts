@@ -9,6 +9,7 @@ import { UserResponse } from '@services/user/user.interface';
 import { UserService } from '@services/user/user.service';
 import { UserCreateUpdateComponent } from '../user-create-update/user-create-update.component';
 import { MessageService } from 'primeng/api';
+import { UserDeleteComponent } from '../user-delete/user-delete.component';
 
 
 @Component({
@@ -97,6 +98,16 @@ export class UserListComponent {
 
   openDialogUpdate(id: number): void {
     const dialogRef = this.dialog.open(UserCreateUpdateComponent, {
+      width: '600px',
+      data: {
+        id: id,
+        load: () => this.loadUsers(),
+      }
+    });
+  }
+
+  openDialogDelete(id: number): void {
+    const dialogRef = this.dialog.open(UserDeleteComponent, {
       width: '600px',
       data: {
         id: id,
