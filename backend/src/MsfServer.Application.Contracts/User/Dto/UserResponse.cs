@@ -1,5 +1,5 @@
 ﻿using MsfServer.Application.Contracts.Role.Dto;
-using System.ComponentModel.DataAnnotations.Schema;
+using Newtonsoft.Json;
 
 namespace MsfServer.Application.Contracts.User.Dto
 {
@@ -12,7 +12,8 @@ namespace MsfServer.Application.Contracts.User.Dto
         public DateTime? CreatedAt { get; set; }
         public int TotalUser { get; set; }
 
-        public static UserResponse UserData(int id, string name, string email )
+        public List<RoleDto> Roles { get; set; } = [];
+        public static UserResponse UserData(int id, string name, string email)
         {
             return new UserResponse
             {

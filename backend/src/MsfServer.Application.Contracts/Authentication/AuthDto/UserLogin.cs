@@ -10,6 +10,8 @@ namespace MsfServer.Application.Contracts.Authentication.AuthDto
         public string? Email { get; set; }
         public string? Avatar { get; set; }
 
+        public List<RoleDto> Roles { get; set; } = [];
+
         public static UserLogin FromUserDto(UserDto user)
         {
             return new UserLogin

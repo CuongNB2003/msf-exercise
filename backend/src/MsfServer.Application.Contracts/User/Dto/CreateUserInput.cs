@@ -11,5 +11,8 @@ namespace MsfServer.Application.Contracts.User.Dto
 
         [MaxLength(255)]
         public string Avatar { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Phải có ít nhất một RoleId.")]
+        public List<int> RoleIds { get; set; } = [];
     }
 }

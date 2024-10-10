@@ -11,9 +11,10 @@ namespace MsfServer.Application.Contracts.User.Dto
         public string? Password { get; set; }
         public string? Salt { get; set; }
         public string? Avatar { get; set; }
-     
+        public List<int> RoleIds { get; set; } = [];
 
-        public static UserDto CreateUserAdminDto(string email, string hashedPassword, string avatar, byte[] salt)
+
+        public static UserDto CreateUserAdminDto(string email, string hashedPassword, string avatar, byte[] salt, List<int> roleIds)
         {
             var nameFromEmail = email.Split('@')[0];
             return new UserDto
@@ -22,7 +23,8 @@ namespace MsfServer.Application.Contracts.User.Dto
                 Email = email,
                 Password = hashedPassword,
                 Avatar = avatar,
-                Salt = Convert.ToBase64String(salt)
+                Salt = Convert.ToBase64String(salt),
+                RoleIds = roleIds
             };
         }
 

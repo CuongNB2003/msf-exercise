@@ -13,6 +13,7 @@ using MsfServer.Domain.Shared.Exceptions;
 using MsfServer.Domain.Shared.Responses;
 using System.Data;
 using Newtonsoft.Json;
+using MsfServer.Application.Contracts.Role.Dto;
 
 namespace MsfServer.Application.Services
 {
@@ -83,17 +84,24 @@ namespace MsfServer.Application.Services
         }
 
         // lấy thông tin 
-        public async Task<ResponseObject<UserLogin>> GetMeAsync(int IdUser)
+        public async Task<ResponseObject<UserLogin>> GetMeAsync(int id)
         {
             using var dapperContext = new DapperContext(_connectionString);
             using var connection = dapperContext.GetOpenConnection();
-
+            // Thực hiện truy vấn hai lần
             using var multi = await connection.QueryMultipleAsync(
                 "User_GetById",
-                new { Id = IdUser },
+                new { Id = id },
                 commandType: CommandType.StoredProcedure
             );
-            var user = await multi.ReadSingleOrDefaultAsync<UserLogin>() ?? throw new CustomException(StatusCodes.Status404NotFound, $"Không tìm thấy người dùng theo id: {IdUser}.");
+
+            // Đọc thông tin người dùng
+            var user = await multi.ReadSingleOrDefaultAsync<UserLogin>()
+                        ?? throw new CustomException(StatusCodes.Status404NotFound, "Người dùng không tồn tại.");
+
+            // Đọc danh sách vai trò
+            var roles = await multi.ReadAsync<RoleDto>();
+            user.Roles = roles.ToList(); // Gán danh sách vai trò cho user
 
             return ResponseObject<UserLogin>.CreateResponse("Lấy dữ liệu thành công.", user);
         }
