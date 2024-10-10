@@ -23,7 +23,7 @@ namespace MsfServer.Application.Repositories
             // Tạo dữ liệu
             byte[] salt = PasswordHashed.GenerateSalt();
             string hashedPassword = PasswordHashed.HashPassword("111111", salt);
-            var user = UserDto.CreateUserAdminDto(input.Email, hashedPassword, input.RoleId, input.Avatar, salt);
+            var user = UserDto.CreateUserAdminDto(input.Email, hashedPassword, input.Avatar, salt);
             var userJson = JsonConvert.SerializeObject(user);
             // Thêm người dùng
             using var dapperContext = new DapperContext(_connectionString);
@@ -45,7 +45,6 @@ namespace MsfServer.Application.Repositories
             {
                 input.Name,
                 input.Email,
-                input.RoleId,
                 input.Avatar
             });
 
@@ -86,15 +85,8 @@ namespace MsfServer.Application.Repositories
                 commandType: CommandType.StoredProcedure
             );
 
-            var user = await multi.ReadSingleOrDefaultAsync<UserResponse>();
-            var role = await multi.ReadSingleOrDefaultAsync<RoleDto>();
+            var user = await multi.ReadSingleOrDefaultAsync<UserResponse>() ?? throw new CustomException(StatusCodes.Status404NotFound, "Email chưa đúng.");
 
-            if (user == null || role == null)
-            {
-                throw new CustomException(StatusCodes.Status404NotFound, "Không tìm thấy User hoặc Role.");
-            }
-
-            user.Role = role;
             return ResponseObject<UserResponse>.CreateResponse("Lấy dữ liệu thành công.", user);
         }
 
@@ -109,31 +101,16 @@ namespace MsfServer.Application.Repositories
                 new { Page = page, Limit = limit },
                 commandType: CommandType.StoredProcedure);
 
-            var usersData = await multi.ReadAsync<dynamic>();
-            var users = usersData.Select(ur => new UserResponse
-            {
-                Id = ur.Id,
-                Name = ur.Name,
-                Email = ur.Email,
-                RoleId = ur.RoleId,
-                Avatar = ur.Avatar,
-                CreatedAt = ur.CreatedAt,
-                TotalUser = ur.TotalUser, // Đảm bảo rằng giá trị này được gán đúng cách
-                Role = new RoleDto
-                {
-                    Id = ur.RoleId,
-                    Name = ur.RoleName
-                }
-            }).ToList();
+            var usersData = await multi.ReadAsync<UserResponse>();
 
-            var firstUser = users.FirstOrDefault();
+            var firstUser = usersData.FirstOrDefault();
 
             var pagedResult = new PagedResult<UserResponse>
             {
                 TotalRecords = firstUser?.TotalUser ?? 0,
                 Page = page,
                 Limit = limit,
-                Data = users
+                Data = usersData.ToList()
             };
 
             return ResponseObject<PagedResult<UserResponse>>.CreateResponse("Lấy dữ liệu thành công.", pagedResult);
@@ -150,8 +127,6 @@ namespace MsfServer.Application.Repositories
                 commandType: CommandType.StoredProcedure);
 
             var user = await multi.ReadSingleOrDefaultAsync<UserDto>() ?? throw new CustomException(StatusCodes.Status404NotFound, "Email chưa đúng.");
-            var role = await multi.ReadSingleOrDefaultAsync<RoleDto>();
-            user.Role = role ?? throw new CustomException(StatusCodes.Status404NotFound, "Role không tồn tại.");
 
             return user;
         }

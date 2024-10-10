@@ -4,7 +4,6 @@ using MsfServer.Application.Contracts.Authentication;
 using MsfServer.Application.Contracts.Authentication.AuthDto.InputDto;
 using MsfServer.Application.Contracts.Authentication.AuthDto;
 using MsfServer.Application.Contracts.ReCaptcha;
-using MsfServer.Application.Contracts.Role.Dto;
 using MsfServer.Application.Contracts.Token;
 using MsfServer.Application.Contracts.User;
 using MsfServer.Application.Contracts.User.Dto;
@@ -46,7 +45,7 @@ namespace MsfServer.Application.Services
             {
                 throw new CustomException(StatusCodes.Status401Unauthorized, "Sai mật khẩu.");
             }
-            var userData = UserResponse.UserData(user.Id, user.Name!, user.Email!, user.Role!, user.RoleId);
+            var userData = UserResponse.UserData(user.Id, user.Name!, user.Email!);
             // khởi tạo token
             var accessToken = await _tokenService.GenerateAccessTokenAsync(userData);
             var refreshToken = await _tokenService.GenerateRefreshTokenAsync(userData);
@@ -69,7 +68,7 @@ namespace MsfServer.Application.Services
             // Tạo dữ liệu
             byte[] salt = PasswordHashed.GenerateSalt();
             string hashedPassword = PasswordHashed.HashPassword(input.PassWord, salt);
-            var user = UserDto.CreateUserDto(input.Name, input.Email, hashedPassword, 3, input.Avatar, salt);
+            var user = UserDto.CreateUserDto(input.Name, input.Email, hashedPassword, input.Avatar, salt);
             var userJson = JsonConvert.SerializeObject(user);
             // Thêm người dùng
             using var dapperContext = new DapperContext(_connectionString);
@@ -94,16 +93,8 @@ namespace MsfServer.Application.Services
                 new { Id = IdUser },
                 commandType: CommandType.StoredProcedure
             );
+            var user = await multi.ReadSingleOrDefaultAsync<UserLogin>() ?? throw new CustomException(StatusCodes.Status404NotFound, $"Không tìm thấy người dùng theo id: {IdUser}.");
 
-            var user = await multi.ReadSingleOrDefaultAsync<UserLogin>();
-            var role = await multi.ReadSingleOrDefaultAsync<RoleDto>();
-
-            if (user == null || role == null)
-            {
-                throw new CustomException(StatusCodes.Status404NotFound, "Không tìm thấy User hoặc Role.");
-            }
-
-            user.Role = role;
             return ResponseObject<UserLogin>.CreateResponse("Lấy dữ liệu thành công.", user);
         }
 

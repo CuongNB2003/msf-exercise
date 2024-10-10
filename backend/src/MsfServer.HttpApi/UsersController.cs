@@ -7,11 +7,11 @@ namespace MsfServer.HttpApi
 {
     [Route("api/user")]
     [ApiController]
+    //[Authorize(Roles = "admin,user")]
     public class UsersController(IUserRepository userRepository) : ControllerBase
     {
         private readonly IUserRepository _userRepository = userRepository;
 
-        //[Authorize(Roles = "admin,user")]
         [HttpGet()] // lấy tất cả users
         public async Task<IActionResult> GetUsers(int limit, int page)
         {
@@ -19,7 +19,6 @@ namespace MsfServer.HttpApi
             return Ok(users);
         }
 
-        [Authorize(Roles = "admin")]
         [HttpGet("{id}")] // lấy user theo id
         public async Task<IActionResult> GetUser(int id)
         {
@@ -27,7 +26,6 @@ namespace MsfServer.HttpApi
             return Ok(user);
         }
 
-        [Authorize(Roles = "admin")]
         [HttpPost] // thêm user
         public async Task<IActionResult> CreateUser(CreateUserInput user)
         {
@@ -35,7 +33,6 @@ namespace MsfServer.HttpApi
             return Ok(result);
         }
 
-        [Authorize(Roles = "admin")]
         [HttpPut("{id}")] // sửa user
         public async Task<IActionResult> UpdateUser(int id, UpdateUserInput input)
         {
@@ -43,7 +40,6 @@ namespace MsfServer.HttpApi
             return Ok(result);
         }
 
-        [Authorize(Roles = "admin")]
         [HttpDelete("{id}")] // xóa user
         public async Task<IActionResult> DeleteUser(int id)
         {

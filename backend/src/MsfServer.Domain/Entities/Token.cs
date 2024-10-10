@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MsfServer.Domain.Entities
 {
-    public class Token : BaseModel
+    public class Token : BaseEntity
     {
         [Required]
         public int UserId { get; set; }

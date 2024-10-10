@@ -16,21 +16,21 @@ namespace MsfServer.Application.Tests.RepositorysTests.RoleRepositorys
         }
 
         // kiểm tra xem role id có bao nhiêu user đang sử dụng
-        [Fact] // tham số đúng
-        public async Task GetUserCountByRoleIdAsync_ShouldReturnUserCount_WhenRoleIdExists()
-        {
-            int roleId = 3;
-            var result = await _repository.GetUserCountByRoleIdAsync(roleId);
-            Assert.True(result >= 0);
-        }
+        //[Fact] // tham số đúng
+        //public async Task GetUserCountByRoleIdAsync_ShouldReturnUserCount_WhenRoleIdExists()
+        //{
+        //    int roleId = 3;
+        //    var result = await _repository.GetUserCountByRoleIdAsync(roleId);
+        //    Assert.True(result >= 0);
+        //}
 
-        [Fact] // tham số sai
-        public async Task GetUserCountByRoleIdAsync_ShouldReturnZero_WhenRoleIdDoesNotExist()
-        {
-            int roleId = -1;
-            var result = await _repository.GetUserCountByRoleIdAsync(roleId);
-            Assert.Equal(0, result);
-        }
+        //[Fact] // tham số sai
+        //public async Task GetUserCountByRoleIdAsync_ShouldReturnZero_WhenRoleIdDoesNotExist()
+        //{
+        //    int roleId = -1;
+        //    var result = await _repository.GetUserCountByRoleIdAsync(roleId);
+        //    Assert.Equal(0, result);
+        //}
 
     }
 }
