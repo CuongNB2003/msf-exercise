@@ -2,7 +2,7 @@
 
 namespace MsfServer.Domain.Entities
 {
-    public class Role : BaseEntity
+    public class RoleEntity : BaseEntity
     {
         [Required]
         [MaxLength(50)]
@@ -11,7 +11,7 @@ namespace MsfServer.Domain.Entities
         public string? Description { get; set; }  // Mô tả về vai trò
 
         // Điều hướng
-        public ICollection<RolePermission>? RolePermissions { get; set; }
-        public ICollection<UserRole>? UserRoles { get; set; }
+        public ICollection<RolePermissionEntity>? RolePermissions { get; set; }
+        public ICollection<UserRoleEntity>? UserRoles { get; set; }
     }
 }

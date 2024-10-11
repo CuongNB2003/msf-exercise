@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MsfServer.Domain.Entities
 {
-    public class User : BaseEntity
+    public class UserEntity : BaseEntity
     {
         [Required]
         [MaxLength(50)]
@@ -26,6 +26,6 @@ namespace MsfServer.Domain.Entities
         public string? Salt { get; set; }
 
         // Điều hướng
-        public ICollection<UserRole>? UserRoles { get; set; }
+        public ICollection<UserRoleEntity>? UserRoles { get; set; }
     }
 }

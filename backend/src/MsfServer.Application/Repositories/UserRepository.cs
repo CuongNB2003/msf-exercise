@@ -41,14 +41,7 @@ namespace MsfServer.Application.Repositories
         public async Task<ResponseText> UpdateUserAsync(UpdateUserInput input, int id)
         {
             // Chuyển đổi dữ liệu đầu vào thành JSON
-            var userJson = JsonConvert.SerializeObject(new
-            {
-                input.Name,
-                input.Email,
-                input.Avatar,
-                input.RoleIds,
-            });
-
+            var userJson = JsonConvert.SerializeObject(input);
             // Cập nhật
             using var dapperContext = new DapperContext(_connectionString);
             using var connection = dapperContext.GetOpenConnection();
@@ -98,9 +91,6 @@ namespace MsfServer.Application.Repositories
             return ResponseObject<UserResponse>.CreateResponse("Lấy dữ liệu thành công.", user);
         }
 
-
-
-
         // lấy tất cả user
         public async Task<ResponseObject<PagedResult<UserResponse>>> GetUsersAsync(int page, int limit)
         {
@@ -111,20 +101,37 @@ namespace MsfServer.Application.Repositories
                 new { Page = page, Limit = limit },
                 commandType: CommandType.StoredProcedure);
 
-            var usersData = await multi.ReadAsync<UserResponse>();
+            // Lấy dữ liệu người dùng
+            var usersData = (await multi.ReadAsync<UserResponse>()).ToList();
+
+            // Lấy dữ liệu vai trò cho từng người dùng
+            var userRoles = (await multi.ReadAsync<dynamic>()).ToList();
+
+            // Map vai trò vào từng người dùng
+            foreach (var user in usersData)
+            {
+                user.Roles = userRoles
+                    .Where(role => role.UserId == user.Id) // Lọc vai trò theo UserId
+                    .Select(role => new RoleDto
+                    {
+                        Id = role.Id,
+                        Name = role.Name
+                    }).ToList();
+            }
 
             var firstUser = usersData.FirstOrDefault();
 
             var pagedResult = new PagedResult<UserResponse>
             {
-                TotalRecords = firstUser?.TotalUser ?? 0,
+                TotalRecords = firstUser?.Total ?? 0,
                 Page = page,
                 Limit = limit,
-                Data = usersData.ToList()
+                Data = usersData
             };
 
             return ResponseObject<PagedResult<UserResponse>>.CreateResponse("Lấy dữ liệu thành công.", pagedResult);
         }
+
 
 
         public async Task<UserDto> GetUserByEmailAsync(string email)

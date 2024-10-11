@@ -10,7 +10,7 @@ namespace MsfServer.Application.Contracts.User.Dto
         public string? Email { get; set; }
         public string? Avatar { get; set; }
         public DateTime? CreatedAt { get; set; }
-        public int TotalUser { get; set; }
+        public int Total { get; set; }
 
         public List<RoleDto> Roles { get; set; } = [];
         public static UserResponse UserData(int id, string name, string email)

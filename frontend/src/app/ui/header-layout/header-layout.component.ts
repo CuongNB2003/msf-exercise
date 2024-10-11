@@ -43,14 +43,14 @@ export class HeaderLayoutComponent implements OnInit {
   isProfileVisible: boolean = false;
 
   ngOnInit(): void {
-    const userDataString = localStorage.getItem('user');
-    if (userDataString) {
-      const userData: UserLogin = JSON.parse(userDataString) as UserLogin;
-      this.username = userData.name;
-      this.role = userData.role.name == "admin" ? "Admin" : "";
-      this.email = userData.email;
-      this.userImage = userData.avatar;
-    }
+    // const userDataString = localStorage.getItem('user');
+    // if (userDataString) {
+    //   const userData: UserLogin = JSON.parse(userDataString) as UserLogin;
+    //   this.username = userData.name;
+    //   this.role = "hihi"  //userData.role.name == "admin" ? "Admin" : "";
+    //   this.email = userData.email;
+    //   this.userImage = userData.avatar;
+    // }
 
     if (!this.userImage || this.userImage == 'string') {
       this.userImage = this.defaultImage;

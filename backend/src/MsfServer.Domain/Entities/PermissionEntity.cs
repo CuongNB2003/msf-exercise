@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MsfServer.Domain.Entities
 {
-    public class Permission : BaseEntity
+    public class PermissionEntity : BaseEntity
     {
         [Required]
         [MaxLength(50)]
@@ -12,6 +12,6 @@ namespace MsfServer.Domain.Entities
         public string? Description { get; set; }  // Mô tả về quyền cụ thể
 
         // Điều hướng
-        public ICollection<RolePermission>? RolePermissions { get; set; }
+        public ICollection<RolePermissionEntity>? RolePermissions { get; set; }
     }
 }
