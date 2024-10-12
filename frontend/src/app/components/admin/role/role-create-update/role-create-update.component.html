@@ -31,6 +31,6 @@
 </mat-tab-group>
 
 <div mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close>Cancel</button>
-    <button mat-raised-button color="primary" (click)="onSubmit()">Save</button>
+    <button mat-button mat-dialog-close>Hủy</button>
+    <button mat-raised-button color="primary" (click)="onSubmit()">{{ data.id ? "Sửa" : "Thêm"}}</button>
 </div>

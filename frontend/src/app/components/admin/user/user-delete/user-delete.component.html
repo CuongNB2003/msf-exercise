@@ -6,7 +6,10 @@
     <span>Bạn có chắc chắn muốn xóa người dùng này ?</span>
 </div>
 
+
 <div mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close>Hủy</button>
-    <button mat-raised-button color="primary" (click)="deleteHandle()">Ok</button>
+    <button mat-button mat-dialog-close>Không</button>
+    <button mat-raised-button color="primary" (click)="deleteHandle()" [disabled]="isSubmitting">
+        Có
+    </button>
 </div>

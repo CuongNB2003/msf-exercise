@@ -3,39 +3,37 @@
         <h2>Chi tiết Quyền</h2>
         <span class="material-icons" (click)="close()">close</span>
     </div>
-    <mat-tab-group>
-        <div class="detail-container">
-            <div class="detail-item">
-                <strong>Quyền:</strong>
-                <span>{{ role.name }}</span>
-            </div>
-            <div class="detail-item">
-                <strong>Số người dùng:</strong>
-                <span>{{ role.countUser }}</span>
-            </div>
-            <div class="detail-item">
-                <strong>Menu</strong>
-                <span>
-                    <ng-container *ngFor="let menu of role.menus; let i = index">
-                        {{ menu.displayName }}<span *ngIf="i < role.menus.length - 1">, </span>
-                    </ng-container>
-                </span>
-            </div>
-            <div class="detail-item">
-                <strong>Permission</strong>
-                <span>
-                    <ng-container *ngFor="let permission of role.permissions; let i = index">
-                        {{ permission.permissionName }}<span *ngIf="i < role.permissions.length - 1">, </span>
-                    </ng-container>
-                </span>
-            </div>
-            <div class="detail-item">
-                <strong>Ngày tạo:</strong>
-                <span>{{ formatDate(role.createdAt) }}</span>
-            </div>
+    <div class="detail-container">
+        <div class="detail-item">
+            <strong>Quyền:</strong>
+            <span>{{ role.name }}</span>
         </div>
-    </mat-tab-group>
-    <div class="dialog-actions">
-        <button mat-button (click)="close()">Thoát</button>
+        <div class="detail-item">
+            <strong>Số người dùng:</strong>
+            <span>{{ role.countUser }}</span>
+        </div>
+        <div class="detail-item">
+            <strong>Menu</strong>
+            <span>
+                <ng-container *ngFor="let menu of role.menus; let i = index">
+                    {{ menu.displayName }}<span *ngIf="i < role.menus.length - 1">, </span>
+                </ng-container>
+            </span>
+        </div>
+        <div class="detail-item">
+            <strong>Permission</strong>
+            <span>
+                <ng-container *ngFor="let permission of role.permissions; let i = index">
+                    {{ permission.permissionName }}<span *ngIf="i < role.permissions.length - 1">, </span>
+                </ng-container>
+            </span>
+        </div>
+        <div class="detail-item">
+            <strong>Ngày tạo:</strong>
+            <span>{{ formatDate(role.createdAt) }}</span>
+        </div>
+    </div>
+    <div mat-dialog-actions align="end">
+        <button mat-raised-button (click)="close()">Thoát</button>
     </div>
 </mat-dialog-content>

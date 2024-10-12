@@ -1,0 +1,80 @@
+<div class="user-container">
+    <div class="breadcrumb">Breadcrumb</div>
+    <div class="main">
+        <div class="top-bar">
+            <h1>Menu</h1>
+            <div class="actions">
+                <button class="btn" type="button" (click)="openDialogCreate()">
+                    <span class="material-icons">add</span>
+                    Thêm menu
+                </button>
+            </div>
+        </div>
+        <div class="search-bar">
+            <input type="search" placeholder="Search users...">
+            <button>
+                <span class="material-icons">search</span>
+            </button>
+        </div>
+        <div class="table-container" (click)="onClickOutside($event)">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Hành động</th>
+                        <th>Tên</th>
+                        <th>Icon name</th>
+                        <th>Đường dẫn</th>
+                        <th>Số lượng quyền dùng</th>
+                        <th>Trạng thái</th>
+                        <th>Ngày tạo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let m of menu">
+                        <td>
+                            <div class="dropdown" [class.show]="isDropdownOpen[m.id]">
+                                <button class="dropdown-toggle" (click)="toggleDropdown($event, m.id)"
+                                    [ngClass]="{'open': isDropdownOpen[m.id]}" type="button">
+                                    <span class="material-icons">settings</span>
+                                    Actions
+                                </button>
+                                <ul class="dropdown-menu" [class.show]="isDropdownOpen[m.id]">
+                                    <li>
+                                        <button class="dropdown-item" type="button" (click)="openDialogDetail(m.id)">
+                                            Xem chi tiết
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="dropdown-item" type="button" (click)="openDialogUpdate(m.id)">
+                                            Sửa menu
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="dropdown-item" type="button" (click)="openDialogDelete(m.id)">
+                                            Xóa menu
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                        <td>{{ m.displayName }}</td>
+                        <td>{{ m.iconName }}</td>
+                        <td>{{ m.url}}</td>
+                        <td>{{ m.countRole }}</td>
+                        <td>{{ m.status ? "Đang hoạt động" : "Dừng hoạt động" }}</td>
+                        <td>{{ formatDate(m.createdAt) }}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="table-bottom">
+                <div class="total">
+                    <p>Tổng cộng {{totalItems}}</p>
+                </div>
+                <app-pagination [totalItems]="totalItems" [itemsPerPage]="itemsPerPage" [currentPage]="currentPage"
+                    (pageChanged)="onPageChange($event)">
+                </app-pagination>
+            </div>
+        </div>
+    </div>
+</div>
