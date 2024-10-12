@@ -31,11 +31,7 @@ namespace MsfServer.Application.Repositories
             // Lấy danh sách các role
             var roles = (await multi.ReadAsync<RoleResponse>()).ToList();
             var firstRole = roles.FirstOrDefault();
-
-            // Lấy dữ liệu menu
             var menusData = (await multi.ReadAsync<dynamic>()).ToList();
-
-            // Lấy dữ liệu permission
             var permissionsData = (await multi.ReadAsync<dynamic>()).ToList();
 
             // Map menu và permission vào từng role
@@ -43,18 +39,22 @@ namespace MsfServer.Application.Repositories
             {
                 role.Menus = menusData
                     .Where(menu => menu.RoleId == role.Id)
-                    .Select(menu => new MenuResponse
+                    .Select(menu => new MenuRoleResponse
                     {
                         Id = menu.MenuId,
-                        DisplayName = menu.DisplayName
+                        DisplayName = menu.DisplayName,
+                        Status = menu.Status,
+                        Url = menu.Url,
+                        IconName = menu.IconName
                     }).ToList();
 
                 role.Permissions = permissionsData
                     .Where(permission => permission.RoleId == role.Id)
-                    .Select(permission => new PermissionResponse
+                    .Select(permission => new PermissionRoleResponse
                     {
                         Id = permission.PermissionId,
-                        PermissionName = permission.PermissionName
+                        PermissionName = permission.PermissionName,
+                        Description = permission.Description
                     }).ToList();
             }
 
@@ -86,11 +86,11 @@ namespace MsfServer.Application.Repositories
                 ?? throw new CustomException(StatusCodes.Status404NotFound, "Role không tồn tại.");
 
             // Lấy danh sách menus
-            var menus = (await multi.ReadAsync<MenuResponse>()).ToList();
+            var menus = (await multi.ReadAsync<MenuRoleResponse>()).ToList();
             role.Menus = menus;
 
             // Lấy danh sách permissions
-            var permissions = (await multi.ReadAsync<PermissionResponse>()).ToList();
+            var permissions = (await multi.ReadAsync<PermissionRoleResponse>()).ToList();
             role.Permissions = permissions;
 
             // Trả về kết quả
@@ -103,6 +103,7 @@ namespace MsfServer.Application.Repositories
             using var dapperContext = new DapperContext(_connectionString);
             using var connection = dapperContext.GetOpenConnection();
             var roleJson = JsonConvert.SerializeObject(input);
+
             var result = await connection.QuerySingleOrDefaultAsync<ResponseText>(
                 "Role_Create", new { RoleJson = roleJson }, commandType: CommandType.StoredProcedure);
 

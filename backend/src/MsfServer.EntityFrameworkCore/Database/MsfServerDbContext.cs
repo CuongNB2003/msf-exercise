@@ -12,10 +12,10 @@ namespace MsfServer.EntityFrameworkCore.Database
         public DbSet<UserEntity> Users { get; set; }
         public DbSet<TokenEntity> Tokens { get; set; }
         public DbSet<LogEntity> Logs { get; set; }
-        public DbSet<MenuEntity> Menus { get; set; }
-        public DbSet<RolePermissionEntity> RolePermissions { get; set; }
-        public DbSet<UserRoleEntity> UserRoles { get; set; }
-        public DbSet<RoleMenuEntity> RoleMenus { get; set; }
+        public DbSet<MenuEntity> Menu { get; set; }
+        public DbSet<RolePermissionEntity> Role_Permission { get; set; }
+        public DbSet<UserRoleEntity> User_Role { get; set; }
+        public DbSet<RoleMenuEntity> Role_Menu { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -35,7 +35,7 @@ namespace MsfServer.EntityFrameworkCore.Database
             modelBuilder.Entity<MenuEntity>(entity =>
             {
                 entity.Property(e => e.Status)
-                    .HasDefaultValue(true); // Đặt giá trị mặc định của Status là true
+                    .HasDefaultValue(true);
             });
         }
     }
@@ -55,6 +55,9 @@ namespace MsfServer.EntityFrameworkCore.Database
 
                 entity.Property(e => e.DeletedAt)
                     .HasDefaultValueSql("NULL");
+
+                entity.Property(e => e.IsDeleted)
+                    .HasDefaultValue(false);
             });
         }
     }

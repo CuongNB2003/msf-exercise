@@ -1,13 +1,17 @@
+import { PermissionService } from './../../../../services/permission/permission.service';
+import { MenuService } from './../../../../services/menu/menu.service';
 import { CommonModule } from '@angular/common';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MaterialModule } from '@ui/material/material.module';
 import { InputComponent } from '@ui/input/input.component';
-import { InputRole, RoleResponse } from '@services/role/role.interface';
+import { RoleInput, RoleResponse } from '@services/role/role.interface';
 import { RoleService } from '@services/role/role.service';
 import { MessageService } from 'primeng/api';
 import { log } from 'console';
+import { MenuResponse } from '@services/menu/menu.interface';
+import { PermissionResponse } from '@services/permission/permission.interface';
 
 @Component({
   selector: 'app-role-create-update',
@@ -25,21 +29,28 @@ import { log } from 'console';
 })
 export class RoleCreateUpdateComponent implements OnInit {
   createRoleForm: FormGroup;
-  // roles: RoleResponse[] = [];
-  // selectedRoles: { [key: number]: boolean } = {};
+  menus: MenuResponse[] = [];
+  permissions: PermissionResponse[] = [];
+  selectedMenus: { [key: number]: boolean } = {};
+  selectedPermission: { [key: number]: boolean } = {};
   isSubmitting: boolean = false;
   role: RoleResponse = {
     id: 0,
     name: '',
     countUser: 0,
-    createdAt: new Date()
-  }
+    createdAt: new Date(),
+    total: 0,
+    menus: [],
+    permissions: []
+  };
 
   constructor(
     private messageService: MessageService,
     private fb: FormBuilder,
-    public dialogRef: MatDialogRef<RoleCreateUpdateComponent>,
-    public roleService: RoleService,
+    private dialogRef: MatDialogRef<RoleCreateUpdateComponent>,
+    private roleService: RoleService,
+    private menuService: MenuService,
+    private permissionService: PermissionService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.createRoleForm = this.fb.group({
@@ -48,23 +59,36 @@ export class RoleCreateUpdateComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.loadRoles();
+    this.loadMenu();
+    this.loadPermission();
     if (this.data.id) {
       this.loadDataRole(this.data.id);
     }
   }
 
-  // loadRoles(): void {
-  //   this.roleService.getAll(1, 999).subscribe({
-  //     next: (response) => {
-  //       this.roles = response.data.data;
-  //     },
-  //     error: (err) => {
-  //       alert(`Không lấy được dữ liệu: ${err}`);
-  //     },
-  //     complete: () => console.log("Lấy dữ liệu role thành công")
-  //   });
-  // }
+  loadMenu(): void {
+    this.menuService.getMenuAll(1, 999).subscribe({
+      next: (response) => {
+        this.menus = response.data.data;
+      },
+      error: (err) => {
+        alert(`Không lấy được dữ liệu: ${err}`);
+      },
+      complete: () => console.log("Lấy dữ liệu role thành công")
+    });
+  }
+
+  loadPermission(): void {
+    this.permissionService.getPermissionAll(1, 999).subscribe({
+      next: (response) => {
+        this.permissions = response.data.data;
+      },
+      error: (err) => {
+        alert(`Không lấy được dữ liệu: ${err}`);
+      },
+      complete: () => console.log("Lấy dữ liệu role thành công")
+    });
+  }
 
   loadDataRole(id: number): void {
     this.roleService.getRoleById(id).subscribe({
@@ -74,11 +98,13 @@ export class RoleCreateUpdateComponent implements OnInit {
           name: this.role.name
         });
 
-        // this.selectedRoles[this.user.role.id] = true;
-        // Đẩy dữ liệu vào hộp kiểm
-        // this.user.role.forEach(role => {
-        //   this.selectedRoles[role.id] = true;
-        // });
+        this.role.menus.forEach(menu => {
+          this.selectedMenus[menu.id] = true;
+        });
+
+        this.role.permissions.forEach(permission => {
+          this.selectedPermission[permission.id] = true;
+        });
       },
       error: (err) => {
         alert(`Không lấy được dữ liệu: ${err}`);
@@ -102,11 +128,14 @@ export class RoleCreateUpdateComponent implements OnInit {
   }
 
   createHandle(): void {
-    const name = this.createRoleForm.get('name')?.value;
     console.log(name);
 
-    const input: InputRole = {
-      name: name
+    const input: RoleInput = {
+      name: this.createRoleForm.get('name')?.value,
+      description: "",
+      menuIds: this.getSelectedMenuIds(),
+      permissionIds: this.getSelectedPermissionIds(),
+
     };
 
     this.roleService.createRole(input).subscribe({
@@ -123,9 +152,12 @@ export class RoleCreateUpdateComponent implements OnInit {
   }
 
   updateHandle(id: number): void {
-    const name = this.createRoleForm.get('name')?.value;
-    const input: InputRole = {
-      name: name
+    const input: RoleInput = {
+      name: this.createRoleForm.get('name')?.value,
+      description: "",
+      menuIds: this.getSelectedMenuIds(),
+      permissionIds: this.getSelectedPermissionIds(),
+
     };
 
     this.roleService.updateRole(input, id).subscribe({
@@ -141,16 +173,29 @@ export class RoleCreateUpdateComponent implements OnInit {
     });
   }
 
-  // onCheckboxChange(isChecked: boolean, selectedRole: RoleResponse): void {
-  //   this.selectedRoles[selectedRole.id] = isChecked;
-  //   console.log("Selected Roles:", this.selectedRoles);
-  // }
+  onCheckboxPermissionChange(isChecked: boolean, selectedRole: PermissionResponse): void {
+    this.selectedPermission[selectedRole.id] = isChecked;
+    console.log("Selected Roles:", this.selectedPermission);
+  }
 
-  // getSelectedRoleIds(): number[] {
-  //   const selectedIds = this.roles.filter(role => this.selectedRoles[role.id]).map(role => role.id);
-  //   console.log("Selected Role IDs:", selectedIds);
-  //   return selectedIds;
-  // }
+  getSelectedPermissionIds(): number[] {
+    const selectedIds = this.permissions.filter(
+      permission => this.selectedPermission[permission.id]).map(permission => permission.id
+      );
+    console.log("Selected Role IDs:", selectedIds);
+    return selectedIds;
+  }
+
+  onCheckboxMenuChange(isChecked: boolean, selectedRole: MenuResponse): void {
+    this.selectedMenus[selectedRole.id] = isChecked;
+    console.log("Selected Roles:", this.selectedMenus);
+  }
+
+  getSelectedMenuIds(): number[] {
+    const selectedIds = this.menus.filter(menu => this.selectedMenus[menu.id]).map(menu => menu.id);
+    console.log("Selected Role IDs:", selectedIds);
+    return selectedIds;
+  }
 
   close(): void {
     this.data.load();

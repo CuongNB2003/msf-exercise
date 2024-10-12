@@ -12,8 +12,8 @@ using MsfServer.EntityFrameworkCore.Database;
 namespace MsfServer.EntityFrameworkCore.Migrations
 {
     [DbContext(typeof(MsfServerDbContext))]
-    [Migration("20241011014957_UpdateTableMenu")]
-    partial class UpdateTableMenu
+    [Migration("20241011092052_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,7 @@ namespace MsfServer.EntityFrameworkCore.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("MsfServer.Domain.Entities.Log", b =>
+            modelBuilder.Entity("MsfServer.Domain.Entities.LogEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -50,6 +50,11 @@ namespace MsfServer.EntityFrameworkCore.Migrations
 
                     b.Property<int>("Duration")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.Property<string>("Method")
                         .IsRequired()
@@ -78,7 +83,7 @@ namespace MsfServer.EntityFrameworkCore.Migrations
                     b.ToTable("Logs");
                 });
 
-            modelBuilder.Entity("MsfServer.Domain.Entities.Menu", b =>
+            modelBuilder.Entity("MsfServer.Domain.Entities.MenuEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -105,6 +110,11 @@ namespace MsfServer.EntityFrameworkCore.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
                     b.Property<bool>("Status")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
@@ -122,10 +132,10 @@ namespace MsfServer.EntityFrameworkCore.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Menus");
+                    b.ToTable("Menu");
                 });
 
-            modelBuilder.Entity("MsfServer.Domain.Entities.Permission", b =>
+            modelBuilder.Entity("MsfServer.Domain.Entities.PermissionEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -146,6 +156,11 @@ namespace MsfServer.EntityFrameworkCore.Migrations
                     b.Property<string>("Description")
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.Property<string>("PermissionName")
                         .IsRequired()
@@ -162,7 +177,7 @@ namespace MsfServer.EntityFrameworkCore.Migrations
                     b.ToTable("Permissions");
                 });
 
-            modelBuilder.Entity("MsfServer.Domain.Entities.Role", b =>
+            modelBuilder.Entity("MsfServer.Domain.Entities.RoleEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -184,6 +199,11 @@ namespace MsfServer.EntityFrameworkCore.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -199,7 +219,7 @@ namespace MsfServer.EntityFrameworkCore.Migrations
                     b.ToTable("Roles");
                 });
 
-            modelBuilder.Entity("MsfServer.Domain.Entities.RoleMenu", b =>
+            modelBuilder.Entity("MsfServer.Domain.Entities.RoleMenuEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -216,6 +236,11 @@ namespace MsfServer.EntityFrameworkCore.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("NULL");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.Property<int>("MenuId")
                         .HasColumnType("int");
@@ -234,10 +259,10 @@ namespace MsfServer.EntityFrameworkCore.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("RoleMenus");
+                    b.ToTable("Role_Menu");
                 });
 
-            modelBuilder.Entity("MsfServer.Domain.Entities.RolePermission", b =>
+            modelBuilder.Entity("MsfServer.Domain.Entities.RolePermissionEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -254,6 +279,11 @@ namespace MsfServer.EntityFrameworkCore.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("NULL");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.Property<int?>("PermissionId")
                         .HasColumnType("int");
@@ -272,10 +302,10 @@ namespace MsfServer.EntityFrameworkCore.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("RolePermissions");
+                    b.ToTable("Role_Permission");
                 });
 
-            modelBuilder.Entity("MsfServer.Domain.Entities.Token", b =>
+            modelBuilder.Entity("MsfServer.Domain.Entities.TokenEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -295,6 +325,11 @@ namespace MsfServer.EntityFrameworkCore.Migrations
 
                     b.Property<DateTime>("ExpirationDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.Property<string>("RefreshToken")
                         .IsRequired()
@@ -316,7 +351,7 @@ namespace MsfServer.EntityFrameworkCore.Migrations
                     b.ToTable("Tokens");
                 });
 
-            modelBuilder.Entity("MsfServer.Domain.Entities.User", b =>
+            modelBuilder.Entity("MsfServer.Domain.Entities.UserEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -343,6 +378,11 @@ namespace MsfServer.EntityFrameworkCore.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -368,7 +408,7 @@ namespace MsfServer.EntityFrameworkCore.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("MsfServer.Domain.Entities.UserRole", b =>
+            modelBuilder.Entity("MsfServer.Domain.Entities.UserRoleEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -385,6 +425,11 @@ namespace MsfServer.EntityFrameworkCore.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("NULL");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
@@ -403,18 +448,18 @@ namespace MsfServer.EntityFrameworkCore.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserRoles");
+                    b.ToTable("User_Role");
                 });
 
-            modelBuilder.Entity("MsfServer.Domain.Entities.RoleMenu", b =>
+            modelBuilder.Entity("MsfServer.Domain.Entities.RoleMenuEntity", b =>
                 {
-                    b.HasOne("MsfServer.Domain.Entities.Menu", "Menu")
+                    b.HasOne("MsfServer.Domain.Entities.MenuEntity", "Menu")
                         .WithMany()
                         .HasForeignKey("MenuId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MsfServer.Domain.Entities.Role", "Role")
+                    b.HasOne("MsfServer.Domain.Entities.RoleEntity", "Role")
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -425,13 +470,13 @@ namespace MsfServer.EntityFrameworkCore.Migrations
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("MsfServer.Domain.Entities.RolePermission", b =>
+            modelBuilder.Entity("MsfServer.Domain.Entities.RolePermissionEntity", b =>
                 {
-                    b.HasOne("MsfServer.Domain.Entities.Permission", "Permission")
+                    b.HasOne("MsfServer.Domain.Entities.PermissionEntity", "Permission")
                         .WithMany("RolePermissions")
                         .HasForeignKey("PermissionId");
 
-                    b.HasOne("MsfServer.Domain.Entities.Role", "Role")
+                    b.HasOne("MsfServer.Domain.Entities.RoleEntity", "Role")
                         .WithMany("RolePermissions")
                         .HasForeignKey("RoleId");
 
@@ -440,9 +485,9 @@ namespace MsfServer.EntityFrameworkCore.Migrations
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("MsfServer.Domain.Entities.Token", b =>
+            modelBuilder.Entity("MsfServer.Domain.Entities.TokenEntity", b =>
                 {
-                    b.HasOne("MsfServer.Domain.Entities.User", "User")
+                    b.HasOne("MsfServer.Domain.Entities.UserEntity", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -451,15 +496,15 @@ namespace MsfServer.EntityFrameworkCore.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("MsfServer.Domain.Entities.UserRole", b =>
+            modelBuilder.Entity("MsfServer.Domain.Entities.UserRoleEntity", b =>
                 {
-                    b.HasOne("MsfServer.Domain.Entities.Role", "Role")
+                    b.HasOne("MsfServer.Domain.Entities.RoleEntity", "Role")
                         .WithMany("UserRoles")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MsfServer.Domain.Entities.User", "User")
+                    b.HasOne("MsfServer.Domain.Entities.UserEntity", "User")
                         .WithMany("UserRoles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -470,19 +515,19 @@ namespace MsfServer.EntityFrameworkCore.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("MsfServer.Domain.Entities.Permission", b =>
+            modelBuilder.Entity("MsfServer.Domain.Entities.PermissionEntity", b =>
                 {
                     b.Navigation("RolePermissions");
                 });
 
-            modelBuilder.Entity("MsfServer.Domain.Entities.Role", b =>
+            modelBuilder.Entity("MsfServer.Domain.Entities.RoleEntity", b =>
                 {
                     b.Navigation("RolePermissions");
 
                     b.Navigation("UserRoles");
                 });
 
-            modelBuilder.Entity("MsfServer.Domain.Entities.User", b =>
+            modelBuilder.Entity("MsfServer.Domain.Entities.UserEntity", b =>
                 {
                     b.Navigation("UserRoles");
                 });

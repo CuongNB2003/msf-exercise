@@ -9,7 +9,7 @@ namespace MsfServer.Application.Contracts.Menu.Dto
         public string? DisplayName { get; set; }
         public string? Url { get; set; }
         public string? IconName { get; set; }
-        public bool Status { get; set; } = true;
+        public bool Status { get; set; }
         public DateTime CreatedAt { get; set; }
         public int Total { get; set; }
         public int CountRole { get; set; }

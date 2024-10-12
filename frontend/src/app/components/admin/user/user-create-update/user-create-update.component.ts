@@ -9,7 +9,6 @@ import { UserService } from '@services/user/user.service';
 import { InputComponent } from '@ui/input/input.component';
 import { MaterialModule } from '@ui/material/material.module';
 import { MessageService } from 'primeng/api';
-import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-user-create-update',
@@ -75,7 +74,7 @@ export class UserCreateUpdateComponent implements OnInit {
   }
 
   loadRoles(): void {
-    this.roleService.getAll(1, 999).subscribe({
+    this.roleService.getRoleAll(1, 999).subscribe({
       next: (response) => {
         this.roles = response.data.data;
       },

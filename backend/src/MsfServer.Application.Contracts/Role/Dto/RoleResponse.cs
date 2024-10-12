@@ -10,7 +10,7 @@ namespace MsfServer.Application.Contracts.Role.Dto
         public int CountUser { get; set; }
         public DateTime CreatedAt { get; set; }
         public int Total { get; set; }
-        public List<MenuResponse> Menus { get; set; } = [];
-        public List<PermissionResponse> Permissions { get; set; } = [];
+        public List<MenuRoleResponse> Menus { get; set; } = [];
+        public List<PermissionRoleResponse> Permissions { get; set; } = [];
     }
 }
