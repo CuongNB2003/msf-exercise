@@ -35,7 +35,7 @@ export class RoleListComponent {
   }
 
   loadRoles(): void {
-    this.roleService.getAll(this.page, this.limit).subscribe({
+    this.roleService.getRoleAll(this.page, this.limit).subscribe({
       next: (response) => {
         // this.messageService.add({ severity: 'success', summary: 'Success', detail: response.message });
         this.roles = response.data.data;

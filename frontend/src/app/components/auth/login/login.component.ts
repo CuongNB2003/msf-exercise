@@ -74,7 +74,8 @@ export class LoginComponent implements OnInit {
     this.isSubmitting = false;
     this.resetAttempts();
     this.storeUserData(response.data);
-    this.redirectUser(response.data.user.role.name);
+    // this.redirectUser(response.data.user.role.name);
+    this.router.navigate(['/admin']);
   }
 
   private handleLoginError(error: any, attempts: number): void {

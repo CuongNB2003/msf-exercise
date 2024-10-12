@@ -65,7 +65,11 @@
                         </td>
                         <td>{{ user.name }}</td>
                         <td>{{ user.email }}</td>
-                        <td>{{ user.role.name }}</td>
+                        <td>
+                            <ng-container *ngFor="let role of user.roles; let i = index">
+                                {{ role.name }}<span *ngIf="i < user.roles.length - 1">, </span>
+                            </ng-container>
+                        </td>
                         <td>{{ formatDate(user.createdAt) }}</td>
                     </tr>
                 </tbody>

@@ -1,10 +1,9 @@
 ﻿
-using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
 namespace MsfServer.Domain.Entities
 {
-    public class RequestLog : BaseModel
+    public class LogEntity : BaseEntity
     {
         [Required]
         [MaxLength(10)]
@@ -27,9 +26,9 @@ namespace MsfServer.Domain.Entities
         [Required]
         public int Duration { get; set; }
 
-        public static RequestLog AddLogEntry(string? method, int statusCode, string? url, string? clientIpAddress, string? userName, int duration)
+        public static LogEntity AddLogEntry(string? method, int statusCode, string? url, string? clientIpAddress, string? userName, int duration)
         {
-            return new RequestLog
+            return new LogEntity
             {
                 Method = method,
                 StatusCode = statusCode,

@@ -10,12 +10,11 @@ namespace MsfServer.Application.Contracts.User.Dto
         public string? Email { get; set; }
         public string? Password { get; set; }
         public string? Salt { get; set; }
-        public int RoleId { get; set; }
         public string? Avatar { get; set; }
-        [ForeignKey("RoleId")]
-        public RoleDto? Role { get; set; }
+        public List<int> RoleIds { get; set; } = [];
 
-        public static UserDto CreateUserAdminDto(string email, string hashedPassword, int roleId, string avatar, byte[] salt)
+
+        public static UserDto CreateUserAdminDto(string email, string hashedPassword, string avatar, byte[] salt, List<int> roleIds)
         {
             var nameFromEmail = email.Split('@')[0];
             return new UserDto
@@ -23,20 +22,19 @@ namespace MsfServer.Application.Contracts.User.Dto
                 Name = nameFromEmail,
                 Email = email,
                 Password = hashedPassword,
-                RoleId = roleId,
                 Avatar = avatar,
-                Salt = Convert.ToBase64String(salt)
+                Salt = Convert.ToBase64String(salt),
+                RoleIds = roleIds
             };
         }
 
-        public static UserDto CreateUserDto(string name, string email, string hashedPassword, int roleId, string avatar, byte[] salt)
+        public static UserDto CreateUserDto(string name, string email, string hashedPassword, string avatar, byte[] salt)
         {
             return new UserDto
             {
                 Name = name,
                 Email = email,
                 Password = hashedPassword,
-                RoleId = roleId,
                 Avatar = avatar,
                 Salt = Convert.ToBase64String(salt)
             };

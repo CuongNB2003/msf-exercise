@@ -6,6 +6,8 @@ using MsfServer.Application.Contracts.Token;
 using MsfServer.Application.Contracts.Log;
 using MsfServer.Application.Contracts.ReCaptcha;
 using MsfServer.Application.Repositories;
+using MsfServer.Application.Contracts.Menu;
+using MsfServer.Application.Contracts.Permission;
 
 namespace MsfServer.HttpApi.Host.Extensions
 {
@@ -23,7 +25,9 @@ namespace MsfServer.HttpApi.Host.Extensions
             services.AddTransient<IRoleRepository, RoleRepository>(provider =>{ return new RoleRepository(connectionString); });
             services.AddTransient<IUserRepository, UserRepository>(provider =>{ return new UserRepository(connectionString); });
             services.AddTransient<ITokenRepository, TokenRepository>(provider =>{ return new TokenRepository(connectionString); });
-            services.AddTransient<ILogRepository, LogRepository>(provider => { return new LogRepository(connectionString); });
+            services.AddTransient<ILogRepository, LogRepository>(provider => { return new LogRepository(connectionString); }); 
+            services.AddTransient<IMenuRepository, MenuRepository>(provider => { return new MenuRepository(connectionString); });
+            services.AddTransient<IPermissionRepository, PermissionRepository>(provider => { return new PermissionRepository(connectionString); });
             services.AddTransient<ITokenService, TokenService>();
 
             services.AddTransient<IAuthService, AuthService>(provider => {

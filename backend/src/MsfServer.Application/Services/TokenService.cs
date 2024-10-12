@@ -79,7 +79,7 @@ namespace MsfServer.Application.Services
                 new(JwtRegisteredClaimNames.Name, user.Name!),
                 new(JwtRegisteredClaimNames.Email, user.Email!),
                 new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new(ClaimTypes.Role, user.Role!.Name!) // Sử dụng thuộc tính Name của RoleResultDto
+                new(ClaimTypes.Role, "admin")
             };
 
             return await Task.FromResult(claims);

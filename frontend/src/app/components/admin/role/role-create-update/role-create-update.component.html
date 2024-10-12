@@ -12,12 +12,20 @@
         </form>
     </mat-tab>
 
-    <mat-tab label="Actions">
+    <mat-tab label="Permissions">
         <div class="roles-list">
-            <!-- <mat-checkbox *ngFor="let role of roles" [(ngModel)]="selectedRoles[role.id]"
-                (ngModelChange)="onCheckboxChange($event, role)">
-                {{ role.name }}
-            </mat-checkbox> -->
+            <mat-checkbox *ngFor="let permission of permissions" [(ngModel)]="selectedPermission[permission.id]"
+                (ngModelChange)="onCheckboxPermissionChange($event, permission)">
+                {{ permission.permissionName }}
+            </mat-checkbox>
+        </div>
+    </mat-tab>
+    <mat-tab label="Menu">
+        <div class="roles-list">
+            <mat-checkbox *ngFor="let menu of menus" [(ngModel)]="selectedMenus[menu.id]"
+                (ngModelChange)="onCheckboxMenuChange($event, menu)">
+                {{ menu.displayName }}
+            </mat-checkbox>
         </div>
     </mat-tab>
 </mat-tab-group>

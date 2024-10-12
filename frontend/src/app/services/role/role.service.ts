@@ -4,7 +4,7 @@ import { ErrorHandingService } from '../error-handing/error-handing.service';
 import baseURL from '../config/baseURL';
 import { catchError, Observable } from 'rxjs';
 import { PagedResult, ResponseObject, ResponseText } from '../config/response';
-import { InputRole, RoleDto, RoleResponse } from './role.interface';
+import { RoleInput, RoleResponse } from './role.interface';
 const apiUrl = `${baseURL}api/role`;
 @Injectable({
   providedIn: 'root'
@@ -13,7 +13,7 @@ export class RoleService {
 
   constructor(private http: HttpClient, private errorHandingService: ErrorHandingService) { }
 
-  getAll(page: number, limit: number): Observable<ResponseObject<PagedResult<RoleResponse>>> {
+  getRoleAll(page: number, limit: number): Observable<ResponseObject<PagedResult<RoleResponse>>> {
     return this.http.get<ResponseObject<PagedResult<RoleResponse>>>(`${apiUrl}?page=${page}&limit=${limit}`).pipe(
       catchError((error: HttpErrorResponse) => this.errorHandingService.getErrorObservable(error))
     )
@@ -25,13 +25,13 @@ export class RoleService {
     )
   }
 
-  createRole(input: InputRole): Observable<ResponseText> {
+  createRole(input: RoleInput): Observable<ResponseText> {
     return this.http.post<ResponseText>(`${apiUrl}`, input).pipe(
       catchError((error: HttpErrorResponse) => this.errorHandingService.getErrorObservable(error))
     )
   }
 
-  updateRole(input: InputRole, id: number): Observable<ResponseText> {
+  updateRole(input: RoleInput, id: number): Observable<ResponseText> {
     return this.http.put<ResponseText>(`${apiUrl}/${id}`, input).pipe(
       catchError((error: HttpErrorResponse) => this.errorHandingService.getErrorObservable(error))
     )

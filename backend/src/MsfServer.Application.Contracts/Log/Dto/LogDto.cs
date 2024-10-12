@@ -11,6 +11,6 @@ namespace MsfServer.Application.Contracts.Log.Dto
         public string? UserName { get; set; }
         public int Duration { get; set; }
         public DateTime CreatedAt { get; set; }
-        public int TotalLog { get; set; }
+        public int Total { get; set; }
     }
 }

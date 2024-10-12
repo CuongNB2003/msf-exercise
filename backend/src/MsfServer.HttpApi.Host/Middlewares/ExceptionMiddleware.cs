@@ -122,7 +122,7 @@ namespace MsfServer.HttpApi.Host.Middlewares
             var method = context.Request.Method;
             var clientIpAddress = context.Request.Headers["X-Forwarded-For"].FirstOrDefault() ?? context.Connection.RemoteIpAddress?.ToString();
             var userName = context.User.FindFirst("name")?.Value ?? "";
-            var log = RequestLog.AddLogEntry(method, statusCode, path, clientIpAddress, userName, duration);
+            var log = LogEntity.AddLogEntry(method, statusCode, path, clientIpAddress, userName, duration);
             // Kiểm tra nếu URL chứa "/api/log" và /swagger thì không lưu vào database
             if (!log.Url!.Contains("/api/log", StringComparison.OrdinalIgnoreCase) && !log.Url!.Contains("/swagger", StringComparison.OrdinalIgnoreCase))
             {
@@ -131,11 +131,11 @@ namespace MsfServer.HttpApi.Host.Middlewares
 
         }
 
-        private async Task LogToDatabase(RequestLog log)
+        private async Task LogToDatabase(LogEntity log)
         {
             using var scope = _serviceProvider.CreateScope();
             var dbContext = scope.ServiceProvider.GetRequiredService<MsfServerDbContext>();
-            await dbContext.RequestLogs.AddAsync(log);
+            await dbContext.Logs.AddAsync(log);
             await dbContext.SaveChangesAsync();
         }
 

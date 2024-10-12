@@ -38,7 +38,7 @@ namespace MsfServer.Application.Repositories
             // Tạo đối tượng PagedResult để trả về
             var pagedResult = new PagedResult<LogDto>
             {
-                TotalRecords = firstLog?.TotalLog ?? 0,
+                TotalRecords = firstLog?.Total ?? 0,
                 Page = page,
                 Limit = limit,
                 Data = logs.ToList() ?? []
