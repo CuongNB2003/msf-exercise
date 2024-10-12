@@ -1,5 +1,5 @@
 ﻿using MsfServer.Application.Contracts.Role.Dto;
-using System.ComponentModel.DataAnnotations.Schema;
+using Newtonsoft.Json;
 
 namespace MsfServer.Application.Contracts.User.Dto
 {
@@ -8,23 +8,18 @@ namespace MsfServer.Application.Contracts.User.Dto
         public int Id { get; set; }
         public string? Name { get; set; }
         public string? Email { get; set; }
-        public int RoleId { get; set; }
         public string? Avatar { get; set; }
         public DateTime? CreatedAt { get; set; }
-        public int TotalUser { get; set; }
+        public int Total { get; set; }
 
-        [ForeignKey("RoleId")]
-        public RoleDto? Role { get; set; }
-
-        public static UserResponse UserData(int id, string name, string email, RoleDto role, int roleId )
+        public List<RoleDto> Roles { get; set; } = [];
+        public static UserResponse UserData(int id, string name, string email)
         {
             return new UserResponse
             {
                 Id = id,
                 Name = name,
                 Email = email,
-                RoleId = roleId,
-                Role = role,
             };
         }
     }

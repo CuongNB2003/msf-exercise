@@ -8,10 +8,9 @@ namespace MsfServer.Application.Contracts.Authentication.AuthDto
     {
         public string? Name { get; set; }
         public string? Email { get; set; }
-        public int RoleId { get; set; }
         public string? Avatar { get; set; }
-        [ForeignKey("RoleId")]
-        public RoleDto? Role { get; set; }
+
+        public List<RoleDto> Roles { get; set; } = [];
 
         public static UserLogin FromUserDto(UserDto user)
         {
@@ -20,8 +19,6 @@ namespace MsfServer.Application.Contracts.Authentication.AuthDto
                 Name = user.Name,
                 Email = user.Email,
                 Avatar = user.Avatar,
-                RoleId = user.RoleId,
-                Role = user.Role
             };
         }
     }

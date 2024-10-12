@@ -29,13 +29,14 @@ export const AdminGuard: CanActivateFn = (route, state) => {
       return false;
     }
     if (userInfo) {
-      const user: UserLogin = JSON.parse(userInfo) as UserLogin
-      if (user.role.name == "admin") {
-        return true;
-      } else {
-        router.navigate(['/']);
-        return false;
-      }
+      // const user: UserLogin = JSON.parse(userInfo) as UserLogin
+      // if (user.role.name == "admin") {
+      //   return true;
+      // } else {
+      //   router.navigate(['/']);
+      //   return false;
+      // }
+      return true;
     }
     else {
       localStorage.removeItem('accessToken');

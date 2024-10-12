@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MsfServer.Domain.Entities
 {
-    public class Token : BaseModel
+    public class TokenEntity : BaseEntity
     {
         [Required]
         public int UserId { get; set; }
@@ -16,6 +16,6 @@ namespace MsfServer.Domain.Entities
         public DateTime ExpirationDate { get; set; }
 
         [ForeignKey("UserId")]
-        public User? User { get; set; }
+        public UserEntity? User { get; set; }
     }
 }

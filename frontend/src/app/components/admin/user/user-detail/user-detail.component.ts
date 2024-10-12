@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { UserResponse } from '@services/user/user.interface';
@@ -8,7 +9,7 @@ import { MessageService } from 'primeng/api';
 @Component({
   selector: 'app-user-detail',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './user-detail.component.html',
   styleUrl: './user-detail.component.scss',
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -26,14 +27,15 @@ export class UserDetailComponent implements OnInit {
     id: 0,
     name: '',
     email: '',
-    roleId: 0,
     avatar: '',
     createdAt: new Date(),
-    role: {
-      id: 0,
-      name: ''
-    }
-  }
+    roles: [
+      {
+        id: 0,
+        name: ''
+      }
+    ]
+  };
 
   ngOnInit(): void {
     this.getRoleById();

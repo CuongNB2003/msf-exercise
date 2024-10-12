@@ -7,11 +7,11 @@ namespace MsfServer.HttpApi
 {
     [Route("api/role")]
     [ApiController]
+    //[Authorize(Roles = "admin,user")]
     public class RolesController(IRoleRepository roleRepository) : ControllerBase
     {
         private readonly IRoleRepository _roleRepository = roleRepository;
 
-        [Authorize(Roles = "admin,user")]
         [HttpGet] // lấy tất cả dữ liệu
         public async Task<IActionResult> GetRoles(int page, int limit)
         {
@@ -20,7 +20,6 @@ namespace MsfServer.HttpApi
             return Ok(roles);
         }
 
-        [Authorize(Roles = "admin")]
         [HttpGet("{id}")] // lấy theo id
         public async Task<IActionResult> GetRole(int id)
         {
@@ -28,7 +27,6 @@ namespace MsfServer.HttpApi
             return Ok(role);
         }
 
-        [Authorize(Roles = "admin")]
         [HttpPost] // tạo role 
         public async Task<IActionResult> CreateRole(RoleInput role)
         {
@@ -36,7 +34,6 @@ namespace MsfServer.HttpApi
             return Ok(result);
         }
 
-        [Authorize(Roles = "admin")]
         [HttpPut("{id}")] // sửa role
         public async Task<IActionResult> UpdateRole(int id, RoleInput input)
         {
@@ -44,7 +41,6 @@ namespace MsfServer.HttpApi
             return Ok(result);
         }
 
-        [Authorize(Roles = "admin")]
         [HttpDelete("{id}")] // xóa role
         public async Task<IActionResult> DeleteRole(int id)
         {

@@ -9,7 +9,6 @@ import { UserService } from '@services/user/user.service';
 import { InputComponent } from '@ui/input/input.component';
 import { MaterialModule } from '@ui/material/material.module';
 import { MessageService } from 'primeng/api';
-import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-user-create-update',
@@ -34,13 +33,14 @@ export class UserCreateUpdateComponent implements OnInit {
     id: 0,
     name: '',
     email: '',
-    roleId: 0,
     avatar: '',
     createdAt: new Date(),
-    role: {
-      id: 0,
-      name: ''
-    }
+    roles: [
+      {
+        id: 0,
+        name: ''
+      }
+    ]
   };
 
   constructor(
@@ -74,7 +74,7 @@ export class UserCreateUpdateComponent implements OnInit {
   }
 
   loadRoles(): void {
-    this.roleService.getAll(1, 999).subscribe({
+    this.roleService.getRoleAll(1, 999).subscribe({
       next: (response) => {
         this.roles = response.data.data;
       },
@@ -94,11 +94,10 @@ export class UserCreateUpdateComponent implements OnInit {
           name: this.user.name
         });
 
-        this.selectedRoles[this.user.role.id] = true;
         // Đẩy dữ liệu vào hộp kiểm
-        // this.user.role.forEach(role => {
-        //   this.selectedRoles[role.id] = true;
-        // });
+        this.user.roles.forEach(role => {
+          this.selectedRoles[role.id] = true;
+        });
       },
       error: (err) => {
         alert(`Không lấy được dữ liệu: ${err}`);
@@ -122,19 +121,11 @@ export class UserCreateUpdateComponent implements OnInit {
   }
 
   createHandle(): void {
-    const selectedRoleIds: number[] = this.getSelectedRoleIds();
-    if (selectedRoleIds.length === 0) {
-      this.messageService.add({ severity: 'warn', summary: 'Warn', detail: "vui lòng chọn ít nhất 1 role" });
-      this.isSubmitting = false;
-      return;
-    }
     const input: InputCreateUser = {
       email: this.createUserForm.get('email')?.value,
-      roleId: selectedRoleIds[0],
       avatar: "string",
+      roleIds: this.getSelectedRoleIds()
     };
-    console.log(input.email);
-    console.log(input.roleId);
     this.userService.createUser(input).subscribe({
       next: (response) => {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: response.message });
@@ -149,21 +140,11 @@ export class UserCreateUpdateComponent implements OnInit {
   }
 
   updateHandle(id: number): void {
-    const selectedRoleIds: number[] = this.getSelectedRoleIds();
-    if (selectedRoleIds.length === 0) {
-      this.messageService.add({ severity: 'warn', summary: 'Warn', detail: "vui lòng chọn ít nhất 1 role" });
-      this.isSubmitting = false;
-      return;
-    }
-
-    const email = this.createUserForm.get('email')?.value;
-    const name = this.createUserForm.get('name')?.value;
-
     const input: InputUpdateUser = {
-      email: email,
-      name: name,
-      roleId: selectedRoleIds[0],
-      avatar: this.user.avatar
+      email: this.createUserForm.get('email')?.value,
+      name: this.createUserForm.get('name')?.value,
+      avatar: this.user.avatar,
+      roleIds: this.getSelectedRoleIds()
     };
 
     this.userService.updateUser(input, id).subscribe({
@@ -181,12 +162,10 @@ export class UserCreateUpdateComponent implements OnInit {
 
   onCheckboxChange(isChecked: boolean, selectedRole: RoleResponse): void {
     this.selectedRoles[selectedRole.id] = isChecked;
-    console.log("Selected Roles:", this.selectedRoles);
   }
 
   getSelectedRoleIds(): number[] {
     const selectedIds = this.roles.filter(role => this.selectedRoles[role.id]).map(role => role.id);
-    console.log("Selected Role IDs:", selectedIds);
     return selectedIds;
   }
 

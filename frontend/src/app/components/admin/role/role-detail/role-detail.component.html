@@ -14,6 +14,22 @@
                 <span>{{ role.countUser }}</span>
             </div>
             <div class="detail-item">
+                <strong>Menu</strong>
+                <span>
+                    <ng-container *ngFor="let menu of role.menus; let i = index">
+                        {{ menu.displayName }}<span *ngIf="i < role.menus.length - 1">, </span>
+                    </ng-container>
+                </span>
+            </div>
+            <div class="detail-item">
+                <strong>Permission</strong>
+                <span>
+                    <ng-container *ngFor="let permission of role.permissions; let i = index">
+                        {{ permission.permissionName }}<span *ngIf="i < role.permissions.length - 1">, </span>
+                    </ng-container>
+                </span>
+            </div>
+            <div class="detail-item">
                 <strong>Ngày tạo:</strong>
                 <span>{{ formatDate(role.createdAt) }}</span>
             </div>

@@ -7,28 +7,45 @@ namespace MsfServer.EntityFrameworkCore.Database
     {
 
         // Định nghĩa các DbSet cho các bảng trong cơ sở dữ liệu
-        public DbSet<User> Users { get; set; }
-        public DbSet<Role> Roles { get; set; }
-        public DbSet<Token> Tokens { get; set; }
-        public DbSet<RequestLog> RequestLogs { get; set; }
+        public DbSet<RoleEntity> Roles { get; set; }
+        public DbSet<PermissionEntity> Permissions { get; set; }
+        public DbSet<UserEntity> Users { get; set; }
+        public DbSet<TokenEntity> Tokens { get; set; }
+        public DbSet<LogEntity> Logs { get; set; }
+        public DbSet<MenuEntity> Menu { get; set; }
+        public DbSet<RolePermissionEntity> Role_Permission { get; set; }
+        public DbSet<UserRoleEntity> User_Role { get; set; }
+        public DbSet<RoleMenuEntity> Role_Menu { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            // Cấu hình thêm nếu cần
-            // tạo các giá trị mặc định cho createdAt updateAt deleteAt cho từng bảng phía dưới
-            modelBuilder.Entity<RequestLog>(entity =>
+            // Gọi phương thức mở rộng cho từng thực thể
+            modelBuilder.ApplyBaseEntityConfiguration<RoleEntity>();
+            modelBuilder.ApplyBaseEntityConfiguration<PermissionEntity>();
+            modelBuilder.ApplyBaseEntityConfiguration<UserEntity>();
+            modelBuilder.ApplyBaseEntityConfiguration<TokenEntity>();
+            modelBuilder.ApplyBaseEntityConfiguration<LogEntity>();
+            modelBuilder.ApplyBaseEntityConfiguration<MenuEntity>();
+
+            modelBuilder.ApplyBaseEntityConfiguration<RolePermissionEntity>();
+            modelBuilder.ApplyBaseEntityConfiguration<UserRoleEntity>();
+            modelBuilder.ApplyBaseEntityConfiguration<RoleMenuEntity>();
+
+            modelBuilder.Entity<MenuEntity>(entity =>
             {
-                entity.Property(e => e.CreatedAt)
-                    .HasDefaultValueSql("GETDATE()");
-
-                entity.Property(e => e.UpdatedAt)
-                    .HasDefaultValueSql("NULL");
-
-                entity.Property(e => e.DeletedAt)
-                    .HasDefaultValueSql("NULL");
+                entity.Property(e => e.Status)
+                    .HasDefaultValue(true);
             });
-            modelBuilder.Entity<Role>(entity =>
+        }
+    }
+
+    // Định nghĩa một lớp tĩnh chứa phương thức mở rộng
+    public static class ModelBuilderExtensions
+    {
+        public static void ApplyBaseEntityConfiguration<T>(this ModelBuilder modelBuilder) where T : BaseEntity
+        {
+            modelBuilder.Entity<T>(entity =>
             {
                 entity.Property(e => e.CreatedAt)
                     .HasDefaultValueSql("GETDATE()");
@@ -38,28 +55,9 @@ namespace MsfServer.EntityFrameworkCore.Database
 
                 entity.Property(e => e.DeletedAt)
                     .HasDefaultValueSql("NULL");
-            });
-            modelBuilder.Entity<User>(entity =>
-            {
-                entity.Property(e => e.CreatedAt)
-                    .HasDefaultValueSql("GETDATE()");
 
-                entity.Property(e => e.UpdatedAt)
-                    .HasDefaultValueSql("NULL");
-
-                entity.Property(e => e.DeletedAt)
-                    .HasDefaultValueSql("NULL");
-            });
-            modelBuilder.Entity<Token>(entity =>
-            {
-                entity.Property(e => e.CreatedAt)
-                    .HasDefaultValueSql("GETDATE()");
-
-                entity.Property(e => e.UpdatedAt)
-                    .HasDefaultValueSql("NULL");
-
-                entity.Property(e => e.DeletedAt)
-                    .HasDefaultValueSql("NULL");
+                entity.Property(e => e.IsDeleted)
+                    .HasDefaultValue(false);
             });
         }
     }

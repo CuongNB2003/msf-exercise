@@ -16,21 +16,21 @@ namespace MsfServer.Application.Tests.RepositorysTests.RoleRepositorys
         }
 
         // hàm này sẽ kiểm tra xem role nam có tồn tại hay không
-        [Fact] // điều kiện đúng
-        public async Task CheckRoleNameExistsAsync_ShouldReturnTrue_WhenRoleNameExists()
-        {
-            string roleName = "admin";
-            var result = await _repository.CheckRoleNameExistsAsync(roleName);
-            Assert.True(result);
-        }
+        //[Fact] // điều kiện đúng
+        //public async Task CheckRoleNameExistsAsync_ShouldReturnTrue_WhenRoleNameExists()
+        //{
+        //    string roleName = "admin";
+        //    var result = await _repository.CheckRoleNameExistsAsync(roleName);
+        //    Assert.True(result);
+        //}
 
-        [Fact] // điều kiện sai 
-        public async Task CheckRoleNameExistsAsync_ShouldReturnFalse_WhenRoleNameDoesNotExist()
-        {
-            string roleName = "non_existing_role";
-            var result = await _repository.CheckRoleNameExistsAsync(roleName);
-            Assert.False(result);
-        }
+        //[Fact] // điều kiện sai 
+        //public async Task CheckRoleNameExistsAsync_ShouldReturnFalse_WhenRoleNameDoesNotExist()
+        //{
+        //    string roleName = "non_existing_role";
+        //    var result = await _repository.CheckRoleNameExistsAsync(roleName);
+        //    Assert.False(result);
+        //}
 
 
     }

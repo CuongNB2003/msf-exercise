@@ -1,13 +1,9 @@
-﻿using Dapper;
+﻿
 using Microsoft.AspNetCore.Http;
 using Moq;
-using MsfServer.Application.Contracts.Token.TokenDtos;
 using MsfServer.Application.Repositories;
-using MsfServer.Domain.Entities;
 using MsfServer.Domain.Shared.Exceptions;
 using System.Data;
-using System.Threading.Tasks;
-using Xunit;
 
 namespace MsfServer.Application.Tests.RepositorysTests.TokenRepositorys
 {

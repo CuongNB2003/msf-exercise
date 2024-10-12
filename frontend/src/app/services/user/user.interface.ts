@@ -4,21 +4,20 @@ export interface UserResponse {
     id: number,
     name: string,
     email: string,
-    roleId: number,
     avatar: string,
     createdAt: Date,
-    role: RoleDto
+    roles: RoleDto[]
 }
 
 export interface InputCreateUser {
     email: string,
-    roleId: number,
-    avatar: string
+    avatar: string,
+    roleIds: number[]
 }
 
 export interface InputUpdateUser {
     email: string,
-    roleId: number,
     avatar: string,
-    name: string
+    name: string,
+    roleIds: number[]
 }

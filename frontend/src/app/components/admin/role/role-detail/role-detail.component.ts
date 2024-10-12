@@ -27,8 +27,12 @@ export class RoleDetailComponent implements OnInit {
     id: 0,
     name: '',
     countUser: 0,
-    createdAt: new Date()
-  }
+    createdAt: new Date(),
+    total: 0,
+    menus: [],
+    permissions: []
+  };
+
 
   ngOnInit(): void {
     this.getRoleById();

@@ -15,7 +15,11 @@
             </div>
             <div class="detail-item">
                 <strong>Quyền:</strong>
-                <span>{{ user.role.name }}</span>
+                <span>
+                    <ng-container *ngFor="let role of user.roles; let i = index">
+                        {{ role.name }}<span *ngIf="i < user.roles.length - 1">, </span>
+                    </ng-container>
+                </span>
             </div>
             <div class="detail-item">
                 <strong>Gia nhập:</strong>

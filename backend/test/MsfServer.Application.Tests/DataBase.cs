@@ -10,7 +10,7 @@ namespace MsfServer.Application.Tests
 {
     public class TestDbContext(DbContextOptions<TestDbContext> options) : DbContext(options)
     {
-        public DbSet<Token> Tokens { get; set; }
+        public DbSet<TokenEntity> Tokens { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
