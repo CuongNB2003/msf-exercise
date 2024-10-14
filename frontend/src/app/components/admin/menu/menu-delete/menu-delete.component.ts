@@ -1,31 +1,29 @@
+import { MenuService } from './../../../../services/menu/menu.service';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { RoleService } from '@services/role/role.service';
 import { MaterialModule } from '@ui/material/material.module';
 import { MessageService } from 'primeng/api';
 
 @Component({
-  selector: 'app-role-delete',
+  selector: 'app-menu-delete',
   standalone: true,
-  imports: [
-    MaterialModule,
-  ],
-  templateUrl: './role-delete.component.html',
-  styleUrl: './role-delete.component.scss',
+  imports: [MaterialModule],
+  templateUrl: './menu-delete.component.html',
+  styleUrl: './menu-delete.component.scss',
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class RoleDeleteComponent {
+export class MenuDeleteComponent {
   isSubmitting: boolean = false;
 
   constructor(
     private messageService: MessageService,
-    public dialogRef: MatDialogRef<RoleDeleteComponent>,
-    public roleService: RoleService,
+    public dialogRef: MatDialogRef<MenuDeleteComponent>,
+    public menuService: MenuService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
 
   deleteHandle(): void {
-    this.roleService.deleteRole(this.data.id).subscribe({
+    this.menuService.deleteMenu(this.data.id).subscribe({
       next: (response) => {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: response.message });
         this.isSubmitting = false;

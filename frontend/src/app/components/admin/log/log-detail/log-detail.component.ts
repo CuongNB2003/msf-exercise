@@ -5,11 +5,12 @@ import { CommonModule } from '@angular/common';
 import { Log } from '@services/log/log.interface';
 import { LogService } from '@services/log/log.service';
 import { MessageService } from 'primeng/api';
+import { MaterialModule } from '@ui/material/material.module';
 
 @Component({
   selector: 'app-log-detail',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, MaterialModule],
   templateUrl: './log-detail.component.html',
   styleUrl: './log-detail.component.scss',
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

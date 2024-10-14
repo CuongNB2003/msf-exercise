@@ -5,11 +5,12 @@ import moment from 'moment';
 import { RoleService } from '@services/role/role.service';
 import { RoleResponse } from '@services/role/role.interface';
 import { MessageService } from 'primeng/api';
+import { MaterialModule } from '@ui/material/material.module';
 
 @Component({
   selector: 'app-role-detail',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, MaterialModule],
   templateUrl: './role-detail.component.html',
   styleUrl: './role-detail.component.scss',
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

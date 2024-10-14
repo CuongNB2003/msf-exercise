@@ -1,0 +1,37 @@
+.title-dialog {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 24px;
+
+    h2 {
+        font-size: 24px;
+        color: var(--bs-black);
+        margin: 0;
+        /* Đảm bảo không có margin mặc định */
+    }
+}
+
+.user-form {
+    max-height: 400px;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .icon-selection-container {
+        width: 100%;
+        position: relative; // Đặt vị trí cho container
+
+        .error-message {
+            position: absolute;
+            transform: translateY(10px);
+            right: 0;
+            top: 0;
+            color: var(--bs-red);
+            font-size: 14px;
+        }
+    }
+
+
+}

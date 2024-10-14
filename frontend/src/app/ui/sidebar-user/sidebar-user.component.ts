@@ -3,13 +3,13 @@ import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { matDatasetOutline } from '@ng-icons/material-icons/outline';
 
 @Component({
-  selector: 'app-sidebar-layout',
+  selector: 'app-sidebar-user',
   standalone: true,
   imports: [NgIconComponent],
-  templateUrl: './sidebar-icon.component.html',
-  styleUrl: './sidebar-icon.component.scss',
+  templateUrl: './sidebar-user.component.html',
+  styleUrl: './sidebar-user.component.scss',
   viewProviders: [provideIcons({ matDatasetOutline })],
 })
-export class SidebarIconComponent {
+export class SidebarUserComponent {
 
 }

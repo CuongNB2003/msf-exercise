@@ -1,0 +1,17 @@
+.title-dialog {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 20px;
+    padding-left: 30px;
+    padding-right: 30px;
+
+    h2 {
+        font-size: 24px;
+        color: var(--bs-black);
+    }
+}
+
+.content-dialog {
+    padding: 15px 30px;
+}

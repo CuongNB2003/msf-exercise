@@ -37,10 +37,7 @@
             &.active {
                 font-weight: bold;
                 background-color: var(--bs-gray-200);
-
-                .material-icons {
-                    color: var(--bs-blue);
-                }
+                color: var(--bs-blue);
             }
 
             .material-icons {
