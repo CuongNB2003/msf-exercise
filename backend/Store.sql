@@ -502,6 +502,7 @@ BEGIN
         -- Lấy danh sách quyền (permissions)
         SELECT 
             COUNT(*) OVER() AS Total,
+            (SELECT COUNT(*) FROM Role_Permission rm WHERE rm.PermissionId = p.Id) AS CountRole,
             p.Id,
             p.PermissionName,
             p.Description,

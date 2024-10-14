@@ -1,0 +1,27 @@
+<mat-dialog-content>
+    <div class="title-dialog">
+        <h2>Chi tiết permission</h2>
+        <span class="material-icons" (click)="close()">close</span>
+    </div>
+    <div class="detail-container">
+        <div class="detail-item">
+            <strong>Tên permission:</strong>
+            <span>{{ permission.permissionName }}</span>
+        </div>
+        <div class="detail-item">
+            <strong>Giới thiệu:</strong>
+            <span>{{ permission.description }}</span>
+        </div>
+        <div class="detail-item">
+            <strong>Số lượng quyền dùng:</strong>
+            <span>{{ permission.countRole }}</span>
+        </div>
+        <div class="detail-item">
+            <strong>Ngày tạo:</strong>
+            <span>{{ formatDate(permission.createdAt) }}</span>
+        </div>
+    </div>
+    <div mat-dialog-actions align="end">
+        <button mat-raised-button (click)="close()">Thoát</button>
+    </div>
+</mat-dialog-content>

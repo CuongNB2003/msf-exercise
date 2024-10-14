@@ -2,16 +2,16 @@
     <div class="breadcrumb">Breadcrumb</div>
     <div class="main">
         <div class="top-bar">
-            <h1>Quyền</h1>
+            <h1>Permission</h1>
             <div class="actions">
                 <button class="btn" type="button" (click)="openDialogCreate()">
                     <span class="material-icons">add</span>
-                    Thêm quyền
+                    Thêm permission
                 </button>
             </div>
         </div>
         <div class="search-bar">
-            <input type="search" placeholder="Search roles...">
+            <input type="search" placeholder="Search permissions...">
             <button>
                 <span class="material-icons">search</span>
             </button>
@@ -22,53 +22,43 @@
                     <tr>
                         <th>Hành động</th>
                         <th>Tên</th>
-                        <th>Số lượng người dùng</th>
-                        <th>Permission</th>
-                        <th>Menu</th>
+                        <th>Chi tiết</th>
+                        <th>Số quyền dùng</th>
                         <th>Ngày tạo</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let role of roles">
+                    <tr *ngFor="let p of permissions">
                         <td>
-                            <div class="dropdown" [class.show]="isDropdownOpen[role.id]">
-                                <button class="dropdown-toggle" (click)="toggleDropdown($event, role.id)"
-                                    [ngClass]="{'open': isDropdownOpen[role.id]}" type="button">
+                            <div class="dropdown" [class.show]="isDropdownOpen[p.id]">
+                                <button class="dropdown-toggle" (click)="toggleDropdown($event, p.id)"
+                                    [ngClass]="{'open': isDropdownOpen[p.id]}" type="button">
                                     <span class="material-icons">settings</span>
                                     Actions
                                 </button>
-                                <ul class="dropdown-menu" [class.show]="isDropdownOpen[role.id]">
+                                <ul class="dropdown-menu" [class.show]="isDropdownOpen[p.id]">
                                     <li>
-                                        <button class="dropdown-item" type="button" (click)="openDialogDetail(role.id)">
+                                        <button class="dropdown-item" type="button" (click)="openDialogDetail(p.id)">
                                             Xem chi tiết
                                         </button>
                                     </li>
                                     <li>
-                                        <button class="dropdown-item" type="button" (click)="openDialogUpdate(role.id)">
-                                            Sửa quyền
+                                        <button class="dropdown-item" type="button" (click)="openDialogUpdate(p.id)">
+                                            Sửa permission
                                         </button>
                                     </li>
                                     <li>
-                                        <button class="dropdown-item" type="button" (click)="openDialogDelete(role.id)">
-                                            Xóa quyền
+                                        <button class="dropdown-item" type="button" (click)="openDialogDelete(p.id)">
+                                            Xóa permission
                                         </button>
                                     </li>
                                 </ul>
                             </div>
                         </td>
-                        <td>{{ role.name }}</td>
-                        <td>{{ role.countUser }}</td>
-                        <td>
-                            <ng-container *ngFor="let permission of role.permissions; let i = index">
-                                {{ permission.permissionName }}<span *ngIf="i < role.permissions.length - 1">, </span>
-                            </ng-container>
-                        </td>
-                        <td>
-                            <ng-container *ngFor="let menu of role.menus; let i = index">
-                                {{ menu.displayName }}<span *ngIf="i < role.menus.length - 1">, </span>
-                            </ng-container>
-                        </td>
-                        <td>{{ formatDate(role.createdAt) }}</td>
+                        <td>{{ p.permissionName }}</td>
+                        <td>{{ p.description}}</td>
+                        <td>{{ p.countRole }}</td>
+                        <td>{{ formatDate(p.createdAt) }}</td>
                     </tr>
                 </tbody>
             </table>
