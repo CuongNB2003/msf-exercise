@@ -1,0 +1,21 @@
+<div class="icon-container">
+    <!-- Nút để mở danh sách icon -->
+    <button mat-raised-button [matMenuTriggerFor]="iconMenu">
+        Chọn icon
+    </button>
+    <!-- Hiển thị icon đã chọn -->
+    <div *ngIf="selectedIcon" class="selected-icon">
+        <mat-icon>{{ selectedIcon }}</mat-icon>
+        <button mat-icon-button (click)="clearIcon()" aria-label="Clear icon">
+            <mat-icon>close</mat-icon> <!-- Dấu "X" -->
+        </button>
+    </div>
+    <!-- Menu hiển thị danh sách icon -->
+    <mat-menu #iconMenu="matMenu" [overlapTrigger]="false" class="custom-menu">
+        <div class="icon-grid">
+            <button mat-menu-item *ngFor="let icon of icons" (click)="selectIcon(icon)">
+                <mat-icon>{{ icon }}</mat-icon>
+            </button>
+        </div>
+    </mat-menu>
+</div>

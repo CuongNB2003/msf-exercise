@@ -1,1 +1,29 @@
-<p>menu-create-update works!</p>
+<div class="title-dialog">
+    <h2>{{ data.id ? "Sửa menu" : "Thêm menu"}}</h2>
+    <span class="material-icons" (click)="close()">close</span>
+</div>
+
+<form class="user-form" [formGroup]="menuForm" mat-dialog-content>
+    <app-input [formGroup]="menuForm" controlName="name" className="bg-input" placeholder="Nhập tên menu"
+        errorMessage="Vui lòng nhập tên menu" type="text">
+    </app-input>
+
+    <app-input [formGroup]="menuForm" controlName="url" className="bg-input" placeholder="Nhập tên đường dẫn cho menu"
+        errorMessage="Vui lòng nhập đường dẫn cho menu" type="text">
+    </app-input>
+
+    <div class="icon-selection-container">
+        <app-icon [selectedIcon]="menuForm.get('icon')?.value" (iconSelected)="onIconSelected($event)"></app-icon>
+
+        <!-- Hiển thị lỗi nếu icon chưa được chọn -->
+        <div *ngIf="menuForm.get('icon')?.invalid && menuForm.get('icon')?.touched" class="error-message">
+            Vui lòng chọn icon.
+        </div>
+    </div>
+</form>
+
+
+<div mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Hủy</button>
+    <button mat-raised-button color="primary" (click)="onSubmit()">{{ data.id ? "Sửa" : "Thêm"}}</button>
+</div>

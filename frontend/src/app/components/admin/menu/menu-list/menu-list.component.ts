@@ -8,6 +8,7 @@ import { MenuDetailComponent } from '../menu-detail/menu-detail.component';
 import { MenuCreateUpdateComponent } from '../menu-create-update/menu-create-update.component';
 import { CommonModule } from '@angular/common';
 import { PaginationComponent } from '@ui/pagination/pagination.component';
+import { MenuDeleteComponent } from '../menu-delete/menu-delete.component';
 
 @Component({
   selector: 'app-menu-list',
@@ -103,7 +104,7 @@ export class MenuListComponent {
   }
 
   openDialogDelete(id: number): void {
-    const dialogRef = this.dialog.open(MenuDetailComponent, {
+    const dialogRef = this.dialog.open(MenuDeleteComponent, {
       width: '600px',
       data: {
         id: id,

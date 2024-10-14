@@ -22,7 +22,7 @@
                     <tr>
                         <th>Hành động</th>
                         <th>Tên</th>
-                        <th>Icon name</th>
+                        <th>Icon</th>
                         <th>Đường dẫn</th>
                         <th>Số lượng quyền dùng</th>
                         <th>Trạng thái</th>
@@ -58,7 +58,9 @@
                             </div>
                         </td>
                         <td>{{ m.displayName }}</td>
-                        <td>{{ m.iconName }}</td>
+                        <td>
+                            <span class="material-icons">{{ m.iconName }}</span>
+                        </td>
                         <td>{{ m.url}}</td>
                         <td>{{ m.countRole }}</td>
                         <td>{{ m.status ? "Đang hoạt động" : "Dừng hoạt động" }}</td>
