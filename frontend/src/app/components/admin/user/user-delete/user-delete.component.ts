@@ -1,9 +1,6 @@
-import { CommonModule } from '@angular/common';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, Inject } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { UserService } from '@services/user/user.service';
-import { InputComponent } from '@ui/input/input.component';
 import { MaterialModule } from '@ui/material/material.module';
 import { MessageService } from 'primeng/api';
 
@@ -12,10 +9,6 @@ import { MessageService } from 'primeng/api';
   standalone: true,
   imports: [
     MaterialModule,
-    FormsModule,
-    CommonModule,
-    InputComponent,
-    ReactiveFormsModule
   ],
   templateUrl: './user-delete.component.html',
   styleUrl: './user-delete.component.scss',
@@ -32,6 +25,7 @@ export class UserDeleteComponent {
   ) { }
 
   deleteHandle(): void {
+    this.isSubmitting = true;
     this.userService.deleteUser(this.data.id).subscribe({
       next: (response) => {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: response.message });

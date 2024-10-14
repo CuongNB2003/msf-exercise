@@ -1,0 +1,42 @@
+.icon-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.selected-icon {
+    display: flex;
+    align-items: center;
+    margin-left: auto; // Đẩy .selected-icon sang bên phải
+
+    span {
+        font-weight: bold;
+        margin-right: 5px;
+        font-size: 16px;
+    }
+
+    mat-icon {
+        font-size: 24px !important; // Kích thước của icon đã chọn
+        color: var(--bs-black) !important; // Màu của icon
+    }
+}
+
+::ng-deep .custom-menu {
+    margin-top: 10px !important; // Điều chỉnh khoảng cách giữa nút và menu
+    max-height: 200px !important;
+    min-width: 500px !important;
+    overflow-y: auto !important; // Thêm thanh cuộn nếu có quá nhiều icon
+
+    .icon-grid {
+        display: grid !important;
+        grid-template-columns: repeat(8, 1fr) !important; // Hiển thị 8 icon trên 1 hàng
+        gap: 10px !important; // Khoảng cách giữa các icon
+        padding: 10px !important; // Khoảng cách bên trong của lưới icon
+    }
+
+    button mat-icon {
+        width: 100% !important; // Đảm bảo icon chiếm toàn bộ không gian của nút
+        height: auto !important; // Giữ tỉ lệ của icon
+    }
+}

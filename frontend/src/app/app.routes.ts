@@ -13,6 +13,7 @@ import { UserListComponent } from '@components/admin/user/user-list/user-list.co
 import { LogListComponent } from '@components/admin/log/log-list/log-list.component';
 import { LoginComponent } from '@components/auth/login/login.component';
 import { RegisterComponent } from '@components/auth/register/register.component';
+import { MenuListComponent } from '@components/admin/menu/menu-list/menu-list.component';
 
 
 
@@ -63,6 +64,16 @@ export const routes: Routes = [
                 path: 'logs',
                 component: LogListComponent,
                 data: { title: getTitle(new TitleService(), 'Logs') }
+            },
+            {
+                path: 'menu',
+                component: MenuListComponent,
+                data: { title: getTitle(new TitleService(), 'Menu') }
+            },
+            {
+                path: 'permissions',
+                component: LogListComponent,
+                data: { title: getTitle(new TitleService(), 'Permissions') }
             },
         ]
     },

@@ -1,0 +1,35 @@
+<mat-dialog-content>
+    <div class="title-dialog">
+        <h2>Chi tiết menu</h2>
+        <span class="material-icons" (click)="close()">close</span>
+    </div>
+    <div class="detail-container">
+        <div class="detail-item">
+            <strong>Tên menu:</strong>
+            <span>{{ menu.displayName }}</span>
+        </div>
+        <div class="detail-item">
+            <strong>Icon:</strong>
+            <span class="material-icons">{{ menu.iconName }}</span>
+        </div>
+        <div class="detail-item">
+            <strong>Đường dẫn:</strong>
+            <span>{{ menu.url }}</span>
+        </div>
+        <div class="detail-item">
+            <strong>Trạng thái:</strong>
+            <span>{{ menu.status ? "Đang hoạt động" : "Dừng hoạt động" }}</span>
+        </div>
+        <div class="detail-item">
+            <strong>Số quyền dùng:</strong>
+            <span>{{ menu.countRole }}</span>
+        </div>
+        <div class="detail-item">
+            <strong>Ngày tạo:</strong>
+            <span>{{ formatDate(menu.createdAt) }}</span>
+        </div>
+    </div>
+    <div mat-dialog-actions align="end">
+        <button mat-raised-button (click)="close()">Thoát</button>
+    </div>
+</mat-dialog-content>

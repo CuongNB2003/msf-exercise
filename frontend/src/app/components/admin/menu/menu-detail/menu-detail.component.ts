@@ -1,52 +1,49 @@
+import { MenuService } from './../../../../services/menu/menu.service';
 import { CommonModule } from '@angular/common';
-import { Component, CUSTOM_ELEMENTS_SCHEMA, Inject, OnInit } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { UserResponse } from '@services/user/user.interface';
-import { UserService } from '@services/user/user.service';
+import { MenuResponse } from '@services/menu/menu.interface';
 import { MaterialModule } from '@ui/material/material.module';
 import moment from 'moment';
 import { MessageService } from 'primeng/api';
 
 @Component({
-  selector: 'app-user-detail',
+  selector: 'app-menu-detail',
   standalone: true,
   imports: [CommonModule, MaterialModule],
-  templateUrl: './user-detail.component.html',
-  styleUrl: './user-detail.component.scss',
+  templateUrl: './menu-detail.component.html',
+  styleUrl: './menu-detail.component.scss',
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class UserDetailComponent implements OnInit {
-
+export class MenuDetailComponent {
   constructor(
     private messageService: MessageService,
-    private userService: UserService,
-    public dialogRef: MatDialogRef<UserDetailComponent>,
+    private menuService: MenuService,
+    public dialogRef: MatDialogRef<MenuDetailComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
 
-  user: UserResponse = {
+  menu: MenuResponse = {
     id: 0,
-    name: '',
-    email: '',
-    avatar: '',
+    displayName: '',
+    countRole: 0,
     createdAt: new Date(),
-    roles: [
-      {
-        id: 0,
-        name: ''
-      }
-    ]
+    total: 0,
+    iconName: '',
+    status: false,
+    url: ''
   };
 
+
   ngOnInit(): void {
-    this.getRoleById();
+    this.getMenuById();
   }
 
-  getRoleById(): void {
-    this.userService.getUserById(this.data.id).subscribe({
+  getMenuById(): void {
+    this.menuService.getMenuById(this.data.id).subscribe({
       next: (response) => {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: response.message });
-        this.user = response.data;
+        this.menu = response.data;
       },
       error: (err) => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: err });
