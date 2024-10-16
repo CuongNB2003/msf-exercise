@@ -7,6 +7,12 @@ export interface PermissionResponse {
     createdAt: Date;
 }
 
+export interface PermissionRoleResponse {
+    id: number;
+    permissionName: string;
+    description: string | null;
+}
+
 export interface PermissionInput {
     permissionName: string,
     description: string

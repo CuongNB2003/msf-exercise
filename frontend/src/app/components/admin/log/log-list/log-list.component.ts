@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import moment from 'moment';
 import 'moment/locale/vi';
 import { MatDialog } from '@angular/material/dialog';
@@ -14,7 +14,8 @@ import { MessageService } from 'primeng/api';
   standalone: true,
   imports: [CommonModule, PaginationComponent],
   templateUrl: './log-list.component.html',
-  styleUrl: './log-list.component.scss'
+  styleUrl: './log-list.component.scss',
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class LogListComponent {
   logs: Log[] = [];

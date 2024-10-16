@@ -1,6 +1,5 @@
 ﻿using MsfServer.Application.Contracts.Role.Dto;
 using MsfServer.Application.Contracts.User.Dto;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MsfServer.Application.Contracts.Authentication.AuthDto
 {
@@ -19,6 +18,7 @@ namespace MsfServer.Application.Contracts.Authentication.AuthDto
                 Name = user.Name,
                 Email = user.Email,
                 Avatar = user.Avatar,
+                Roles = user.Roles
             };
         }
     }

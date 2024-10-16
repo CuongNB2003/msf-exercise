@@ -12,7 +12,7 @@ namespace MsfServer.Application.Contracts.User.Dto
         public string? Salt { get; set; }
         public string? Avatar { get; set; }
         public List<int> RoleIds { get; set; } = [];
-
+        public List<RoleDto> Roles { get; set; } = [];
 
         public static UserDto CreateUserAdminDto(string email, string hashedPassword, string avatar, byte[] salt, List<int> roleIds)
         {

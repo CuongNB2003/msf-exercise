@@ -14,6 +14,7 @@ import { LogListComponent } from '@components/admin/log/log-list/log-list.compon
 import { LoginComponent } from '@components/auth/login/login.component';
 import { RegisterComponent } from '@components/auth/register/register.component';
 import { MenuListComponent } from '@components/admin/menu/menu-list/menu-list.component';
+import { PermissionListComponent } from '@components/admin/permission/permission-list/permission-list.component';
 
 
 
@@ -72,7 +73,7 @@ export const routes: Routes = [
             },
             {
                 path: 'permissions',
-                component: LogListComponent,
+                component: PermissionListComponent,
                 data: { title: getTitle(new TitleService(), 'Permissions') }
             },
         ]

@@ -1,17 +1,16 @@
+import { PermissionService } from './../../../../services/permission/permission.service';
 import { CommonModule } from '@angular/common';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { RoleCreateUpdateComponent } from '@components/admin/role/role-create-update/role-create-update.component';
-import { MenuCreateInput, MenuResponse, MenuUpdateInput } from '@services/menu/menu.interface';
-import { MenuService } from '@services/menu/menu.service';
+import { PermissionInput, PermissionResponse } from '@services/permission/permission.interface';
 import { IconComponent } from '@ui/icon/icon.component';
 import { InputComponent } from '@ui/input/input.component';
 import { MaterialModule } from '@ui/material/material.module';
 import { MessageService } from 'primeng/api';
 
 @Component({
-  selector: 'app-menu-create-update',
+  selector: 'app-permission-create-update',
   standalone: true,
   imports: [
     MaterialModule,
@@ -21,36 +20,33 @@ import { MessageService } from 'primeng/api';
     IconComponent,
     ReactiveFormsModule
   ],
-  templateUrl: './menu-create-update.component.html',
-  styleUrl: './menu-create-update.component.scss',
+  templateUrl: './permission-create-update.component.html',
+  styleUrl: './permission-create-update.component.scss',
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class MenuCreateUpdateComponent {
-  menuForm: FormGroup;
+export class PermissionCreateUpdateComponent {
+  permissionForm: FormGroup;
   isSubmitting: boolean = false;
 
-  menu: MenuResponse = {
+  permission: PermissionResponse = {
     id: 0,
-    displayName: '',
     countRole: 0,
     createdAt: new Date(),
-    total: 0,
-    iconName: '',
-    status: false,
-    url: ''
+    description: '',
+    permissionName: '',
+    total: 0
   };
 
   constructor(
     private messageService: MessageService,
     private fb: FormBuilder,
-    private dialogRef: MatDialogRef<RoleCreateUpdateComponent>,
-    private menuService: MenuService,
+    private dialogRef: MatDialogRef<PermissionCreateUpdateComponent>,
+    private permissionService: PermissionService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    this.menuForm = this.fb.group({
+    this.permissionForm = this.fb.group({
       name: ['', Validators.required],
-      url: ['', Validators.required],
-      icon: ['', Validators.required]
+      description: ['', Validators.required],
     });
   }
 
@@ -60,24 +56,14 @@ export class MenuCreateUpdateComponent {
     }
   }
 
-
-  onIconSelected(icon: string): void {
-    console.log('===Icon đã chọn:', icon); // Kiểm tra giá trị icon
-    this.menuForm.get('icon')?.setValue(icon); // Cập nhật giá trị icon vào form control
-  }
-
-
   loadDataRole(id: number): void {
-    this.menuService.getMenuById(id).subscribe({
+    this.permissionService.getPermissionById(id).subscribe({
       next: (response) => {
-        this.menu = response.data;
-        this.menuForm.patchValue({
-          name: this.menu.displayName,
-          url: this.menu.url,
-          icon: this.menu.iconName
+        this.permission = response.data;
+        this.permissionForm.patchValue({
+          name: this.permission.permissionName,
+          description: this.permission.description,
         });
-        console.log('Icon đã chọn:', this.menu.iconName);
-        console.log('dữ liệu sau khi gán: ', this.menuForm.value); // Kiểm tra xem icon có được gán không
       },
       error: (err) => {
         alert(`Không lấy được dữ liệu: ${err}`);
@@ -87,8 +73,8 @@ export class MenuCreateUpdateComponent {
   }
 
   onSubmit(): void {
-    if (this.menuForm.invalid) {
-      this.menuForm.markAllAsTouched();
+    if (this.permissionForm.invalid) {
+      this.permissionForm.markAllAsTouched();
       return;
     }
 
@@ -102,13 +88,12 @@ export class MenuCreateUpdateComponent {
   }
 
   createHandle(): void {
-    const input: MenuCreateInput = {
-      displayName: this.menuForm.get('name')?.value,
-      iconName: this.menuForm.get('icon')?.value,
-      url: this.menuForm.get('url')?.value,
+    const input: PermissionInput = {
+      permissionName: this.permissionForm.get('name')?.value,
+      description: this.permissionForm.get('description')?.value,
     };
 
-    this.menuService.createMenu(input).subscribe({
+    this.permissionService.createPermission(input).subscribe({
       next: (response) => {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: response.message });
         this.isSubmitting = false;
@@ -122,14 +107,12 @@ export class MenuCreateUpdateComponent {
   }
 
   updateHandle(id: number): void {
-    const input: MenuUpdateInput = {
-      displayName: this.menuForm.get('name')?.value, // Lấy giá trị từ form
-      iconName: this.menuForm.get('icon')?.value, // Lấy giá trị từ form
-      url: this.menuForm.get('url')?.value, // Lấy giá trị từ form
-      status: true // Hoặc false, tùy thuộc vào logic của bạn
+    const input: PermissionInput = {
+      permissionName: this.permissionForm.get('name')?.value,
+      description: this.permissionForm.get('description')?.value,
     };
 
-    this.menuService.updateMenu(input, id).subscribe({
+    this.permissionService.updatePermission(input, id).subscribe({
       next: (response) => {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: response.message });
         this.isSubmitting = false;

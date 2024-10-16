@@ -19,34 +19,10 @@
                 Administration
             </a>
             <ul class="dropdown-menu">
-                <li>
-                    <a routerLink="/admin/users" routerLinkActive="active">
-                        <span class="material-icons">people_alt</span>
-                        Users
-                    </a>
-                </li>
-                <li>
-                    <a routerLink="/admin/roles" routerLinkActive="active">
-                        <span class="material-icons">security</span>
-                        Roles
-                    </a>
-                </li>
-                <li>
-                    <a routerLink="/admin/menu" routerLinkActive="active">
-                        <span class="material-icons">menu_book</span>
-                        Menu
-                    </a>
-                </li>
-                <li>
-                    <a routerLink="/admin/permissions" routerLinkActive="active">
-                        <span class="material-icons">vpn_key</span>
-                        Permissions
-                    </a>
-                </li>
-                <li>
-                    <a routerLink="/admin/logs" routerLinkActive="active">
-                        <span class="material-icons">receipt_long</span>
-                        Logs
+                <li *ngFor="let menu of menus">
+                    <a [routerLink]="menu.url" routerLinkActive="active">
+                        <span class="material-icons">{{menu.iconName}}</span>
+                        {{menu.displayName}}
                     </a>
                 </li>
             </ul>

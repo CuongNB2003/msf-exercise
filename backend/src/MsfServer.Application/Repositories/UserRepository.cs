@@ -143,7 +143,13 @@ namespace MsfServer.Application.Repositories
                 new { Email = email }, 
                 commandType: CommandType.StoredProcedure);
 
-            var user = await multi.ReadSingleOrDefaultAsync<UserDto>() ?? throw new CustomException(StatusCodes.Status404NotFound, "Email chưa đúng.");
+            // Đọc thông tin người dùng
+            var user = await multi.ReadSingleOrDefaultAsync<UserDto>()
+                        ?? throw new CustomException(StatusCodes.Status404NotFound, "Người dùng không tồn tại.");
+
+            // Đọc danh sách vai trò
+            var roles = await multi.ReadAsync<RoleDto>();
+            user.Roles = roles.ToList(); // Gán danh sách vai trò cho user
 
             return user;
         }

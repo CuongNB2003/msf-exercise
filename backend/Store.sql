@@ -502,6 +502,7 @@ BEGIN
         -- Lấy danh sách quyền (permissions)
         SELECT 
             COUNT(*) OVER() AS Total,
+            (SELECT COUNT(*) FROM Role_Permission rm WHERE rm.PermissionId = p.Id) AS CountRole,
             p.Id,
             p.PermissionName,
             p.Description,
@@ -1393,32 +1394,60 @@ GO
 -- Create date:   8/10/2024 
 -- Description:   Lấy người dùng theo email 
 -- ============================================= 
-CREATE PROCEDURE [dbo].[User_GetByEmail]
+ALTER PROCEDURE [dbo].[User_GetByEmail]
     @Email NVARCHAR(100)
 AS
 BEGIN
     SET NOCOUNT ON;
 
+    DECLARE @UserId INT; -- Biến để lưu trữ Id của người dùng
+
     BEGIN TRY
-    -- Kiểm tra nếu người dùng tồn tại
-    IF NOT EXISTS (
-        SELECT 1
-        FROM Users
-        WHERE Email = @Email AND IsDeleted = 0
-    )
-    THROW 50000, 'Email không tồn tại.', 1;
 
-    -- Nếu người dùng tồn tại, trả về dữ liệu cần thiết
-    SELECT *
-    FROM Users 
-    WHERE Email = @Email AND IsDeleted = 0;
+        -- Kiểm tra nếu người dùng không tồn tại hoặc đã bị xóa
+        IF NOT EXISTS (SELECT 1 FROM Users WHERE Email = @Email AND IsDeleted = 0)
+            THROW 50000, 'Người dùng không tồn tại hoặc đã bị xóa.', 1;
 
-	END TRY
-	BEGIN CATCH
-		-- Xử lý lỗi
-		THROW; -- Ném lại lỗi đã bắt được
-	END CATCH
+        -- Gán giá trị Id của người dùng vào biến @UserId
+        SELECT 
+            @UserId = u.Id
+        FROM 
+            Users u
+        WHERE 
+            u.Email = @Email AND u.IsDeleted = 0;
+
+        -- Trả về bảng 1: Thông tin người dùng
+        SELECT 
+            u.Id,
+            u.Name,
+            u.Email,
+            u.CreatedAt,
+            u.Avatar,
+			u.Salt,
+			u.Password
+        FROM 
+            Users u
+        WHERE 
+            u.Id = @UserId;
+
+        -- Trả về bảng 2: Danh sách vai trò của người dùng dựa trên @UserId
+        SELECT 
+            r.Id,
+            r.Name
+        FROM 
+            User_Role ur
+        JOIN 
+            Roles r ON ur.RoleId = r.Id
+        WHERE 
+            ur.UserId = @UserId AND r.IsDeleted = 0;
+
+    END TRY
+    BEGIN CATCH
+        -- Xử lý lỗi
+        THROW; -- Ném lại lỗi đã bắt được
+    END CATCH
 END
+
 GO
 /****** Object:  StoredProcedure [dbo].[User_GetById]    Script Date: 10/14/2024 11:56:08 AM ******/
 SET ANSI_NULLS ON

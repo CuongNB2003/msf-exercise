@@ -18,7 +18,7 @@ namespace MsfServer.Application.Repositories
         {
             using var dapperContext = new DapperContext(_connectionString);
             using var connection = dapperContext.GetOpenConnection();
-            input.Description = input.Description ?? $"Đây là mô tả của {input.PermissionName}";
+            input.Description = string.IsNullOrEmpty(input.Description) ? $"Đây là mô tả của {input.PermissionName}": input.Description;
             // Chuyển đổi dữ liệu đầu vào thành JSON
             var permissionJson = JsonConvert.SerializeObject(input);
             var result = await connection.QuerySingleOrDefaultAsync<ResponseText>(
