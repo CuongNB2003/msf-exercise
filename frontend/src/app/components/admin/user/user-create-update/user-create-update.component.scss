@@ -13,7 +13,7 @@
 }
 
 mat-tab-group {
-    min-height: 400px;
+    min-height: 300px;
     padding: 0px 30px;
 
     .mat-tab-body-wrapper {
@@ -21,11 +21,13 @@ mat-tab-group {
     }
 
     .user-form {
-        max-height: 350px;
+        max-height: 250px;
         overflow-y: auto;
     }
 
     .roles-list {
+        max-height: 250px;
+        overflow-y: auto;
         display: flex;
         flex-direction: column;
         gap: 8px;

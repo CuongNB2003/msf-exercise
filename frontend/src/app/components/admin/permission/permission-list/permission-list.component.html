@@ -6,24 +6,24 @@
             </li>
             <div class="line-item"></div>
             <li class="breadcumrb-nav-item">
-                <span class="material-icons">menu_book</span>
-                Menu
+                <span class="material-icons">vpn_key</span>
+                Permissions
             </li>
         </ol>
         <div class="breadcrumb-line"></div>
     </div>
     <div class="main">
         <div class="top-bar">
-            <h1>Menu</h1>
+            <h1>Permission</h1>
             <div class="actions">
                 <button class="btn" type="button" (click)="openDialogCreate()">
                     <span class="material-icons">add</span>
-                    Thêm menu
+                    Thêm permission
                 </button>
             </div>
         </div>
         <div class="search-bar">
-            <input type="search" placeholder="Search menu...">
+            <input type="search" placeholder="Search permissions...">
             <button>
                 <span class="material-icons">search</span>
             </button>
@@ -34,49 +34,43 @@
                     <tr>
                         <th>Hành động</th>
                         <th>Tên</th>
-                        <th>Icon</th>
-                        <th>Đường dẫn</th>
-                        <th>Số lượng quyền dùng</th>
-                        <th>Trạng thái</th>
+                        <th>Chi tiết</th>
+                        <th>Số quyền dùng</th>
                         <th>Ngày tạo</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let m of menu">
+                    <tr *ngFor="let p of permissions">
                         <td>
-                            <div class="dropdown" [class.show]="isDropdownOpen[m.id]">
-                                <button class="dropdown-toggle" (click)="toggleDropdown($event, m.id)"
-                                    [ngClass]="{'open': isDropdownOpen[m.id]}" type="button">
+                            <div class="dropdown" [class.show]="isDropdownOpen[p.id]">
+                                <button class="dropdown-toggle" (click)="toggleDropdown($event, p.id)"
+                                    [ngClass]="{'open': isDropdownOpen[p.id]}" type="button">
                                     <span class="material-icons">settings</span>
                                     Actions
                                 </button>
-                                <ul class="dropdown-menu" [class.show]="isDropdownOpen[m.id]">
+                                <ul class="dropdown-menu" [class.show]="isDropdownOpen[p.id]">
                                     <li>
-                                        <button class="dropdown-item" type="button" (click)="openDialogDetail(m.id)">
+                                        <button class="dropdown-item" type="button" (click)="openDialogDetail(p.id)">
                                             Xem chi tiết
                                         </button>
                                     </li>
                                     <li>
-                                        <button class="dropdown-item" type="button" (click)="openDialogUpdate(m.id)">
-                                            Sửa menu
+                                        <button class="dropdown-item" type="button" (click)="openDialogUpdate(p.id)">
+                                            Sửa permission
                                         </button>
                                     </li>
                                     <li>
-                                        <button class="dropdown-item" type="button" (click)="openDialogDelete(m.id)">
-                                            Xóa menu
+                                        <button class="dropdown-item" type="button" (click)="openDialogDelete(p.id)">
+                                            Xóa permission
                                         </button>
                                     </li>
                                 </ul>
                             </div>
                         </td>
-                        <td>{{ m.displayName }}</td>
-                        <td>
-                            <span class="material-icons">{{ m.iconName }}</span>
-                        </td>
-                        <td>{{ m.url}}</td>
-                        <td>{{ m.countRole }}</td>
-                        <td>{{ m.status ? "Đang hoạt động" : "Dừng hoạt động" }}</td>
-                        <td>{{ formatDate(m.createdAt) }}</td>
+                        <td>{{ p.permissionName }}</td>
+                        <td>{{ p.description}}</td>
+                        <td>{{ p.countRole }}</td>
+                        <td>{{ formatDate(p.createdAt) }}</td>
                     </tr>
                 </tbody>
             </table>
