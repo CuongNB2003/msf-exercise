@@ -32,12 +32,40 @@ export class SidebarAdminComponent implements OnInit {
   constructor(private roleService: RoleService, private messageService: MessageService) { }
 
   ngOnInit(): void {
-    // this.getMenu();
+    this.getMenu();
   }
 
   toggleDropdown(event: MouseEvent) {
     this.isOpen = !this.isOpen;
     const dropdownToggle = event.currentTarget as HTMLElement;
     dropdownToggle.classList.toggle('open', this.isOpen);
+  }
+
+  getMenu() {
+    const userInfo = localStorage.getItem('user');
+
+    if (userInfo) {
+      const user: UserLogin = JSON.parse(userInfo) as UserLogin;
+      const menuMap = new Map<number, MenuRoleResponse>();
+      const roleObservables = user.roles.map(role => this.roleService.getRoleById(role.id));
+      forkJoin(roleObservables).subscribe({
+        next: (responses) => {
+          responses.forEach((response) => {
+            this.role = response.data;
+            this.role.menus.forEach(menu => {
+              if (!menuMap.has(menu.id)) {
+                menuMap.set(menu.id, menu);
+              }
+            });
+          });
+          this.menus = Array.from(menuMap.values());
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Menu loaded successfully' });
+        },
+        error: (err) => {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: err });
+        },
+        complete: () => console.log('Tất cả vai trò đã được xử lý')
+      });
+    }
   }
 }
