@@ -1,5 +1,5 @@
-import { MenuResponse } from "@services/menu/menu.interface";
-import { PermissionResponse } from "@services/permission/permission.interface";
+import { MenuRoleResponse } from "@services/menu/menu.interface";
+import { PermissionRoleResponse } from "@services/permission/permission.interface";
 
 export interface RoleResponse {
     id: number;
@@ -7,8 +7,8 @@ export interface RoleResponse {
     countUser: number;
     createdAt: Date;
     total: number; // Thêm trường total
-    menus: MenuResponse[]; // Thêm danh sách menus
-    permissions: PermissionResponse[]; // Thêm danh sách permissions
+    menus: MenuRoleResponse[]; // Thêm danh sách menus
+    permissions: PermissionRoleResponse[]; // Thêm danh sách permissions
 }
 
 

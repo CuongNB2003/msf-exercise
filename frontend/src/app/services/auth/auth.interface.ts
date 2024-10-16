@@ -10,9 +10,8 @@ export interface TokenLogin {
 export interface UserLogin {
     name: string;
     email: string;
-    roleId: number;
     avatar: string;
-    role: RoleDto;
+    roles: RoleDto[];
 }
 
 export interface LoginResponse {

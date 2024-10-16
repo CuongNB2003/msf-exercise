@@ -9,6 +9,14 @@ export interface MenuResponse {
     countRole: number;
 }
 
+export interface MenuRoleResponse {
+    id: number;
+    displayName: string;
+    url: string | null;
+    iconName: string | null;
+    status: boolean;
+}
+
 export interface MenuCreateInput {
     displayName: string,
     url: string,

@@ -1,6 +1,42 @@
 .user-container {
     .breadcrumb {
         height: 30px;
+
+        .breadcumrb-nav {
+            display: flex;
+            align-items: center;
+            column-gap: 10px;
+            list-style: none;
+            margin-left: 10px;
+
+            .breadcumrb-nav-item {
+                display: flex;
+                align-items: center;
+                justify-self: center;
+                font-size: 14px;
+
+                .material-icons {
+                    margin-right: 5px;
+                    font-size: 14px;
+                }
+
+                &:hover .material-icons {
+                    color: var(--bs-blue);
+                }
+            }
+
+            .line-item {
+                height: 30px;
+                width: 1.5px;
+                background-color: var(--bs-white);
+            }
+        }
+
+        .breadcrumb-line {
+            height: 1.5px;
+            width: 100%;
+            background-color: var(--bs-white);
+        }
     }
 
     .main {
