@@ -34,6 +34,8 @@ export class PermissionCreateUpdateComponent {
     createdAt: new Date(),
     description: '',
     permissionName: '',
+    groupName: '',
+    name: '',
     total: 0
   };
 
@@ -45,8 +47,17 @@ export class PermissionCreateUpdateComponent {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.permissionForm = this.fb.group({
-      name: ['', Validators.required],
-      description: ['', Validators.required],
+      name: ['',
+        [Validators.required, Validators.maxLength(50)]  // Validator đồng bộ
+      ],
+      description: ['',
+        [Validators.maxLength(250)]  // Validator đồng bộ
+      ],
+      permissionName: ['',
+        [Validators.required, Validators.maxLength(50), Validators.pattern(
+          /(^[a-zA-Z0-9]+\.[a-zA-Z0-9]+$)/  // Validator đồng bộ
+        )]
+      ],
     });
   }
 
@@ -61,12 +72,13 @@ export class PermissionCreateUpdateComponent {
       next: (response) => {
         this.permission = response.data;
         this.permissionForm.patchValue({
-          name: this.permission.permissionName,
+          name: this.permission.name,
           description: this.permission.description,
+          permissionName: this.permission.permissionName,
         });
       },
       error: (err) => {
-        alert(`Không lấy được dữ liệu: ${err}`);
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: err });
       },
       complete: () => console.log("Lấy dữ liệu người dùng theo id thành công")
     });
@@ -89,8 +101,9 @@ export class PermissionCreateUpdateComponent {
 
   createHandle(): void {
     const input: PermissionInput = {
-      permissionName: this.permissionForm.get('name')?.value,
+      permissionName: this.permissionForm.get('permissionName')?.value,
       description: this.permissionForm.get('description')?.value,
+      name: this.permissionForm.get('name')?.value,
     };
 
     this.permissionService.createPermission(input).subscribe({
@@ -108,8 +121,9 @@ export class PermissionCreateUpdateComponent {
 
   updateHandle(id: number): void {
     const input: PermissionInput = {
-      permissionName: this.permissionForm.get('name')?.value,
+      permissionName: this.permissionForm.get('permissionName')?.value,
       description: this.permissionForm.get('description')?.value,
+      name: this.permissionForm.get('name')?.value,
     };
 
     this.permissionService.updatePermission(input, id).subscribe({

@@ -7,7 +7,7 @@ using MsfServer.Application.Contracts.ReCaptcha;
 using MsfServer.Application.Contracts.Token;
 using MsfServer.Application.Contracts.User;
 using MsfServer.Application.Contracts.User.Dto;
-using MsfServer.Application.Dapper;
+using MsfServer.Application.Contracts.Dapper;
 using MsfServer.Domain.Security;
 using MsfServer.Domain.Shared.Exceptions;
 using MsfServer.Domain.Shared.Responses;

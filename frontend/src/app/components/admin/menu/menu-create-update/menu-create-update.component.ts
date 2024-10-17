@@ -76,11 +76,9 @@ export class MenuCreateUpdateComponent {
           url: this.menu.url,
           icon: this.menu.iconName
         });
-        console.log('Icon đã chọn:', this.menu.iconName);
-        console.log('dữ liệu sau khi gán: ', this.menuForm.value); // Kiểm tra xem icon có được gán không
       },
       error: (err) => {
-        alert(`Không lấy được dữ liệu: ${err}`);
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: err });
       },
       complete: () => console.log("Lấy dữ liệu người dùng theo id thành công")
     });

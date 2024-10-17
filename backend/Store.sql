@@ -1,6 +1,6 @@
 USE [MsfDatabase]
 GO
-/****** Object:  StoredProcedure [dbo].[Log_GetAll]    Script Date: 10/16/2024 10:32:33 AM ******/
+/****** Object:  StoredProcedure [dbo].[Log_GetAll]    Script Date: 10/17/2024 3:57:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -40,7 +40,7 @@ BEGIN
     END CATCH
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Log_GetById]    Script Date: 10/16/2024 10:32:33 AM ******/
+/****** Object:  StoredProcedure [dbo].[Log_GetById]    Script Date: 10/17/2024 3:57:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -72,7 +72,7 @@ BEGIN
     END CATCH
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Menu_Create]    Script Date: 10/16/2024 10:32:33 AM ******/
+/****** Object:  StoredProcedure [dbo].[Menu_Create]    Script Date: 10/17/2024 3:57:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -146,7 +146,7 @@ BEGIN
     END CATCH
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Menu_Delete]    Script Date: 10/16/2024 10:32:33 AM ******/
+/****** Object:  StoredProcedure [dbo].[Menu_Delete]    Script Date: 10/17/2024 3:57:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -191,7 +191,7 @@ BEGIN
     END CATCH
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Menu_GetAll]    Script Date: 10/16/2024 10:32:33 AM ******/
+/****** Object:  StoredProcedure [dbo].[Menu_GetAll]    Script Date: 10/17/2024 3:57:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -241,7 +241,7 @@ BEGIN
     END CATCH
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Menu_GetById]    Script Date: 10/16/2024 10:32:33 AM ******/
+/****** Object:  StoredProcedure [dbo].[Menu_GetById]    Script Date: 10/17/2024 3:57:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -284,7 +284,7 @@ BEGIN
     END CATCH
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Menu_Update]    Script Date: 10/16/2024 10:32:33 AM ******/
+/****** Object:  StoredProcedure [dbo].[Menu_Update]    Script Date: 10/17/2024 3:57:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -349,7 +349,7 @@ BEGIN
     END CATCH 
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Permission_Create]    Script Date: 10/16/2024 10:32:33 AM ******/
+/****** Object:  StoredProcedure [dbo].[Permission_Create]    Script Date: 10/17/2024 3:57:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -371,31 +371,37 @@ BEGIN
     BEGIN TRY
         DECLARE @PermissionName NVARCHAR(50),
                 @Description NVARCHAR(255),
+				@Name NVARCHAR(50),
+				@GroupName NVARCHAR(50),
                 @Id INT;
 
         -- Phân tích cú pháp JSON
         SELECT 
-            @PermissionName = LOWER(JSON_VALUE(@PermissionJson, '$.PermissionName')),
-            @Description = JSON_VALUE(@PermissionJson, '$.Description');
+            @Name = JSON_VALUE(@PermissionJson, '$.Name'),
+            @Description = JSON_VALUE(@PermissionJson, '$.Description'),
+			@PermissionName = JSON_VALUE(@PermissionJson, '$.PermissionName'),
+			@GroupName = JSON_VALUE(@PermissionJson, '$.GroupName');
 
         -- Kiểm tra PermissionName đã tồn tại và chưa bị xóa mềm
-        IF EXISTS (SELECT 1 FROM Permissions WHERE LOWER(PermissionName) = @PermissionName AND IsDeleted = 0)
+        IF EXISTS (SELECT 1 FROM Permissions WHERE LOWER(PermissionName) = LOWER(@PermissionName) AND IsDeleted = 0)
 			THROW 50000, '409/Permission đã tồn tại, không thể thêm.', 1; 
 
         -- Kiểm tra PermissionName đã tồn tại nhưng bị xóa mềm
-        ELSE IF EXISTS (SELECT 1 FROM Permissions WHERE LOWER(PermissionName) = @PermissionName AND IsDeleted = 1)
+        ELSE IF EXISTS (SELECT 1 FROM Permissions WHERE LOWER(PermissionName) = LOWER(@PermissionName) AND IsDeleted = 1)
         BEGIN
             -- Lấy Id của Permission đã bị xóa mềm
             SELECT @Id = Id 
             FROM Permissions 
-            WHERE LOWER(PermissionName) = @PermissionName AND IsDeleted = 1;
+            WHERE LOWER(PermissionName) = LOWER(@PermissionName) AND IsDeleted = 1;
 
             -- Cập nhật IsDeleted thành 0 (khôi phục)
             UPDATE Permissions
             SET IsDeleted = 0,
                 DeletedAt = NULL,     
                 CreatedAt = GETDATE(), 
-                Description = @Description
+                Description = @Description,
+				Name = @Name,
+				GroupName = @GroupName
             WHERE Id = @Id;
 
             -- Commit transaction nếu tất cả thành công
@@ -404,8 +410,8 @@ BEGIN
         END
 
         -- Insert dữ liệu permission nếu chưa tồn tại
-        INSERT INTO Permissions (PermissionName, Description)
-        VALUES (@PermissionName, @Description);
+        INSERT INTO Permissions (PermissionName, Description, Name, GroupName)
+        VALUES (@PermissionName, @Description, @Name, @GroupName);
 
         -- Commit transaction nếu tất cả thành công
         COMMIT TRANSACTION;
@@ -421,7 +427,7 @@ BEGIN
     END CATCH
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Permission_Delete]    Script Date: 10/16/2024 10:32:33 AM ******/
+/****** Object:  StoredProcedure [dbo].[Permission_Delete]    Script Date: 10/17/2024 3:57:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -466,7 +472,7 @@ BEGIN
     END CATCH
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Permission_GetAll]    Script Date: 10/16/2024 10:32:33 AM ******/
+/****** Object:  StoredProcedure [dbo].[Permission_GetAll]    Script Date: 10/17/2024 3:57:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -498,6 +504,8 @@ BEGIN
             p.Id,
             p.PermissionName,
             p.Description,
+			p.GroupName,
+			p.Name,
             p.CreatedAt
         FROM 
             Permissions p
@@ -514,7 +522,7 @@ BEGIN
     END CATCH
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Permission_GetById]    Script Date: 10/16/2024 10:32:33 AM ******/
+/****** Object:  StoredProcedure [dbo].[Permission_GetById]    Script Date: 10/17/2024 3:57:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -541,6 +549,8 @@ BEGIN
             p.PermissionName,
             p.Description,
             p.CreatedAt,
+			p.GroupName,
+			p.Name,
             ISNULL((SELECT COUNT(*) FROM Role_Permission WHERE PermissionId = p.Id), 0) AS CountRole
         FROM 
             Permissions p
@@ -557,7 +567,7 @@ BEGIN
     END CATCH
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Permission_Update]    Script Date: 10/16/2024 10:32:33 AM ******/
+/****** Object:  StoredProcedure [dbo].[Permission_Update]    Script Date: 10/17/2024 3:57:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -579,12 +589,16 @@ BEGIN
 
     BEGIN TRY
         DECLARE @PermissionName NVARCHAR(50),
-                @Description NVARCHAR(255);
+                @Description NVARCHAR(255),
+				@Name NVARCHAR(50),
+				@GroupName NVARCHAR(50);
 
         -- Phân tích cú pháp JSON
         SELECT 
-            @PermissionName = JSON_VALUE(@PermissionJson, '$.PermissionName'),
-            @Description = JSON_VALUE(@PermissionJson, '$.Description');
+            @Name = JSON_VALUE(@PermissionJson, '$.Name'),
+            @Description = JSON_VALUE(@PermissionJson, '$.Description'),
+			@PermissionName = JSON_VALUE(@PermissionJson, '$.PermissionName'),
+			@GroupName = JSON_VALUE(@PermissionJson, '$.GroupName');
 
         -- Kiểm tra Id có tồn tại không (và không bị xóa mềm)
         IF NOT EXISTS (SELECT 1 FROM Permissions WHERE Id = @Id AND IsDeleted = 0)
@@ -599,6 +613,8 @@ BEGIN
         SET 
             PermissionName = @PermissionName,
             Description = @Description,
+			Name = @Name,
+			GroupName = @GroupName,
 			UpdatedAt = GETDATE()
         WHERE Id = @Id;
 
@@ -616,7 +632,41 @@ BEGIN
     END CATCH
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Role_Create]    Script Date: 10/16/2024 10:32:33 AM ******/
+/****** Object:  StoredProcedure [dbo].[Role_CheckPermission]    Script Date: 10/17/2024 3:57:49 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		CuongNB
+-- Create date: 25/9/2024
+-- Description:	Kiểm tra quyền của vai trò
+-- =============================================
+CREATE PROCEDURE [dbo].[Role_CheckPermission]
+    @roleId INT,
+    @permissionName NVARCHAR(50)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    BEGIN TRY
+        -- Kiểm tra quyền của vai trò, trả về 1 nếu có quyền, 0 nếu không có
+         SELECT 1
+            FROM Roles r
+            INNER JOIN Role_Permission rp ON rp.RoleId = r.Id
+            INNER JOIN Permissions p ON rp.PermissionId = p.Id
+            WHERE p.PermissionName = @permissionName
+              AND r.Id = @roleId
+              AND r.IsDeleted = 0
+              AND p.IsDeleted = 0
+    END TRY
+    BEGIN CATCH
+        -- Bắt lỗi và sử dụng THROW để ném lỗi
+        THROW;
+    END CATCH
+END
+GO
+/****** Object:  StoredProcedure [dbo].[Role_Create]    Script Date: 10/17/2024 3:57:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -724,7 +774,7 @@ BEGIN
     END CATCH
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Role_Delete]    Script Date: 10/16/2024 10:32:33 AM ******/
+/****** Object:  StoredProcedure [dbo].[Role_Delete]    Script Date: 10/17/2024 3:57:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -771,7 +821,7 @@ BEGIN
     END CATCH
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Role_GetAll]    Script Date: 10/16/2024 10:32:33 AM ******/
+/****** Object:  StoredProcedure [dbo].[Role_GetAll]    Script Date: 10/17/2024 3:57:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -855,7 +905,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[Role_GetById]    Script Date: 10/16/2024 10:32:33 AM ******/
+/****** Object:  StoredProcedure [dbo].[Role_GetById]    Script Date: 10/17/2024 3:57:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -928,7 +978,7 @@ BEGIN
     END CATCH
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Role_Update]    Script Date: 10/16/2024 10:32:33 AM ******/
+/****** Object:  StoredProcedure [dbo].[Role_Update]    Script Date: 10/17/2024 3:57:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1020,7 +1070,7 @@ BEGIN
     END CATCH
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Token_DeleteByUserId]    Script Date: 10/16/2024 10:32:33 AM ******/
+/****** Object:  StoredProcedure [dbo].[Token_DeleteByUserId]    Script Date: 10/17/2024 3:57:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1068,7 +1118,7 @@ BEGIN
     END CATCH
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Token_GetByRefreshToken]    Script Date: 10/16/2024 10:32:33 AM ******/
+/****** Object:  StoredProcedure [dbo].[Token_GetByRefreshToken]    Script Date: 10/17/2024 3:57:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1102,7 +1152,7 @@ END
 
 
 GO
-/****** Object:  StoredProcedure [dbo].[Token_Save]    Script Date: 10/16/2024 10:32:33 AM ******/
+/****** Object:  StoredProcedure [dbo].[Token_Save]    Script Date: 10/17/2024 3:57:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1165,7 +1215,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[User_Create]    Script Date: 10/16/2024 10:32:33 AM ******/
+/****** Object:  StoredProcedure [dbo].[User_Create]    Script Date: 10/17/2024 3:57:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1263,7 +1313,7 @@ BEGIN
     END CATCH
 END
 GO
-/****** Object:  StoredProcedure [dbo].[User_Delete]    Script Date: 10/16/2024 10:32:33 AM ******/
+/****** Object:  StoredProcedure [dbo].[User_Delete]    Script Date: 10/17/2024 3:57:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1308,7 +1358,7 @@ BEGIN
     END CATCH
 END
 GO
-/****** Object:  StoredProcedure [dbo].[User_GetAll]    Script Date: 10/16/2024 10:32:33 AM ******/
+/****** Object:  StoredProcedure [dbo].[User_GetAll]    Script Date: 10/17/2024 3:57:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1376,7 +1426,7 @@ BEGIN
     END CATCH
 END
 GO
-/****** Object:  StoredProcedure [dbo].[User_GetByEmail]    Script Date: 10/16/2024 10:32:33 AM ******/
+/****** Object:  StoredProcedure [dbo].[User_GetByEmail]    Script Date: 10/17/2024 3:57:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1440,7 +1490,7 @@ BEGIN
     END CATCH
 END
 GO
-/****** Object:  StoredProcedure [dbo].[User_GetById]    Script Date: 10/16/2024 10:32:33 AM ******/
+/****** Object:  StoredProcedure [dbo].[User_GetById]    Script Date: 10/17/2024 3:57:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1493,7 +1543,7 @@ BEGIN
     END CATCH
 END
 GO
-/****** Object:  StoredProcedure [dbo].[User_Update]    Script Date: 10/16/2024 10:32:33 AM ******/
+/****** Object:  StoredProcedure [dbo].[User_Update]    Script Date: 10/17/2024 3:57:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON

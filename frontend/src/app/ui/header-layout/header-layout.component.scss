@@ -207,6 +207,7 @@
             display: flex;
             justify-content: space-between;
             width: 100%;
+            height: 40px;
             align-items: center;
 
             .profile-logo {
@@ -221,8 +222,10 @@
             }
 
             .sign-out {
+                margin-top: 15px;
+                margin-right: 5px;
                 font-size: 16px;
-                padding: 15px;
+                padding: 5px 15px;
 
                 &:hover {
                     color: var(--bs-blue);
@@ -260,17 +263,17 @@
                     margin: 0;
                     font-size: 24px;
                     color: var(--bs-black);
+                    height: 40px;
                 }
 
                 p {
-                    margin: 5px 0;
+                    margin: 8px 0;
                     color: var(--bs-gray);
                 }
 
                 a {
                     color: var(--bs-blue);
                     text-decoration: none;
-                    margin-top: 5px;
 
                     &:hover {
                         text-decoration: underline;

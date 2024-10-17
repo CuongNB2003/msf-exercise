@@ -29,14 +29,13 @@ export const AuthGuard: CanActivateFn = (route, state) => {
       return false;
     }
     if (userInfo) {
-      //const user: UserLogin = JSON.parse(userInfo) as UserLogin
-      // if (user.role.name == "user") {
-      //   return true;
-      // } else {
-      //   router.navigate(['/admin']);
-      //   return false;
-      // }
-      return true
+      const user: UserLogin = JSON.parse(userInfo) as UserLogin
+      if (user.roles.some(role => role.name === "user")) {
+        return true;
+      } else {
+        router.navigate(['/admin']);
+        return false;
+      }
     } else {
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
