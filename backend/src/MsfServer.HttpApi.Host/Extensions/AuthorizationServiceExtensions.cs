@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿
+using MsfServer.HttpApi.Sercurity;
 
 namespace MsfServer.HttpApi.Host.Extensions
 {
@@ -6,9 +7,11 @@ namespace MsfServer.HttpApi.Host.Extensions
     {
         public static IServiceCollection AddCustomAuthorization(this IServiceCollection services)
         {
-            services.AddAuthorizationBuilder()
-                .AddPolicy("AdminPolicy", policy => policy.RequireRole("admin"))
-                .AddPolicy("UserPolicy", policy => policy.RequireRole("user"));
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("PermissionPolicy", policy =>
+                    policy.Requirements.Add(new PermissionRequirement("")));
+            });
 
             return services;
         }

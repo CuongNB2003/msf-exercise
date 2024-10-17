@@ -13,13 +13,32 @@
     </mat-tab>
 
     <mat-tab label="Permissions">
-        <div class="roles-list">
-            <mat-checkbox *ngFor="let permission of permissions" [(ngModel)]="selectedPermission[permission.id]"
-                (ngModelChange)="onCheckboxPermissionChange($event, permission)">
-                {{ permission.permissionName }}
-            </mat-checkbox>
+        <div class="permissions-container">
+            <!-- Cột bên trái: danh sách nhóm -->
+            <div class="group-list">
+                <ul>
+                    <li *ngFor="let group of groupedPermissions | keyvalue" [class.active]="group.key === selectedGroup"
+                        (click)="selectGroup(group.key)">
+                        {{ group.key }}
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Cột bên phải: checkbox thuộc nhóm đã chọn -->
+            <div class="group-permissions">
+                <mat-checkbox *ngFor="let permission of groupedPermissions[selectedGroup]"
+                    [(ngModel)]="selectedPermission[permission.id]"
+                    (ngModelChange)="onCheckboxPermissionChange($event, permission)">
+                    {{ permission.name }}
+                </mat-checkbox>
+            </div>
         </div>
+
     </mat-tab>
+
+
+
+
     <mat-tab label="Menu">
         <div class="roles-list">
             <mat-checkbox *ngFor="let menu of menus" [(ngModel)]="selectedMenus[menu.id]"

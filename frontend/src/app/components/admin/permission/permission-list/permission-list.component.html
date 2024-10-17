@@ -34,6 +34,7 @@
                     <tr>
                         <th>Hành động</th>
                         <th>Tên</th>
+                        <th>Tên hiển thị</th>
                         <th>Chi tiết</th>
                         <th>Số quyền dùng</th>
                         <th>Ngày tạo</th>
@@ -68,6 +69,7 @@
                             </div>
                         </td>
                         <td>{{ p.permissionName }}</td>
+                        <td>{{ p.name }}</td>
                         <td>{{ p.description}}</td>
                         <td>{{ p.countRole }}</td>
                         <td>{{ formatDate(p.createdAt) }}</td>

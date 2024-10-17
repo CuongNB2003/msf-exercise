@@ -34,4 +34,43 @@ mat-tab-group {
         padding: 16px;
     }
 
+    .permissions-container {
+        display: flex;
+        width: 100%;
+        height: 100%;
+
+        .group-list {
+            width: 30%;
+            background-color: var(--bs-background-dialog);
+            padding: 10px;
+
+            ul {
+                list-style: none;
+                padding: 0;
+            }
+
+            li {
+                padding: 10px;
+                cursor: pointer;
+
+                &.active {
+                    font-weight: bold;
+                    color: var(--bs-blue);
+                }
+            }
+        }
+
+        .group-permissions {
+            width: 70%;
+            /* Chiếm 70% chiều rộng */
+            padding: 20px;
+            border-left: 2px solid var(--bs-gray-200);
+
+            mat-checkbox {
+                display: block;
+                margin-bottom: 10px;
+            }
+        }
+    }
+
 }

@@ -15,6 +15,7 @@ export class InputComponent {
   @Input() placeholder!: string;
   @Input() type: string = 'text';
   @Input() className?: string;
+  @Input() pattern?: string;
 
   isPasswordVisible: boolean = false;
 
@@ -29,8 +30,6 @@ export class InputComponent {
 
   getErrorMessage(): string | null {
     const control = this.formGroup.get(this.controlName);
-    console.log('Control Errors:', control?.errors);
-    console.log('Form Errors:', this.formGroup.errors);
     if (control?.errors) {
       if (control.errors['required']) {
         return 'Vui lòng nhập thông tin';
@@ -38,6 +37,10 @@ export class InputComponent {
         return 'Email không hợp lệ';
       } else if (control.errors['minlength']) {
         return `Độ dài tối thiểu là ${control.errors['minlength'].requiredLength} ký tự`;
+      } else if (control.errors['maxlength']) {
+        return `Độ dài tối đa là ${control.errors['minlength'].requiredLength} ký tự`;
+      } else if (control.errors['pattern']) {
+        return `Bạn đang ghi sai định dạng. định dạng đúng là ${this.pattern}`;
       }
     }
     return null;

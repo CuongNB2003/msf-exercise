@@ -8,6 +8,7 @@ using MsfServer.Domain.Shared.Responses;
 using MsfServer.EntityFrameworkCore.Database;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using System.Data.SqlClient;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 
@@ -74,6 +75,12 @@ namespace MsfServer.HttpApi.Host.Middlewares
             catch (SecurityTokenExpiredException ex)
             {
                 string result = CreateProblemDetails(httpContext: context, statusCode: StatusCodes.Status401Unauthorized, error: $"Token đã hết hạn: {ex.Message}");
+                await context.Response.WriteAsync(result);
+            }
+            catch (SqlException ex) {
+                int status = int.Parse(ex.Message.Split('/')[0]);
+                string message = ex.Message.Split('/')[1];
+                string result = CreateProblemDetails(httpContext: context, statusCode: status, error: message);
                 await context.Response.WriteAsync(result);
             }
             catch (Exception ex)

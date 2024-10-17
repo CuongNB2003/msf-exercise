@@ -78,12 +78,21 @@ namespace MsfServer.Application.Services
                 new(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
                 new(JwtRegisteredClaimNames.Name, user.Name!),
                 new(JwtRegisteredClaimNames.Email, user.Email!),
-                new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new(ClaimTypes.Role, "admin")
+                new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
+
+            if (user.Roles != null)
+            {
+                foreach (var role in user.Roles)
+                {
+                    // Đảm bảo role là chuỗi (string)
+                    claims.Add(new Claim(ClaimTypes.Role, role.Id.ToString()));
+                }
+            }
 
             return await Task.FromResult(claims);
         }
+
         // tạo lại AccessToken
         public async Task<ResponseObject<TokenLogin>> RefreshAccessTokenAsync(string refreshToken)
         {

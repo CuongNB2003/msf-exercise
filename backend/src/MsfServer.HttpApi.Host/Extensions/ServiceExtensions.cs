@@ -8,6 +8,8 @@ using MsfServer.Application.Contracts.ReCaptcha;
 using MsfServer.Application.Repositories;
 using MsfServer.Application.Contracts.Menu;
 using MsfServer.Application.Contracts.Permission;
+using Microsoft.AspNetCore.Authorization;
+using MsfServer.HttpApi.Sercurity;
 
 namespace MsfServer.HttpApi.Host.Extensions
 {
@@ -39,6 +41,8 @@ namespace MsfServer.HttpApi.Host.Extensions
             });
 
             // những service sử dụng AddScoped 
+            services.AddScoped<IAuthorizationHandler, AuthorizationHandler>(provider => { return new AuthorizationHandler(connectionString); });
+
 
         }
     }

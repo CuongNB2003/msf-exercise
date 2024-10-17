@@ -7,7 +7,7 @@ using MsfServer.Application.Contracts.ReCaptcha;
 using MsfServer.Application.Contracts.Token;
 using MsfServer.Application.Contracts.User;
 using MsfServer.Application.Contracts.User.Dto;
-using MsfServer.Application.Dapper;
+using MsfServer.Application.Contracts.Dapper;
 using MsfServer.Domain.Security;
 using MsfServer.Domain.Shared.Exceptions;
 using MsfServer.Domain.Shared.Responses;
@@ -46,7 +46,7 @@ namespace MsfServer.Application.Services
             {
                 throw new CustomException(StatusCodes.Status401Unauthorized, "Sai mật khẩu.");
             }
-            var userData = UserResponse.UserData(user.Id, user.Name!, user.Email!);
+            var userData = UserResponse.UserData(user.Id, user.Name!, user.Email!, user.Roles);
             // khởi tạo token
             var accessToken = await _tokenService.GenerateAccessTokenAsync(userData);
             var refreshToken = await _tokenService.GenerateRefreshTokenAsync(userData);

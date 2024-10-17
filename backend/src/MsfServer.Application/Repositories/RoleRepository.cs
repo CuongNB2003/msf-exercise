@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 using MsfServer.Domain.Shared.Responses;
 using MsfServer.Application.Contracts.Role;
 using MsfServer.Domain.Shared.PagedResults;
-using MsfServer.Application.Dapper;
+using MsfServer.Application.Contracts.Dapper;
 using MsfServer.Application.Contracts.Role.Dto;
 using Newtonsoft.Json;
 using MsfServer.Application.Contracts.Menu.Dto;

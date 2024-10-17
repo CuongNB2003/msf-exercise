@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Http;
 using MsfServer.Domain.Shared.Exceptions;
 using MsfServer.Application.Contracts.User.Dto;
 using MsfServer.Domain.Shared.PagedResults;
-using MsfServer.Application.Dapper;
+using MsfServer.Application.Contracts.Dapper;
 using Newtonsoft.Json;
 using MsfServer.Application.Contracts.Role.Dto;
 

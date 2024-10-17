@@ -4,13 +4,14 @@
 </div>
 
 <form class="user-form" [formGroup]="permissionForm" mat-dialog-content>
-    <app-input [formGroup]="permissionForm" controlName="name" className="bg-input" placeholder="Nhập tên menu"
-        errorMessage="Vui lòng nhập tên menu" type="text">
-    </app-input>
+    <app-input [formGroup]="permissionForm" controlName="name" className="bg-input" placeholder="Nhập tên hiển thị"
+        type="text" />
 
-    <app-input [formGroup]="permissionForm" controlName="description" className="bg-input"
-        placeholder="Nhập tên đường dẫn cho menu" errorMessage="Vui lòng nhập đường dẫn cho menu" type="text">
-    </app-input>
+    <app-input [formGroup]="permissionForm" controlName="permissionName" className="bg-input"
+        placeholder="Nhập permission name" pattern="Group.Action" type="text" />
+
+    <app-input [formGroup]="permissionForm" controlName="description" className="bg-input" placeholder="Nhập mô tả"
+        type="text" />
 </form>
 
 

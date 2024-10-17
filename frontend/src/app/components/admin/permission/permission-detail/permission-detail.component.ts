@@ -29,6 +29,8 @@ export class PermissionDetailComponent {
     createdAt: new Date(),
     description: '',
     permissionName: '',
+    groupName: '',
+    name: '',
     total: 0
   };
 

@@ -1,6 +1,6 @@
 USE [MsfDatabase]
 GO
-/****** Object:  StoredProcedure [dbo].[Log_GetAll]    Script Date: 10/14/2024 11:56:08 AM ******/
+/****** Object:  StoredProcedure [dbo].[Log_GetAll]    Script Date: 10/17/2024 3:57:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -20,7 +20,7 @@ BEGIN
     BEGIN TRY
         -- Kiểm tra @Page và @Limit phải tối thiểu là 1
         IF @Page < 1 OR @Limit < 1
-            THROW 50004, 'Page và Limit phải lớn hơn hoặc bằng 1.', 1;
+            THROW 50004, '400/Page và Limit phải lớn hơn hoặc bằng 1.', 1;
 
         -- Tính toán offset
         DECLARE @Offset INT = (@Page - 1) * @Limit;
@@ -40,7 +40,7 @@ BEGIN
     END CATCH
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Log_GetById]    Script Date: 10/14/2024 11:56:08 AM ******/
+/****** Object:  StoredProcedure [dbo].[Log_GetById]    Script Date: 10/17/2024 3:57:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -57,10 +57,6 @@ BEGIN
 	SET NOCOUNT ON;
 
 	BEGIN TRY
-        -- Kiểm tra xem Id có hợp lệ không
-        IF @Id <= 0
-        THROW 50001, 'Id phải lớn hơn 0.', 1; -- Sử dụng THROW để ném lỗi
-
         -- Truy vấn để lấy thông tin log theo Id, chỉ lấy bản ghi chưa bị xóa
         SELECT *
         FROM Logs
@@ -68,7 +64,7 @@ BEGIN
 
         -- Kiểm tra nếu không có bản ghi nào được tìm thấy
         IF @@ROWCOUNT = 0
-			THROW 50002, 'Không tìm thấy Log.', 1;
+			THROW 50002, '404/Không tìm thấy Log.', 1;
     END TRY
     BEGIN CATCH
         -- Sử dụng THROW để ném lại lỗi
@@ -76,7 +72,7 @@ BEGIN
     END CATCH
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Menu_Create]    Script Date: 10/14/2024 11:56:08 AM ******/
+/****** Object:  StoredProcedure [dbo].[Menu_Create]    Script Date: 10/17/2024 3:57:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -114,7 +110,7 @@ BEGIN
 
         -- Kiểm tra nếu menu đã tồn tại
         IF @IsDeleted = 0
-        THROW 50000, 'Menu đã tồn tại, không thể thêm.', 1; -- Sử dụng THROW
+        THROW 50000, '409/Menu đã tồn tại, không thể thêm.', 1; -- Sử dụng THROW
 
         -- Phục hồi menu nếu đã bị xóa mềm
         IF @IsDeleted = 1
@@ -150,7 +146,7 @@ BEGIN
     END CATCH
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Menu_Delete]    Script Date: 10/14/2024 11:56:08 AM ******/
+/****** Object:  StoredProcedure [dbo].[Menu_Delete]    Script Date: 10/17/2024 3:57:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -172,7 +168,7 @@ BEGIN
 
         -- Kiểm tra xem menu có tồn tại hay không
         IF NOT EXISTS (SELECT 1 FROM Menu WHERE Id = @Id AND IsDeleted = 0)
-            THROW 50000, 'Menu không tồn tại hoặc đã bị xóa.', 1; -- Sử dụng THROW thay vì RAISERROR
+            THROW 50000, '404/Menu không tồn tại hoặc đã bị xóa.', 1; -- Sử dụng THROW thay vì RAISERROR
 
         -- Cập nhật trường IsDeleted thành 1 (đã xóa mềm) và DeletedAt với thời gian hiện tại
         UPDATE Menu
@@ -195,7 +191,7 @@ BEGIN
     END CATCH
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Menu_GetAll]    Script Date: 10/14/2024 11:56:08 AM ******/
+/****** Object:  StoredProcedure [dbo].[Menu_GetAll]    Script Date: 10/17/2024 3:57:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -215,7 +211,7 @@ BEGIN
     BEGIN TRY
         -- Kiểm tra @Page và @Limit phải tối thiểu là 1
         IF @Page < 1 OR @Limit < 1
-            THROW 50004, 'Page và Limit phải lớn hơn hoặc bằng 1.', 1;
+            THROW 50004, '400/Page và Limit phải lớn hơn hoặc bằng 1.', 1;
 
         -- Tính toán offset
         DECLARE @Offset INT = (@Page - 1) * @Limit;
@@ -245,7 +241,7 @@ BEGIN
     END CATCH
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Menu_GetById]    Script Date: 10/14/2024 11:56:08 AM ******/
+/****** Object:  StoredProcedure [dbo].[Menu_GetById]    Script Date: 10/17/2024 3:57:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -263,10 +259,6 @@ BEGIN
     SET NOCOUNT ON;
 
     BEGIN TRY
-        -- Kiểm tra xem Id có hợp lệ không
-        IF @Id <= 0
-            THROW 50001, 'Id phải lớn hơn 0.', 1;
-
         -- Truy vấn để lấy thông tin menu theo Id
         SELECT 
             m.Id,
@@ -283,7 +275,7 @@ BEGIN
 
         -- Kiểm tra nếu không có bản ghi nào được tìm thấy
         IF @@ROWCOUNT = 0
-            THROW 50002, 'Không tìm thấy Menu.', 1; -- Đảm bảo rằng số lỗi ở đây là khác
+            THROW 50002, '404/Không tìm thấy Menu.', 1; -- Đảm bảo rằng số lỗi ở đây là khác
 
     END TRY
     BEGIN CATCH
@@ -292,7 +284,7 @@ BEGIN
     END CATCH
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Menu_Update]    Script Date: 10/14/2024 11:56:08 AM ******/
+/****** Object:  StoredProcedure [dbo].[Menu_Update]    Script Date: 10/17/2024 3:57:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -327,11 +319,11 @@ BEGIN
 
         -- Kiểm tra Id có tồn tại không (và không bị xóa mềm)
         IF NOT EXISTS (SELECT 1 FROM Menu WHERE Id = @Id AND IsDeleted = 0)
-            THROW 50000, 'Menu không tồn tại hoặc đã bị xóa.', 1;
+            THROW 50000, '404/Không tìm thấy Menu.', 1;
 
         -- Kiểm tra DisplayName có trùng không (bỏ qua menu hiện tại)
         IF EXISTS (SELECT 1 FROM Menu WHERE LOWER(DisplayName) = LOWER(@DisplayName) AND Id <> @Id)
-            THROW 50001, 'DisplayName đã tồn tại, không thể cập nhật.', 1;
+            THROW 50001, '409/Menu đã tồn tại.', 1;
 
         -- Cập nhật dữ liệu menu
         UPDATE Menu
@@ -357,7 +349,7 @@ BEGIN
     END CATCH 
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Permission_Create]    Script Date: 10/14/2024 11:56:08 AM ******/
+/****** Object:  StoredProcedure [dbo].[Permission_Create]    Script Date: 10/17/2024 3:57:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -379,31 +371,37 @@ BEGIN
     BEGIN TRY
         DECLARE @PermissionName NVARCHAR(50),
                 @Description NVARCHAR(255),
+				@Name NVARCHAR(50),
+				@GroupName NVARCHAR(50),
                 @Id INT;
 
         -- Phân tích cú pháp JSON
         SELECT 
-            @PermissionName = LOWER(JSON_VALUE(@PermissionJson, '$.PermissionName')),
-            @Description = JSON_VALUE(@PermissionJson, '$.Description');
+            @Name = JSON_VALUE(@PermissionJson, '$.Name'),
+            @Description = JSON_VALUE(@PermissionJson, '$.Description'),
+			@PermissionName = JSON_VALUE(@PermissionJson, '$.PermissionName'),
+			@GroupName = JSON_VALUE(@PermissionJson, '$.GroupName');
 
         -- Kiểm tra PermissionName đã tồn tại và chưa bị xóa mềm
-        IF EXISTS (SELECT 1 FROM Permissions WHERE LOWER(PermissionName) = @PermissionName AND IsDeleted = 0)
-			THROW 50000, 'Permission đã tồn tại, không thể thêm.', 1; 
+        IF EXISTS (SELECT 1 FROM Permissions WHERE LOWER(PermissionName) = LOWER(@PermissionName) AND IsDeleted = 0)
+			THROW 50000, '409/Permission đã tồn tại, không thể thêm.', 1; 
 
         -- Kiểm tra PermissionName đã tồn tại nhưng bị xóa mềm
-        ELSE IF EXISTS (SELECT 1 FROM Permissions WHERE LOWER(PermissionName) = @PermissionName AND IsDeleted = 1)
+        ELSE IF EXISTS (SELECT 1 FROM Permissions WHERE LOWER(PermissionName) = LOWER(@PermissionName) AND IsDeleted = 1)
         BEGIN
             -- Lấy Id của Permission đã bị xóa mềm
             SELECT @Id = Id 
             FROM Permissions 
-            WHERE LOWER(PermissionName) = @PermissionName AND IsDeleted = 1;
+            WHERE LOWER(PermissionName) = LOWER(@PermissionName) AND IsDeleted = 1;
 
             -- Cập nhật IsDeleted thành 0 (khôi phục)
             UPDATE Permissions
             SET IsDeleted = 0,
                 DeletedAt = NULL,     
                 CreatedAt = GETDATE(), 
-                Description = @Description
+                Description = @Description,
+				Name = @Name,
+				GroupName = @GroupName
             WHERE Id = @Id;
 
             -- Commit transaction nếu tất cả thành công
@@ -412,8 +410,8 @@ BEGIN
         END
 
         -- Insert dữ liệu permission nếu chưa tồn tại
-        INSERT INTO Permissions (PermissionName, Description)
-        VALUES (@PermissionName, @Description);
+        INSERT INTO Permissions (PermissionName, Description, Name, GroupName)
+        VALUES (@PermissionName, @Description, @Name, @GroupName);
 
         -- Commit transaction nếu tất cả thành công
         COMMIT TRANSACTION;
@@ -429,7 +427,7 @@ BEGIN
     END CATCH
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Permission_Delete]    Script Date: 10/14/2024 11:56:08 AM ******/
+/****** Object:  StoredProcedure [dbo].[Permission_Delete]    Script Date: 10/17/2024 3:57:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -451,7 +449,7 @@ BEGIN
 
         -- Kiểm tra xem permission có tồn tại hay không
         IF NOT EXISTS (SELECT 1 FROM Permissions WHERE Id = @Id AND IsDeleted = 0)
-			THROW 50000, 'Permission không tồn tại hoặc đã bị xóa.', 1;
+			THROW 50000, '404/Permission không tồn tại hoặc đã bị xóa.', 1;
 
         -- Xóa mềm permission
         UPDATE Permissions 
@@ -474,7 +472,7 @@ BEGIN
     END CATCH
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Permission_GetAll]    Script Date: 10/14/2024 11:56:08 AM ******/
+/****** Object:  StoredProcedure [dbo].[Permission_GetAll]    Script Date: 10/17/2024 3:57:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -494,7 +492,7 @@ BEGIN
     BEGIN TRY
         -- Kiểm tra @Page và @Limit phải tối thiểu là 1
         IF @Page < 1 OR @Limit < 1
-			THROW 50004, 'Page và Limit phải lớn hơn hoặc bằng 1.', 1;
+			THROW 50004, '400/Page và Limit phải lớn hơn hoặc bằng 1.', 1;
 
         -- Tính toán offset
         DECLARE @Offset INT = (@Page - 1) * @Limit;
@@ -502,10 +500,12 @@ BEGIN
         -- Lấy danh sách quyền (permissions)
         SELECT 
             COUNT(*) OVER() AS Total,
-            (SELECT COUNT(*) FROM Role_Permission rm WHERE rm.PermissionId = p.Id) AS CountRole,
+			(SELECT COUNT(*) FROM Role_Permission rm WHERE rm.PermissionId = p.Id) AS CountRole,
             p.Id,
             p.PermissionName,
             p.Description,
+			p.GroupName,
+			p.Name,
             p.CreatedAt
         FROM 
             Permissions p
@@ -522,7 +522,7 @@ BEGIN
     END CATCH
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Permission_GetById]    Script Date: 10/14/2024 11:56:08 AM ******/
+/****** Object:  StoredProcedure [dbo].[Permission_GetById]    Script Date: 10/17/2024 3:57:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -541,7 +541,7 @@ BEGIN
     BEGIN TRY
 		-- Kiểm tra xem Id có hợp lệ không
         IF @Id <= 0
-			THROW 50001, 'Id phải lớn hơn 0.', 1;
+			THROW 50001, '400/Id phải lớn hơn 0.', 1;
 
         -- Lấy thông tin permission theo ID, chỉ lấy bản ghi chưa bị xóa        
         SELECT 
@@ -549,6 +549,8 @@ BEGIN
             p.PermissionName,
             p.Description,
             p.CreatedAt,
+			p.GroupName,
+			p.Name,
             ISNULL((SELECT COUNT(*) FROM Role_Permission WHERE PermissionId = p.Id), 0) AS CountRole
         FROM 
             Permissions p
@@ -557,7 +559,7 @@ BEGIN
 
         -- Kiểm tra nếu không có bản ghi nào được tìm thấy
         IF @@ROWCOUNT = 0
-        	THROW 50002, 'Không tìm thấy Permission.', 1;
+        	THROW 50002, '404/Không tìm thấy Permission.', 1;
     END TRY
     BEGIN CATCH
 		-- Sử dụng THROW để ném lại lỗi
@@ -565,7 +567,7 @@ BEGIN
     END CATCH
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Permission_Update]    Script Date: 10/14/2024 11:56:08 AM ******/
+/****** Object:  StoredProcedure [dbo].[Permission_Update]    Script Date: 10/17/2024 3:57:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -587,26 +589,32 @@ BEGIN
 
     BEGIN TRY
         DECLARE @PermissionName NVARCHAR(50),
-                @Description NVARCHAR(255);
+                @Description NVARCHAR(255),
+				@Name NVARCHAR(50),
+				@GroupName NVARCHAR(50);
 
         -- Phân tích cú pháp JSON
         SELECT 
-            @PermissionName = JSON_VALUE(@PermissionJson, '$.PermissionName'),
-            @Description = JSON_VALUE(@PermissionJson, '$.Description');
+            @Name = JSON_VALUE(@PermissionJson, '$.Name'),
+            @Description = JSON_VALUE(@PermissionJson, '$.Description'),
+			@PermissionName = JSON_VALUE(@PermissionJson, '$.PermissionName'),
+			@GroupName = JSON_VALUE(@PermissionJson, '$.GroupName');
 
         -- Kiểm tra Id có tồn tại không (và không bị xóa mềm)
         IF NOT EXISTS (SELECT 1 FROM Permissions WHERE Id = @Id AND IsDeleted = 0)
-			THROW 50001, 'Permission không tồn tại hoặc đã bị xóa.', 1;
+			THROW 50001, '404/Không tìm thấy Permission.', 1;
 
         -- Kiểm tra PermissionName có trùng không (bỏ qua permission hiện tại)
         IF EXISTS (SELECT 1 FROM Permissions WHERE LOWER(PermissionName) = LOWER(@PermissionName) AND Id <> @Id)
-			THROW 50002, 'PermissionName đã tồn tại, không thể cập nhật.', 1;
+			THROW 50002, '409/Permission đã tồn tại.', 1;
 
         -- Cập nhật dữ liệu permission
         UPDATE Permissions
         SET 
             PermissionName = @PermissionName,
             Description = @Description,
+			Name = @Name,
+			GroupName = @GroupName,
 			UpdatedAt = GETDATE()
         WHERE Id = @Id;
 
@@ -624,7 +632,41 @@ BEGIN
     END CATCH
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Role_Create]    Script Date: 10/14/2024 11:56:08 AM ******/
+/****** Object:  StoredProcedure [dbo].[Role_CheckPermission]    Script Date: 10/17/2024 3:57:49 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		CuongNB
+-- Create date: 25/9/2024
+-- Description:	Kiểm tra quyền của vai trò
+-- =============================================
+CREATE PROCEDURE [dbo].[Role_CheckPermission]
+    @roleId INT,
+    @permissionName NVARCHAR(50)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    BEGIN TRY
+        -- Kiểm tra quyền của vai trò, trả về 1 nếu có quyền, 0 nếu không có
+         SELECT 1
+            FROM Roles r
+            INNER JOIN Role_Permission rp ON rp.RoleId = r.Id
+            INNER JOIN Permissions p ON rp.PermissionId = p.Id
+            WHERE p.PermissionName = @permissionName
+              AND r.Id = @roleId
+              AND r.IsDeleted = 0
+              AND p.IsDeleted = 0
+    END TRY
+    BEGIN CATCH
+        -- Bắt lỗi và sử dụng THROW để ném lỗi
+        THROW;
+    END CATCH
+END
+GO
+/****** Object:  StoredProcedure [dbo].[Role_Create]    Script Date: 10/17/2024 3:57:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -654,12 +696,12 @@ BEGIN
 
         -- Kiểm tra tên quyền đã tồn tại
         IF EXISTS (SELECT 1 FROM Roles WHERE LOWER(Name) = @Name AND IsDeleted = 0)
-            THROW 50000, 'Quyền đã tồn tại không thể thêm.', 1;
+            THROW 50000, '409/Role đã tồn tại, không thể thêm.', 1;
 
         -- Kiểm tra MenuIds và PermissionIds
         IF (@MenuIds IS NULL OR LEN(@MenuIds) = 0 OR NOT EXISTS (SELECT 1 FROM OPENJSON(@MenuIds))) OR
            (@PermissionIds IS NULL OR LEN(@PermissionIds) = 0 OR NOT EXISTS (SELECT 1 FROM OPENJSON(@PermissionIds)))
-            THROW 50001, 'Bạn cần phải chọn ít nhất 1 Menu và 1 Permission.', 1;
+            THROW 50001, '400/Bạn cần phải chọn ít nhất 1 Menu và 1 Permission.', 1;
 
         -- Kiểm tra xem có Menu hoặc Permission nào đã bị xóa mềm không
         IF EXISTS (
@@ -667,14 +709,14 @@ BEGIN
             FROM OPENJSON(@MenuIds) AS M
             WHERE EXISTS (SELECT 1 FROM Menu WHERE Id = CAST(M.value AS INT) AND IsDeleted = 1)
         )
-            THROW 50002, 'Có Menu đã bị xóa, không thể thêm vào Role.', 1;
+            THROW 50002, '409/Có Menu đã bị xóa, không thể thêm vào Role.', 1;
 
         IF EXISTS (
             SELECT 1 
             FROM OPENJSON(@PermissionIds) AS P
             WHERE EXISTS (SELECT 1 FROM Permissions WHERE Id = CAST(P.value AS INT) AND IsDeleted = 1)
         )
-            THROW 50003, 'Có Permission đã bị xóa, không thể thêm vào Role.', 1;
+            THROW 50003, '409/Có Permission đã bị xóa, không thể thêm vào Role.', 1;
 
         -- Trường hợp vai trò đã bị xóa mềm, cho phép cập nhật lại
         IF EXISTS (SELECT 1 FROM Roles WHERE LOWER(Name) = @Name AND IsDeleted = 1)
@@ -732,7 +774,7 @@ BEGIN
     END CATCH
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Role_Delete]    Script Date: 10/14/2024 11:56:08 AM ******/
+/****** Object:  StoredProcedure [dbo].[Role_Delete]    Script Date: 10/17/2024 3:57:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -754,7 +796,7 @@ BEGIN
 
         -- Kiểm tra xem role có tồn tại không 
         IF NOT EXISTS (SELECT 1 FROM Roles WHERE Id = @Id AND IsDeleted = 0)
-        THROW 50002, 'Role không tồn tại, không thể xóa.', 1;
+        THROW 50002, '404/Role không tồn tại hoặc đã bị xóa.', 1;
 
         -- Cập nhật trường IsDeleted thành 1 (đã xóa mềm) và DeletedAt với thời gian hiện tại
         UPDATE Roles
@@ -779,7 +821,7 @@ BEGIN
     END CATCH
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Role_GetAll]    Script Date: 10/14/2024 11:56:08 AM ******/
+/****** Object:  StoredProcedure [dbo].[Role_GetAll]    Script Date: 10/17/2024 3:57:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -799,7 +841,7 @@ BEGIN
     BEGIN TRY
         -- Kiểm tra @Page và @Limit phải tối thiểu là 1
         IF @Page < 1 OR @Limit < 1
-            THROW 50004, 'Page và Limit phải lớn hơn hoặc bằng 1.', 1;
+            THROW 50004, '400/Page và Limit phải lớn hơn hoặc bằng 1.', 1;
 
         -- Tính toán offset
         DECLARE @Offset INT = (@Page - 1) * @Limit;
@@ -863,7 +905,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[Role_GetById]    Script Date: 10/14/2024 11:56:08 AM ******/
+/****** Object:  StoredProcedure [dbo].[Role_GetById]    Script Date: 10/17/2024 3:57:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -882,7 +924,7 @@ BEGIN
     BEGIN TRY
         -- Kiểm tra xem role có tồn tại và chưa bị xóa
         IF NOT EXISTS (SELECT 1 FROM Roles WHERE Id = @Id AND IsDeleted = 0)
-            THROW 50001, 'Role không tồn tại hoặc đã bị xóa.', 1;
+            THROW 50001, '404/Không tìm thấy Role.', 1;
 
         -- Lấy thông tin role
         SELECT 
@@ -936,7 +978,7 @@ BEGIN
     END CATCH
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Role_Update]    Script Date: 10/14/2024 11:56:08 AM ******/
+/****** Object:  StoredProcedure [dbo].[Role_Update]    Script Date: 10/17/2024 3:57:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -971,16 +1013,16 @@ BEGIN
 
         -- Kiểm tra xem role có tồn tại và không bị xóa mềm
         IF NOT EXISTS (SELECT 1 FROM Roles WHERE Id = @Id AND IsDeleted = 0)
-            THROW 50000, 'Quyền không tồn tại hoặc đã bị xóa.', 1;
+            THROW 50000, '404/Không tìm thấy Role.', 1;
 
         -- Kiểm tra tên quyền mới có trùng không và không bị xóa mềm
         IF EXISTS (SELECT 1 FROM Roles WHERE LOWER(Name) = LOWER(@Name) AND Id <> @Id AND IsDeleted = 0)
-            THROW 50001, 'Tên quyền đã tồn tại.', 1;
+            THROW 50001, '409/Role đã tồn tại.', 1;
 
 		-- Kiểm tra MenuIds và PermissionIds
         IF (@MenuIds IS NULL OR LEN(@MenuIds) = 0 OR NOT EXISTS (SELECT 1 FROM OPENJSON(@MenuIds))) OR
            (@PermissionIds IS NULL OR LEN(@PermissionIds) = 0 OR NOT EXISTS (SELECT 1 FROM OPENJSON(@PermissionIds)))
-            THROW 50001, 'Bạn cần phải chọn ít nhất 1 Menu và 1 Permission.', 1;
+            THROW 50001, '400/Bạn cần phải chọn ít nhất 1 Menu và 1 Permission.', 1;
 
 		
         -- Kiểm tra xem có Menu hoặc Permission nào đã bị xóa mềm không
@@ -989,14 +1031,14 @@ BEGIN
             FROM OPENJSON(@MenuIds) AS M
             WHERE EXISTS (SELECT 1 FROM Menu WHERE Id = CAST(M.value AS INT) AND IsDeleted = 1)
         )
-            THROW 50002, 'Có Menu đã bị xóa, không thể thêm vào vai trò.', 1;
+            THROW 50002, '409/Có Menu đã bị xóa, không thể thêm vào vai trò.', 1;
 
         IF EXISTS (
             SELECT 1 
             FROM OPENJSON(@PermissionIds) AS P
             WHERE EXISTS (SELECT 1 FROM Permissions WHERE Id = CAST(P.value AS INT) AND IsDeleted = 1)
         )
-            THROW 50003, 'Có Permission đã bị xóa, không thể thêm vào vai trò.', 1;
+            THROW 50003, '409/Có Permission đã bị xóa, không thể thêm vào vai trò.', 1;
 
         -- Cập nhật dữ liệu role
         UPDATE Roles
@@ -1028,7 +1070,7 @@ BEGIN
     END CATCH
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Token_DeleteByUserId]    Script Date: 10/14/2024 11:56:08 AM ******/
+/****** Object:  StoredProcedure [dbo].[Token_DeleteByUserId]    Script Date: 10/17/2024 3:57:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1053,14 +1095,14 @@ BEGIN
 
         -- Nếu không chuyển đổi được, ném lỗi ngay lập tức
         IF @UserId IS NULL
-            THROW 50002, 'UserId không hợp lệ.', 1;
+            THROW 50002, '400/UserId không hợp lệ.', 1;
 
         -- Xóa các token liên quan đến UserId
         DELETE FROM Tokens WHERE UserId = @UserId;
 
         -- Kiểm tra nếu không có token nào bị xóa
         IF @@ROWCOUNT = 0
-            THROW 50001, 'Không tìm thấy token cho người dùng này.', 1;
+            THROW 50001, '404/Không tìm thấy token cho người dùng này.', 1;
 
         -- Cam kết transaction
         COMMIT TRANSACTION;
@@ -1076,7 +1118,7 @@ BEGIN
     END CATCH
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Token_GetByRefreshToken]    Script Date: 10/14/2024 11:56:08 AM ******/
+/****** Object:  StoredProcedure [dbo].[Token_GetByRefreshToken]    Script Date: 10/17/2024 3:57:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1100,7 +1142,7 @@ BEGIN
 
         -- Nếu không tìm thấy token, ném lỗi
         IF @@ROWCOUNT = 0
-        THROW 50001, 'Không tìm thấy Token.', 1;
+        THROW 50001, '404/Không tìm thấy Token.', 1;
     END TRY
     BEGIN CATCH
         -- Ném lại lỗi nếu có
@@ -1110,7 +1152,7 @@ END
 
 
 GO
-/****** Object:  StoredProcedure [dbo].[Token_Save]    Script Date: 10/14/2024 11:56:08 AM ******/
+/****** Object:  StoredProcedure [dbo].[Token_Save]    Script Date: 10/17/2024 3:57:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1143,7 +1185,7 @@ BEGIN
 
 		-- Kiểm tra xem @ExpirationDate có phải là NULL không
 		IF @ExpirationDate IS NULL
-		THROW 50002, 'ExpirationDate không hợp lệ hoặc không thể chuyển đổi.', 1;
+		THROW 50002, '400/ExpirationDate không hợp lệ hoặc không thể chuyển đổi.', 1;
         -- Kiểm tra xem userId tồn tại không
         IF NOT EXISTS (SELECT 1 FROM Tokens WHERE UserId = @UserId)
         BEGIN
@@ -1173,7 +1215,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[User_Create]    Script Date: 10/14/2024 11:56:08 AM ******/
+/****** Object:  StoredProcedure [dbo].[User_Create]    Script Date: 10/17/2024 3:57:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1212,11 +1254,11 @@ BEGIN
 
         -- Kiểm tra email đã tồn tại
         IF EXISTS (SELECT 1 FROM Users WHERE Email = @Email AND IsDeleted = 0)
-        THROW 50000, 'Email đã tồn tại.', 1;
+        THROW 50000, '409/Email đã tồn tại.', 1;
 
         -- Kiểm tra danh sách RoleIds có tồn tại và hợp lệ (bao gồm kiểm tra rỗng)
         IF @RoleIds IS NULL OR LEN(@RoleIds) = 0 OR NOT EXISTS (SELECT 1 FROM OPENJSON(@RoleIds))
-        THROW 50000, 'Bạn cần phải chọn ít nhất 1 Role.', 1;
+        THROW 50000, '400/Bạn cần phải chọn ít nhất 1 Role.', 1;
 
         -- Kiểm tra xem tất cả các RoleIds có tồn tại trong bảng Roles và chưa bị xóa không
         IF EXISTS (
@@ -1224,7 +1266,7 @@ BEGIN
             FROM OPENJSON(@RoleIds)
             WHERE value NOT IN (SELECT Id FROM Roles WHERE IsDeleted = 0) -- chỉ chọn những Role chưa bị xóa
         )
-        THROW 50000, 'Có Role đã bị xóa, không thể thêm vào User.', 1;
+        THROW 50000, '409/Có Role đã bị xóa, không thể thêm vào User.', 1;
 
         -- Kiểm tra email có bị xóa hay không, nếu có thì sửa lại IsDeleted thành false
         IF EXISTS (SELECT 1 FROM Users WHERE Email = @Email AND IsDeleted = 1)
@@ -1271,7 +1313,7 @@ BEGIN
     END CATCH
 END
 GO
-/****** Object:  StoredProcedure [dbo].[User_Delete]    Script Date: 10/14/2024 11:56:08 AM ******/
+/****** Object:  StoredProcedure [dbo].[User_Delete]    Script Date: 10/17/2024 3:57:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1293,7 +1335,7 @@ BEGIN
 
         -- Kiểm tra xem role có tồn tại không 
         IF NOT EXISTS (SELECT 1 FROM Users WHERE Id = @Id AND IsDeleted = 0)
-        THROW 50002, 'User không tồn tại, không thể xóa.', 1;
+        THROW 50002, '404/User không tồn tại hoặc đã bị xóa.', 1;
 
         -- Cập nhật trường IsDeleted thành 1 (đã xóa mềm) và DeletedAt với thời gian hiện tại
         UPDATE Users
@@ -1316,7 +1358,7 @@ BEGIN
     END CATCH
 END
 GO
-/****** Object:  StoredProcedure [dbo].[User_GetAll]    Script Date: 10/14/2024 11:56:08 AM ******/
+/****** Object:  StoredProcedure [dbo].[User_GetAll]    Script Date: 10/17/2024 3:57:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1336,7 +1378,7 @@ BEGIN
     BEGIN TRY
         -- Kiểm tra @Page và @Limit phải tối thiểu là 1
         IF @Page < 1 OR @Limit < 1
-            THROW 50004, 'Page và Limit phải lớn hơn hoặc bằng 1.', 1;
+            THROW 50004, '400/Page và Limit phải lớn hơn hoặc bằng 1.', 1;
 
         -- Tính toán offset
         DECLARE @Offset INT = (@Page - 1) * @Limit;
@@ -1384,7 +1426,7 @@ BEGIN
     END CATCH
 END
 GO
-/****** Object:  StoredProcedure [dbo].[User_GetByEmail]    Script Date: 10/14/2024 11:56:08 AM ******/
+/****** Object:  StoredProcedure [dbo].[User_GetByEmail]    Script Date: 10/17/2024 3:57:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1394,7 +1436,7 @@ GO
 -- Create date:   8/10/2024 
 -- Description:   Lấy người dùng theo email 
 -- ============================================= 
-ALTER PROCEDURE [dbo].[User_GetByEmail]
+CREATE PROCEDURE [dbo].[User_GetByEmail]
     @Email NVARCHAR(100)
 AS
 BEGIN
@@ -1406,7 +1448,7 @@ BEGIN
 
         -- Kiểm tra nếu người dùng không tồn tại hoặc đã bị xóa
         IF NOT EXISTS (SELECT 1 FROM Users WHERE Email = @Email AND IsDeleted = 0)
-            THROW 50000, 'Người dùng không tồn tại hoặc đã bị xóa.', 1;
+            THROW 50000, '404/Email hoặc mật khẩu không đúng.', 1;
 
         -- Gán giá trị Id của người dùng vào biến @UserId
         SELECT 
@@ -1447,9 +1489,8 @@ BEGIN
         THROW; -- Ném lại lỗi đã bắt được
     END CATCH
 END
-
 GO
-/****** Object:  StoredProcedure [dbo].[User_GetById]    Script Date: 10/14/2024 11:56:08 AM ******/
+/****** Object:  StoredProcedure [dbo].[User_GetById]    Script Date: 10/17/2024 3:57:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1468,7 +1509,7 @@ BEGIN
     BEGIN TRY
         -- Kiểm tra nếu người dùng không tồn tại hoặc đã bị xóa
         IF NOT EXISTS (SELECT 1 FROM Users WHERE Id = @Id AND IsDeleted = 0)
-			THROW 50000, 'Người dùng không tồn tại hoặc đã bị xóa.', 1;
+			THROW 50000, '404/Không tìm thấy User.', 1;
 
 
 		-- Trả về bảng 1: Thông tin người dùng
@@ -1502,7 +1543,7 @@ BEGIN
     END CATCH
 END
 GO
-/****** Object:  StoredProcedure [dbo].[User_Update]    Script Date: 10/14/2024 11:56:08 AM ******/
+/****** Object:  StoredProcedure [dbo].[User_Update]    Script Date: 10/17/2024 3:57:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1537,15 +1578,15 @@ BEGIN
 
         -- Kiểm tra xem người dùng có tồn tại hay không
         IF NOT EXISTS (SELECT 1 FROM Users WHERE Id = @Id AND IsDeleted = 0)
-			THROW 50000, 'Người dùng không tồn tại hoặc đã bị xóa.', 1;
+			THROW 50000, '404/Không tìm thấy User.', 1;
 
         -- Kiểm tra email mới có trùng với email hiện tại không
         IF EXISTS (SELECT 1 FROM Users WHERE Email = @Email AND Id <> @Id AND IsDeleted = 0)
-		THROW 50001, 'Email đã tồn tại.', 1;
+		THROW 50001, '409/Email đã tồn tại.', 1;
 
 		-- Kiểm tra MenuIds và PermissionIds
         IF (@RoleIds IS NULL OR LEN(@RoleIds) = 0 OR NOT EXISTS (SELECT 1 FROM OPENJSON(@RoleIds)))
-            THROW 50001, 'Bạn cần phải chọn ít nhất 1 Role.', 1;
+            THROW 50001, '400/Bạn cần phải chọn ít nhất 1 Role.', 1;
 
 		-- Kiểm tra xem có Role nào đã bị xóa mềm không
         IF EXISTS (
@@ -1553,7 +1594,7 @@ BEGIN
             FROM OPENJSON(@RoleIds) AS R
             WHERE EXISTS (SELECT 1 FROM Roles WHERE Id = CAST(R.value AS INT) AND IsDeleted = 1)
         )
-            THROW 50002, 'Có Menu đã bị xóa, không thể thêm vào vai trò.', 1;
+            THROW 50002, '409/Có Role đã bị xóa, không thể thêm vào vai trò.', 1;
 
         -- Cập nhật dữ liệu
         UPDATE Users

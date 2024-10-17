@@ -13,13 +13,14 @@ namespace MsfServer.Application.Contracts.User.Dto
         public int Total { get; set; }
 
         public List<RoleDto> Roles { get; set; } = [];
-        public static UserResponse UserData(int id, string name, string email)
+        public static UserResponse UserData(int id, string name, string email, List<RoleDto> roles)
         {
             return new UserResponse
             {
                 Id = id,
                 Name = name,
                 Email = email,
+                Roles = roles
             };
         }
     }
