@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using MsfServer.Application.Contracts.Token;
 using MsfServer.Application.Contracts.Token.Dto;
-using MsfServer.Application.Dapper;
+using MsfServer.Application.Contracts.Dapper;
 using MsfServer.Domain.Shared.Exceptions;
 using MsfServer.Domain.Shared.Responses;
 using Newtonsoft.Json;

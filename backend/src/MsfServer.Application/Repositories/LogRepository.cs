@@ -2,7 +2,7 @@
 using Dapper;
 using MsfServer.Application.Contracts.Log;
 using MsfServer.Application.Contracts.Log.Dto;
-using MsfServer.Application.Dapper;
+using MsfServer.Application.Contracts.Dapper;
 using MsfServer.Domain.Shared.PagedResults;
 using MsfServer.Domain.Shared.Responses;
 using System.Data;

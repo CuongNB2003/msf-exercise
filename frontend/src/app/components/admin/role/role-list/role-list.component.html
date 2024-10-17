@@ -71,14 +71,10 @@
                         <td>{{ role.name }}</td>
                         <td>{{ role.countUser }}</td>
                         <td>
-                            <ng-container *ngFor="let permission of role.permissions; let i = index">
-                                {{ permission.permissionName }}<span *ngIf="i < role.permissions.length - 1">, </span>
-                            </ng-container>
+                            {{ role.permissions.length }}
                         </td>
                         <td>
-                            <ng-container *ngFor="let menu of role.menus; let i = index">
-                                {{ menu.displayName }}<span *ngIf="i < role.menus.length - 1">, </span>
-                            </ng-container>
+                            {{ role.menus.length }}
                         </td>
                         <td>{{ formatDate(role.createdAt) }}</td>
                     </tr>

@@ -2,11 +2,11 @@
 using MsfServer.Domain.Shared.Exceptions;
 using System.Data.SqlClient;
 
-namespace MsfServer.Application.Dapper
+namespace MsfServer.Application.Contracts.Dapper
 {
     public class DapperContext(string connectionString) : IDisposable
     {
-        private readonly string _connectionString = connectionString ?? 
+        private readonly string _connectionString = connectionString ??
             throw new CustomException(StatusCodes.Status500InternalServerError, "Không kết nối được với cơ sở dữ liệu.");
         private SqlConnection? _connection;
 

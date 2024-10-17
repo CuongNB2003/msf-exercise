@@ -14,7 +14,7 @@ namespace MsfServer.HttpApi
         private readonly ITokenService _tokenService = tokenService;
 
         [HttpGet("me")]
-        [Authorize]
+        [Authorize(Policy = "PermissionPolicy")]
         public async Task<IActionResult> GetUser()
         {
             var userIdString = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -55,7 +55,7 @@ namespace MsfServer.HttpApi
         }
 
         [HttpPost("logout")]
-        [Authorize]
+        [Authorize(Policy = "PermissionPolicy")]
         public async Task<IActionResult> Logout()
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;

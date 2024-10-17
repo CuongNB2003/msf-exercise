@@ -79,7 +79,7 @@ export class UserCreateUpdateComponent implements OnInit {
         this.roles = response.data.data;
       },
       error: (err) => {
-        alert(`Không lấy được dữ liệu: ${err}`);
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: err });
       },
       complete: () => console.log("Lấy dữ liệu role thành công")
     });
@@ -100,7 +100,7 @@ export class UserCreateUpdateComponent implements OnInit {
         });
       },
       error: (err) => {
-        alert(`Không lấy được dữ liệu: ${err}`);
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: err });
       },
       complete: () => console.log("Lấy dữ liệu người dùng theo id thành công")
     });

@@ -31,6 +31,9 @@ export class RoleCreateUpdateComponent implements OnInit {
   createRoleForm: FormGroup;
   menus: MenuResponse[] = [];
   permissions: PermissionResponse[] = [];
+  groupedPermissions: { [key: string]: PermissionResponse[] } = {};
+  selectedGroup: string = '';
+
   selectedMenus: { [key: number]: boolean } = {};
   selectedPermission: { [key: number]: boolean } = {};
   isSubmitting: boolean = false;
@@ -72,7 +75,7 @@ export class RoleCreateUpdateComponent implements OnInit {
         this.menus = response.data.data;
       },
       error: (err) => {
-        alert(`Không lấy được dữ liệu: ${err}`);
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: err });
       },
       complete: () => console.log("Lấy dữ liệu role thành công")
     });
@@ -81,14 +84,50 @@ export class RoleCreateUpdateComponent implements OnInit {
   loadPermission(): void {
     this.permissionService.getPermissionAll(1, 999).subscribe({
       next: (response) => {
-        this.permissions = response.data.data;
+        this.permissions = response.data.data; // Lưu danh sách quyền
+
+        // Nhóm quyền theo groupName
+        this.groupedPermissions = this.groupPermissions(this.permissions);
+
+        // Tự động chọn group đầu tiên
+        const firstGroupKey = Object.keys(this.groupedPermissions)[0];
+        if (firstGroupKey) {
+          this.selectGroup(firstGroupKey); // Gán group đầu tiên làm selectedGroup
+        }
       },
       error: (err) => {
-        alert(`Không lấy được dữ liệu: ${err}`);
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: err });
       },
       complete: () => console.log("Lấy dữ liệu role thành công")
     });
   }
+
+  // Phương thức nhóm quyền
+  groupPermissions(permissions: PermissionResponse[]): { [key: string]: PermissionResponse[] } {
+    const grouped = permissions.reduce((groups, permission) => {
+      const groupName = permission.permissionName.split('.')[0]; // Lấy phần trước dấu chấm
+      if (!groups[groupName]) {
+        groups[groupName] = []; // Tạo nhóm nếu chưa tồn tại
+      }
+      groups[groupName].push(permission); // Thêm quyền vào nhóm
+      return groups;
+    }, {} as { [key: string]: PermissionResponse[] });
+
+    // Sắp xếp các nhóm theo thứ tự A-Z
+    return Object.keys(grouped)
+      .sort() // Sắp xếp tên các nhóm theo thứ tự bảng chữ cái
+      .reduce((sortedGroups, key) => {
+        sortedGroups[key] = grouped[key];
+        return sortedGroups;
+      }, {} as { [key: string]: PermissionResponse[] });
+  }
+
+
+  // Phương thức chọn group
+  selectGroup(groupName: string): void {
+    this.selectedGroup = groupName; // Cập nhật selectedGroup
+  }
+
 
   loadDataRole(id: number): void {
     this.roleService.getRoleById(id).subscribe({
@@ -107,7 +146,7 @@ export class RoleCreateUpdateComponent implements OnInit {
         });
       },
       error: (err) => {
-        alert(`Không lấy được dữ liệu: ${err}`);
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: err });
       },
       complete: () => console.log("Lấy dữ liệu người dùng theo id thành công")
     });
