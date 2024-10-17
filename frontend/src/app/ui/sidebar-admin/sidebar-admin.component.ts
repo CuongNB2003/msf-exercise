@@ -48,6 +48,7 @@ export class SidebarAdminComponent implements OnInit {
       const user: UserLogin = JSON.parse(userInfo) as UserLogin;
       const menuMap = new Map<number, MenuRoleResponse>();
       const roleObservables = user.roles.map(role => this.roleService.getRoleById(role.id));
+
       forkJoin(roleObservables).subscribe({
         next: (responses) => {
           responses.forEach((response) => {
@@ -58,7 +59,17 @@ export class SidebarAdminComponent implements OnInit {
               }
             });
           });
+
+          // Chuyển đổi Map thành mảng và sắp xếp
           this.menus = Array.from(menuMap.values());
+
+          // Sắp xếp menu để "Log" luôn ở cuối
+          this.menus.sort((a, b) => {
+            if (a.displayName === 'Logs') return 1; // Đẩy "Log" xuống cuối
+            if (b.displayName === 'Logs') return -1; // Đẩy "Log" xuống cuối
+            return 0; // Giữ nguyên thứ tự còn lại
+          });
+
           this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Menu loaded successfully' });
         },
         error: (err) => {
@@ -68,4 +79,5 @@ export class SidebarAdminComponent implements OnInit {
       });
     }
   }
+
 }
