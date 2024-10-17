@@ -18,9 +18,15 @@ namespace MsfServer.Application.Repositories
         {
             using var dapperContext = new DapperContext(_connectionString);
             using var connection = dapperContext.GetOpenConnection();
-            input.Description = string.IsNullOrEmpty(input.Description) ? $"Đây là mô tả của {input.PermissionName}": input.Description;
+            var perJson = new PermissionJson
+            {
+                Description = string.IsNullOrEmpty(input.Description) ? $"Đây là mô tả của {input.Name}" : input.Description,
+                PermissionName = input.PermissionName,
+                GroupName = input.PermissionName!.Split('.')[0],
+                Name = input.Name,
+            };
             // Chuyển đổi dữ liệu đầu vào thành JSON
-            var permissionJson = JsonConvert.SerializeObject(input);
+            var permissionJson = JsonConvert.SerializeObject(perJson);
             var result = await connection.QuerySingleOrDefaultAsync<ResponseText>(
                 "Permission_Create", new { PermissionJson = permissionJson }, commandType: CommandType.StoredProcedure);
 
@@ -74,9 +80,15 @@ namespace MsfServer.Application.Repositories
         {
             using var dapperContext = new DapperContext(_connectionString);
             using var connection = dapperContext.GetOpenConnection();
-
+            var perJson = new PermissionJson
+            {
+                Description = string.IsNullOrEmpty(input.Description) ? $"Đây là mô tả của {input.Name}" : input.Description,
+                PermissionName = input.PermissionName,
+                GroupName = input.PermissionName!.Split('.')[0],
+                Name = input.Name,
+            };
             // Chuyển đổi dữ liệu đầu vào thành JSON
-            var permissionJson = JsonConvert.SerializeObject(input);
+            var permissionJson = JsonConvert.SerializeObject(perJson);
             var result = await connection.QuerySingleOrDefaultAsync<ResponseText>(
                 "Permission_Update", new { PermissionJson = permissionJson, Id = id }, commandType: CommandType.StoredProcedure);
 

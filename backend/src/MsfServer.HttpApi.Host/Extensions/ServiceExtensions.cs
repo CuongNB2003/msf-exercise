@@ -8,6 +8,8 @@ using MsfServer.Application.Contracts.ReCaptcha;
 using MsfServer.Application.Repositories;
 using MsfServer.Application.Contracts.Menu;
 using MsfServer.Application.Contracts.Permission;
+using Microsoft.AspNetCore.Authorization;
+using MsfServer.HttpApi.Sercurity;
 
 namespace MsfServer.HttpApi.Host.Extensions
 {
@@ -20,6 +22,7 @@ namespace MsfServer.HttpApi.Host.Extensions
 
             // những service sử dụng AddSingleton khởi tạo từ đầu
             //services.AddSingleton<DapperContext>(connectionString);
+            services.AddSingleton<IAuthorizationHandler, AuthorizationHandler>();
 
             // những service sử dụng AddTransient khởi tạo khi đc gọi
             services.AddTransient<IRoleRepository, RoleRepository>(provider =>{ return new RoleRepository(connectionString); });
