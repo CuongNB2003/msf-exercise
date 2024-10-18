@@ -1,11 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { Title } from '@angular/platform-browser';
-import { filter, map } from 'rxjs';
+import { filter, forkJoin, map } from 'rxjs';
 import { NgProgressbar } from 'ngx-progressbar';
 import { NgProgressRouter } from 'ngx-progressbar/router';
 import { NgProgressHttp } from 'ngx-progressbar/http';
 import { ToastModule } from 'primeng/toast';
+import { RoleResponse } from '@services/role/role.interface';
+import { RoleService } from '@services/role/role.service';
+import { MessageService } from 'primeng/api';
+import { UserLogin } from '@services/auth/auth.interface';
+import { MenuRoleResponse } from '@services/menu/menu.interface';
+import { PermissionRoleResponse } from '@services/permission/permission.interface';
 
 @Component({
   selector: 'app-root',
@@ -21,6 +27,7 @@ import { ToastModule } from 'primeng/toast';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
+
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -28,6 +35,10 @@ export class AppComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.setupTitle();
+  }
+
+  private setupTitle() {
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd),
       map(() => {
