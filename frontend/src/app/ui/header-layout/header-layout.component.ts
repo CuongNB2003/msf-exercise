@@ -63,6 +63,8 @@ export class HeaderLayoutComponent implements OnInit {
         this.messageService.add({ severity: 'info', summary: 'Info', detail: res.message });
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
+        localStorage.removeItem('permissions');
+        localStorage.removeItem('menus');
         localStorage.removeItem('user');
         this.router.navigate(['/login']);
       },

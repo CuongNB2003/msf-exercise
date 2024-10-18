@@ -1,3 +1,5 @@
+import { StorePermission } from './../../../../store/store.permission';
+import { StoreMenu } from './../../../../store/store.menu';
 import { CommonModule } from '@angular/common';
 import { Component, HostListener } from '@angular/core';
 import moment from 'moment';
@@ -10,6 +12,7 @@ import { UserService } from '@services/user/user.service';
 import { UserCreateUpdateComponent } from '../user-create-update/user-create-update.component';
 import { MessageService } from 'primeng/api';
 import { UserDeleteComponent } from '../user-delete/user-delete.component';
+import { PermissionRoleResponse } from '@services/permission/permission.interface';
 
 
 @Component({
@@ -21,6 +24,7 @@ import { UserDeleteComponent } from '../user-delete/user-delete.component';
 })
 export class UserListComponent {
   users: UserResponse[] = [];
+  permissions: PermissionRoleResponse[] = [];
   totalItems: number = 0;
   page: number = 1;
   limit: number = 10;
@@ -29,10 +33,18 @@ export class UserListComponent {
   isDropdownOpen: { [key: number]: boolean } = {};
 
 
-  constructor(private userService: UserService, private dialog: MatDialog, private messageService: MessageService,) { }
+  constructor(
+    private userService: UserService,
+    private dialog: MatDialog,
+    private messageService: MessageService,
+    private storePermission: StorePermission,
+  ) { }
 
   ngOnInit(): void {
     this.loadUsers();
+    this.storePermission.permissions$.subscribe(permissions => {
+      this.permissions = permissions;
+    });
   }
 
 
@@ -46,8 +58,12 @@ export class UserListComponent {
       error: (err) => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: err });
       },
-      complete: () => console.log("Lấy dữ liệu user thành công")
     });
+  }
+
+
+  hasPermission(permissionName: string): boolean {
+    return this.permissions.some(permission => permission.permissionName === permissionName);
   }
 
   formatDate(date: Date): string {
@@ -58,8 +74,16 @@ export class UserListComponent {
 
   toggleDropdown(event: Event, roleId: number) {
     event.stopPropagation();
-    this.isDropdownOpen[roleId] = !this.isDropdownOpen[roleId];
+    if (this.isDropdownOpen[roleId]) {
+      this.isDropdownOpen[roleId] = false;
+    } else {
+      for (const id in this.isDropdownOpen) {
+        this.isDropdownOpen[id] = false;
+      }
+      this.isDropdownOpen[roleId] = true;
+    }
   }
+
 
   @HostListener('document:click', ['$event'])
   onClickOutside(event: Event) {

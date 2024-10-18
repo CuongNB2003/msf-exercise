@@ -42,7 +42,6 @@ export class LogListComponent {
       error: (err) => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: err });
       },
-      complete: () => console.log("Lấy dữ liệu log thành công")
     });
   }
 
