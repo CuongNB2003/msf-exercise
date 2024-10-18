@@ -10,6 +10,8 @@ import { RoleDetailComponent } from '../role-detail/role-detail.component';
 import { RoleCreateUpdateComponent } from '../role-create-update/role-create-update.component';
 import { MessageService } from 'primeng/api';
 import { RoleDeleteComponent } from '../role-delete/role-delete.component';
+import { StorePermission } from '../../../../store/store.permission';
+import { PermissionRoleResponse } from '@services/permission/permission.interface';
 
 @Component({
   selector: 'app-role-list',
@@ -20,6 +22,7 @@ import { RoleDeleteComponent } from '../role-delete/role-delete.component';
 })
 export class RoleListComponent {
   roles: RoleResponse[] = [];
+  permissions: PermissionRoleResponse[] = [];
   totalItems: number = 0;
   page: number = 1;
   limit: number = 10;
@@ -28,10 +31,22 @@ export class RoleListComponent {
   isDropdownOpen: { [key: number]: boolean } = {};
 
 
-  constructor(private messageService: MessageService, private roleService: RoleService, private dialog: MatDialog) { }
+  constructor(
+    private messageService: MessageService,
+    private roleService: RoleService,
+    private dialog: MatDialog,
+    private storePermission: StorePermission,
+  ) { }
 
   ngOnInit(): void {
     this.loadRoles();
+    this.storePermission.permissions$.subscribe(permissions => {
+      this.permissions = permissions;
+    });
+  }
+
+  hasPermission(permissionName: string): boolean {
+    return this.permissions.some(permission => permission.permissionName === permissionName);
   }
 
   loadRoles(): void {
@@ -44,7 +59,6 @@ export class RoleListComponent {
       error: (err) => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: err });
       },
-      complete: () => console.log("Lấy dữ liệu role thành công")
     });
   }
 
@@ -56,7 +70,14 @@ export class RoleListComponent {
 
   toggleDropdown(event: Event, roleId: number) {
     event.stopPropagation();
-    this.isDropdownOpen[roleId] = !this.isDropdownOpen[roleId];
+    if (this.isDropdownOpen[roleId]) {
+      this.isDropdownOpen[roleId] = false;
+    } else {
+      for (const id in this.isDropdownOpen) {
+        this.isDropdownOpen[id] = false;
+      }
+      this.isDropdownOpen[roleId] = true;
+    }
   }
 
   @HostListener('document:click', ['$event'])

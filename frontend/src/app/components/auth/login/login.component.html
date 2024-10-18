@@ -9,11 +9,11 @@
         <app-input [formGroup]="loginForm" controlName="password" placeholder="Nhập mật khẩu"
             errorMessage="Vui lòng nhập mật khẩu (ít nhất 6 ký tự)" type="password"></app-input>
 
-        <div class="container-recaptcha">
+        <!-- <div class="container-recaptcha">
             <re-captcha #captchaRef formControlName="recaptcha"
                 siteKey="6LcqXy4qAAAAAG4g4N5apsDBQVU6aMScsk-Dm9DE"></re-captcha>
             <div *ngIf="isInvalid('recaptcha')" class="error-msg-captcha">Vui lòng chọn captcha</div>
-        </div>
+        </div> -->
 
         <app-button [isSubmitting]="isSubmitting" buttonText="Login" [isLocked]="isLocked"></app-button>
 

@@ -3,7 +3,6 @@ import { Routes } from '@angular/router';
 import { TitleService } from './services/title/title.service';
 import { LayoutUserComponent } from './components/layout/layout-user/layout-user.component';
 import { AuthGuard } from './guards/auth/auth.guard';
-import { AdminGuard } from './guards/admin/admin.guard';
 import { HomeComponent } from '@components/client/home/home.component';
 import { LayoutAdminComponent } from '@components/layout/layout-admin/layout-admin.component';
 import { HomeAdminComponent } from '@components/admin/home-admin/home-admin.component';
@@ -15,6 +14,8 @@ import { LoginComponent } from '@components/auth/login/login.component';
 import { RegisterComponent } from '@components/auth/register/register.component';
 import { MenuListComponent } from '@components/admin/menu/menu-list/menu-list.component';
 import { PermissionListComponent } from '@components/admin/permission/permission-list/permission-list.component';
+import { menuGuard } from '@guards/menu/menu.guard';
+import { NotFoundComponent } from '@ui/not-found/not-found.component';
 
 
 
@@ -39,7 +40,7 @@ export const routes: Routes = [
     {
         path: 'admin',
         component: LayoutAdminComponent,
-        canActivate: [AdminGuard],
+        canActivate: [AuthGuard],
         children: [
             {
                 path: '',
@@ -54,27 +55,32 @@ export const routes: Routes = [
             {
                 path: 'roles',
                 component: RoleListComponent,
-                data: { title: getTitle(new TitleService(), 'Roles') }
+                data: { title: getTitle(new TitleService(), 'Roles') },
+                canActivate: [menuGuard]
             },
             {
                 path: 'users',
                 component: UserListComponent,
-                data: { title: getTitle(new TitleService(), 'Users') }
+                data: { title: getTitle(new TitleService(), 'Users') },
+                canActivate: [menuGuard]
             },
             {
                 path: 'logs',
                 component: LogListComponent,
-                data: { title: getTitle(new TitleService(), 'Logs') }
+                data: { title: getTitle(new TitleService(), 'Logs') },
+                canActivate: [menuGuard]
             },
             {
                 path: 'menu',
                 component: MenuListComponent,
-                data: { title: getTitle(new TitleService(), 'Menu') }
+                data: { title: getTitle(new TitleService(), 'Menu') },
+                canActivate: [menuGuard]
             },
             {
                 path: 'permissions',
                 component: PermissionListComponent,
-                data: { title: getTitle(new TitleService(), 'Permissions') }
+                data: { title: getTitle(new TitleService(), 'Permissions') },
+                canActivate: [menuGuard]
             },
         ]
     },
@@ -90,8 +96,10 @@ export const routes: Routes = [
         data: { title: getTitle(new TitleService(), 'Đăng ký') }
 
     },
-    // {
-    //     path: '**',
-    //     redirectTo: 'admin',
-    // }
+    {
+        path: 'not-found',
+        component: NotFoundComponent,
+        data: { title: getTitle(new TitleService(), 'Not Found') }
+    },
+    { path: '**', redirectTo: 'not-found' }
 ];

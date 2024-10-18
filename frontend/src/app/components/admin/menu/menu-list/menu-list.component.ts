@@ -43,7 +43,6 @@ export class MenuListComponent {
       error: (err) => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: err });
       },
-      complete: () => console.log("Lấy dữ liệu role thành công")
     });
   }
 
@@ -55,7 +54,14 @@ export class MenuListComponent {
 
   toggleDropdown(event: Event, roleId: number) {
     event.stopPropagation();
-    this.isDropdownOpen[roleId] = !this.isDropdownOpen[roleId];
+    if (this.isDropdownOpen[roleId]) {
+      this.isDropdownOpen[roleId] = false;
+    } else {
+      for (const id in this.isDropdownOpen) {
+        this.isDropdownOpen[id] = false;
+      }
+      this.isDropdownOpen[roleId] = true;
+    }
   }
 
   @HostListener('document:click', ['$event'])

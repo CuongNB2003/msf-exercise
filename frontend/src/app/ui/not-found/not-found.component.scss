@@ -1,0 +1,42 @@
+.not-found {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; // Chiều cao toàn bộ màn hình
+    text-align: center;
+    background-color: #f8f9fa; // Màu nền nhẹ
+    color: #333; // Màu chữ tối
+
+    &__title {
+        font-size: 6rem;
+        font-weight: bold;
+        margin: 0;
+        color: #dc3545; // Màu đỏ
+    }
+
+    &__subtitle {
+        font-size: 2rem;
+        margin: 10px 0;
+    }
+
+    &__message {
+        font-size: 1.2rem;
+        margin: 10px 0;
+        color: #666; // Màu chữ xám
+    }
+
+    &__link {
+        margin-top: 20px;
+        padding: 10px 20px;
+        font-size: 1rem;
+        color: #fff;
+        background-color: #007bff; // Màu nền nút
+        border-radius: 5px;
+        text-decoration: none;
+
+        &:hover {
+            background-color: #0056b3; // Màu nền nút khi hover
+        }
+    }
+}

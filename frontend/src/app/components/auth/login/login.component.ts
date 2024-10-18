@@ -10,6 +10,7 @@ import { AuthService } from '@services/auth/auth.service';
 import { ResponseObject } from '@services/config/response';
 import { LoginResponse } from '@services/auth/auth.interface';
 import { MessageService } from 'primeng/api';
+import { RoleDto } from '@services/role/role.interface';
 
 
 @Component({
@@ -39,7 +40,7 @@ export class LoginComponent implements OnInit {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      recaptcha: ['', Validators.required]
+      // recaptcha: ['', Validators.required]
     });
   }
 
@@ -62,10 +63,9 @@ export class LoginComponent implements OnInit {
     }
 
     this.isSubmitting = true;
-    this.authService.login({ email, passWord: password, reCaptchaToken: recaptcha }).subscribe({
+    this.authService.login({ email, passWord: password, reCaptchaToken: 'hihi' }).subscribe({
       next: (response: ResponseObject<LoginResponse>) => this.handleSuccessfulLogin(response),
       error: (error) => this.handleLoginError(error, attempts),
-      complete: () => console.log('Đăng nhập thành công')
     });
   }
 
@@ -74,8 +74,7 @@ export class LoginComponent implements OnInit {
     this.isSubmitting = false;
     this.resetAttempts();
     this.storeUserData(response.data);
-    // this.redirectUser(response.data.user.role.name);
-    this.router.navigate(['/admin']);
+    this.redirectUser(response.data.user.roles);
   }
 
   private handleLoginError(error: any, attempts: number): void {
@@ -104,8 +103,6 @@ export class LoginComponent implements OnInit {
     localStorage.setItem('user', JSON.stringify(data.user));
     localStorage.setItem('accessToken', JSON.stringify(data.token.accessToken));
     localStorage.setItem('refreshToken', JSON.stringify(data.token.refreshToken));
-    console.log("thời gian còn lại của accessToken", this.formatDate(data.token.accessToken.expires));
-
   }
 
   formatDate(date: Date): string {
@@ -113,8 +110,8 @@ export class LoginComponent implements OnInit {
     return relative;
   }
 
-  private redirectUser(role: string): void {
-    const route = role === 'admin' ? '/admin' : '/';
+  private redirectUser(roles: RoleDto[]): void {
+    const route = roles[0].name === 'user' ? '/' : '/admin';
     this.router.navigate([route]);
   }
 

@@ -16,7 +16,7 @@
         <div class="top-bar">
             <h1>Quyền</h1>
             <div class="actions">
-                <button class="btn" type="button" (click)="openDialogCreate()">
+                <button class="btn" type="button" (click)="openDialogCreate()" *ngIf="hasPermission('Role.Create')">
                     <span class="material-icons">add</span>
                     Thêm quyền
                 </button>
@@ -55,12 +55,12 @@
                                             Xem chi tiết
                                         </button>
                                     </li>
-                                    <li>
+                                    <li *ngIf="hasPermission('Role.Update')">
                                         <button class="dropdown-item" type="button" (click)="openDialogUpdate(role.id)">
                                             Sửa quyền
                                         </button>
                                     </li>
-                                    <li>
+                                    <li *ngIf="hasPermission('Role.Delete')">
                                         <button class="dropdown-item" type="button" (click)="openDialogDelete(role.id)">
                                             Xóa quyền
                                         </button>
