@@ -164,8 +164,6 @@ export class RoleCreateUpdateComponent implements OnInit {
   }
 
   createHandle(): void {
-    console.log(name);
-
     const input: RoleInput = {
       name: this.createRoleForm.get('name')?.value,
       description: "",
