@@ -1,7 +1,7 @@
+import { ChangeDetectorRef, Component, OnInit, AfterViewInit } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { StorePermission } from './../../../store/store.permission';
 import { StoreMenu } from './../../../store/store.menu';
-import { Component, OnInit } from '@angular/core';
-import { RouterModule } from '@angular/router';
 import { UserLogin } from '@services/auth/auth.interface';
 import { MenuRoleResponse } from '@services/menu/menu.interface';
 import { PermissionRoleResponse } from '@services/permission/permission.interface';
@@ -13,15 +13,24 @@ import { SidebarAdminComponent } from '@ui/sidebar-admin/sidebar-admin.component
 import { NgScrollbar } from 'ngx-scrollbar';
 import { MessageService } from 'primeng/api';
 import { forkJoin } from 'rxjs';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-layout-admin',
   standalone: true,
   imports: [RouterModule, HeaderLayoutComponent, FooterLayoutComponent, SidebarAdminComponent, NgScrollbar],
   templateUrl: './layout-admin.component.html',
-  styleUrl: './layout-admin.component.scss'
+  styleUrl: './layout-admin.component.scss',
+  animations: [
+    trigger('routeAnimation', [
+      transition('* => *', [
+        style({ transform: 'translateX(100%)', opacity: 0 }),
+        animate('1s ease-in-out', style({ transform: 'translateX(0)', opacity: 1 }))
+      ])
+    ])
+  ]
 })
-export class LayoutAdminComponent implements OnInit {
+export class LayoutAdminComponent implements OnInit, AfterViewInit {
   menus: MenuRoleResponse[] = [];
   permissions: PermissionRoleResponse[] = [];
   role: RoleResponse = {
@@ -38,23 +47,20 @@ export class LayoutAdminComponent implements OnInit {
     private roleService: RoleService,
     private messageService: MessageService,
     private storeMenu: StoreMenu,
-    private storePermission: StorePermission
+    private storePermission: StorePermission,
+    private cd: ChangeDetectorRef // Inject ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
-    this.getMenu();
-    this.getPermission();
+    this.getDataFromLocalStorage('user', this.loadRolesData.bind(this));
   }
 
-  private getMenu() {
-    this.fetchDataFromLocalStorage<UserLogin>('user', this.loadMenus.bind(this));
+  ngAfterViewInit(): void {
+    // Detect changes after view initialization
+    this.cd.detectChanges();
   }
 
-  private getPermission() {
-    this.fetchDataFromLocalStorage<UserLogin>('user', this.loadPermissions.bind(this));
-  }
-
-  private fetchDataFromLocalStorage<T>(key: string, callback: (data: T) => void) {
+  private getDataFromLocalStorage<T>(key: string, callback: (data: T) => void) {
     if (typeof window !== 'undefined') {
       const data = localStorage.getItem(key);
       if (data) {
@@ -67,55 +73,52 @@ export class LayoutAdminComponent implements OnInit {
     }
   }
 
-  private loadPermissions(user: UserLogin) {
-    const permissionMap = new Map<number, PermissionRoleResponse>();
+  private loadRolesData(user: UserLogin) {
+    if (!user.roles || user.roles.length === 0) {
+      this.messageService.add({ severity: 'warn', summary: 'Warning', detail: 'No roles found for user' });
+      return;
+    }
+
     const roleObservables = user.roles.map(role => this.roleService.getRoleById(role.id));
     forkJoin(roleObservables).subscribe({
       next: (responses) => {
-        responses.forEach((response) => {
+        const menuMap = new Map<number, MenuRoleResponse>();
+        const permissionMap = new Map<number, PermissionRoleResponse>();
+
+        responses.forEach(response => {
           this.role = response.data;
+
+          // Xử lý menu
+          this.role.menus.forEach(menu => {
+            if (!menuMap.has(menu.id)) {
+              menuMap.set(menu.id, menu);
+            }
+          });
+
+          // Xử lý permission
           this.role.permissions.forEach(permission => {
             if (!permissionMap.has(permission.id)) {
               permissionMap.set(permission.id, permission);
             }
           });
         });
+
+        // Cập nhật menus và permissions
+        this.menus = Array.from(menuMap.values());
         this.permissions = Array.from(permissionMap.values());
+
+        this.storeMenu.setMenus(this.menus);
         this.storePermission.setPermissions(this.permissions);
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Permissions loaded successfully' });
+
+        // Sử dụng detectChanges để tránh lỗi ExpressionChangedAfterItHasBeenCheckedError
+        this.cd.detectChanges();
+
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Menus and permissions loaded successfully' });
       },
       error: (err) => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: err });
         console.error('Error loading roles:', err);
-      },
-    });
-  }
-
-  private loadMenus(user: UserLogin) {
-    if (!user.roles || user.roles.length === 0) {
-      this.messageService.add({ severity: 'warn', summary: 'Warning', detail: 'No roles found for user' });
-      return;
-    }
-    const menuMap = new Map<number, MenuRoleResponse>();
-    const roleObservables = user.roles.map(role => this.roleService.getRoleById(role.id))
-    forkJoin(roleObservables).subscribe({
-      next: (responses) => {
-        responses.forEach((response) => {
-          this.role = response.data;
-          this.role.menus.forEach(menu => {
-            if (!menuMap.has(menu.id)) {
-              menuMap.set(menu.id, menu);
-            }
-          });
-        });
-        this.menus = Array.from(menuMap.values());
-        this.storeMenu.setMenus(this.menus);
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Menu loaded successfully' });
-      },
-      error: (err) => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: err });
-        console.error('Error loading roles:', err); // Log lỗi
-      },
+      }
     });
   }
 }

@@ -1,11 +1,10 @@
-import { routes } from './../../app.routes';
-import { CanActivateFn, Router } from '@angular/router';
 import { inject } from '@angular/core';
+import { CanActivateFn, Router } from '@angular/router';
 import { UserLogin } from '@services/auth/auth.interface';
 import { Token } from '@services/config/response';
 import { StoreRouter } from '../../store/store.router';
 
-export const authGuard: CanActivateFn = (route, state) => {
+export const adminGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
   const storeRouter = inject(StoreRouter); // Inject service
 
@@ -28,10 +27,10 @@ export const authGuard: CanActivateFn = (route, state) => {
     }
     if (userInfo) {
       const user: UserLogin = JSON.parse(userInfo) as UserLogin
-      if (user.roles.some(role => role.name === "user")) {
+      if (user.roles.some(role => role.name != "user")) {
         return true;
       } else {
-        router.navigate(['/admin']);
+        router.navigate(['/']);
         return false;
       }
     }

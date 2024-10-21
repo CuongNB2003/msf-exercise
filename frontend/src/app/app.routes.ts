@@ -2,7 +2,7 @@
 import { Routes } from '@angular/router';
 import { TitleService } from './services/title/title.service';
 import { LayoutUserComponent } from './components/layout/layout-user/layout-user.component';
-import { AuthGuard } from './guards/auth/auth.guard';
+import { authGuard } from './guards/auth/auth.guard';
 import { HomeComponent } from '@components/client/home/home.component';
 import { LayoutAdminComponent } from '@components/layout/layout-admin/layout-admin.component';
 import { HomeAdminComponent } from '@components/admin/home-admin/home-admin.component';
@@ -16,6 +16,7 @@ import { MenuListComponent } from '@components/admin/menu/menu-list/menu-list.co
 import { PermissionListComponent } from '@components/admin/permission/permission-list/permission-list.component';
 import { menuGuard } from '@guards/menu/menu.guard';
 import { NotFoundComponent } from '@ui/not-found/not-found.component';
+import { adminGuard } from '@guards/admin/admin.guard';
 
 
 
@@ -27,7 +28,7 @@ export const routes: Routes = [
     {
         path: '',
         component: LayoutUserComponent,
-        canActivate: [AuthGuard],
+        canActivate: [authGuard],
         children: [
             {
                 path: '',
@@ -40,7 +41,7 @@ export const routes: Routes = [
     {
         path: 'admin',
         component: LayoutAdminComponent,
-        canActivate: [AuthGuard],
+        canActivate: [adminGuard],
         children: [
             {
                 path: '',
