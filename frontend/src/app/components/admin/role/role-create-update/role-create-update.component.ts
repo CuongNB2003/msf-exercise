@@ -77,7 +77,6 @@ export class RoleCreateUpdateComponent implements OnInit {
       error: (err) => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: err });
       },
-      complete: () => console.log("Lấy dữ liệu role thành công")
     });
   }
 
@@ -98,7 +97,6 @@ export class RoleCreateUpdateComponent implements OnInit {
       error: (err) => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: err });
       },
-      complete: () => console.log("Lấy dữ liệu role thành công")
     });
   }
 
@@ -148,7 +146,6 @@ export class RoleCreateUpdateComponent implements OnInit {
       error: (err) => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: err });
       },
-      complete: () => console.log("Lấy dữ liệu người dùng theo id thành công")
     });
   }
 
@@ -167,8 +164,6 @@ export class RoleCreateUpdateComponent implements OnInit {
   }
 
   createHandle(): void {
-    console.log(name);
-
     const input: RoleInput = {
       name: this.createRoleForm.get('name')?.value,
       description: "",

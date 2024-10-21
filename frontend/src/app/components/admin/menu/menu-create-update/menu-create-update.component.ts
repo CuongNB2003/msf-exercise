@@ -62,8 +62,7 @@ export class MenuCreateUpdateComponent {
 
 
   onIconSelected(icon: string): void {
-    console.log('===Icon đã chọn:', icon); // Kiểm tra giá trị icon
-    this.menuForm.get('icon')?.setValue(icon); // Cập nhật giá trị icon vào form control
+    this.menuForm.get('icon')?.setValue(icon);
   }
 
 
@@ -80,7 +79,6 @@ export class MenuCreateUpdateComponent {
       error: (err) => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: err });
       },
-      complete: () => console.log("Lấy dữ liệu người dùng theo id thành công")
     });
   }
 

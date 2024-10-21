@@ -1,10 +1,15 @@
+import { routes } from './../../app.routes';
 import { CanActivateFn, Router } from '@angular/router';
 import { inject } from '@angular/core';
-import { Token } from '@services/config/response';
 import { UserLogin } from '@services/auth/auth.interface';
+import { Token } from '@services/config/response';
+import { StoreRouter } from '../../store/store.router';
 
-export const AuthGuard: CanActivateFn = (route, state) => {
+export const authGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
+  const storeRouter = inject(StoreRouter); // Inject service
+
+  storeRouter.setPreviousUrl(state.url);
 
   if (typeof window !== 'undefined') {
     const userInfo = localStorage.getItem('user');
@@ -14,18 +19,11 @@ export const AuthGuard: CanActivateFn = (route, state) => {
       const refreshToken: Token = JSON.parse(refreshTokenString) as Token;
       if (isTokenExpiringSoon(refreshToken.expires)) {
         console.log("refreshToken hết hạn rồi bye bye");
-
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
-        localStorage.removeItem('user');
-        router.navigate(['/login']);
+        clearLocalStorage(router);
         return false;
       }
     } else {
-      localStorage.removeItem('accessToken');
-      localStorage.removeItem('refreshToken');
-      localStorage.removeItem('user');
-      router.navigate(['/login']);
+      clearLocalStorage(router);
       return false;
     }
     if (userInfo) {
@@ -36,11 +34,9 @@ export const AuthGuard: CanActivateFn = (route, state) => {
         router.navigate(['/admin']);
         return false;
       }
-    } else {
-      localStorage.removeItem('accessToken');
-      localStorage.removeItem('refreshToken');
-      localStorage.removeItem('user');
-      router.navigate(['/login']);
+    }
+    else {
+      clearLocalStorage(router);
       return false;
     }
   } else {
@@ -52,4 +48,13 @@ function isTokenExpiringSoon(expiration: Date): boolean {
   const expiryTime = new Date(expiration).getTime();
   const currentTime = new Date().getTime();
   return expiryTime < currentTime;
-}
+};
+
+function clearLocalStorage(router: Router) {
+  localStorage.removeItem('accessToken');
+  localStorage.removeItem('refreshToken');
+  localStorage.removeItem('permissions');
+  localStorage.removeItem('menus');
+  localStorage.removeItem('user');
+  router.navigate(['/login']);
+};

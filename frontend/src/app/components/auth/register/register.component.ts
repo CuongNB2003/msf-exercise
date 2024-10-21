@@ -45,7 +45,6 @@ export class RegisterComponent {
     this.authService.register(input).subscribe({
       next: (res) => this.handleSuccessfulRegister(res),
       error: (error) => this.handleRegisterError(error),
-      complete: () => console.log('Đăng ký thành công')
     });
   }
 

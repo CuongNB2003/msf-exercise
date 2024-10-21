@@ -80,7 +80,6 @@ export class PermissionCreateUpdateComponent {
       error: (err) => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: err });
       },
-      complete: () => console.log("Lấy dữ liệu người dùng theo id thành công")
     });
   }
 
