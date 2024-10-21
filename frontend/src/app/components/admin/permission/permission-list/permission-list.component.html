@@ -16,7 +16,8 @@
         <div class="top-bar">
             <h1>Permission</h1>
             <div class="actions">
-                <button class="btn" type="button" (click)="openDialogCreate()">
+                <button class="btn" type="button" (click)="openDialogCreate()"
+                    *ngIf="hasPermission('Permission.Create')">
                     <span class="material-icons">add</span>
                     Thêm permission
                 </button>
@@ -28,7 +29,8 @@
                 <span class="material-icons">search</span>
             </button>
         </div>
-        <div class="table-container" (click)="onClickOutside($event)">
+        <!-- Skeleton loader giống với từng hàng của bảng -->
+        <div *ngIf="isLoading" class="table-container">
             <table>
                 <thead>
                     <tr>
@@ -41,7 +43,39 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let p of permissions">
+                    <tr *ngFor="let i of [1,2,3,4,5]">
+                        <td><ngx-skeleton-loader count="1" appearance="line"></ngx-skeleton-loader></td>
+                        <td><ngx-skeleton-loader count="1" appearance="line"></ngx-skeleton-loader></td>
+                        <td><ngx-skeleton-loader count="1" appearance="line"></ngx-skeleton-loader></td>
+                        <td><ngx-skeleton-loader count="1" appearance="line"></ngx-skeleton-loader></td>
+                        <td><ngx-skeleton-loader count="1" appearance="line"></ngx-skeleton-loader></td>
+                        <td><ngx-skeleton-loader count="1" appearance="line"></ngx-skeleton-loader></td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- Bảng -->
+            <div class="table-bottom">
+                <div class="total">
+                    Tổng cộng 0
+                </div>
+                <app-pagination />
+            </div>
+        </div>
+
+        <div *ngIf="!isLoading" class="table-container" (click)="onClickOutside($event)">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Hành động</th>
+                        <th>Tên</th>
+                        <th>Tên hiển thị</th>
+                        <th>Chi tiết</th>
+                        <th>Số quyền dùng</th>
+                        <th>Ngày tạo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let p of listPermission">
                         <td>
                             <div class="dropdown" [class.show]="isDropdownOpen[p.id]">
                                 <button class="dropdown-toggle" (click)="toggleDropdown($event, p.id)"
@@ -55,12 +89,12 @@
                                             Xem chi tiết
                                         </button>
                                     </li>
-                                    <li>
+                                    <li *ngIf="hasPermission('Permission.Update')">
                                         <button class="dropdown-item" type="button" (click)="openDialogUpdate(p.id)">
                                             Sửa permission
                                         </button>
                                     </li>
-                                    <li>
+                                    <li *ngIf="hasPermission('Permission.Delete')">
                                         <button class="dropdown-item" type="button" (click)="openDialogDelete(p.id)">
                                             Xóa permission
                                         </button>

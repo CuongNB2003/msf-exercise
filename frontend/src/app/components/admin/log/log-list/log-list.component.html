@@ -32,7 +32,41 @@
                 <span class="material-icons">search</span>
             </button>
         </div>
-        <div class="table-container">
+        <div *ngIf="isLoading" class="table-container">
+            <!-- Skeleton loader giống với từng hàng của bảng -->
+            <table>
+                <thead>
+                    <tr>
+                        <th>Hành động</th>
+                        <th>Yêu cầu HTTP</th>
+                        <th>Người dùng</th>
+                        <th>Địa chỉ IP</th>
+                        <th>Thời gian thực hiện</th>
+                        <th>Thời gian truy cập</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Hiển thị skeleton cho 5 hàng -->
+                    <tr *ngFor="let i of [1,2,3,4,5]">
+                        <td><ngx-skeleton-loader count="1" appearance="line"></ngx-skeleton-loader></td>
+                        <td><ngx-skeleton-loader count="1" appearance="line"></ngx-skeleton-loader></td>
+                        <td><ngx-skeleton-loader count="1" appearance="line"></ngx-skeleton-loader></td>
+                        <td><ngx-skeleton-loader count="1" appearance="line"></ngx-skeleton-loader></td>
+                        <td><ngx-skeleton-loader count="1" appearance="line"></ngx-skeleton-loader></td>
+                        <td><ngx-skeleton-loader count="1" appearance="line"></ngx-skeleton-loader></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="table-bottom">
+                <div class="total">
+                    Tổng cộng 0
+                </div>
+                <app-pagination />
+            </div>
+        </div>
+
+        <div *ngIf="!isLoading" class="table-container">
             <table>
                 <thead>
                     <tr>
@@ -78,9 +112,9 @@
                     Tổng cộng {{totalItems}}
                 </div>
                 <app-pagination [totalItems]="totalItems" [itemsPerPage]="itemsPerPage" [currentPage]="currentPage"
-                    (pageChanged)="onPageChange($event)">
-                </app-pagination>
+                    (pageChanged)="onPageChange($event)" />
             </div>
         </div>
+
     </div>
 </div>

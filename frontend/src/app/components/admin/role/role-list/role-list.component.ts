@@ -12,16 +12,17 @@ import { MessageService } from 'primeng/api';
 import { RoleDeleteComponent } from '../role-delete/role-delete.component';
 import { StorePermission } from '../../../../store/store.permission';
 import { PermissionRoleResponse } from '@services/permission/permission.interface';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 @Component({
   selector: 'app-role-list',
   standalone: true,
-  imports: [CommonModule, PaginationComponent],
+  imports: [CommonModule, PaginationComponent, NgxSkeletonLoaderModule],
   templateUrl: './role-list.component.html',
   styleUrl: './role-list.component.scss'
 })
 export class RoleListComponent {
-  roles: RoleResponse[] = [];
+  listRole: RoleResponse[] = [];
   permissions: PermissionRoleResponse[] = [];
   totalItems: number = 0;
   page: number = 1;
@@ -29,7 +30,7 @@ export class RoleListComponent {
   currentPage: number = this.page;
   itemsPerPage: number = this.limit;
   isDropdownOpen: { [key: number]: boolean } = {};
-
+  isLoading: boolean = true;
 
   constructor(
     private messageService: MessageService,
@@ -50,13 +51,16 @@ export class RoleListComponent {
   }
 
   loadRoles(): void {
+    this.isLoading = true;
     this.roleService.getRoleAll(this.page, this.limit).subscribe({
       next: (response) => {
+        this.isLoading = false;
         // this.messageService.add({ severity: 'success', summary: 'Success', detail: response.message });
-        this.roles = response.data.data;
+        this.listRole = response.data.data;
         this.totalItems = response.data.totalRecords;
       },
       error: (err) => {
+        this.isLoading = false;
         this.messageService.add({ severity: 'error', summary: 'Error', detail: err });
       },
     });

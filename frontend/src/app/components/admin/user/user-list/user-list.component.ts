@@ -13,17 +13,18 @@ import { UserCreateUpdateComponent } from '../user-create-update/user-create-upd
 import { MessageService } from 'primeng/api';
 import { UserDeleteComponent } from '../user-delete/user-delete.component';
 import { PermissionRoleResponse } from '@services/permission/permission.interface';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 
 @Component({
   selector: 'app-user-list',
   standalone: true,
-  imports: [CommonModule, PaginationComponent],
+  imports: [CommonModule, PaginationComponent, NgxSkeletonLoaderModule],
   templateUrl: './user-list.component.html',
   styleUrl: './user-list.component.scss'
 })
 export class UserListComponent {
-  users: UserResponse[] = [];
+  listUser: UserResponse[] = [];
   permissions: PermissionRoleResponse[] = [];
   totalItems: number = 0;
   page: number = 1;
@@ -31,7 +32,7 @@ export class UserListComponent {
   currentPage: number = this.page;
   itemsPerPage: number = this.limit;
   isDropdownOpen: { [key: number]: boolean } = {};
-
+  isLoading: boolean = true;
 
   constructor(
     private userService: UserService,
@@ -42,20 +43,21 @@ export class UserListComponent {
 
   ngOnInit(): void {
     this.loadUsers();
-    this.storePermission.permissions$.subscribe(permissions => {
-      this.permissions = permissions;
-    });
+    this.permissions = this.storePermission.getPermissions();
   }
 
 
   loadUsers(): void {
+    this.isLoading = true;
     this.userService.getAll(this.page, this.limit).subscribe({
       next: (response) => {
+        this.isLoading = false;
         // this.messageService.add({ severity: 'success', summary: 'Success', detail: response.message });
-        this.users = response.data.data;
+        this.listUser = response.data.data;
         this.totalItems = response.data.totalRecords;
       },
       error: (err) => {
+        this.isLoading = false;
         this.messageService.add({ severity: 'error', summary: 'Error', detail: err });
       },
     });

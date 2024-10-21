@@ -36,4 +36,12 @@ export class StorePermission {
         // Nếu không có gì thì trả về mảng rỗng
         return [];
     }
+
+    clearPermissions() {
+        this.permissionsSubject.next([]); // Reset BehaviorSubject về mảng rỗng
+        if (typeof window !== 'undefined') {
+            localStorage.removeItem('permissions'); // Xóa permissions khỏi localStorage
+        }
+    }
+
 }
