@@ -14,6 +14,11 @@ export class NotFoundComponent {
 
   goBack(): void {
     const previousUrl = this.storeRouter.getPreviousUrl();
+    if (previousUrl === '/admin') {
+      previousUrl.split('/')[0]
+    }
+
+    console.log("hihi: ", previousUrl);
 
     if (previousUrl) {
       this.router.navigateByUrl(previousUrl);

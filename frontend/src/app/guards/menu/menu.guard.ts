@@ -23,9 +23,10 @@ export const menuGuard: CanActivateFn = (route, state) => {
   const permissions = storePermission.getPermissions();
   const viewPermission = `${matchedMenu.displayName}.View`;
   const hasViewPermission = hasPermission(viewPermission, permissions)
-  console.log("kết quả kiểm tra permission từ menuGuard: ", hasViewPermission);
+  console.log("kết quả kiểm tra permission từ menuGuard: ", permissions);
 
   if (!hasViewPermission) {
+    console.log("Cường đang ở đây");
     router.navigate(['/not-found']);
     return false;
   }

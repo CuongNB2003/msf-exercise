@@ -26,7 +26,7 @@ export class StorePermission {
         }
 
         // Nếu không, lấy từ `localStorage` và cập nhật lại `menusSubject`
-        const storedPermissions = localStorage.getItem('menus');
+        const storedPermissions = localStorage.getItem('permissions');
         if (storedPermissions) {
             const parsedPermissions = JSON.parse(storedPermissions);
             this.permissionsSubject.next(parsedPermissions);
