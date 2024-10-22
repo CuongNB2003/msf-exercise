@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { MaterialModule } from '@ui/material/material.module';
+import { MaterialModule } from '../../modules/material/material.module';
 
 @Component({
   selector: 'app-icon',

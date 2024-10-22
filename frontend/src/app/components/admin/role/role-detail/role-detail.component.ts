@@ -5,7 +5,7 @@ import moment from 'moment';
 import { RoleService } from '@services/role/role.service';
 import { RoleResponse } from '@services/role/role.interface';
 import { MessageService } from 'primeng/api';
-import { MaterialModule } from '@ui/material/material.module';
+import { MaterialModule } from '../../../../modules/material/material.module';
 
 @Component({
   selector: 'app-role-detail',

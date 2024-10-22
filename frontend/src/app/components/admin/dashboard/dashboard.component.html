@@ -8,6 +8,18 @@
         <div class="breadcrumb-line"></div>
     </div>
     <div class="main">
+        <div style="display: block;" *ngIf="isChartVisible">
+            <canvas width="800" height="400" #barChart class="bar-chart chart show" baseChart [data]="barChartData"
+                [type]="barChartType" [options]="barChartOptions" [legend]="barChartLegend"
+                (click)="$event.stopPropagation()">
+            </canvas>
+        </div>
 
+        <div style="display: block;" *ngIf="isChartVisible">
+            <canvas class="pie-chart chart show" baseChart [data]="pieChartData" [type]="'pie'"
+                [options]="pieChartOptions" [legend]="barChartLegend" (click)="$event.stopPropagation()">
+            </canvas>
+        </div>
     </div>
+
 </div>

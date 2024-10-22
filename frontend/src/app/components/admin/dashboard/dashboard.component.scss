@@ -43,5 +43,32 @@
     .main {
         margin: 0;
         padding: 15px 25px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+
+        // .bar-chart {
+        //     width: 600px; // Kích thước cố định cho biểu đồ bar
+        //     height: 400px; // Kích thước cố định cho biểu đồ bar
+        // }
+
+        .pie-chart {
+            display: block;
+            box-sizing: border-box;
+            width: 304px;
+            height: 304px;
+        }
+
+        .chart {
+            opacity: 0; // Bắt đầu ở trạng thái ẩn
+            transform: translateY(20px); // Di chuyển xuống dưới
+            transition: opacity 0.5s ease, transform 0.5s ease; // Thêm hiệu ứng
+
+            &.show {
+                opacity: 1; // Hiển thị
+                transform: translateY(0); // Trở về vị trí ban đầu
+            }
+        }
     }
+
 }

@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MaterialModule } from '@ui/material/material.module';
+import { MaterialModule } from '../../../../modules/material/material.module';
 import { InputComponent } from '@ui/input/input.component';
 import { RoleInput, RoleResponse } from '@services/role/role.interface';
 import { RoleService } from '@services/role/role.service';
@@ -33,7 +33,6 @@ export class RoleCreateUpdateComponent implements OnInit {
   permissions: PermissionResponse[] = [];
   groupedPermissions: { [key: string]: PermissionResponse[] } = {};
   selectedGroup: string = '';
-
   selectedMenus: { [key: number]: boolean } = {};
   selectedPermission: { [key: number]: boolean } = {};
   isSubmitting: boolean = false;

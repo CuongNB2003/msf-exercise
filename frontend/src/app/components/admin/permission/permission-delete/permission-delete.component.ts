@@ -1,7 +1,7 @@
 import { PermissionService } from './../../../../services/permission/permission.service';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { MaterialModule } from '@ui/material/material.module';
+import { MaterialModule } from '../../../../modules/material/material.module';
 import { MessageService } from 'primeng/api';
 
 @Component({
