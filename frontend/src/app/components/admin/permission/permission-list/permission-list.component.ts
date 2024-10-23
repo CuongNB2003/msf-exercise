@@ -11,6 +11,7 @@ import { PermissionCreateUpdateComponent } from '../permission-create-update/per
 import { PermissionDeleteComponent } from '../permission-delete/permission-delete.component';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { StorePermission } from '../../../../store/store.permission';
+import { Permission } from '@services/config/permission.enum';
 
 @Component({
   selector: 'app-permission-list',
@@ -20,6 +21,7 @@ import { StorePermission } from '../../../../store/store.permission';
   styleUrl: './permission-list.component.scss'
 })
 export class PermissionListComponent {
+  P = Permission
   listPermission: PermissionResponse[] = [];
   permissions: PermissionRoleResponse[] = [];
   totalItems: number = 0;
@@ -58,7 +60,7 @@ export class PermissionListComponent {
     });
   }
 
-  hasPermission(permissionName: string): boolean {
+  hasPermission(permissionName: Permission): boolean {
     return this.permissions.some(permission => permission.permissionName === permissionName);
   }
 

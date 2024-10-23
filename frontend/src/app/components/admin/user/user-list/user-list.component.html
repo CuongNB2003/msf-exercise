@@ -24,7 +24,7 @@
                     <span class="material-icons">upload_file</span>
                     Export
                 </button>
-                <button class="btn" type="button" (click)="openDialogCreate()" *ngIf="hasPermission('User.Create')">
+                <button class="btn" type="button" (click)="openDialogCreate()" *ngIf="hasPermission(P.UserCreate)">
                     <span class="material-icons">add</span>
                     Thêm người dùng
                 </button>
@@ -94,12 +94,12 @@
                                             Xem chi tiết
                                         </button>
                                     </li>
-                                    <li *ngIf="hasPermission('User.Update')"> <!-- Kiểm tra quyền sửa -->
+                                    <li *ngIf="hasPermission(P.UserUpdate)"> <!-- Kiểm tra quyền sửa -->
                                         <button class="dropdown-item" type="button" (click)="openDialogUpdate(user.id)">
                                             Sửa người dùng
                                         </button>
                                     </li>
-                                    <li *ngIf="hasPermission('User.Delete')"> <!-- Kiểm tra quyền xóa -->
+                                    <li *ngIf="hasPermission(P.UserDelete)"> <!-- Kiểm tra quyền xóa -->
                                         <button class="dropdown-item" type="button" (click)="openDialogDelete(user.id)">
                                             Xóa người dùng
                                         </button>

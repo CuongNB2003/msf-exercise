@@ -10,14 +10,25 @@
     <div class="main">
         <div style="display: block;" *ngIf="isChartVisible">
             <canvas width="800" height="400" #barChart class="bar-chart chart show" baseChart [data]="barChartData"
-                [type]="barChartType" [options]="barChartOptions" [legend]="barChartLegend"
-                (click)="$event.stopPropagation()">
+                [type]="'bar'" [options]="barChartOptions" [legend]="true" (click)="$event.stopPropagation()">
             </canvas>
         </div>
 
         <div style="display: block;" *ngIf="isChartVisible">
-            <canvas class="pie-chart chart show" baseChart [data]="pieChartData" [type]="'pie'"
-                [options]="pieChartOptions" [legend]="barChartLegend" (click)="$event.stopPropagation()">
+            <canvas class="pie-chart chart show" baseChart [data]="pieChartData" [type]="'polarArea'"
+                [options]="pieChartOptions" [legend]="true" (click)="$event.stopPropagation()">
+            </canvas>
+        </div>
+
+        <div style="display: block;" *ngIf="isChartVisible">
+            <canvas width="800" height="400" #lineChart class="bar-chart chart show" baseChart [data]="lineChartData"
+                [type]="'line'" [options]="lineChartOptions" [legend]="true" (click)="$event.stopPropagation()">
+            </canvas>
+        </div>
+
+        <div style="display: block;" *ngIf="isChartVisible">
+            <canvas class="pie-chart chart show" baseChart [data]="pieChartData" [type]="'doughnut'"
+                [options]="pieChartOptions" [legend]="true" (click)="$event.stopPropagation()">
             </canvas>
         </div>
     </div>

@@ -16,7 +16,7 @@
         <div class="top-bar">
             <h1>Menu</h1>
             <div class="actions">
-                <button class="btn" type="button" (click)="openDialogCreate()" *ngIf="hasPermission('Menu.Create')">
+                <button class="btn" type="button" (click)="openDialogCreate()" *ngIf="hasPermission(P.MenuCreate)">
                     <span class="material-icons">add</span>
                     Thêm menu
                 </button>
@@ -90,12 +90,12 @@
                                             Xem chi tiết
                                         </button>
                                     </li>
-                                    <li *ngIf="hasPermission('Menu.Update')">
+                                    <li *ngIf="hasPermission(P.MenuUpdate)">
                                         <button class="dropdown-item" type="button" (click)="openDialogUpdate(m.id)">
                                             Sửa menu
                                         </button>
                                     </li>
-                                    <li *ngIf="hasPermission('Menu.Delete')">
+                                    <li *ngIf="hasPermission(P.MenuDelete)">
                                         <button class="dropdown-item" type="button" (click)="openDialogDelete(m.id)">
                                             Xóa menu
                                         </button>

@@ -1,6 +1,6 @@
 <app-header-layout />
 <main>
-    <app-sidebar-admin />
+    <app-sidebar-admin *ngIf="isSidebarVisible"></app-sidebar-admin>
     <ng-scrollbar>
         <div [@routeAnimation]="o.isActivated ? o.activatedRoute : ''" class="main">
             <router-outlet #o="outlet"></router-outlet>

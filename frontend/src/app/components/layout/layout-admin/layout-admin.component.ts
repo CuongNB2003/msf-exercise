@@ -1,3 +1,4 @@
+import { StoreSidebar } from './../../../store/store.sidebar';
 import { ChangeDetectorRef, Component, OnInit, AfterViewInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { StorePermission } from './../../../store/store.permission';
@@ -14,11 +15,12 @@ import { NgScrollbar } from 'ngx-scrollbar';
 import { MessageService } from 'primeng/api';
 import { forkJoin } from 'rxjs';
 import { animate, style, transition, trigger } from '@angular/animations';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-layout-admin',
   standalone: true,
-  imports: [RouterModule, HeaderLayoutComponent, FooterLayoutComponent, SidebarAdminComponent, NgScrollbar],
+  imports: [RouterModule, HeaderLayoutComponent, FooterLayoutComponent, SidebarAdminComponent, NgScrollbar, CommonModule],
   templateUrl: './layout-admin.component.html',
   styleUrl: './layout-admin.component.scss',
   animations: [
@@ -33,6 +35,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
 export class LayoutAdminComponent implements OnInit, AfterViewInit {
   menus: MenuRoleResponse[] = [];
   permissions: PermissionRoleResponse[] = [];
+  isSidebarVisible: boolean = true;
   role: RoleResponse = {
     id: 0,
     name: '',
@@ -48,11 +51,15 @@ export class LayoutAdminComponent implements OnInit, AfterViewInit {
     private messageService: MessageService,
     private storeMenu: StoreMenu,
     private storePermission: StorePermission,
-    private cd: ChangeDetectorRef // Inject ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private storeSidebar: StoreSidebar
   ) { }
 
   ngOnInit(): void {
     this.getDataFromLocalStorage('user', this.loadRolesData.bind(this));
+    this.storeSidebar.sidebarVisible$.subscribe(isVisible => {
+      this.isSidebarVisible = isVisible;
+    });
   }
 
   ngAfterViewInit(): void {

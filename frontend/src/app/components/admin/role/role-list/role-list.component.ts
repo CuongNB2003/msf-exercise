@@ -13,6 +13,7 @@ import { RoleDeleteComponent } from '../role-delete/role-delete.component';
 import { StorePermission } from '../../../../store/store.permission';
 import { PermissionRoleResponse } from '@services/permission/permission.interface';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { Permission } from '@services/config/permission.enum';
 
 @Component({
   selector: 'app-role-list',
@@ -22,6 +23,7 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
   styleUrl: './role-list.component.scss'
 })
 export class RoleListComponent {
+  P = Permission
   listRole: RoleResponse[] = [];
   permissions: PermissionRoleResponse[] = [];
   totalItems: number = 0;
@@ -46,7 +48,7 @@ export class RoleListComponent {
     });
   }
 
-  hasPermission(permissionName: string): boolean {
+  hasPermission(permissionName: Permission): boolean {
     return this.permissions.some(permission => permission.permissionName === permissionName);
   }
 

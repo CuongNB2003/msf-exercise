@@ -14,6 +14,7 @@ import { MessageService } from 'primeng/api';
 import { UserDeleteComponent } from '../user-delete/user-delete.component';
 import { PermissionRoleResponse } from '@services/permission/permission.interface';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { Permission } from '@services/config/permission.enum';
 
 
 @Component({
@@ -24,6 +25,7 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
   styleUrl: './user-list.component.scss'
 })
 export class UserListComponent {
+  P = Permission
   listUser: UserResponse[] = [];
   permissions: PermissionRoleResponse[] = [];
   totalItems: number = 0;
@@ -64,7 +66,7 @@ export class UserListComponent {
   }
 
 
-  hasPermission(permissionName: string): boolean {
+  hasPermission(permissionName: Permission): boolean {
     return this.permissions.some(permission => permission.permissionName === permissionName);
   }
 

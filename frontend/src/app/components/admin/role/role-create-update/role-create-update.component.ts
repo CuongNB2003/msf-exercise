@@ -119,7 +119,6 @@ export class RoleCreateUpdateComponent implements OnInit {
       }, {} as { [key: string]: PermissionResponse[] });
   }
 
-
   // Phương thức chọn group
   selectGroup(groupName: string): void {
     this.selectedGroup = groupName; // Cập nhật selectedGroup
@@ -217,6 +216,14 @@ export class RoleCreateUpdateComponent implements OnInit {
       );
     console.log("Selected Role IDs:", selectedIds);
     return selectedIds;
+  }
+
+  getSelectedPermissionsCount(): number {
+    return Object.values(this.selectedPermission).filter(value => value === true).length;
+  }
+
+  getSelectedMenusCount(): number {
+    return Object.values(this.selectedMenus).filter(value => value === true).length;
   }
 
   onCheckboxMenuChange(isChecked: boolean, selectedRole: MenuResponse): void {

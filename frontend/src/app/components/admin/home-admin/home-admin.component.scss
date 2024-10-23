@@ -42,6 +42,20 @@
 
     .main {
         margin: 0;
-        padding: 15px 25px;
+        padding: 15px 0px;
+        display: grid;
+        grid-template-columns: 1fr 2.5fr;
+        gap: 5px;
+        height: 1000px;
+
+        .left-container {
+            background-color: bisque;
+            padding: 20px;
+        }
+
+        .right-container {
+            background-color: paleturquoise;
+            padding: 20px;
+        }
     }
 }

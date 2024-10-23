@@ -1,9 +1,9 @@
 ﻿
 namespace MsfServer.Application.Contracts.Statistic.Dto
 {
-    public class LogMethodStatistics
+    public class StatisticLogMethodByMonth
     {
-        public string? YearMonth { get; set; }
+        public DateTime AccessDate { get; set; }
         public int PostCount { get; set; }
         public int PutCount { get; set; }
         public int GetCount { get; set; }

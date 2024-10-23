@@ -6,8 +6,9 @@ namespace MsfServer.Application.Contracts.Statistic
 {
     public interface IStatisticService
     {
-        Task<ResponseObject<IEnumerable<LogMethodStatistics>>> GetLogStatisticsAsync(DateTime startDate, DateTime endDate);
+        Task<ResponseObject<IEnumerable<StatisticLogMethodByYear>>> GetLogMethodByYearAsync(DateTime startDate, DateTime endDate);
+        Task<ResponseObject<IEnumerable<StatisticRoleCountUser>>> GetRoleCountUserAsync();
+        Task<ResponseObject<IEnumerable<StatisticLogMethodByMonth>>> GetLogMethodByMonthAsync(DateTime searchDate);
 
-        Task<ResponseObject<IEnumerable<RoleCountUserStatistics>>> GetRoleStatisticsAsync();
     }
 }

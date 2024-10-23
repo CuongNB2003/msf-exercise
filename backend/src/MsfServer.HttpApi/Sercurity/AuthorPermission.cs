@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
+﻿
 namespace MsfServer.HttpApi.Sercurity
 {
     public class AuthorPermission

@@ -17,7 +17,7 @@
             <h1>Permission</h1>
             <div class="actions">
                 <button class="btn" type="button" (click)="openDialogCreate()"
-                    *ngIf="hasPermission('Permission.Create')">
+                    *ngIf="hasPermission(P.PermissionCreate)">
                     <span class="material-icons">add</span>
                     Thêm permission
                 </button>
@@ -89,12 +89,12 @@
                                             Xem chi tiết
                                         </button>
                                     </li>
-                                    <li *ngIf="hasPermission('Permission.Update')">
+                                    <li *ngIf="hasPermission(P.PermissionUpdate)">
                                         <button class="dropdown-item" type="button" (click)="openDialogUpdate(p.id)">
                                             Sửa permission
                                         </button>
                                     </li>
-                                    <li *ngIf="hasPermission('Permission.Delete')">
+                                    <li *ngIf="hasPermission(P.PermissionDelete)">
                                         <button class="dropdown-item" type="button" (click)="openDialogDelete(p.id)">
                                             Xóa permission
                                         </button>

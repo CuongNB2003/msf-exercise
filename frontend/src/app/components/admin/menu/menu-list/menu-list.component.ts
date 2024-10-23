@@ -1,3 +1,4 @@
+import { Permission } from './../../../../services/config/permission.enum';
 import { MatDialog } from '@angular/material/dialog';
 import { MenuService } from './../../../../services/menu/menu.service';
 import { Component, HostListener } from '@angular/core';
@@ -12,7 +13,6 @@ import { MenuDeleteComponent } from '../menu-delete/menu-delete.component';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { StorePermission } from '../../../../store/store.permission';
 import { PermissionRoleResponse } from '@services/permission/permission.interface';
-
 @Component({
   selector: 'app-menu-list',
   standalone: true,
@@ -21,6 +21,7 @@ import { PermissionRoleResponse } from '@services/permission/permission.interfac
   styleUrl: './menu-list.component.scss'
 })
 export class MenuListComponent {
+  P = Permission;
   listMenu: MenuResponse[] = [];
   permissions: PermissionRoleResponse[] = [];
   totalItems: number = 0;
@@ -59,7 +60,7 @@ export class MenuListComponent {
     });
   }
 
-  hasPermission(permissionName: string): boolean {
+  hasPermission(permissionName: Permission): boolean {
     return this.permissions.some(permission => permission.permissionName === permissionName);
   }
 

@@ -11,7 +11,24 @@ namespace MsfServer.Application.Services
     {
         private readonly string _connectionString = connectionString;
 
-        public async Task<ResponseObject<IEnumerable<LogMethodStatistics>>> GetLogStatisticsAsync(DateTime startDate, DateTime endDate)
+        public async Task<ResponseObject<IEnumerable<StatisticLogMethodByMonth>>> GetLogMethodByMonthAsync(DateTime searchDate)
+        {
+            using var dapperContext = new DapperContext(_connectionString);
+            using var connection = dapperContext.GetOpenConnection();
+
+            var parameters = new DynamicParameters();
+            parameters.Add("@InputDate", searchDate);
+
+            var result = await connection.QueryAsync<StatisticLogMethodByMonth>(
+                "[dbo].[Get_LogMethodByMonth]",
+                parameters,
+                commandType: CommandType.StoredProcedure
+            );
+
+            return ResponseObject<IEnumerable<StatisticLogMethodByMonth>>.CreateResponse("Lấy dữ liệu thành công", result);
+        }
+
+        public async Task<ResponseObject<IEnumerable<StatisticLogMethodByYear>>> GetLogMethodByYearAsync(DateTime startDate, DateTime endDate)
         {
             using var dapperContext = new DapperContext(_connectionString);
             using var connection = dapperContext.GetOpenConnection();
@@ -20,26 +37,26 @@ namespace MsfServer.Application.Services
             parameters.Add("@StartDate", startDate);
             parameters.Add("@EndDate", endDate);
 
-            var result = await connection.QueryAsync<LogMethodStatistics>(
-                "[dbo].[Statistic_LogStatus]",
+            var result = await connection.QueryAsync<StatisticLogMethodByYear>(
+                "[dbo].[Get_LogMethodByYear]",
                 parameters,
                 commandType: CommandType.StoredProcedure
             );
 
-            return ResponseObject<IEnumerable<LogMethodStatistics>>.CreateResponse("Lấy dữ liệu thành công", result);
+            return ResponseObject<IEnumerable<StatisticLogMethodByYear>>.CreateResponse("Lấy dữ liệu thành công", result);
         }
 
-        public async Task<ResponseObject<IEnumerable<RoleCountUserStatistics>>> GetRoleStatisticsAsync()
+        public async Task<ResponseObject<IEnumerable<StatisticRoleCountUser>>> GetRoleCountUserAsync()
         {
             using var dapperContext = new DapperContext(_connectionString);
             using var connection = dapperContext.GetOpenConnection();
 
-            var result = await connection.QueryAsync<RoleCountUserStatistics>(
-                "[dbo].[Statistic_RoleCountUser]",
+            var result = await connection.QueryAsync<StatisticRoleCountUser>(
+                "[dbo].[Get_RoleCountUser]",
                 commandType: CommandType.StoredProcedure
             );
 
-            return ResponseObject<IEnumerable<RoleCountUserStatistics>>.CreateResponse("Lấy dữ liệu thành công", result);
+            return ResponseObject<IEnumerable<StatisticRoleCountUser>>.CreateResponse("Lấy dữ liệu thành công", result);
         }
     }
 }
