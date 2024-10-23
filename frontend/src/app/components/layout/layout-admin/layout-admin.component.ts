@@ -8,7 +8,6 @@ import { MenuRoleResponse } from '@services/menu/menu.interface';
 import { PermissionRoleResponse } from '@services/permission/permission.interface';
 import { RoleResponse } from '@services/role/role.interface';
 import { RoleService } from '@services/role/role.service';
-import { FooterLayoutComponent } from '@ui/footer-layout/footer-layout.component';
 import { HeaderLayoutComponent } from '@ui/header-layout/header-layout.component';
 import { SidebarAdminComponent } from '@ui/sidebar-admin/sidebar-admin.component';
 import { NgScrollbar } from 'ngx-scrollbar';
@@ -20,7 +19,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-layout-admin',
   standalone: true,
-  imports: [RouterModule, HeaderLayoutComponent, FooterLayoutComponent, SidebarAdminComponent, NgScrollbar, CommonModule],
+  imports: [RouterModule, HeaderLayoutComponent, SidebarAdminComponent, NgScrollbar, CommonModule],
   templateUrl: './layout-admin.component.html',
   styleUrl: './layout-admin.component.scss',
   animations: [

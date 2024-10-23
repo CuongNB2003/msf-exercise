@@ -1,6 +1,6 @@
 <header class="header-container">
     <div class="header-left-region">
-        <button class="main-link" title="bật tắt menu ở đây hehe" (click)="toggleSidebar()">
+        <button class="main-link" [title]="isSideBar ? 'Tắt sidebar' : 'Bật sidebar'" (click)="toggleSidebar()">
             <span class="material-icons">menu</span>
         </button>
     </div>

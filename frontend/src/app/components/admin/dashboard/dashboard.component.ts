@@ -2,8 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import RoleCountUserStatistics from '@services/statistics/statistics.interface';
 import { StatisticsService } from '@services/statistics/statistics.service';
-import { ChartData, ChartOptions, ChartType } from 'chart.js';
-import { log } from 'console';
+import { ChartData, ChartOptions } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { MessageService } from 'primeng/api';
 

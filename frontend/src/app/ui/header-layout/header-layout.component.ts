@@ -35,18 +35,20 @@ import { MessageService } from 'primeng/api';
   ],
 })
 export class HeaderLayoutComponent implements OnInit {
-  constructor(
-    private authService: AuthService,
-    private router: Router,
-    private messageService: MessageService,
-    private storeSidebar: StoreSidebar,
-  ) { }
   username: string = "";
   role: string = "";
   email: string = "";
   userImage: string | null = null;
   defaultImage: string = 'avatar.jpg';
   isProfileVisible: boolean = false;
+  isSideBar: boolean = true;
+
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private messageService: MessageService,
+    private storeSidebar: StoreSidebar,
+  ) { }
 
   ngOnInit(): void {
     const userDataString = localStorage.getItem('user');
@@ -65,6 +67,7 @@ export class HeaderLayoutComponent implements OnInit {
 
   toggleSidebar() {
     this.storeSidebar.toggleSidebar();
+    this.isSideBar = !this.isSideBar
   }
 
   onLogout() {
