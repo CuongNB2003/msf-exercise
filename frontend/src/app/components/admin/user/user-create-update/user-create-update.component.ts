@@ -7,7 +7,7 @@ import { RoleService } from '@services/role/role.service';
 import { InputCreateUser, InputUpdateUser, UserResponse } from '@services/user/user.interface';
 import { UserService } from '@services/user/user.service';
 import { InputComponent } from '@ui/input/input.component';
-import { MaterialModule } from '@ui/material/material.module';
+import { MaterialModule } from '../../../../modules/material/material.module';
 import { MessageService } from 'primeng/api';
 
 @Component({

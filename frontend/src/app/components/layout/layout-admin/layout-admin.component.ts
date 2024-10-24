@@ -1,3 +1,4 @@
+import { StoreSidebar } from './../../../store/store.sidebar';
 import { ChangeDetectorRef, Component, OnInit, AfterViewInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { StorePermission } from './../../../store/store.permission';
@@ -7,18 +8,18 @@ import { MenuRoleResponse } from '@services/menu/menu.interface';
 import { PermissionRoleResponse } from '@services/permission/permission.interface';
 import { RoleResponse } from '@services/role/role.interface';
 import { RoleService } from '@services/role/role.service';
-import { FooterLayoutComponent } from '@ui/footer-layout/footer-layout.component';
 import { HeaderLayoutComponent } from '@ui/header-layout/header-layout.component';
 import { SidebarAdminComponent } from '@ui/sidebar-admin/sidebar-admin.component';
 import { NgScrollbar } from 'ngx-scrollbar';
 import { MessageService } from 'primeng/api';
 import { forkJoin } from 'rxjs';
 import { animate, style, transition, trigger } from '@angular/animations';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-layout-admin',
   standalone: true,
-  imports: [RouterModule, HeaderLayoutComponent, FooterLayoutComponent, SidebarAdminComponent, NgScrollbar],
+  imports: [RouterModule, HeaderLayoutComponent, SidebarAdminComponent, NgScrollbar, CommonModule],
   templateUrl: './layout-admin.component.html',
   styleUrl: './layout-admin.component.scss',
   animations: [
@@ -27,12 +28,22 @@ import { animate, style, transition, trigger } from '@angular/animations';
         style({ transform: 'translateX(100%)', opacity: 0 }),
         animate('1s ease-in-out', style({ transform: 'translateX(0)', opacity: 1 }))
       ])
+    ]),
+    trigger('slideInOut', [
+      transition(':enter', [
+        style({ width: '0' }),
+        animate('0.6s ease-in', style({ width: '250px', })) // Di chuyển vào giữa từ phải sang trái
+      ]),
+      transition(':leave', [
+        animate('0.6s ease-out', style({ width: '0' })) // Thu hẹp về 0
+      ])
     ])
   ]
 })
 export class LayoutAdminComponent implements OnInit, AfterViewInit {
   menus: MenuRoleResponse[] = [];
   permissions: PermissionRoleResponse[] = [];
+  isSidebarVisible: boolean = true;
   role: RoleResponse = {
     id: 0,
     name: '',
@@ -48,11 +59,16 @@ export class LayoutAdminComponent implements OnInit, AfterViewInit {
     private messageService: MessageService,
     private storeMenu: StoreMenu,
     private storePermission: StorePermission,
-    private cd: ChangeDetectorRef // Inject ChangeDetectorRef
-  ) { }
+    private cd: ChangeDetectorRef,
+    private storeSidebar: StoreSidebar
+  ) {
+  }
 
   ngOnInit(): void {
     this.getDataFromLocalStorage('user', this.loadRolesData.bind(this));
+    this.storeSidebar.sidebarVisible$.subscribe(isVisible => {
+      this.isSidebarVisible = isVisible;
+    });
   }
 
   ngAfterViewInit(): void {

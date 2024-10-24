@@ -12,7 +12,7 @@
         </form>
     </mat-tab>
 
-    <mat-tab label="Permissions">
+    <mat-tab label="Permissions ({{ getSelectedPermissionsCount() }})">
         <div class="permissions-container">
             <!-- Cột bên trái: danh sách nhóm -->
             <div class="group-list">
@@ -29,17 +29,13 @@
                 <mat-checkbox *ngFor="let permission of groupedPermissions[selectedGroup]"
                     [(ngModel)]="selectedPermission[permission.id]"
                     (ngModelChange)="onCheckboxPermissionChange($event, permission)">
-                    {{ permission.permissionName }}
+                    {{ permission.name }}
                 </mat-checkbox>
             </div>
         </div>
-
     </mat-tab>
 
-
-
-
-    <mat-tab label="Menu">
+    <mat-tab label="Menu ({{ getSelectedMenusCount() }})">
         <div class="roles-list">
             <mat-checkbox *ngFor="let menu of menus" [(ngModel)]="selectedMenus[menu.id]"
                 (ngModelChange)="onCheckboxMenuChange($event, menu)">
@@ -47,6 +43,7 @@
             </mat-checkbox>
         </div>
     </mat-tab>
+
 </mat-tab-group>
 
 <div mat-dialog-actions align="end">

@@ -6,23 +6,29 @@
 
     .header-left-region {
         height: 48px;
+        width: 48px;
+        align-items: center;
+        display: flex;
+        justify-content: center;
 
-        &:hover {
-            background-color: var(--bs-blue-dark);
-        }
-
-        button.main-link {
-            height: 100%;
+        .main-link {
             background-color: transparent;
             border: none;
             outline: none;
             cursor: pointer;
-            padding: 5px 10px;
 
-            .icon {
-                font-size: 26px;
-                color: var(--bs-white);
+            .material-icons {
+                font-size: 30px;
+
+                &:hover {
+                    color: var(--bs-blue);
+                }
             }
+        }
+
+        &:hover {
+            background-color: var(--bs-blue-dark);
+
         }
     }
 

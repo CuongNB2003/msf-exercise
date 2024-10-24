@@ -36,6 +36,9 @@
       "@guards/*": [
         "./src/app/guards/*"
       ],
+      "@modules/*": [
+        "./src/app/modules/*"
+      ],
     }
   },
   "angularCompilerOptions": {

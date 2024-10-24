@@ -3,7 +3,7 @@ import { Component, CUSTOM_ELEMENTS_SCHEMA, Inject, OnInit } from '@angular/core
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { UserResponse } from '@services/user/user.interface';
 import { UserService } from '@services/user/user.service';
-import { MaterialModule } from '@ui/material/material.module';
+import { MaterialModule } from '../../../../modules/material/material.module';
 import moment from 'moment';
 import { MessageService } from 'primeng/api';
 

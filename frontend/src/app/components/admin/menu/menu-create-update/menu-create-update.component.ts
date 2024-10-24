@@ -7,7 +7,7 @@ import { MenuCreateInput, MenuResponse, MenuUpdateInput } from '@services/menu/m
 import { MenuService } from '@services/menu/menu.service';
 import { IconComponent } from '@ui/icon/icon.component';
 import { InputComponent } from '@ui/input/input.component';
-import { MaterialModule } from '@ui/material/material.module';
+import { MaterialModule } from '../../../../modules/material/material.module';
 import { MessageService } from 'primeng/api';
 
 @Component({

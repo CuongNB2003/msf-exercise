@@ -42,6 +42,61 @@
 
     .main {
         margin: 0;
-        padding: 15px 25px;
+        padding: 23px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 23px;
+
+        .chart-container {
+            width: 99%;
+            height: auto;
+            background-color: var(--bs-white);
+            padding: 20px;
+            border-radius: 8px;
+            opacity: 1;
+            transition: transform 10s ease;
+
+            canvas {
+                display: block;
+                max-width: 99%;
+                height: 99%;
+            }
+
+            &.pie-chart {
+                width: 400px;
+                height: 400px;
+            }
+
+            &.bar-chart {
+                width: 800px;
+                height: 400px;
+            }
+        }
+
+
+        &.full-width {
+            .chart-container {
+                width: 99%;
+                height: auto;
+
+                canvas {
+                    display: block;
+                    max-width: 99%;
+                    height: 99%;
+                }
+
+                &.pie-chart {
+                    width: 500px;
+                    height: 500px;
+                }
+
+                &.bar-chart {
+                    width: 950px;
+                    height: 500px;
+                }
+            }
+        }
     }
+
+
 }

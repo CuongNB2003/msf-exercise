@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MaterialModule } from '@ui/material/material.module';
+import { MaterialModule } from '../../../../modules/material/material.module';
 import { InputComponent } from '@ui/input/input.component';
 import { RoleInput, RoleResponse } from '@services/role/role.interface';
 import { RoleService } from '@services/role/role.service';
@@ -33,7 +33,6 @@ export class RoleCreateUpdateComponent implements OnInit {
   permissions: PermissionResponse[] = [];
   groupedPermissions: { [key: string]: PermissionResponse[] } = {};
   selectedGroup: string = '';
-
   selectedMenus: { [key: number]: boolean } = {};
   selectedPermission: { [key: number]: boolean } = {};
   isSubmitting: boolean = false;
@@ -119,7 +118,6 @@ export class RoleCreateUpdateComponent implements OnInit {
         return sortedGroups;
       }, {} as { [key: string]: PermissionResponse[] });
   }
-
 
   // Phương thức chọn group
   selectGroup(groupName: string): void {
@@ -218,6 +216,14 @@ export class RoleCreateUpdateComponent implements OnInit {
       );
     console.log("Selected Role IDs:", selectedIds);
     return selectedIds;
+  }
+
+  getSelectedPermissionsCount(): number {
+    return Object.values(this.selectedPermission).filter(value => value === true).length;
+  }
+
+  getSelectedMenusCount(): number {
+    return Object.values(this.selectedMenus).filter(value => value === true).length;
   }
 
   onCheckboxMenuChange(isChecked: boolean, selectedRole: MenuResponse): void {

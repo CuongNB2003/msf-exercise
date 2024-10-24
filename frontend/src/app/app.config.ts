@@ -8,6 +8,7 @@ import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-br
 import { authInterceptor } from './services/interceptor/auth.interceptor';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { MessageService } from 'primeng/api';
+import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
 
 export const appConfig: ApplicationConfig = {
@@ -19,6 +20,7 @@ export const appConfig: ApplicationConfig = {
     provideAnimations(),
     provideAnimationsAsync(),
     MessageService,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    provideCharts(withDefaultRegisterables())
   ]
 };
