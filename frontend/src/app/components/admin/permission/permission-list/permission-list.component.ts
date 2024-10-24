@@ -2,48 +2,66 @@ import { PermissionService } from './../../../../services/permission/permission.
 import { CommonModule } from '@angular/common';
 import { Component, HostListener } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { PermissionResponse } from '@services/permission/permission.interface';
+import { PermissionResponse, PermissionRoleResponse } from '@services/permission/permission.interface';
 import { PaginationComponent } from '@ui/pagination/pagination.component';
 import moment from 'moment';
 import { MessageService } from 'primeng/api';
 import { PermissionDetailComponent } from '../permission-detail/permission-detail.component';
 import { PermissionCreateUpdateComponent } from '../permission-create-update/permission-create-update.component';
 import { PermissionDeleteComponent } from '../permission-delete/permission-delete.component';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { StorePermission } from '../../../../store/store.permission';
+import { Permission } from '@services/config/permission.enum';
 
 @Component({
   selector: 'app-permission-list',
   standalone: true,
-  imports: [CommonModule, PaginationComponent],
+  imports: [CommonModule, PaginationComponent, NgxSkeletonLoaderModule],
   templateUrl: './permission-list.component.html',
   styleUrl: './permission-list.component.scss'
 })
 export class PermissionListComponent {
-  permissions: PermissionResponse[] = [];
+  P = Permission
+  listPermission: PermissionResponse[] = [];
+  permissions: PermissionRoleResponse[] = [];
   totalItems: number = 0;
   page: number = 1;
   limit: number = 10;
   currentPage: number = this.page;
   itemsPerPage: number = this.limit;
   isDropdownOpen: { [key: number]: boolean } = {};
+  isLoading: boolean = true;
 
-
-  constructor(private messageService: MessageService, private permissionService: PermissionService, private dialog: MatDialog) { }
+  constructor(
+    private messageService: MessageService,
+    private permissionService: PermissionService,
+    private storePermission: StorePermission,
+    private dialog: MatDialog
+  ) { }
 
   ngOnInit(): void {
     this.loadRoles();
+    this.permissions = this.storePermission.getPermissions();
   }
 
   loadRoles(): void {
+    this.isLoading = true;
     this.permissionService.getPermissionAll(this.page, this.limit).subscribe({
       next: (response) => {
+        this.isLoading = false;
         // this.messageService.add({ severity: 'success', summary: 'Success', detail: response.message });
-        this.permissions = response.data.data;
+        this.listPermission = response.data.data;
         this.totalItems = response.data.totalRecords;
       },
       error: (err) => {
+        this.isLoading = false;
         this.messageService.add({ severity: 'error', summary: 'Error', detail: err });
       },
     });
+  }
+
+  hasPermission(permissionName: Permission): boolean {
+    return this.permissions.some(permission => permission.permissionName === permissionName);
   }
 
   formatDate(date: Date): string {

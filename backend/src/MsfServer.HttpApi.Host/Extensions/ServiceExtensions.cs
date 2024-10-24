@@ -10,6 +10,7 @@ using MsfServer.Application.Contracts.Menu;
 using MsfServer.Application.Contracts.Permission;
 using Microsoft.AspNetCore.Authorization;
 using MsfServer.HttpApi.Sercurity;
+using MsfServer.Application.Contracts.Statistic;
 
 namespace MsfServer.HttpApi.Host.Extensions
 {
@@ -31,6 +32,7 @@ namespace MsfServer.HttpApi.Host.Extensions
             services.AddTransient<IMenuRepository, MenuRepository>(provider => { return new MenuRepository(connectionString); });
             services.AddTransient<IPermissionRepository, PermissionRepository>(provider => { return new PermissionRepository(connectionString); });
             services.AddTransient<ITokenService, TokenService>();
+            services.AddTransient<IStatisticService, StatisticService>(provider => { return new StatisticService(connectionString); });
 
             services.AddTransient<IAuthService, AuthService>(provider => {
                 var reCaptchaService = provider.GetRequiredService<IReCaptchaService>();

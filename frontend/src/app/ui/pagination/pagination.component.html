@@ -3,14 +3,14 @@
         <!-- Nút chuyển đến trang đầu tiên -->
         <li class="page-item" [class.disabled]="currentPage === 1">
             <a class="page-link" (click)="currentPage === 1 ? null : goToFirstPage()" aria-label="First">
-                <span aria-hidden="true" class="material-icons first-page">first_page</span>
+                <span aria-hidden="true" class="material-icons">first_page</span>
             </a>
         </li>
 
         <!-- Nút chuyển về trang trước -->
         <li class="page-item" [class.disabled]="currentPage === 1">
             <a class="page-link" (click)="currentPage === 1 ? null : goToPage(currentPage - 1)" aria-label="Previous">
-                <span aria-hidden="true" class="material-icons">arrow_back_ios</span>
+                <span aria-hidden="true" class="material-icons">chevron_left</span>
             </a>
         </li>
 
@@ -23,14 +23,14 @@
         <li class="page-item" [class.disabled]="currentPage === totalPages">
             <a class="page-link" (click)="currentPage === totalPages ? null : goToPage(currentPage + 1)"
                 aria-label="Next">
-                <span aria-hidden="true" class="material-icons">arrow_forward_ios</span>
+                <span aria-hidden="true" class="material-icons">chevron_right</span>
             </a>
         </li>
 
         <!-- Nút chuyển tới trang cuối cùng -->
         <li class="page-item" [class.disabled]="currentPage === totalPages">
             <a class="page-link" (click)="currentPage === totalPages ? null : goToLastPage()" aria-label="Last">
-                <span aria-hidden="true" class="material-icons first-page">last_page</span>
+                <span aria-hidden="true" class="material-icons">last_page</span>
             </a>
         </li>
     </ul>

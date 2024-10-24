@@ -12,16 +12,19 @@ import { MessageService } from 'primeng/api';
 import { RoleDeleteComponent } from '../role-delete/role-delete.component';
 import { StorePermission } from '../../../../store/store.permission';
 import { PermissionRoleResponse } from '@services/permission/permission.interface';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { Permission } from '@services/config/permission.enum';
 
 @Component({
   selector: 'app-role-list',
   standalone: true,
-  imports: [CommonModule, PaginationComponent],
+  imports: [CommonModule, PaginationComponent, NgxSkeletonLoaderModule],
   templateUrl: './role-list.component.html',
   styleUrl: './role-list.component.scss'
 })
 export class RoleListComponent {
-  roles: RoleResponse[] = [];
+  P = Permission
+  listRole: RoleResponse[] = [];
   permissions: PermissionRoleResponse[] = [];
   totalItems: number = 0;
   page: number = 1;
@@ -29,7 +32,7 @@ export class RoleListComponent {
   currentPage: number = this.page;
   itemsPerPage: number = this.limit;
   isDropdownOpen: { [key: number]: boolean } = {};
-
+  isLoading: boolean = true;
 
   constructor(
     private messageService: MessageService,
@@ -45,18 +48,21 @@ export class RoleListComponent {
     });
   }
 
-  hasPermission(permissionName: string): boolean {
+  hasPermission(permissionName: Permission): boolean {
     return this.permissions.some(permission => permission.permissionName === permissionName);
   }
 
   loadRoles(): void {
+    this.isLoading = true;
     this.roleService.getRoleAll(this.page, this.limit).subscribe({
       next: (response) => {
+        this.isLoading = false;
         // this.messageService.add({ severity: 'success', summary: 'Success', detail: response.message });
-        this.roles = response.data.data;
+        this.listRole = response.data.data;
         this.totalItems = response.data.totalRecords;
       },
       error: (err) => {
+        this.isLoading = false;
         this.messageService.add({ severity: 'error', summary: 'Error', detail: err });
       },
     });

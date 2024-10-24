@@ -2,8 +2,14 @@ main {
     display: flex;
     background-color: var(--color-menu-hover);
     height: 100%;
-    padding-bottom: 60px;
+    padding-bottom: 50px;
     overflow: hidden;
+
+    .layout-sidebar {
+        overflow: hidden;
+        width: 250px;
+    }
+
 
     ng-scrollbar {
         flex: 1;
@@ -32,7 +38,17 @@ main {
         .main {
             background-color: var(--bs-gray-200);
             position: relative;
-            transition: all 0.2s ease;
+            transition: width 0.3s ease-in-out;
+
+            .expanded {
+                width: calc(100% - 0px);
+                /* Khi sidebar ẩn, router-outlet chiếm toàn bộ */
+            }
+
+            .collapsed {
+                width: calc(100% - 250px);
+                /* Khi sidebar hiện, router-outlet chiếm phần còn lại */
+            }
         }
     }
 }

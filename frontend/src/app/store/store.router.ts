@@ -28,7 +28,7 @@ export class StoreRouter {
     clearPreviousUrl() {
         this.previousUrlSubject.next(null);
         if (typeof window !== 'undefined') {
-            localStorage.removeItem('previousUrl'); // Xóa URL khỏi localStorage
+            localStorage.removeItem('previousUrl');
         }
     }
 }

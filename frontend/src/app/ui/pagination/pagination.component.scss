@@ -1,13 +1,11 @@
 .pagination {
     display: flex;
     justify-content: center;
+    align-items: center;
     list-style: none;
     padding: 0;
 
     .page-item {
-        display: flex;
-        align-items: center;
-
         &.disabled {
             cursor: not-allowed;
             opacity: 0.2;
@@ -31,12 +29,14 @@
         }
 
         .page-link {
-            display: block;
             background-color: var(--bs-white);
             padding: 5px 10px;
             color: var(--bs-black);
             text-decoration: none;
             cursor: pointer; // Con trỏ chuột cho các nút bình thường
+            display: flex;
+            align-items: baseline;
+            justify-content: center;
 
             &:hover {
                 background-color: var(--bs-gray-200);
@@ -46,11 +46,12 @@
         }
 
         .material-icons {
-            font-size: 0.8rem;
+            // font-size: 0.8rem;
 
-            &.first-page {
-                font-size: 1.2rem;
-            }
+            // &.first-page {
+            //     margin-top: 5px;
+            //     font-size: 1.2rem;
+            // }
         }
     }
 }

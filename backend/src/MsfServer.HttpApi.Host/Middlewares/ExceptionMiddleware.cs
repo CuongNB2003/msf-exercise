@@ -131,11 +131,12 @@ namespace MsfServer.HttpApi.Host.Middlewares
             var userName = context.User.FindFirst("name")?.Value ?? "";
             var log = LogEntity.AddLogEntry(method, statusCode, path, clientIpAddress, userName, duration);
             // Kiểm tra nếu URL chứa "/api/log" và /swagger thì không lưu vào database
-            if (!log.Url!.Contains("/api/log", StringComparison.OrdinalIgnoreCase) && !log.Url!.Contains("/swagger", StringComparison.OrdinalIgnoreCase))
+            if (!log.Url!.Contains("/api/log", StringComparison.OrdinalIgnoreCase)
+                && !log.Url!.Contains("/api/statistics", StringComparison.OrdinalIgnoreCase)
+                && !log.Url!.Contains("/swagger", StringComparison.OrdinalIgnoreCase))
             {
                 await LogToDatabase(log);
             }
-
         }
 
         private async Task LogToDatabase(LogEntity log)

@@ -33,5 +33,13 @@ export class StoreMenu {
         // Nếu không có gì thì trả về mảng rỗng
         return [];
     }
+
+    clearPermissions() {
+        this.menusSubject.next([]); // Reset BehaviorSubject về mảng rỗng
+        if (typeof window !== 'undefined') {
+            localStorage.removeItem('menus'); // Xóa permissions khỏi localStorage
+        }
+    }
+
 }
 

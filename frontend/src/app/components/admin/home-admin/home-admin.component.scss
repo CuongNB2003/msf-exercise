@@ -42,6 +42,90 @@
 
     .main {
         margin: 0;
-        padding: 15px 25px;
+        padding: 10px 0px 10px 10px;
+        display: flex;
+        gap: 10px;
+        height: 1000px;
+
+        .left-container {
+            position: relative;
+            background-color: var(--bs-white);
+            flex: 1;
+            transition: all 0.3s ease;
+
+            &.in-active {
+
+                width: 60px;
+                flex: none;
+                border-radius: 5px;
+
+                .btn-change {
+                    position: static;
+                    margin: 7px auto 10px auto;
+                    transform: rotate(180deg);
+                }
+
+                .title-left {
+                    background: transparent;
+                    writing-mode: vertical-rl;
+                    margin-left: 17px;
+
+                    .title {
+                        color: var(--bs-blue);
+                        width: max-content;
+                        font-size: 16px;
+                        font-weight: bold;
+                    }
+                }
+
+            }
+
+            .btn-change {
+                border: none;
+                outline: none;
+                width: max-content;
+                background: transparent;
+                height: auto;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 0px 5px;
+                transition: .1s;
+                position: absolute;
+                cursor: pointer;
+                right: 1px;
+                top: 6px;
+                z-index: 70;
+
+                .material-icons {
+                    color: var(--bs-blue-dark);
+                    font-size: 30px;
+                }
+            }
+
+            .title-left {
+                align-items: center;
+                justify-content: center;
+                position: relative;
+                padding: 9px 0px 9px 0px;
+                border-radius: 5px;
+                background-color: var(--bs-blue);
+
+                .title {
+                    font-size: 16px;
+                    padding-left: 15px;
+                    font-weight: bold;
+                    color: var(--bs-white);
+                }
+            }
+
+
+        }
+
+        .right-container {
+            background-color: var(--bs-white);
+            flex: 1.5;
+            transition: all 0.3s ease;
+        }
     }
 }

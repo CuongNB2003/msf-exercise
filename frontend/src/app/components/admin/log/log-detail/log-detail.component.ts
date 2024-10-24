@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { Log } from '@services/log/log.interface';
 import { LogService } from '@services/log/log.service';
 import { MessageService } from 'primeng/api';
-import { MaterialModule } from '@ui/material/material.module';
+import { MaterialModule } from '../../../../modules/material/material.module';
 
 @Component({
   selector: 'app-log-detail',

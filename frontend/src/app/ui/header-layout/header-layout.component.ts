@@ -1,3 +1,4 @@
+import { StoreSidebar } from './../../store/store.sidebar';
 import { CommonModule } from '@angular/common';
 import { Component, HostListener, OnInit } from '@angular/core';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
@@ -34,13 +35,20 @@ import { MessageService } from 'primeng/api';
   ],
 })
 export class HeaderLayoutComponent implements OnInit {
-  constructor(private authService: AuthService, private router: Router, private messageService: MessageService,) { }
   username: string = "";
   role: string = "";
   email: string = "";
   userImage: string | null = null;
   defaultImage: string = 'avatar.jpg';
   isProfileVisible: boolean = false;
+  isSideBar: boolean = true;
+
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private messageService: MessageService,
+    private storeSidebar: StoreSidebar,
+  ) { }
 
   ngOnInit(): void {
     const userDataString = localStorage.getItem('user');
@@ -55,6 +63,11 @@ export class HeaderLayoutComponent implements OnInit {
     if (!this.userImage || this.userImage == 'string') {
       this.userImage = this.defaultImage;
     }
+  }
+
+  toggleSidebar() {
+    this.storeSidebar.toggleSidebar();
+    this.isSideBar = !this.isSideBar
   }
 
   onLogout() {

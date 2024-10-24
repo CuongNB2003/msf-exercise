@@ -5,12 +5,14 @@ import { inject } from '@angular/core';
 import { switchMap, catchError, filter, take } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
+import { Router } from '@angular/router';
 
 let isRefreshing = false;
 const refreshTokenSubject: Subject<string> = new Subject<string>();
 
 export const authInterceptor: HttpInterceptorFn = (request, next) => {
   const authService = inject(AuthService);
+  const router = inject(Router)
   const accessTokenString = localStorage.getItem('accessToken');
   const refreshTokenString = localStorage.getItem('refreshToken');
   // loại bỏ những api không cần thêm token vào header
@@ -40,6 +42,7 @@ export const authInterceptor: HttpInterceptorFn = (request, next) => {
         }),
         catchError((error) => {
           isRefreshing = false;
+          clearLocalStorage(router)
           refreshTokenSubject.error(error);
           return next(request);
         })
@@ -70,3 +73,12 @@ function isTokenExpiringSoon(expiration: Date): boolean {
   const currentTime = new Date().getTime();
   return expiryTime < currentTime;
 }
+
+function clearLocalStorage(router: Router) {
+  localStorage.removeItem('accessToken');
+  localStorage.removeItem('refreshToken');
+  localStorage.removeItem('permissions');
+  localStorage.removeItem('menus');
+  localStorage.removeItem('user');
+  router.navigate(['/login']);
+};

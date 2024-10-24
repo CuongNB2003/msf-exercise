@@ -6,7 +6,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { PermissionInput, PermissionResponse } from '@services/permission/permission.interface';
 import { IconComponent } from '@ui/icon/icon.component';
 import { InputComponent } from '@ui/input/input.component';
-import { MaterialModule } from '@ui/material/material.module';
+import { MaterialModule } from '../../../../modules/material/material.module';
 import { MessageService } from 'primeng/api';
 
 @Component({
