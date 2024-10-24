@@ -42,33 +42,60 @@
 
     .main {
         margin: 0;
-        padding: 15px 25px;
+        padding: 25px;
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
+        gap: 25px;
 
-        // .bar-chart {
-        //     width: 600px; // Kích thước cố định cho biểu đồ bar
-        //     height: 400px; // Kích thước cố định cho biểu đồ bar
-        // }
-
-        .pie-chart {
+        .chart-container {
             display: block;
-            box-sizing: border-box;
-            width: 304px;
-            height: 304px;
+            background-color: var(--bs-white);
+            padding: 20px;
+            border-radius: 8px;
+            width: 100%;
+            opacity: 1;
+            transition: transform 10s ease;
+
+            canvas {
+                display: block;
+                max-width: 100% !important;
+                height: auto !important;
+            }
+
+            &.pie-chart {
+                width: 400px;
+                height: 400px;
+            }
+
+            &.bar-chart {
+                width: 800px;
+                height: 400px;
+            }
         }
 
-        .chart {
-            opacity: 0; // Bắt đầu ở trạng thái ẩn
-            transform: translateY(20px); // Di chuyển xuống dưới
-            transition: opacity 0.5s ease, transform 0.5s ease; // Thêm hiệu ứng
+        &.full-width {
+            .chart-container {
+                width: 100%;
+                height: auto;
 
-            &.show {
-                opacity: 1; // Hiển thị
-                transform: translateY(0); // Trở về vị trí ban đầu
+                canvas {
+                    display: block;
+                    max-width: 100% !important;
+                    height: auto !important;
+                }
+
+                &.pie-chart {
+                    width: 500px;
+                    height: 500px;
+                }
+
+                &.bar-chart {
+                    width: 950px;
+                    height: 500px;
+                }
             }
         }
     }
+
 
 }

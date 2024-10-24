@@ -1,3 +1,4 @@
+import { StoreSidebar } from './../../../store/store.sidebar';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import RoleCountUserStatistics from '@services/statistics/statistics.interface';
@@ -14,16 +15,21 @@ import { MessageService } from 'primeng/api';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  @ViewChild(BaseChartDirective) barChart!: BaseChartDirective;
-  @ViewChild(BaseChartDirective) pieChart!: BaseChartDirective;
-  @ViewChild(BaseChartDirective) lineChart!: BaseChartDirective;
+  @ViewChild('barChart') barChart!: BaseChartDirective;
+  @ViewChild('lineChart') lineChart!: BaseChartDirective;
+  @ViewChild('pieChart') pieChart!: BaseChartDirective;
+  isSidebarVisible = true;
   isChartVisible = false;
   listRoleCountUser: RoleCountUserStatistics[] = [];
   barChartLabels: string[] = [];
   lineChartLabels: string[] = [];
   month: string = '';
 
-  constructor(private statisticsService: StatisticsService, private messageService: MessageService,) {
+  constructor(
+    private statisticsService: StatisticsService,
+    private messageService: MessageService,
+    private storeSidebar: StoreSidebar
+  ) {
     setTimeout(() => {
       this.isChartVisible = true;
     }, 700);
@@ -33,6 +39,23 @@ export class DashboardComponent implements OnInit {
     this.getLogMethodByYear();
     this.getRoleCountUser();
     this.getLogMethodByMonth();
+  }
+
+  ngAfterViewInit(): void {
+    this.storeSidebar.sidebarVisible$.subscribe((isVisible) => {
+      this.isSidebarVisible = isVisible;
+
+      // Tự động cập nhật kích thước biểu đồ khi ẩn/hiện sidebar
+      if (this.barChart && this.barChart.chart) {
+        this.barChart.chart.resize();
+      }
+      if (this.lineChart && this.lineChart.chart) {
+        this.lineChart.chart.resize();
+      }
+      if (this.pieChart && this.pieChart.chart) {
+        this.pieChart.chart.resize();
+      }
+    });
   }
 
   getLogMethodByYear(): void {

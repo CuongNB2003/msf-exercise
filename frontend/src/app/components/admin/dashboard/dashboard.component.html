@@ -7,30 +7,33 @@
         </ol>
         <div class="breadcrumb-line"></div>
     </div>
-    <div class="main">
-        <div style="display: block;" *ngIf="isChartVisible">
-            <canvas width="800" height="400" #barChart class="bar-chart chart show" baseChart [data]="barChartData"
-                [type]="'bar'" [options]="barChartOptions" [legend]="true" (click)="$event.stopPropagation()">
+    <div class="main" [ngClass]="{'full-width': !isSidebarVisible}">
+        <!-- Biểu đồ bar -->
+        <div class="chart-container bar-chart" *ngIf="isChartVisible">
+            <canvas #barChart baseChart [data]="barChartData" [type]="'bar'" [options]="barChartOptions" [legend]="true"
+                (click)="$event.stopPropagation()">
             </canvas>
         </div>
 
-        <div style="display: block;" *ngIf="isChartVisible">
-            <canvas class="pie-chart chart show" baseChart [data]="pieChartData" [type]="'polarArea'"
-                [options]="pieChartOptions" [legend]="true" (click)="$event.stopPropagation()">
+        <!-- Biểu đồ polarArea -->
+        <div class="chart-container pie-chart" *ngIf="isChartVisible">
+            <canvas baseChart [data]="pieChartData" [type]="'polarArea'" [options]="pieChartOptions" [legend]="true"
+                (click)="$event.stopPropagation()">
             </canvas>
         </div>
 
-        <div style="display: block;" *ngIf="isChartVisible">
-            <canvas width="800" height="400" #lineChart class="bar-chart chart show" baseChart [data]="lineChartData"
-                [type]="'line'" [options]="lineChartOptions" [legend]="true" (click)="$event.stopPropagation()">
+        <!-- Biểu đồ line -->
+        <div class="chart-container bar-chart" *ngIf="isChartVisible">
+            <canvas #lineChart baseChart [data]="lineChartData" [type]="'line'" [options]="lineChartOptions"
+                [legend]="true" (click)="$event.stopPropagation()">
             </canvas>
         </div>
 
-        <div style="display: block;" *ngIf="isChartVisible">
-            <canvas class="pie-chart chart show" baseChart [data]="pieChartData" [type]="'doughnut'"
-                [options]="pieChartOptions" [legend]="true" (click)="$event.stopPropagation()">
+        <!-- Biểu đồ doughnut -->
+        <div class="chart-container pie-chart" *ngIf="isChartVisible">
+            <canvas baseChart [data]="pieChartData" [type]="'doughnut'" [options]="pieChartOptions" [legend]="true"
+                (click)="$event.stopPropagation()">
             </canvas>
         </div>
     </div>
-
 </div>
