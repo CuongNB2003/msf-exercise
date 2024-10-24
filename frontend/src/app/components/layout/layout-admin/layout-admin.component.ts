@@ -28,6 +28,15 @@ import { CommonModule } from '@angular/common';
         style({ transform: 'translateX(100%)', opacity: 0 }),
         animate('1s ease-in-out', style({ transform: 'translateX(0)', opacity: 1 }))
       ])
+    ]),
+    trigger('slideInOut', [
+      transition(':enter', [
+        style({ width: '0' }),
+        animate('0.6s ease-in', style({ width: '250px' })) // Di chuyển vào giữa từ phải sang trái
+      ]),
+      transition(':leave', [
+        animate('0.6s ease-out', style({ width: '0' })) // Thu hẹp về 0
+      ])
     ])
   ]
 })
@@ -52,7 +61,8 @@ export class LayoutAdminComponent implements OnInit, AfterViewInit {
     private storePermission: StorePermission,
     private cd: ChangeDetectorRef,
     private storeSidebar: StoreSidebar
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.getDataFromLocalStorage('user', this.loadRolesData.bind(this));

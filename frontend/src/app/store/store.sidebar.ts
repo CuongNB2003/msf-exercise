@@ -1,5 +1,6 @@
 // sidebar.service.ts
 import { Injectable } from '@angular/core';
+import { log } from 'node:console';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
@@ -10,6 +11,7 @@ export class StoreSidebar {
     sidebarVisible$ = this.sidebarVisibleSubject.asObservable();
 
     toggleSidebar() {
-        this.sidebarVisibleSubject.next(!this.sidebarVisibleSubject.value); // Chuyển đổi trạng thái
+        this.sidebarVisibleSubject.next(!this.sidebarVisibleSubject.value);
+        console.log(this.sidebarVisibleSubject.value);
     }
 }

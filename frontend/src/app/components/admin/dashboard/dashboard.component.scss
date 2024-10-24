@@ -42,24 +42,24 @@
 
     .main {
         margin: 0;
-        padding: 25px;
+        padding: 23px;
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        gap: 25px;
+        gap: 23px;
 
         .chart-container {
-            display: block;
+            width: 99%;
+            height: auto;
             background-color: var(--bs-white);
             padding: 20px;
             border-radius: 8px;
-            width: 100%;
             opacity: 1;
             transition: transform 10s ease;
 
             canvas {
                 display: block;
-                max-width: 100% !important;
-                height: auto !important;
+                max-width: 99%;
+                height: 99%;
             }
 
             &.pie-chart {
@@ -73,15 +73,16 @@
             }
         }
 
+
         &.full-width {
             .chart-container {
-                width: 100%;
+                width: 99%;
                 height: auto;
 
                 canvas {
                     display: block;
-                    max-width: 100% !important;
-                    height: auto !important;
+                    max-width: 99%;
+                    height: 99%;
                 }
 
                 &.pie-chart {

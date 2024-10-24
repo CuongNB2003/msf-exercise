@@ -1,8 +1,12 @@
-<app-header-layout />
+<app-header-layout></app-header-layout>
 <main>
-    <app-sidebar-admin *ngIf="isSidebarVisible"></app-sidebar-admin>
+    <div class="layout-sidebar" *ngIf="isSidebarVisible" @slideInOut>
+        <app-sidebar-admin></app-sidebar-admin>
+    </div>
+
     <ng-scrollbar>
-        <div [@routeAnimation]="o.isActivated ? o.activatedRoute : ''" class="main">
+        <div [ngClass]="{'expanded': !isSidebarVisible, 'collapsed': isSidebarVisible}"
+            [@routeAnimation]="o.isActivated ? o.activatedRoute : ''" class="main">
             <router-outlet #o="outlet"></router-outlet>
         </div>
     </ng-scrollbar>
