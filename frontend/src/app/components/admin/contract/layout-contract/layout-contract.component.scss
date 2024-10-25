@@ -1,4 +1,4 @@
-.user-container {
+.contract-container {
 
     .breadcrumb {
         height: 30px;
@@ -45,6 +45,24 @@
         padding: 10px 0px 10px 10px;
         display: flex;
         gap: 10px;
-        height: 1000px;
+        min-height: 720px;
+        .left-container {
+            position: relative;
+            background-color: var(--bs-white);
+            flex: 1;
+            transition: all 0.3s ease;
+
+            &.in-active {       
+                width: 60px;
+                flex: none;
+                border-radius: 5px;
+            }
+        }
+
+        .right-container {
+            background-color: var(--bs-white);
+            flex: 1.5;
+            transition: all 0.3s ease;
+        }
     }
 }

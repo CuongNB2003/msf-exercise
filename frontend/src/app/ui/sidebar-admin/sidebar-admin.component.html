@@ -8,6 +8,12 @@
             </a>
         </li>
         <li>
+            <a routerLink="/admin/contract" routerLinkActive="active">
+                <span class="material-icons">description</span>
+                Hợp đồng
+            </a>
+        </li>
+        <li>
             <a routerLink="/admin/dashboard" routerLinkActive="active">
                 <span class="material-icons">space_dashboard</span>
                 Dashboard
@@ -21,8 +27,8 @@
             <ul class="dropdown-menu">
                 <li *ngFor="let menu of menus">
                     <a [routerLink]="menu.url" routerLinkActive="active">
-                        <span class="material-icons">{{menu.iconName}}</span>
-                        {{menu.displayName}}
+                        <span class="material-icons">{{ menu.iconName }}</span>
+                        {{ menu.displayName }}
                     </a>
                 </li>
             </ul>

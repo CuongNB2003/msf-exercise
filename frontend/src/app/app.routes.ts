@@ -17,6 +17,7 @@ import { PermissionListComponent } from '@components/admin/permission/permission
 import { menuGuard } from '@guards/menu/menu.guard';
 import { NotFoundComponent } from '@ui/not-found/not-found.component';
 import { adminGuard } from '@guards/admin/admin.guard';
+import { LayoutContractComponent } from '@components/admin/contract/layout-contract/layout-contract.component';
 
 
 
@@ -47,6 +48,11 @@ export const routes: Routes = [
                 path: '',
                 component: HomeAdminComponent,
                 data: { title: getTitle(new TitleService(), 'Admin') }
+            },
+            {
+                path: 'contract',
+                component: LayoutContractComponent,
+                data: { title: getTitle(new TitleService(), 'Hợp đồng') }
             },
             {
                 path: 'dashboard',

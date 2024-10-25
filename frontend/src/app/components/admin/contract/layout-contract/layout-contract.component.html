@@ -1,0 +1,22 @@
+<div class="contract-container">
+  <div class="breadcrumb">
+    <ol class="breadcumrb-nav">
+      <li class="breadcumrb-nav-item">
+        <span class="material-icons">description</span>Hợp đồng
+      </li>
+    </ol>
+    <div class="breadcrumb-line"></div>
+  </div>
+  <div class="main">
+    <div class="left-container" [ngClass]="{ 'in-active': isActive }">
+      <app-left-side-contract
+        [isActive]="isActive"
+        (isActiveChange)="isActive = $event"
+      ></app-left-side-contract>
+    </div>
+
+    <div class="right-container">
+      <app-right-side-contract></app-right-side-contract>
+    </div>
+  </div>
+</div>
