@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      // recaptcha: ['', Validators.required]
+      recaptcha: ['', Validators.required]
     });
   }
 
@@ -63,7 +63,7 @@ export class LoginComponent implements OnInit {
     }
 
     this.isSubmitting = true;
-    this.authService.login({ email, passWord: password, reCaptchaToken: 'hihi' }).subscribe({
+    this.authService.login({ email, passWord: password, reCaptchaToken: recaptcha }).subscribe({
       next: (response: ResponseObject<LoginResponse>) => this.handleSuccessfulLogin(response),
       error: (error) => this.handleLoginError(error, attempts),
     });

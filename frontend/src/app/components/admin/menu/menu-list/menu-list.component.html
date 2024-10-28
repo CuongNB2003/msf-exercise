@@ -1,128 +1,185 @@
 <div class="user-container">
-    <div class="breadcrumb">
-        <ol class="breadcumrb-nav">
-            <li class="breadcumrb-nav-item">
-                <span class="material-icons">admin_panel_settings</span>Administration
-            </li>
-            <div class="line-item"></div>
-            <li class="breadcumrb-nav-item">
-                <span class="material-icons">menu_book</span>
-                Menu
-            </li>
-        </ol>
-        <div class="breadcrumb-line"></div>
+  <div class="breadcrumb">
+    <ol class="breadcrumb-nav">
+      <li class="breadcrumb-nav-item">
+        <span class="material-icons">admin_panel_settings</span>Administration
+      </li>
+      <div class="line-item"></div>
+      <li class="breadcrumb-nav-item">
+        <span class="material-icons">menu_book</span>
+        Menu
+      </li>
+    </ol>
+    <div class="breadcrumb-line"></div>
+  </div>
+  <div class="main">
+    <div class="top-bar">
+      <h1>Menu</h1>
+      <div class="actions">
+        <button
+          class="btn"
+          type="button"
+          (click)="openDialogCreate()"
+          *ngIf="hasPermission(P.MenuCreate)"
+        >
+          <span class="material-icons">add</span>
+          Thêm menu
+        </button>
+      </div>
     </div>
-    <div class="main">
-        <div class="top-bar">
-            <h1>Menu</h1>
-            <div class="actions">
-                <button class="btn" type="button" (click)="openDialogCreate()" *ngIf="hasPermission(P.MenuCreate)">
-                    <span class="material-icons">add</span>
-                    Thêm menu
+    <div class="search-bar">
+      <input type="search" placeholder="Search menu..." />
+      <button>
+        <span class="material-icons">search</span>
+      </button>
+    </div>
+    <!-- Skeleton loader giống với từng hàng của bảng -->
+    <div *ngIf="isLoading" class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Hành động</th>
+            <th>Tên</th>
+            <th>Icon</th>
+            <th>Đường dẫn</th>
+            <th>Số lượng quyền dùng</th>
+            <th>Trạng thái</th>
+            <th>Ngày tạo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let i of [1, 2, 3, 4, 5]">
+            <td>
+              <ngx-skeleton-loader
+                count="1"
+                appearance="line"
+              ></ngx-skeleton-loader>
+            </td>
+            <td>
+              <ngx-skeleton-loader
+                count="1"
+                appearance="line"
+              ></ngx-skeleton-loader>
+            </td>
+            <td>
+              <ngx-skeleton-loader
+                count="1"
+                appearance="line"
+              ></ngx-skeleton-loader>
+            </td>
+            <td>
+              <ngx-skeleton-loader
+                count="1"
+                appearance="line"
+              ></ngx-skeleton-loader>
+            </td>
+            <td>
+              <ngx-skeleton-loader
+                count="1"
+                appearance="line"
+              ></ngx-skeleton-loader>
+            </td>
+            <td>
+              <ngx-skeleton-loader
+                count="1"
+                appearance="line"
+              ></ngx-skeleton-loader>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="table-bottom">
+        <div class="total">Tổng cộng 0</div>
+        <app-pagination />
+      </div>
+    </div>
+    <!-- Bảng -->
+    <div
+      *ngIf="!isLoading"
+      class="table-container"
+      (click)="onClickOutside($event)"
+    >
+      <table>
+        <thead>
+          <tr>
+            <th>Hành động</th>
+            <th>Tên</th>
+            <th>Icon</th>
+            <th>Đường dẫn</th>
+            <th>Số lượng quyền dùng</th>
+            <th>Trạng thái</th>
+            <th>Ngày tạo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let m of listMenu">
+            <td>
+              <div class="dropdown" [class.show]="isDropdownOpen[m.id]">
+                <button
+                  class="dropdown-toggle"
+                  (click)="toggleDropdown($event, m.id)"
+                  [ngClass]="{ open: isDropdownOpen[m.id] }"
+                  type="button"
+                >
+                  <span class="material-icons">settings</span>
+                  Actions
                 </button>
-            </div>
-        </div>
-        <div class="search-bar">
-            <input type="search" placeholder="Search menu...">
-            <button>
-                <span class="material-icons">search</span>
-            </button>
-        </div>
-        <!-- Skeleton loader giống với từng hàng của bảng -->
-        <div *ngIf="isLoading" class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Hành động</th>
-                        <th>Tên</th>
-                        <th>Icon</th>
-                        <th>Đường dẫn</th>
-                        <th>Số lượng quyền dùng</th>
-                        <th>Trạng thái</th>
-                        <th>Ngày tạo</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let i of [1,2,3,4,5]">
-                        <td><ngx-skeleton-loader count="1" appearance="line"></ngx-skeleton-loader></td>
-                        <td><ngx-skeleton-loader count="1" appearance="line"></ngx-skeleton-loader></td>
-                        <td><ngx-skeleton-loader count="1" appearance="line"></ngx-skeleton-loader></td>
-                        <td><ngx-skeleton-loader count="1" appearance="line"></ngx-skeleton-loader></td>
-                        <td><ngx-skeleton-loader count="1" appearance="line"></ngx-skeleton-loader></td>
-                        <td><ngx-skeleton-loader count="1" appearance="line"></ngx-skeleton-loader></td>
-                    </tr>
-                </tbody>
-            </table>
+                <ul class="dropdown-menu" [class.show]="isDropdownOpen[m.id]">
+                  <li>
+                    <button
+                      class="dropdown-item"
+                      type="button"
+                      (click)="openDialogDetail(m.id)"
+                    >
+                      Xem chi tiết
+                    </button>
+                  </li>
+                  <li *ngIf="hasPermission(P.MenuUpdate)">
+                    <button
+                      class="dropdown-item"
+                      type="button"
+                      (click)="openDialogUpdate(m.id)"
+                    >
+                      Sửa menu
+                    </button>
+                  </li>
+                  <li *ngIf="hasPermission(P.MenuDelete)">
+                    <button
+                      class="dropdown-item"
+                      type="button"
+                      (click)="openDialogDelete(m.id)"
+                    >
+                      Xóa menu
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            </td>
+            <td>{{ m.displayName }}</td>
+            <td>
+              <span class="material-icons">{{ m.iconName }}</span>
+            </td>
+            <td>{{ m.url }}</td>
+            <td>{{ m.countRole }}</td>
+            <td>{{ m.status ? "Đang hoạt động" : "Dừng hoạt động" }}</td>
+            <td>{{ formatDate(m.createdAt) }}</td>
+          </tr>
+        </tbody>
+      </table>
 
-            <div class="table-bottom">
-                <div class="total">
-                    Tổng cộng 0
-                </div>
-                <app-pagination />
-            </div>
+      <div class="table-bottom">
+        <div class="total">
+          <p>Tổng cộng {{ totalItems }}</p>
         </div>
-        <!-- Bảng -->
-        <div *ngIf="!isLoading" class="table-container" (click)="onClickOutside($event)">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Hành động</th>
-                        <th>Tên</th>
-                        <th>Icon</th>
-                        <th>Đường dẫn</th>
-                        <th>Số lượng quyền dùng</th>
-                        <th>Trạng thái</th>
-                        <th>Ngày tạo</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let m of listMenu">
-                        <td>
-                            <div class="dropdown" [class.show]="isDropdownOpen[m.id]">
-                                <button class="dropdown-toggle" (click)="toggleDropdown($event, m.id)"
-                                    [ngClass]="{'open': isDropdownOpen[m.id]}" type="button">
-                                    <span class="material-icons">settings</span>
-                                    Actions
-                                </button>
-                                <ul class="dropdown-menu" [class.show]="isDropdownOpen[m.id]">
-                                    <li>
-                                        <button class="dropdown-item" type="button" (click)="openDialogDetail(m.id)">
-                                            Xem chi tiết
-                                        </button>
-                                    </li>
-                                    <li *ngIf="hasPermission(P.MenuUpdate)">
-                                        <button class="dropdown-item" type="button" (click)="openDialogUpdate(m.id)">
-                                            Sửa menu
-                                        </button>
-                                    </li>
-                                    <li *ngIf="hasPermission(P.MenuDelete)">
-                                        <button class="dropdown-item" type="button" (click)="openDialogDelete(m.id)">
-                                            Xóa menu
-                                        </button>
-                                    </li>
-                                </ul>
-                            </div>
-                        </td>
-                        <td>{{ m.displayName }}</td>
-                        <td>
-                            <span class="material-icons">{{ m.iconName }}</span>
-                        </td>
-                        <td>{{ m.url}}</td>
-                        <td>{{ m.countRole }}</td>
-                        <td>{{ m.status ? "Đang hoạt động" : "Dừng hoạt động" }}</td>
-                        <td>{{ formatDate(m.createdAt) }}</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <div class="table-bottom">
-                <div class="total">
-                    <p>Tổng cộng {{totalItems}}</p>
-                </div>
-                <app-pagination [totalItems]="totalItems" [itemsPerPage]="itemsPerPage" [currentPage]="currentPage"
-                    (pageChanged)="onPageChange($event)">
-                </app-pagination>
-            </div>
-        </div>
+        <app-pagination
+          [totalItems]="totalItems"
+          [itemsPerPage]="itemsPerPage"
+          [currentPage]="currentPage"
+          (pageChanged)="onPageChange($event)"
+        >
+        </app-pagination>
+      </div>
     </div>
+  </div>
 </div>

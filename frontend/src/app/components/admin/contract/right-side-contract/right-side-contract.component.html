@@ -1,3 +1,58 @@
 <div class="right-container">
-    <!-- Nội dung right-container -->
+    <div class="main-action">
+        <button class="custom-button" (click)="onSubmit()" [ngClass]="{ 'custom-disabled': !isAdd }"
+            [disabled]="!isAdd">
+            <i class="material-icons">add</i>
+            Thêm mới
+        </button>
+        <button class="custom-button" [ngClass]="{ 'custom-disabled': isAdd, 'save': !isAdd }" [disabled]="isAdd">
+            <i class="material-icons">system_update_alt</i>
+            Lưu
+        </button>
+
+        <button class="custom-button" [ngClass]="{ 'custom-disabled': isAdd, 'delete': !isAdd }" [disabled]="isAdd"
+            (click)="onSubmit()">
+            <i class="material-icons">highlight_off</i>
+            Hủy thay đổi
+        </button>
+        <button class="custom-button delete">
+            <i class="material-icons">delete_outline</i>
+            Xóa
+        </button>
+        <button class="custom-button">Thanh lý</button>
+        <button class="custom-button">
+            <i class="material-icons">task</i>
+            Quyết toán
+        </button>
+        <button class="custom-button print" [ngClass]="{ 'custom-disabled': !isAdd}" [disabled]="!isAdd">
+            <i class="material-icons">print</i>
+            In hợp đồng
+        </button>
+    </div>
+    <div>
+        <p-tabView>
+            <p-tabPanel header="Header I"> hihi </p-tabPanel>
+            <p-tabPanel header="Header II">
+                <p>
+                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem
+                    accusantium...
+                </p>
+            </p-tabPanel>
+            <p-tabPanel header="Header III">
+                <p>At vero eos et accusamus et iusto odio dignissimos...</p>
+            </p-tabPanel>
+            <p-tabPanel header="Header I">
+                <p>Lorem ipsum dolor sit amet...</p>
+            </p-tabPanel>
+            <p-tabPanel header="Header II">
+                <p>
+                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem
+                    accusantium...
+                </p>
+            </p-tabPanel>
+            <p-tabPanel header="Header III">
+                <p>At vero eos et accusamus et iusto odio dignissimos...</p>
+            </p-tabPanel>
+        </p-tabView>
+    </div>
 </div>

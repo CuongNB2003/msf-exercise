@@ -1,16 +1,19 @@
 .contract-container {
+    
+    color: var(--bs-black);
+    font-size: 14px;
 
     .breadcrumb {
         height: 30px;
 
-        .breadcumrb-nav {
+        .breadcrumb-nav {
             display: flex;
             align-items: center;
             column-gap: 10px;
             list-style: none;
             margin-left: 10px;
 
-            .breadcumrb-nav-item {
+            .breadcrumb-nav-item {
                 display: flex;
                 align-items: center;
                 justify-self: center;
@@ -60,7 +63,6 @@
         }
 
         .right-container {
-            background-color: var(--bs-white);
             flex: 1.5;
             transition: all 0.3s ease;
         }

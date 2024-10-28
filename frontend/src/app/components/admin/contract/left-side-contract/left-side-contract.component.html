@@ -192,6 +192,34 @@
         </p-button>
       </div>
     </form>
-    <div></div>
+    <div>
+      <span class="title-table">Danh sách hợp đồng</span>
+    </div>
+    <div class="card">
+      <p-table
+        [value]="products"
+        styleClass="p-datatable-gridlines"
+        [rows]="2"
+        paginator="true"
+        [loading]="false"
+      >
+        <ng-template pTemplate="header">
+          <tr class="p-datatable-header">
+            <th>Đơn vị cung cấp</th>
+            <th>Số hợp đồng</th>
+            <th>Tên hợp đồng</th>
+            <th>Giá trị hợp đồng</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product>
+          <tr>
+            <td>{{ product.code }}</td>
+            <td>{{ product.name }}</td>
+            <td>{{ product.category }}</td>
+            <td>{{ product.quantity }}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
   </div>
 </div>

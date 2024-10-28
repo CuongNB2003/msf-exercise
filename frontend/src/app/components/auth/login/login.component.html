@@ -1,27 +1,45 @@
 <div class="bg-color">
+  <form [formGroup]="loginForm" (ngSubmit)="loginHandler()" id="loginForm">
+    <h3>Đăng nhập</h3>
 
-    <form [formGroup]="loginForm" (ngSubmit)="loginHandler()" id="loginForm">
-        <h3>Đăng nhập</h3>
+    <app-input
+      [formGroup]="loginForm"
+      controlName="email"
+      placeholder="Nhập email"
+      errorMessage="Vui lòng nhập email hợp lệ"
+      type="email"
+    ></app-input>
 
-        <app-input [formGroup]="loginForm" controlName="email" placeholder="Nhập email"
-            errorMessage="Vui lòng nhập email hợp lệ" type="email"></app-input>
+    <app-input
+      [formGroup]="loginForm"
+      controlName="password"
+      placeholder="Nhập mật khẩu"
+      errorMessage="Vui lòng nhập mật khẩu (ít nhất 6 ký tự)"
+      type="password"
+    ></app-input>
 
-        <app-input [formGroup]="loginForm" controlName="password" placeholder="Nhập mật khẩu"
-            errorMessage="Vui lòng nhập mật khẩu (ít nhất 6 ký tự)" type="password"></app-input>
+    <div class="container-recaptcha">
+      <re-captcha
+        #captchaRef
+        formControlName="recaptcha"
+        siteKey="6LcqXy4qAAAAAG4g4N5apsDBQVU6aMScsk-Dm9DE"
+      ></re-captcha>
+      <div *ngIf="isInvalid('recaptcha')" class="error-msg-captcha">
+        Vui lòng chọn captcha
+      </div>
+    </div>
 
-        <!-- <div class="container-recaptcha">
-            <re-captcha #captchaRef formControlName="recaptcha"
-                siteKey="6LcqXy4qAAAAAG4g4N5apsDBQVU6aMScsk-Dm9DE"></re-captcha>
-            <div *ngIf="isInvalid('recaptcha')" class="error-msg-captcha">Vui lòng chọn captcha</div>
-        </div> -->
+    <app-button
+      [isSubmitting]="isSubmitting"
+      buttonText="Login"
+      [isLocked]="isLocked"
+    ></app-button>
 
-        <app-button [isSubmitting]="isSubmitting" buttonText="Login" [isLocked]="isLocked"></app-button>
+    <div>{{ lockoutMessage }}</div>
 
-        <div>{{ lockoutMessage }}</div>
-
-        <div class="forgot-password">
-            <a href="/register" class="left">Tạo tài khoản</a>
-            <a href="/about" class="right">Quên mật khẩu?</a>
-        </div>
-    </form>
+    <div class="forgot-password">
+      <a href="/register" class="left">Tạo tài khoản</a>
+      <a href="/about" class="right">Quên mật khẩu?</a>
+    </div>
+  </form>
 </div>

@@ -1,8 +1,6 @@
 .left-container {
     position: relative;
     background-color: var(--bs-white);
-    flex: 1;
-    transition: all 0.3s ease;
 
     &.in-active {
         .btn-change {
@@ -10,9 +8,11 @@
             margin: 7px auto 10px;
             transform: rotate(180deg);
         }
+
         .title-left {
             background: transparent;
             writing-mode: vertical-rl;
+
             .title {
                 color: var(--bs-blue);
                 font-size: 16px;
@@ -20,6 +20,7 @@
                 width: max-content;
             }
         }
+
         .body-left {
             display: none;
         }
@@ -38,6 +39,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+
         .material-icons {
             color: var(--bs-blue-dark);
             font-size: 30px;
@@ -50,6 +52,7 @@
         padding: 9px 0;
         background-color: var(--bs-blue);
         border-radius: 5px;
+
         .title {
             color: var(--bs-white);
             font-size: 16px;
@@ -71,7 +74,7 @@
                 flex-direction: column;
                 width: 33.33%;
                 padding: 0.3rem;
-                gap: 5px;
+                gap: 3px;
 
                 label {
                     color: var(--bs-black);
@@ -84,6 +87,7 @@
                 p-dropdown,
                 p-calendar {
                     ::ng-deep {
+
                         .p-inputtext,
                         .p-dropdown {
                             width: 100%;
@@ -92,18 +96,22 @@
                             font-size: 14px;
                             box-shadow: none;
                             color: var(--bs-black);
+
                             .p-inputtext {
                                 color: var(--bs-black);
+
                                 &.p-placeholder {
                                     color: var(--bs-gray);
                                 }
                             }
                         }
+
                         .p-inputtext::placeholder,
                         .p-dropdown span {
                             color: var(--bs-gray);
                             font-size: 14px;
                         }
+
                         .p-inputnumber {
                             width: 100%;
                         }
@@ -112,23 +120,29 @@
 
                 p-dropdown {
                     ::ng-deep {
+
                         .p-dropdown-header,
                         .p-dropdown-items-wrapper {
                             padding: 5px 7px;
+
                             span {
                                 color: black;
                             }
                         }
+
                         .p-dropdown-clear-icon {
                             font-size: 20px;
                             top: 20%;
                         }
+
                         .p-dropdown-filter-icon {
                             display: none;
                         }
+
                         .p-dropdown-empty-message {
                             font-size: 14px;
                         }
+
                         span {
                             margin-top: 3px;
                         }
@@ -137,14 +151,16 @@
 
                 p-calendar {
                     ::ng-deep {
-                        .p-icon-wrapper{
+                        .p-icon-wrapper {
                             top: 25%;
                         }
+
                         .p-calendar {
                             width: 100%;
                         }
+
                         .ng-trigger {
-                            padding: 10px;   
+                            padding: 10px;
                         }
                     }
                 }
@@ -158,12 +174,14 @@
                     font-weight: 400;
                     box-shadow: none;
                 }
+
                 &.button {
                     margin-top: 25px;
                     flex: 1;
                     width: 100%;
                     flex-direction: row;
                     align-items: center;
+
                     p-button {
                         ::ng-deep {
                             button {
@@ -172,6 +190,7 @@
                                 box-shadow: none;
                                 font-size: 14px;
                             }
+
                             .material-icons {
                                 font-size: 18px;
                             }
@@ -180,5 +199,69 @@
                 }
             }
         }
+
+        .title-table {
+            font-weight: bold;
+        }
+
+        p-table {
+            ::ng-deep {
+                .p-datatable-table {
+                    border-bottom: 1px solid var(--bs-gray);
+                    border-top: 1px solid var(--bs-gray);
+                    border-left: 1px solid var(--bs-gray);
+                    table-layout: fixed;
+                    width: 100%;
+                    font-size: 14px;
+                }
+                
+                .p-datatable-thead>tr>th {
+                    text-align: center;
+                    width: 25%;
+                    color: var(--bs-black);
+                    background: var(--bs-gray-200);
+                    padding: .3rem;
+                    font-weight: bold;
+                    border-right: 1px solid var(--bs-gray);
+                    white-space: normal; // Cho phép xuống dòng
+                    overflow-wrap: break-word; // Ngắt từ khi quá dài
+                    word-break: break-word; // Ngắt từ khi quá dài
+                }
+
+                .p-datatable-tbody>tr>td {
+                    width: 25%;
+                    padding: 4px 8px;
+                    color: var(--bs-black);
+                    border-top: 1px solid var(--bs-gray);
+                    border-right: 1px solid var(--bs-gray);
+                    white-space: normal; // Cho phép xuống dòng
+                    overflow-wrap: break-word; // Ngắt từ khi quá dài
+                    word-break: break-word; // Ngắt từ khi quá dài
+                }
+
+                .p-paginator {
+                    border: none;
+                    margin-top: 20px;
+                    justify-content: end;
+                    font-size: 14px;
+                    .p-ripple {
+                        height: 27px;
+                        min-width: 27px;
+                        color: var(--bs-black);
+                        border-radius: 0;
+                        padding: 0;
+                        margin: 0;
+                        border-bottom: 1px solid var(--bs-gray);
+                        border-top: 1px solid var(--bs-gray);
+                        border-left: 1px solid var(--bs-gray);
+                        &.p-paginator-last {
+                            border-right: 1px solid var(--bs-gray);
+                        }
+                    }
+                }
+            }
+        }
+
+
     }
 }
