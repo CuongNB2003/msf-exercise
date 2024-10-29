@@ -4,24 +4,6 @@
 @import 'primeicons/primeicons.css';
 @import 'quill/dist/quill.snow.css';
 
-
-// custom lại toast
-.custom-toast {
-    .p-toast-message {
-        margin-top: 10px;
-        padding: 6px 10px;
-
-        .p-toast-message-icon {
-            margin-right: 5px;
-            transform: scale(0.8);
-        }
-    }
-
-    .p-toast-summary {
-        font-weight: bold;
-    }
-}
-
 /* You can add global styles to this file, and also import other style files */
 *,
 *:before,
@@ -46,6 +28,23 @@ app-home {
     height: 100%;
 }
 
+// custom lại toast
+.custom-toast {
+    .p-toast-message {
+        margin-top: 10px;
+        padding: 6px 10px;
+
+        .p-toast-message-icon {
+            margin-right: 5px;
+            transform: scale(0.8);
+        }
+    }
+
+    .p-toast-summary {
+        font-weight: bold;
+    }
+}
+// màu dùng chung
 :root {
     --bs-blue: #0d6efd;
     --bs-blue-dark: #0056b3;

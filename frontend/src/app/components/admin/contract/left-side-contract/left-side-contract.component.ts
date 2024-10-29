@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { PrimeModule } from '@modules/prime/prime.module';
 
@@ -10,8 +10,6 @@ import { PrimeModule } from '@modules/prime/prime.module';
   styleUrls: ['./left-side-contract.component.scss']
 })
 export class LeftSideContractComponent {
-  @Input() isActive: boolean = false;
-  @Output() isActiveChange = new EventEmitter<boolean>();
   contractForm!: FormGroup;
   isFilter = false;
   isCleanForm = false;
@@ -50,12 +48,12 @@ export class LeftSideContractComponent {
     };
     this.products = [
       { code: 'P001P001P001P001P001P001P001P001P001P001P001P001P001P001P001', name: 'Sản phẩm A', category: 'Loại 1', quantity: 100 },
-      { code: 'P002', name: 'Sản phẩm B', category: 'Loại 2', quantity: 200 },
-      { code: 'P003', name: 'Sản phẩm C', category: 'Loại 3', quantity: 150 },
+      { code: 'P002', name: 'Sản phẩm BSản phẩm BSản phẩm BSản phẩm BSản phẩm B', category: 'Loại 2', quantity: 200 },
+      { code: 'P003', name: 'Sản phẩm C', category: 'Loại 3Loại 3Loại 3Loại 3Loại 3Loại 3Loại 3', quantity: 150 },
       { code: 'P004', name: 'Sản phẩm D', category: 'Loại 1', quantity: 75 },
       { code: 'P005', name: 'Sản phẩm E', category: 'Loại 2', quantity: 120 },
       { code: 'P001', name: 'Sản phẩm A', category: 'Loại 1', quantity: 100 },
-      { code: 'P002', name: 'Sản phẩm B', category: 'Loại 2', quantity: 200 },
+      { code: 'P002', name: 'Sản phẩm B', category: 'Loại 2', quantity: 200200200200200200200200200200200 },
       { code: 'P003', name: 'Sản phẩm C', category: 'Loại 3', quantity: 150 },
       { code: 'P004', name: 'Sản phẩm D', category: 'Loại 1', quantity: 75 },
       { code: 'P005', name: 'Sản phẩm E', category: 'Loại 2', quantity: 120 },
@@ -103,11 +101,6 @@ export class LeftSideContractComponent {
     this.isCleanForm = false;
   }
 
-  toggleClass(): void {
-    this.isActive = !this.isActive;
-    this.isActiveChange.emit(this.isActive);
-  }
-
   toUpperCase(event: Event): void {
     const input = event.target as HTMLInputElement;
     input.value = input.value.toUpperCase();
@@ -123,9 +116,5 @@ export class LeftSideContractComponent {
 
   private isValidDate(dateString: string): boolean {
     return !isNaN(Date.parse(dateString));
-  }
-
-  private formatDate(date: Date): string {
-    return `${String(date.getDate()).padStart(2, '0')}/${String(date.getMonth() + 1).padStart(2, '0')}/${date.getFullYear()}`;
   }
 }

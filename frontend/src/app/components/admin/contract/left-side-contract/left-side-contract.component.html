@@ -1,225 +1,218 @@
-<div [ngClass]="{ 'in-active': isActive }" class="left-container">
-  <button class="btn-change" (click)="toggleClass()">
-    <span class="material-icons">keyboard_double_arrow_left</span>
-  </button>
-  <div class="title-left">
-    <span class="title">Danh sách hợp đồng</span>
-  </div>
-  <div class="body-left">
-    <form [formGroup]="contractForm" class="container">
-      <div class="form-group">
-        <label for="nam-kinh-phi">Năm kinh phí</label>
-        <p-inputNumber
-          formControlName="namKinhPhi"
-          id="nam-kinh-phi"
-          inputId="integeronly"
-          [maxlength]="4"
-          [useGrouping]="false"
-          placeholder="Nhập năm kinh phí"
-        />
-      </div>
-      <div class="form-group">
-        <label for="so-hop-dong">Số hợp đồng</label>
-        <input
-          formControlName="soHopDong"
-          id="so-hop-dong"
-          pInputText
-          placeholder="Số hợp đồng"
-          (input)="toUpperCase($event)"
-          [maxLength]="50"
-        />
-      </div>
-      <div class="form-group">
-        <label for="loai-hop-dong">Loại hợp đồng</label>
-        <p-dropdown
-          formControlName="loaiHopDong"
-          id="loai-hop-dong"
-          [options]="countries"
-          optionLabel="name"
-          [filter]="true"
-          filterBy="name"
-          [showClear]="true"
-          placeholder="Chọn loại hợp đồng"
-          emptyMessage="Không có dữ liệu"
-          emptyFilterMessage="Không tìm thấy!"
-        ></p-dropdown>
-      </div>
+<div class="body-left">
+  <form [formGroup]="contractForm" class="container">
+    <div class="form-group">
+      <label for="nam-kinh-phi">Năm kinh phí</label>
+      <p-inputNumber
+        formControlName="namKinhPhi"
+        id="nam-kinh-phi"
+        inputId="integeronly"
+        [maxlength]="4"
+        [useGrouping]="false"
+        placeholder="Nhập năm kinh phí"
+      />
+    </div>
+    <div class="form-group">
+      <label for="so-hop-dong">Số hợp đồng</label>
+      <input
+        formControlName="soHopDong"
+        id="so-hop-dong"
+        pInputText
+        placeholder="Số hợp đồng"
+        (input)="toUpperCase($event)"
+        [maxLength]="50"
+      />
+    </div>
+    <div class="form-group">
+      <label for="loai-hop-dong">Loại hợp đồng</label>
+      <p-dropdown
+        formControlName="loaiHopDong"
+        id="loai-hop-dong"
+        [options]="countries"
+        optionLabel="name"
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
+        placeholder="Chọn loại hợp đồng"
+        emptyMessage="Không có dữ liệu"
+        emptyFilterMessage="Không tìm thấy!"
+      ></p-dropdown>
+    </div>
 
-      <div class="form-group">
-        <label for="ten-hop-dong">Tên hợp đồng</label>
-        <input
-          formControlName="tenHopDong"
-          id="ten-hop-dong"
-          pInputText
-          [maxLength]="250"
-          placeholder="Nhập tên hợp đồng"
-        />
-      </div>
-      <div class="form-group">
-        <label for="trang-thai">Trạng thái</label>
-        <p-dropdown
-          formControlName="trangThai"
-          id="trang-thai"
-          [options]="listStatus"
-          optionLabel="name"
-          [filter]="true"
-          filterBy="name"
-          [showClear]="true"
-          placeholder="Chọn trạng thái"
-          emptyMessage="Không có dữ liệu"
-          emptyFilterMessage="Không tìm thấy !"
-        />
-      </div>
-      <div class="form-group">
-        <label for="don-vi-cung-cap">Đơn vị cung cấp</label>
-        <p-dropdown
-          formControlName="donViCungCap"
-          id="don-vi-cung-cap"
-          optionLabel="name"
-          [filter]="true"
-          filterBy="name"
-          [showClear]="true"
-          placeholder="Chọn đơn vị cung cấp"
-          emptyMessage="Không có dữ liệu"
-          emptyFilterMessage="Không tìm thấy !"
-        />
-      </div>
-      <div class="form-group">
-        <label for="tu-ngay">Từ ngày</label>
-        <p-calendar
-          formControlName="tuNgay"
-          id="tu-ngay"
-          [iconDisplay]="'input'"
-          [showIcon]="true"
-          placeholder="--/--/----"
-          (keydown.enter)="handleEnter($event, 'tuNgay')"
-          dateFormat="dd/mm/yy"
-          [showButtonBar]="true"
-        />
-      </div>
-      <div class="form-group">
-        <label for="den-ngay">Đến ngày</label>
-        <p-calendar
-          formControlName="denNgay"
-          id="den-ngay"
-          [iconDisplay]="'input'"
-          [showIcon]="true"
-          inputId="icondisplay"
-          placeholder="--/--/----"
-          (keydown.enter)="handleEnter($event, 'denNgay')"
-          dateFormat="dd/mm/yy"
-          [showButtonBar]="true"
-        />
-      </div>
-      <div class="form-group">
-        <label for="lanh-dao-phu-trach">Lãnh đạo phụ trách</label>
-        <p-dropdown
-          formControlName="lanhDaoPhuTrach"
-          id="lanh-dao-phu-trach"
-          optionLabel="name"
-          [filter]="true"
-          filterBy="name"
-          [showClear]="true"
-          placeholder="Chọn lãnh đạo"
-          emptyMessage="Không có dữ liệu"
-          emptyFilterMessage="Không tìm thấy !"
-        />
-      </div>
-      <div class="form-group">
-        <label for="can-bo-phu-trach">Cán bộ phụ trách</label>
-        <p-dropdown
-          formControlName="canBoPhuTrach"
-          id="can-bo-phu-trach"
-          optionLabel="name"
-          [filter]="true"
-          filterBy="name"
-          [showClear]="true"
-          placeholder="Chọn cán bộ"
-          emptyMessage="Không có dữ liệu"
-          emptyFilterMessage="Không tìm thấy !"
-        />
-      </div>
-      <div class="form-group">
-        <label for="ten-hang">Tên hàng</label>
-        <input
-          formControlName="tenHang"
-          id="ten-hang"
-          pInputText
-          [maxLength]="250"
-          placeholder="Nhập tên hàng hóa"
-        />
-      </div>
-      <div class="form-group">
-        <label for="ma-hang">Mã hàng</label>
-        <input
-          formControlName="maHang"
-          id="ma-hang"
-          pInputText
-          [maxLength]="50"
-          placeholder="Nhập mã hàng hóa"
-        />
-      </div>
-      <div class="form-group">
-        <label for="tien-do-hop-dong">Tiến độ hợp đồng</label>
-        <p-dropdown
-          formControlName="tienDoHopDong"
-          id="tien-do-hop-dong"
-          [options]="listProgress"
-          optionLabel="name"
-          [filter]="true"
-          filterBy="name"
-          [showClear]="true"
-          placeholder="Chọn tiến độ hợp đồng"
-          emptyMessage="Không có dữ liệu"
-          emptyFilterMessage="Không tìm thấy !"
-        />
-      </div>
-      <div class="form-group button">
-        <p-button label="Tìm kiếm" (onClick)="onSubmit()" [loading]="isFilter">
-          <ng-template pTemplate="icon">
-            <i class="material-icons">search</i>
-          </ng-template>
-        </p-button>
-        <p-button
-          label="Làm mới"
-          (onClick)="cleanForm()"
-          severity="secondary"
-          [loading]="isCleanForm"
-        >
-          <ng-template pTemplate="icon">
-            <i class="material-icons">sync</i>
-          </ng-template>
-        </p-button>
-      </div>
-    </form>
-    <div>
-      <span class="title-table">Danh sách hợp đồng</span>
+    <div class="form-group">
+      <label for="ten-hop-dong">Tên hợp đồng</label>
+      <input
+        formControlName="tenHopDong"
+        id="ten-hop-dong"
+        pInputText
+        [maxLength]="250"
+        placeholder="Nhập tên hợp đồng"
+      />
     </div>
-    <div class="card">
-      <p-table
-        [value]="products"
-        styleClass="p-datatable-gridlines"
-        [rows]="2"
-        paginator="true"
-        [loading]="false"
+    <div class="form-group">
+      <label for="trang-thai">Trạng thái</label>
+      <p-dropdown
+        formControlName="trangThai"
+        id="trang-thai"
+        [options]="listStatus"
+        optionLabel="name"
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
+        placeholder="Chọn trạng thái"
+        emptyMessage="Không có dữ liệu"
+        emptyFilterMessage="Không tìm thấy !"
+        optionDisabled="name"
+      />
+    </div>
+    <div class="form-group">
+      <label for="don-vi-cung-cap">Đơn vị cung cấp</label>
+      <p-dropdown
+        formControlName="donViCungCap"
+        id="don-vi-cung-cap"
+        optionLabel="name"
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
+        placeholder="Chọn đơn vị cung cấp"
+        emptyMessage="Không có dữ liệu"
+        emptyFilterMessage="Không tìm thấy !"
+      />
+    </div>
+    <div class="form-group">
+      <label for="tu-ngay">Từ ngày</label>
+      <p-calendar
+        formControlName="tuNgay"
+        id="tu-ngay"
+        [iconDisplay]="'input'"
+        [showIcon]="true"
+        placeholder="--/--/----"
+        (keydown.enter)="handleEnter($event, 'tuNgay')"
+        dateFormat="dd/mm/yy"
+        [showButtonBar]="true"
+      />
+    </div>
+    <div class="form-group">
+      <label for="den-ngay">Đến ngày</label>
+      <p-calendar
+        formControlName="denNgay"
+        id="den-ngay"
+        [iconDisplay]="'input'"
+        [showIcon]="true"
+        inputId="icondisplay"
+        placeholder="--/--/----"
+        (keydown.enter)="handleEnter($event, 'denNgay')"
+        dateFormat="dd/mm/yy"
+        [showButtonBar]="true"
+      />
+    </div>
+    <div class="form-group">
+      <label for="lanh-dao-phu-trach">Lãnh đạo phụ trách</label>
+      <p-dropdown
+        formControlName="lanhDaoPhuTrach"
+        id="lanh-dao-phu-trach"
+        optionLabel="name"
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
+        placeholder="Chọn lãnh đạo"
+        emptyMessage="Không có dữ liệu"
+        emptyFilterMessage="Không tìm thấy !"
+      />
+    </div>
+    <div class="form-group">
+      <label for="can-bo-phu-trach">Cán bộ phụ trách</label>
+      <p-dropdown
+        formControlName="canBoPhuTrach"
+        id="can-bo-phu-trach"
+        optionLabel="name"
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
+        placeholder="Chọn cán bộ"
+        emptyMessage="Không có dữ liệu"
+        emptyFilterMessage="Không tìm thấy !"
+      />
+    </div>
+    <div class="form-group">
+      <label for="ten-hang">Tên hàng</label>
+      <input
+        formControlName="tenHang"
+        id="ten-hang"
+        pInputText
+        [maxLength]="250"
+        placeholder="Nhập tên hàng hóa"
+      />
+    </div>
+    <div class="form-group">
+      <label for="ma-hang">Mã hàng</label>
+      <input
+        formControlName="maHang"
+        id="ma-hang"
+        pInputText
+        [maxLength]="50"
+        placeholder="Nhập mã hàng hóa"
+      />
+    </div>
+    <div class="form-group">
+      <label for="tien-do-hop-dong">Tiến độ hợp đồng</label>
+      <p-dropdown
+        formControlName="tienDoHopDong"
+        id="tien-do-hop-dong"
+        [options]="listProgress"
+        optionLabel="name"
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
+        placeholder="Chọn tiến độ hợp đồng"
+        emptyMessage="Không có dữ liệu"
+        emptyFilterMessage="Không tìm thấy !"
+      />
+    </div>
+    <div class="form-group button">
+      <p-button label="Tìm kiếm" (onClick)="onSubmit()" [loading]="isFilter">
+        <ng-template pTemplate="icon">
+          <i class="material-icons">search</i>
+        </ng-template>
+      </p-button>
+      <p-button
+        label="Làm mới"
+        (onClick)="cleanForm()"
+        severity="secondary"
+        [loading]="isCleanForm"
       >
-        <ng-template pTemplate="header">
-          <tr class="p-datatable-header">
-            <th>Đơn vị cung cấp</th>
-            <th>Số hợp đồng</th>
-            <th>Tên hợp đồng</th>
-            <th>Giá trị hợp đồng</th>
-          </tr>
+        <ng-template pTemplate="icon">
+          <i class="material-icons">sync</i>
         </ng-template>
-        <ng-template pTemplate="body" let-product>
-          <tr>
-            <td>{{ product.code }}</td>
-            <td>{{ product.name }}</td>
-            <td>{{ product.category }}</td>
-            <td>{{ product.quantity }}</td>
-          </tr>
-        </ng-template>
-      </p-table>
+      </p-button>
     </div>
+  </form>
+  <div>
+    <span class="title-table">Danh sách hợp đồng</span>
+  </div>
+  <div class="card">
+    <p-table
+      [value]="products"
+      styleClass="p-datatable-gridlines"
+      [rows]="10"
+      paginator="true"
+      [loading]="false"
+    >
+      <ng-template pTemplate="header">
+        <tr class="p-datatable-header">
+          <th>Đơn vị cung cấp</th>
+          <th>Số hợp đồng</th>
+          <th>Tên hợp đồng</th>
+          <th>Giá trị hợp đồng</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-product>
+        <tr>
+          <td>{{ product.code }}</td>
+          <td>{{ product.name }}</td>
+          <td>{{ product.category }}</td>
+          <td>{{ product.quantity }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
   </div>
 </div>

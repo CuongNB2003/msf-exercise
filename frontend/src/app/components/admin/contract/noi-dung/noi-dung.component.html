@@ -1,0 +1,245 @@
+<div class="phu-luc-container">
+  <div class="title">
+    <span class="text">Nội dung hợp đồng</span>
+  </div>
+  <div class="body">
+    <span class="title-row">Thông tin chung</span>
+    <form [formGroup]="addContractForm" class="container">
+      <div class="form-group">
+        <label for="loai-hop-dong">Loại hợp đồng <span>*</span></label>
+        <p-dropdown
+          formControlName="loaiHopDong"
+          id="loai-hop-dong"
+          [options]="countries"
+          optionLabel="name"
+          [filter]="true"
+          filterBy="name"
+          [showClear]="true"
+          placeholder="Chọn loại hợp đồng"
+          emptyMessage="Không có dữ liệu"
+          emptyFilterMessage="Không tìm thấy!"
+        />
+      </div>
+      <div class="form-group">
+        <label for="nam-kinh-phi">Năm kinh phí <span>*</span></label>
+        <p-inputNumber
+          formControlName="namKinhPhi"
+          id="nam-kinh-phi"
+          inputId="integeronly"
+          [maxlength]="4"
+          [useGrouping]="false"
+          placeholder="Nhập năm kinh phí"
+        />
+      </div>
+      <div class="form-group">
+        <label for="lanh-dao-phu-trach">Lãnh đạo phụ trách</label>
+        <p-dropdown
+          formControlName="lanhDaoPhuTrach"
+          id="lanh-dao-phu-trach"
+          optionLabel="name"
+          [filter]="true"
+          filterBy="name"
+          [showClear]="true"
+          placeholder="Chọn lãnh đạo phụ trách"
+          emptyMessage="Không có dữ liệu"
+          emptyFilterMessage="Không tìm thấy !"
+        />
+      </div>
+      <div class="form-group">
+        <label for="can-bo-phu-trach">Cán bộ phụ trách <span>*</span></label>
+        <p-dropdown
+          formControlName="canBoPhuTrach"
+          id="can-bo-phu-trach"
+          optionLabel="name"
+          [filter]="true"
+          filterBy="name"
+          [showClear]="true"
+          placeholder="Chọn cán bộ phụ trách"
+          emptyMessage="Không có dữ liệu"
+          emptyFilterMessage="Không tìm thấy !"
+        />
+      </div>
+      <div class="form-group">
+        <label for="trang-thai">Trạng thái <span>*</span></label>
+        <p-dropdown
+          formControlName="trangThai"
+          id="trang-thai"
+          [options]="listStatus"
+          optionLabel="name"
+          [filter]="true"
+          filterBy="name"
+          [showClear]="true"
+          placeholder="Chọn trạng thái"
+          emptyMessage="Không có dữ liệu"
+          emptyFilterMessage="Không tìm thấy !"
+          optionDisabled="name"
+        />
+      </div>
+      <div class="form-group">
+        <label for="so-hop-dong">Số hợp đồng <span>*</span></label>
+        <input
+          formControlName="soHopDong"
+          id="so-hop-dong"
+          pInputText
+          placeholder="Nhập Số hợp đồng"
+          [maxLength]="50"
+        />
+      </div>
+      <div class="form-group">
+        <label for="ten-hop-dong">Tên hợp đồng <span>*</span></label>
+        <input
+          formControlName="tenHopDong"
+          id="ten-hop-dong"
+          pInputText
+          [maxLength]="250"
+          placeholder="Nhập tên hợp đồng"
+        />
+      </div>
+      <div class="form-group">
+        <label for="nguon-kinh-phi">Nguồn kinh phí</label>
+        <p-dropdown
+          formControlName="nguonKinhPhi"
+          id="nguon-kinh-phi"
+          [options]="listProgress"
+          optionLabel="name"
+          [filter]="true"
+          filterBy="name"
+          [showClear]="true"
+          placeholder="Tự động lấy từ danh sách hàng hoá"
+          emptyMessage="Không có dữ liệu"
+          emptyFilterMessage="Không tìm thấy !"
+          optionDisabled="name"
+        />
+      </div>
+      <div class="form-group">
+        <label for="don-vi-cung-cap">Đơn vị cung cấp <span>*</span></label>
+        <p-dropdown
+          formControlName="donViCungCap"
+          id="don-vi-cung-cap"
+          [options]="listProgress"
+          optionLabel="name"
+          [filter]="true"
+          filterBy="name"
+          [showClear]="true"
+          placeholder="Chọn đơn vị cung cấp"
+          emptyMessage="Không có dữ liệu"
+          emptyFilterMessage="Không tìm thấy !"
+        />
+      </div>
+      <div class="form-group">
+        <label for="ngay-ky">Ngày ký <span>*</span> </label>
+        <p-calendar
+          formControlName="ngayKy"
+          id="ngay-ky"
+          [iconDisplay]="'input'"
+          [showIcon]="true"
+          placeholder="--/--/----"
+          (keydown.enter)="handleEnter($event, 'ngayKy')"
+          dateFormat="dd/mm/yy"
+          [showButtonBar]="true"
+        />
+      </div>
+      <div class="form-group">
+        <label for="ngay-co-hieu-luc">Ngày có hiệu lực <span>*</span></label>
+        <p-calendar
+          formControlName="ngayCoHieuLuc"
+          id="ngay-co-hieu-luc"
+          [iconDisplay]="'input'"
+          [showIcon]="true"
+          placeholder="--/--/----"
+          (keydown.enter)="handleEnter($event, 'ngayCoHieuLuc')"
+          dateFormat="dd/mm/yy"
+          [showButtonBar]="true"
+        />
+      </div>
+      <div class="form-group">
+        <label for="so-ngay-thuc-hien">Số ngày thực hiện <span>*</span></label>
+        <p-inputNumber
+          formControlName="soNgayThucHien"
+          id="so-ngay-thuc-hien"
+          inputId="integeronly"
+          [maxlength]="5"
+          [useGrouping]="false"
+          placeholder="Nhập số ngày thực hiện"
+        />
+      </div>
+      <div class="form-group">
+        <label for="tien-do-hop-dong">Tiến độ hợp đồng</label>
+        <input
+          formControlName="tienDoHopDong"
+          id="tien-do-hop-dong"
+          pInputText
+          [maxLength]="50"
+          placeholder="Tiến độ hợp đồng"
+          [disabled]="true"
+        />
+      </div>
+      <div class="form-group">
+        <label for="ngay-ket-thuc-hop-dong">Ngày kết thúc hợp đồng</label>
+        <p-calendar
+          formControlName="ngayKetThucHopDong"
+          id="ngay-ket-thuc-hop-dong"
+          [iconDisplay]="'input'"
+          [showIcon]="true"
+          placeholder="--/--/----"
+          dateFormat="dd/mm/yy"
+          [showButtonBar]="true"
+          [disabled]="true"
+        />
+      </div>
+      <div class="form-group">
+        <label for="gia-tri-hop-dong-ban-dau">Giá trị hợp đồng ban đầu</label>
+        <p-inputNumber
+          formControlName="giaTriHopDongBanDau"
+          id="gia-tri-hop-dong-ban-dau"
+          inputId="integeronly"
+          [useGrouping]="false"
+          placeholder="0 VNĐ"
+          [disabled]="true"
+        />
+      </div>
+      <div class="form-group">
+        <label for="gia-tri-thuc-te">Giá trị thực tế <span>*</span></label>
+        <p-inputNumber
+          formControlName="giaTriThucTe"
+          id="gia-tri-thuc-te"
+          inputId="integeronly"
+          [useGrouping]="false"
+          placeholder="0 VNĐ"
+          [disabled]="true"
+        />
+      </div>
+      <div class="form-group">
+        <label for="da-thanh-toan">Đã thanh toán</label>
+        <p-inputNumber
+          formControlName="daThanhToan"
+          id="da-thanh-toan"
+          inputId="integeronly"
+          [useGrouping]="false"
+          placeholder="0 VNĐ"
+          [disabled]="true"
+        />
+      </div>
+      <div class="form-group">
+        <label for="con-thanh-toan">Còn thanh toán</label>
+        <p-inputNumber
+          formControlName="conThanhToan"
+          id="con-thanh-toan"
+          inputId="integeronly"
+          [useGrouping]="false"
+          placeholder="0 VNĐ"
+          [disabled]="true"
+        />
+      </div>
+      <div class="form-group note">
+        <label for="ghi-chu">Ghi chú</label>
+        <input
+          formControlName="ghiChu"
+          id="ghi-chu"
+          pInputText
+          [maxLength]="500"
+        />
+      </div>
+    </form>
+  </div>
+</div>

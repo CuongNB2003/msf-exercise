@@ -1,5 +1,5 @@
 .contract-container {
-    
+    padding: 0;
     color: var(--bs-black);
     font-size: 14px;
 
@@ -48,8 +48,9 @@
         padding: 10px 0px 10px 10px;
         display: flex;
         gap: 10px;
-        min-height: 720px;
-        .left-container {
+        width: 100%;
+        .action-system {
+            min-height: 720px;
             position: relative;
             background-color: var(--bs-white);
             flex: 1;
@@ -59,12 +60,169 @@
                 width: 60px;
                 flex: none;
                 border-radius: 5px;
+                .btn-change {
+                    position: static;
+                    margin: 7px auto 10px;
+                    transform: rotate(180deg);
+                }
+        
+                .title {
+                    background: transparent;
+                    writing-mode: vertical-rl;
+        
+                    .text {
+                        color: var(--bs-blue);
+                        font-size: 16px;
+                        font-weight: bold;
+                        width: max-content;
+                    }
+                }
+        
+                .body-left {
+                    display: none;
+                }
+            }
+
+            .btn-change {
+                border: none;
+                background: transparent;
+                width: max-content;
+                padding: 0 5px;
+                position: absolute;
+                right: 1px;
+                top: 6px;
+                z-index: 70;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+        
+                .material-icons {
+                    color: var(--bs-blue-dark);
+                    font-size: 30px;
+                }
+            }
+        
+            .title {
+                display: flex;
+                position: relative;
+                padding: 9px 0;
+                background-color: var(--bs-blue);
+                border-radius: 5px;
+        
+                .text {
+                    color: var(--bs-white);
+                    font-size: 16px;
+                    font-weight: bold;
+                    padding-left: 15px;
+                }
             }
         }
 
-        .right-container {
+        .content-system {
+            width: 100%;
+            min-height: 720px;
             flex: 1.5;
             transition: all 0.3s ease;
+            .main-action {
+                margin-top: 5px;
+                display: flex;
+                flex-direction: row;
+                gap: 5px;
+                .custom-button {
+                    background-color: var(--bs-blue);
+                    height: 30px;
+                    color: var(--bs-white);
+                    border: none;
+                    border-radius: 4px;
+                    padding: 4px 10px;
+                    font-size: 14px; 
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center; 
+                    i {
+                        margin-right: 2px;
+                        font-size: 18px;
+                    }
+                    &.save {
+                        background-color: var(--bs-yellow); 
+                    }
+                    &.delete {
+                        background-color: var(--bs-red);
+                    }
+                    &.print {
+                        background-color: var(--bs-orange);
+                    }
+                    &:not(:disabled):active {
+                        transform: scale(0.98);
+                        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+                    }
+                    &:disabled {
+                        background-color: var(--bs-gray-400);
+                        color: var(--bs-gray);
+                        cursor: not-allowed;
+                        box-shadow: none;
+                        transform: none;
+                    }
+                }
+            }
+            .body-right {
+                margin-top: 10px;
+                ::ng-deep {
+                    .p-tabview-nav-content {
+                        position: relative;
+                        width: 100%;
+                
+                        .p-tabview-nav {
+                            display: flex;
+                            flex-wrap: wrap;
+                            padding-left: 0;
+                            margin-bottom: 0;
+                            list-style: none;
+                            background: var(--bs-blue);
+                
+                            .p-tabview-nav-link {
+                                background: none;
+                                border: none;
+                
+                                .p-tabview-title {
+                                    color: var(--bs-white);
+                                    display: block;
+                                    padding: 12px 8px;
+                                    font-size: 14px;
+                                    font-weight: normal;
+                                    position: relative;
+                                    &::after {
+                                        content: "";
+                                        position: absolute;
+                                        width: 1px;
+                                        height: 20px;
+                                        background: var(--bs-blue-dark);
+                                        right: 0;
+                                        top: 50%;
+                                        transform: translateY(-50%);
+                                    }
+                                }
+                
+                                &:hover {
+                                    background: var(--bs-blue-dark);
+                                    border-radius: 0;
+                                }
+                            }
+                            .p-highlight {
+                                background: var(--bs-blue-dark);
+                                .p-tabview-title {
+                                    font-weight: bold;
+                                }
+                            }
+                        }
+                    }
+                }
+                .tab-container {
+                    flex: 1;
+                    background-color: var(--bs-white);
+                }
+            }
         }
     }
 }
