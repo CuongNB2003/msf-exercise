@@ -170,15 +170,21 @@
                 word-break: break-word; // Ngắt từ khi quá dài
             }
 
-            .p-datatable-tbody>tr>td {
-                width: 25%;
-                padding: 4px 8px;
-                color: var(--bs-black);
-                border-top: 1px solid var(--bs-gray-400);
-                border-right: 1px solid var(--bs-gray-400);
-                white-space: normal; // Cho phép xuống dòng
-                overflow-wrap: break-word; // Ngắt từ khi quá dài
-                word-break: break-word; // Ngắt từ khi quá dài
+            .p-datatable-tbody>
+            tr {
+                &:hover {
+                    background-color: #fefaed;
+                }
+                >td {
+                    width: 25%;
+                    padding: 4px 8px;
+                    color: var(--bs-black);
+                    border-top: 1px solid var(--bs-gray-400);
+                    border-right: 1px solid var(--bs-gray-400);
+                    white-space: normal; // Cho phép xuống dòng
+                    overflow-wrap: break-word; // Ngắt từ khi quá dài
+                    word-break: break-word; // Ngắt từ khi quá dài
+                }
             }
 
             .p-paginator {
@@ -202,6 +208,11 @@
                     &.p-paginator-last {
                         border-right: 1px solid var(--bs-gray-400);
                     }
+                }
+                .p-highlight {
+                    background-color: var(--bs-blue);
+                    color: var(--bs-white);
+                    font-weight: 500;
                 }
             }
         }

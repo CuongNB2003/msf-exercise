@@ -313,6 +313,9 @@ p-calendar {
 
                     .p-datatable-tbody {
                         >tr {
+                            &:hover {
+                                background-color: #fefaed;
+                            }
                             >td {
                                 text-align: center;
                                 padding: 4px 8px;
