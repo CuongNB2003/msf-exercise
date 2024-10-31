@@ -21,7 +21,7 @@ import { NoiDungComponent } from '../noi-dung/noi-dung.component';
 })
 export class LayoutContractComponent {
   isActive: boolean = false;
-  isAdd: boolean = true
+  isAdd: boolean = true;
 
   toggleClass(): void {
     this.isActive = !this.isActive;

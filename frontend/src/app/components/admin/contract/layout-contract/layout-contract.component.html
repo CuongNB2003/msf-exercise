@@ -21,93 +21,55 @@
     <!-- phía bên phải -->
     <div class="content-system">
       <div class="main-action">
-        <button class="custom-button" (click)="onSubmit()" [disabled]="!isAdd">
+        <button class="custom-button click" (click)="onSubmit()" [disabled]="!isAdd">
           <i class="material-icons">add</i>
           Thêm mới
         </button>
-        <button
-          class="custom-button"
-          [ngClass]="{ save: !isAdd }"
-          [disabled]="isAdd"
-        >
+        <button class="custom-button click save" [disabled]="isAdd">
           <i class="material-icons">system_update_alt</i>
           Lưu
         </button>
 
-        <button
-          class="custom-button"
-          [ngClass]="{ delete: !isAdd }"
-          [disabled]="isAdd"
-          (click)="onSubmit()"
-        >
+        <button class="custom-button click delete" [disabled]="isAdd" (click)="onSubmit()">
           <i class="material-icons">highlight_off</i>
           Hủy thay đổi
         </button>
-        <button
-          class="custom-button"
-          [ngClass]="{ delete: !isAdd }"
-          [disabled]="isAdd"
-        >
+        <button class="custom-button click delete" [disabled]="isAdd">
           <i class="material-icons">delete_outline</i>
           Xóa
         </button>
-        <button class="custom-button">Thanh lý</button>
-        <button class="custom-button">
+        <button class="custom-button click">Thanh lý</button>
+        <button class="custom-button click">
           <i class="material-icons">task</i>
           Quyết toán
         </button>
-        <button class="custom-button print" [disabled]="!isAdd">
+        <button class="custom-button print click" [disabled]="!isAdd">
           <i class="material-icons">print</i>
           In hợp đồng
         </button>
       </div>
       <div class="body-right">
-        <p-tabView
-          [ngStyle]="{ flex: '1', display: 'flex', 'flex-direction': 'column' }"
-        >
+        <p-tabView [ngStyle]="{ flex: '1', display: 'flex', 'flex-direction': 'column' }">
           <p-tabPanel header="Nội dung">
-            <div class="tab-container">
-              <app-noi-dung />
-            </div>
+            <app-noi-dung />
           </p-tabPanel>
           <p-tabPanel header="Phụ lục">
-            <div class="tab-container">
-              <app-phu-luc />
-            </div>
+            <app-phu-luc />
           </p-tabPanel>
           <p-tabPanel header="Nghiệm thu hàng hóa">
-            <div class="tab-container">
-              <p>At vero eos et accusamus et iusto odio dignissimos...</p>
-            </div>
+            <app-noi-dung />
           </p-tabPanel>
           <p-tabPanel header="Chi tiết hàng hóa nghiệm thu">
-            <div class="tab-container">
-              <p>Lorem ipsum dolor sit amet...</p>
-            </div>
+            <app-noi-dung />
           </p-tabPanel>
           <p-tabPanel header="Thanh lý hợp đồng">
-            <div class="tab-container">
-              <p>
-                Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-                accusantium...
-              </p>
-            </div>
+            <app-noi-dung />
           </p-tabPanel>
           <p-tabPanel header="Hợp đồng gốc">
-            <div class="tab-container">
-              <p>
-                Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-                accusantium...
-              </p>
-            </div>
+            <app-noi-dung />
           </p-tabPanel>
           <p-tabPanel header="Tiến độ thanh toán">
-            <div class="tab-container">
-              <p>
-                Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-                accusantium...
-              </p>
-            </div>
+            <app-noi-dung />
           </p-tabPanel>
         </p-tabView>
       </div>

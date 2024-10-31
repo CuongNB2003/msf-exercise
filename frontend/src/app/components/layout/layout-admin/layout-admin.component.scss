@@ -15,7 +15,7 @@ main {
     ng-scrollbar {
         flex: 1;
         --scrollbar-thickness: 10;
-        --scrollbar-track-color: var(--bs-gray-500);
+        --scrollbar-track-color: var(--bs-gray-200);
         // height: 100%;
 
         ::ng-deep {

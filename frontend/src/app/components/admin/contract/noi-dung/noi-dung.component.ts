@@ -13,6 +13,8 @@ import { PrimeModule } from '@modules/prime/prime.module';
 })
 export class NoiDungComponent implements OnInit {
   addContractForm!: FormGroup
+  products: any[] = []
+  selectedProducts!: any;
   countries = [
     { name: 'Việt Nam', code: 'VN' },
     { name: 'Cường Đây rồi', code: 'VN' },
@@ -33,7 +35,11 @@ export class NoiDungComponent implements OnInit {
   ];
 
   constructor(private fb: FormBuilder) {
-
+    this.products = [
+      { code: 'P004', name: 'Sản phẩm D Sản phẩm D Sản phẩm D Sản phẩm D Sản phẩm D Sản phẩm D Sản phẩm D', category: 'Loại 1', quantity: 75 },
+      { code: 'P005', name: 'Sản phẩm E', category: 'Loại 2', quantity: 120 },
+      { code: 'P005', name: 'Sản phẩm E', category: 'Loại 2', quantity: 120 }
+    ];
   }
 
   ngOnInit(): void {
@@ -59,7 +65,7 @@ export class NoiDungComponent implements OnInit {
       ghiChu: [null, Validators.maxLength(500)],
     });
   }
-  
+
 
   handleEnter(event: Event, controlName: string): void {
     const input = event.target as HTMLInputElement;

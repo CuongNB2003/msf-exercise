@@ -21,6 +21,42 @@ body {
     font-size: 15px;
     height: 100vh;
     overflow: hidden;
+
+    .p-dropdown-panel {
+        .p-dropdown-header {
+            padding: 5px 7px;
+            .p-inputtext {
+                width: 100%;
+                height: 30px;
+                padding-left: 5px;
+                font-size: 14px;
+                box-shadow: none;
+                color: var(--bs-black);
+            }
+            .p-dropdown-filter-icon {
+                display: none;
+            }
+        }
+
+        .p-dropdown-items-wrapper {
+            padding: 5px 7px;
+            .p-dropdown-item {
+                color: black;
+                white-space: normal;
+                word-wrap: break-word;
+                overflow-wrap: break-word;
+            }
+        }
+    }
+
+    .p-dropdown-clear-icon {
+        font-size: 20px;
+        top: 20%;
+    }
+
+    .p-dropdown-empty-message {
+        font-size: 14px;
+    }
 }
 
 app-home {
@@ -44,6 +80,14 @@ app-home {
         font-weight: bold;
     }
 }
+
+// click
+.click {
+    &:active {
+        transform: scale(0.95);
+    }
+}
+
 // màu dùng chung
 :root {
     --bs-blue: #0d6efd;

@@ -7,8 +7,10 @@
         id="nam-kinh-phi"
         inputId="integeronly"
         [maxlength]="4"
+        [min]="1"
         [useGrouping]="false"
         placeholder="Nhập năm kinh phí"
+        autocomplete="off"
       />
     </div>
     <div class="form-group">
@@ -20,6 +22,7 @@
         placeholder="Số hợp đồng"
         (input)="toUpperCase($event)"
         [maxLength]="50"
+        autocomplete="off"
       />
     </div>
     <div class="form-group">
@@ -46,6 +49,7 @@
         pInputText
         [maxLength]="250"
         placeholder="Nhập tên hợp đồng"
+        autocomplete="off"
       />
     </div>
     <div class="form-group">
@@ -141,6 +145,7 @@
         pInputText
         [maxLength]="250"
         placeholder="Nhập tên hàng hóa"
+        autocomplete="off"
       />
     </div>
     <div class="form-group">
@@ -151,6 +156,7 @@
         pInputText
         [maxLength]="50"
         placeholder="Nhập mã hàng hóa"
+        autocomplete="off"
       />
     </div>
     <div class="form-group">
@@ -169,7 +175,12 @@
       />
     </div>
     <div class="form-group button">
-      <p-button label="Tìm kiếm" (onClick)="onSubmit()" [loading]="isFilter">
+      <p-button
+        label="Tìm kiếm"
+        (onClick)="onSubmit()"
+        [loading]="isFilter"
+        styleClass="click"
+      >
         <ng-template pTemplate="icon">
           <i class="material-icons">search</i>
         </ng-template>
@@ -179,6 +190,7 @@
         (onClick)="cleanForm()"
         severity="secondary"
         [loading]="isCleanForm"
+        styleClass="click"
       >
         <ng-template pTemplate="icon">
           <i class="material-icons">sync</i>

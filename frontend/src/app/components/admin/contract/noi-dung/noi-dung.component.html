@@ -1,9 +1,11 @@
-<div class="phu-luc-container">
+<div class="noi-dung-container">
   <div class="title">
     <span class="text">Nội dung hợp đồng</span>
   </div>
   <div class="body">
-    <span class="title-row">Thông tin chung</span>
+    <div style="margin-top: 10px">
+      <span class="title-row">Thông tin chung</span>
+    </div>
     <form [formGroup]="addContractForm" class="container">
       <div class="form-group">
         <label for="loai-hop-dong">Loại hợp đồng <span>*</span></label>
@@ -27,8 +29,10 @@
           id="nam-kinh-phi"
           inputId="integeronly"
           [maxlength]="4"
+          [min]="1"
           [useGrouping]="false"
           placeholder="Nhập năm kinh phí"
+          autocomplete="off"
         />
       </div>
       <div class="form-group">
@@ -83,6 +87,7 @@
           pInputText
           placeholder="Nhập Số hợp đồng"
           [maxLength]="50"
+          autocomplete="off"
         />
       </div>
       <div class="form-group">
@@ -93,6 +98,7 @@
           pInputText
           [maxLength]="250"
           placeholder="Nhập tên hợp đồng"
+          autocomplete="off"
         />
       </div>
       <div class="form-group">
@@ -159,8 +165,10 @@
           id="so-ngay-thuc-hien"
           inputId="integeronly"
           [maxlength]="5"
+          [min]="1"
           [useGrouping]="false"
           placeholder="Nhập số ngày thực hiện"
+          autocomplete="off"
         />
       </div>
       <div class="form-group">
@@ -238,8 +246,167 @@
           id="ghi-chu"
           pInputText
           [maxLength]="500"
+          autocomplete="off"
         />
       </div>
+      <div class="form-group file">
+        <label for="tai-file">Tải file</label>
+        <div class="file-upload">
+          <label for="fileInput" class="file-label">
+            <span class="material-icons">folder_open</span>
+            <span>Chọn tệp</span>
+          </label>
+          <input type="file" id="fileInput" readonly />
+        </div>
+      </div>
     </form>
+    <div style="margin: 15px 0px">
+      <span class="title-row">Chi tiết hàng hóa</span>
+    </div>
+    <div class="main-action">
+      <div class="group-button">
+        <input
+          formControlName="ghiChu"
+          id="ghi-chu"
+          pInputText
+          [maxLength]="250"
+          placeholder="Tìm kiếm theo mã, tên, model"
+          autocomplete="off"
+        />
+        <p-button label="Tìm kiếm" styleClass="search">
+          <ng-template pTemplate="icon">
+            <i class="material-icons">search</i>
+          </ng-template>
+        </p-button>
+      </div>
+      <div class="group-button">
+        <p-button label="Thêm" styleClass="add">
+          <ng-template pTemplate="icon">
+            <i class="material-icons">add</i>
+          </ng-template>
+        </p-button>
+        <p-button label="Xóa" styleClass="delete">
+          <ng-template pTemplate="icon">
+            <i class="material-icons">delete</i>
+          </ng-template>
+        </p-button>
+      </div>
+    </div>
+    <div class="table-hang-hoa">
+      <p-table
+        [(selection)]="selectedProducts"
+        [value]="products"
+        styleClass="p-datatable-gridlines"
+        [rows]="10"
+        [loading]="false"
+        scrollable="true"
+        scrollHeight="flex"
+      >
+        <ng-template pTemplate="header">
+          <tr class="p-datatable-header">
+            <th class="checkbox-column">
+              <p-tableHeaderCheckbox />
+            </th>
+            <th style="width: 50px">STT</th>
+            <th>Nhóm hàng</th>
+            <th>Loại hàng hóa</th>
+            <th>Tên hàng</th>
+            <th>Mã hàng</th>
+            <th>Đơn vị tính</th>
+
+            <th>Nguồn kinh phí</th>
+            <th style="width: 120px">Năm sản xuất</th>
+            <th>Model</th>
+
+            <th>Hãng sản xuất</th>
+            <th>Xuất xứ</th>
+            <th style="width: 120px">Số lượng HĐ</th>
+            <th style="width: 200px">Đơn giá HĐ</th>
+            <th style="width: 200px">Thành tiền</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product let-i="rowIndex">
+          <tr>
+            <td class="checkbox-column">
+              <p-tableCheckbox [value]="product" />
+            </td>
+            <td>{{ i + 1 }}</td>
+            <td>{{ product.name }}</td>
+            <td>{{ product.category }}</td>
+            <td>{{ product.quantity }}</td>
+            <td>{{ product.code }}</td>
+            <td>{{ product.name }}</td>
+
+            <td style="text-align: start">
+              <p-dropdown
+                id="nguon-kinh-phi"
+                [options]="[]"
+                optionLabel="name"
+                [filter]="true"
+                filterBy="name"
+                [showClear]="true"
+                emptyMessage="Không có dữ liệu"
+                emptyFilterMessage="Không tìm thấy !"
+                appendTo="body"
+              />
+            </td>
+            <td>
+              <p-inputNumber
+                id="name-san-xuat"
+                inputId="integeronly"
+                [useGrouping]="false"
+                autocomplete="off"
+              />
+            </td>
+            <td>
+              <input id="model" pInputText [maxLength]="50" />
+            </td>
+            <td style="text-align: start">
+              <p-dropdown
+                id="hang-san-xuat"
+                [options]="listProgress"
+                optionLabel="name"
+                [filter]="true"
+                filterBy="name"
+                [showClear]="true"
+                emptyMessage="Không có dữ liệu"
+                emptyFilterMessage="Không tìm thấy !"
+                appendTo="body"
+              />
+            </td>
+            <td style="text-align: start">
+              <p-dropdown
+                id="xuat-xu"
+                [options]="listProgress"
+                optionLabel="name"
+                [filter]="true"
+                filterBy="name"
+                [showClear]="true"
+                emptyMessage="Không có dữ liệu"
+                emptyFilterMessage="Không tìm thấy !"
+                appendTo="body"
+              />
+            </td>
+            <td>
+              <p-inputNumber
+                id="so-luong"
+                inputId="integeronly"
+                [useGrouping]="false"
+                autocomplete="off"
+              />
+            </td>
+            <td>
+              <p-inputNumber
+                id="don-gia"
+                inputId="integeronly"
+                [useGrouping]="false"
+                autocomplete="off"
+              />
+            </td>
+            <td>{{ product.code }}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
   </div>
 </div>
