@@ -12,6 +12,7 @@ import { PrimeModule } from '@modules/prime/prime.module';
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class NoiDungComponent implements OnInit {
+  visible: boolean = false;
   addContractForm!: FormGroup
   products: any[] = []
   selectedProducts!: any;
@@ -64,6 +65,10 @@ export class NoiDungComponent implements OnInit {
       conThanhToan: [{ value: null, disabled: true }],
       ghiChu: [null, Validators.maxLength(500)],
     });
+  }
+
+  showDialogAddHangHoa() {
+    this.visible = true;
   }
 
 

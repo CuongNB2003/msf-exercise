@@ -9,7 +9,7 @@ namespace MsfServer.HttpApi.Sercurity
             public const string View = Controller + ".View";
             public const string Create = Controller + ".Create";
             public const string Update = Controller + ".Update";
-            public const string Delete = Controller + ".Detele";
+            public const string Delete = Controller + ".Delete";
         }
         public static class Role
         {
@@ -17,7 +17,7 @@ namespace MsfServer.HttpApi.Sercurity
             public const string View = Controller + ".View";
             public const string Create = Controller + ".Create";
             public const string Update = Controller + ".Update";
-            public const string Delete = Controller + ".Detele";
+            public const string Delete = Controller + ".Delete";
         }
         public static class Menu
         {
@@ -25,7 +25,7 @@ namespace MsfServer.HttpApi.Sercurity
             public const string View = Controller + ".View";
             public const string Create = Controller + ".Create";
             public const string Update = Controller + ".Update";
-            public const string Delete = Controller + ".Detele";
+            public const string Delete = Controller + ".Delete";
         }
         public static class Permission
         {
@@ -33,7 +33,7 @@ namespace MsfServer.HttpApi.Sercurity
             public const string View = Controller + ".View";
             public const string Create = Controller + ".Create";
             public const string Update = Controller + ".Update";
-            public const string Delete = Controller + ".Detele";
+            public const string Delete = Controller + ".Delete";
         }
         public static class Log
         {
@@ -41,7 +41,7 @@ namespace MsfServer.HttpApi.Sercurity
             public const string View = Controller + ".View";
             public const string Create = Controller + ".Create";
             public const string Update = Controller + ".Update";
-            public const string Delete = Controller + ".Detele";
+            public const string Delete = Controller + ".Delete";
         }
     }
 }

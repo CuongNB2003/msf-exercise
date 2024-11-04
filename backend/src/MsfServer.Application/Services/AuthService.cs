@@ -34,17 +34,15 @@ namespace MsfServer.Application.Services
         // đăng nhập
         public async Task<ResponseObject<LoginResponse>> LoginAsync(LoginInput input)
         {
-            //if (!await _reCaptchaService.VerifyTokenAsync(input.ReCaptchaToken))
-            //{
-            //    throw new CustomException(StatusCodes.Status400BadRequest, "ReCAPTCHA token không hợp lệ.");
-            //}
+            await _reCaptchaService.VerifyTokenAsync(input.ReCaptchaToken);
             //check email
             var user = await _userRepository.GetUserByEmailAsync(input.Email);
+
             // check password
             byte[] salt = Convert.FromBase64String(user.Salt!);
             if (!PasswordHashed.VerifyPassword(input.PassWord, user.Password!, salt))
             {
-                throw new CustomException(StatusCodes.Status401Unauthorized, "Sai mật khẩu.");
+                throw new CustomException(StatusCodes.Status401Unauthorized, "Email hoặc mật khẩu không đúng.");
             }
             var userData = UserResponse.UserData(user.Id, user.Name!, user.Email!, user.Roles);
             // khởi tạo token

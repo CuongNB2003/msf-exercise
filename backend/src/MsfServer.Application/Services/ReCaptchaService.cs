@@ -26,8 +26,8 @@ namespace MsfServer.Application.Services
                     }
                     else
                     {
-                        throw new CustomException(StatusCodes.Status400BadRequest, "Mã lỗi: " + string.Join(", ", result?.ErrorCodes ?? []));
-                    }
+                    throw new CustomException(StatusCodes.Status400BadRequest, "ReCAPTCHA không hợp lệ.");
+                }
                 }else
                 {
                     throw new CustomException(StatusCodes.Status500InternalServerError, "Không thể xác minh reCAPTCHA token.");

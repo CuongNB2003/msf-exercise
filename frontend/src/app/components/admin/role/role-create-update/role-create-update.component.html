@@ -1,52 +1,64 @@
 <div class="title-dialog">
-    <h2>{{ data.id ? "Sửa quyền" : "Thêm quyền"}}</h2>
-    <span class="material-icons" (click)="close()">close</span>
+  <h2>{{ data.id ? "Sửa quyền" : "Thêm quyền" }}</h2>
+  <span class="material-icons" (click)="close()">close</span>
 </div>
 
 <mat-tab-group>
-    <mat-tab label="Tên quyền">
-        <form class="user-form" [formGroup]="createRoleForm">
-            <div style="height: 20px;"></div>
-            <app-input [formGroup]="createRoleForm" controlName="name" className="bg-input" placeholder="Nhập tên quyền"
-                errorMessage="Vui lòng nhập tên quyền" type="text"></app-input>
-        </form>
-    </mat-tab>
+  <mat-tab label="Tên quyền">
+    <form class="user-form" [formGroup]="createRoleForm">
+      <div style="height: 20px"></div>
+      <app-input
+        [formGroup]="createRoleForm"
+        controlName="name"
+        className="bg-input"
+        placeholder="Nhập tên quyền"
+        errorMessage="Vui lòng nhập tên quyền"
+        type="text"
+      ></app-input>
+    </form>
+  </mat-tab>
 
-    <mat-tab label="Permissions ({{ getSelectedPermissionsCount() }})">
-        <div class="permissions-container">
-            <!-- Cột bên trái: danh sách nhóm -->
-            <div class="group-list">
-                <ul>
-                    <li *ngFor="let group of groupedPermissions | keyvalue" [class.active]="group.key === selectedGroup"
-                        (click)="selectGroup(group.key)">
-                        {{ group.key }}
-                    </li>
-                </ul>
-            </div>
+  <mat-tab label="Permissions ({{ getSelectedPermissionsCount() }})">
+    <div class="permissions-container">
+      <!-- Cột bên trái: danh sách nhóm -->
+      <div class="group-list">
+        <ul>
+          <li
+            *ngFor="let group of groupedPermissions | keyvalue"
+            [class.active]="group.key === selectedGroup"
+            (click)="selectGroup(group.key)"
+          >
+            {{ group.key }}
+          </li>
+        </ul>
+      </div>
 
-            <!-- Cột bên phải: checkbox thuộc nhóm đã chọn -->
-            <div class="group-permissions">
-                <mat-checkbox *ngFor="let permission of groupedPermissions[selectedGroup]"
-                    [(ngModel)]="selectedPermission[permission.id]"
-                    (ngModelChange)="onCheckboxPermissionChange($event, permission)">
-                    {{ permission.name }}
-                </mat-checkbox>
-            </div>
-        </div>
-    </mat-tab>
+      <!-- Cột bên phải: checkbox thuộc nhóm đã chọn -->
+      <div class="group-permissions">
+        <mat-checkbox
+          *ngFor="let permission of groupedPermissions[selectedGroup]"
+          [(ngModel)]="selectedPermission[permission.id]"
+          (ngModelChange)="onCheckboxPermissionChange($event, permission)"
+        >
+          {{ permission.name }}
+        </mat-checkbox>
+      </div>
+    </div>
+  </mat-tab>
 
-    <mat-tab label="Menu ({{ getSelectedMenusCount() }})">
+  <!-- <mat-tab label="Menu ({{ getSelectedMenusCount() }})">
         <div class="roles-list">
             <mat-checkbox *ngFor="let menu of menus" [(ngModel)]="selectedMenus[menu.id]"
                 (ngModelChange)="onCheckboxMenuChange($event, menu)">
                 {{ menu.displayName }}
             </mat-checkbox>
         </div>
-    </mat-tab>
-
+    </mat-tab> -->
 </mat-tab-group>
 
 <div mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close>Hủy</button>
-    <button mat-raised-button color="primary" (click)="onSubmit()">{{ data.id ? "Sửa" : "Thêm"}}</button>
+  <button mat-button mat-dialog-close>Hủy</button>
+  <button mat-raised-button color="primary" (click)="onSubmit()">
+    {{ data.id ? "Sửa" : "Thêm" }}
+  </button>
 </div>

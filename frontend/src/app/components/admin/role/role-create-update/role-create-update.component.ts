@@ -232,10 +232,22 @@ export class RoleCreateUpdateComponent implements OnInit {
   }
 
   getSelectedMenuIds(): number[] {
-    const selectedIds = this.menus.filter(menu => this.selectedMenus[menu.id]).map(menu => menu.id);
-    console.log("Selected Role IDs:", selectedIds);
-    return selectedIds;
+    var perIds = this.getSelectedPermissionIds();
+
+    const selectedMenuIds = this.menus
+      .filter(menu => {
+        return this.permissions.some(permission => {
+          const idMatch = perIds.includes(permission.id);
+          const displayNameMatch = menu.displayName == permission.groupName;
+          const permissionNameMatch = permission.permissionName.includes("View");
+          return idMatch && displayNameMatch && permissionNameMatch;
+        });
+      })
+      .map(menu => menu.id);
+    return selectedMenuIds;
   }
+
+
 
   close(): void {
     this.data.load();

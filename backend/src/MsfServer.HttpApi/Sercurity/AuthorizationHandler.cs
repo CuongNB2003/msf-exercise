@@ -38,7 +38,7 @@ namespace MsfServer.HttpApi.Sercurity
 
                     foreach (var id in roleIds)
                     {
-                        var hasPermission = await CheckPermissionAsync(int.Parse(id), requiredPermission);
+                        bool hasPermission = await CheckPermissionAsync(int.Parse(id), requiredPermission);
 
                         if (hasPermission)
                         {
@@ -70,14 +70,14 @@ namespace MsfServer.HttpApi.Sercurity
             using var connection = dapperContext.GetOpenConnection();
 
             // Gọi stored procedure và lấy kết quả
-            var result = await connection.ExecuteScalarAsync<int>(
+            var result = await connection.ExecuteScalarAsync<int?>(
                 "Role_CheckPermission",
                 new { roleId, permissionName },
                 commandType: CommandType.StoredProcedure
             );
 
             // Trả về true nếu có quyền (result == 1), false nếu không (result == 0)
-            return result == 1;
+            return result.HasValue && result.Value ==1;
         }
     }
 }

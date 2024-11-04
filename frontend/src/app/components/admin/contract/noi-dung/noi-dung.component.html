@@ -252,7 +252,7 @@
       <div class="form-group file">
         <label for="tai-file">Tải file</label>
         <div class="file-upload">
-          <label for="fileInput" class="file-label">
+          <label for="fileInput" class="file-label click">
             <span class="material-icons">folder_open</span>
             <span>Chọn tệp</span>
           </label>
@@ -280,7 +280,11 @@
         </p-button>
       </div>
       <div class="group-button">
-        <p-button label="Thêm mới" styleClass="add">
+        <p-button
+          label="Thêm mới"
+          styleClass="add"
+          (onClick)="showDialogAddHangHoa()"
+        >
           <ng-template pTemplate="icon">
             <i class="material-icons">add</i>
           </ng-template>
@@ -410,3 +414,13 @@
     </div>
   </div>
 </div>
+
+<p-dialog
+  header="Header"
+  [modal]="true"
+  [visible]="visible"
+  [style]="{ 'max-width': '90%' }"
+  appendTo="body"
+>
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+</p-dialog>
