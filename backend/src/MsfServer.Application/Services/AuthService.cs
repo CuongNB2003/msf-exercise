@@ -34,10 +34,9 @@ namespace MsfServer.Application.Services
         // đăng nhập
         public async Task<ResponseObject<LoginResponse>> LoginAsync(LoginInput input)
         {
-            await _reCaptchaService.VerifyTokenAsync(input.ReCaptchaToken);
+            //await _reCaptchaService.VerifyTokenAsync(input.ReCaptchaToken);
             //check email
             var user = await _userRepository.GetUserByEmailAsync(input.Email);
-
             // check password
             byte[] salt = Convert.FromBase64String(user.Salt!);
             if (!PasswordHashed.VerifyPassword(input.PassWord, user.Password!, salt))

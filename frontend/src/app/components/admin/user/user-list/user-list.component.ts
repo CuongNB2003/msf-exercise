@@ -1,5 +1,5 @@
+import { saveAs } from 'file-saver';
 import { StorePermission } from './../../../../store/store.permission';
-import { StoreMenu } from './../../../../store/store.menu';
 import { CommonModule } from '@angular/common';
 import { Component, HostListener } from '@angular/core';
 import moment from 'moment';
@@ -15,6 +15,7 @@ import { UserDeleteComponent } from '../user-delete/user-delete.component';
 import { PermissionRoleResponse } from '@services/permission/permission.interface';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { Permission } from '@services/config/permission.enum';
+import * as XLSX from 'xlsx';
 
 
 @Component({
@@ -35,6 +36,8 @@ export class UserListComponent {
   itemsPerPage: number = this.limit;
   isDropdownOpen: { [key: number]: boolean } = {};
   isLoading: boolean = true;
+  // Định nghĩa loại tệp Excel
+  EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 
   constructor(
     private userService: UserService,
@@ -142,5 +145,16 @@ export class UserListComponent {
         load: () => this.loadUsers(),
       }
     });
+  }
+
+  exportData() {
+    const worksheet = XLSX.utils.json_to_sheet(this.listUser);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+
+    // Lưu tệp Excel
+    const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    const blob = new Blob([excelBuffer], { type: this.EXCEL_TYPE });
+    saveAs(blob, 'data.xlsx');
   }
 }
