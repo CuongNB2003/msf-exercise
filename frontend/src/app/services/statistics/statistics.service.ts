@@ -1,13 +1,12 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import baseURL from '@services/config/baseURL';
 import { ResponseObject } from '@services/config/response';
 import { ErrorHandingService } from '@services/error-handing/error-handing.service';
 import { catchError, Observable } from 'rxjs';
 import LogMethodByYear from './statistics.interface';
 import LogMethodByMonth from './statistics.interface';
 import RoleCountUser from './statistics.interface';
-
+import { baseURL } from '@services/config/baseURL';
 const apiUrl = `${baseURL}api/statistics`;
 
 @Injectable({

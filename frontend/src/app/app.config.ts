@@ -7,7 +7,7 @@ import { progressInterceptor } from 'ngx-progressbar/http';
 import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
 import { authInterceptor } from './services/interceptor/auth.interceptor';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
 
@@ -20,6 +20,7 @@ export const appConfig: ApplicationConfig = {
     provideAnimations(),
     provideAnimationsAsync(),
     MessageService,
+    ConfirmationService,
     BrowserAnimationsModule,
     provideCharts(withDefaultRegisterables())
   ]

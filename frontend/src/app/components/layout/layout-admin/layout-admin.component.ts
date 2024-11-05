@@ -85,7 +85,7 @@ export class LayoutAdminComponent implements OnInit, AfterViewInit {
         this.messageService.add({ severity: 'warn', summary: 'Warning', detail: `No data found for ${key}` });
       }
     } else {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Đang chạy ở server, không thể truy cập localStorage' });
+      this.messageService.add({ severity: 'error', summary: 'Lỗi', detail: 'Đang chạy ở server, không thể truy cập localStorage' });
     }
   }
 
@@ -129,10 +129,10 @@ export class LayoutAdminComponent implements OnInit, AfterViewInit {
         // Sử dụng detectChanges để tránh lỗi ExpressionChangedAfterItHasBeenCheckedError
         this.cd.detectChanges();
 
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Menus and permissions loaded successfully' });
+        this.messageService.add({ severity: 'success', summary: 'Thành công', detail: 'Menus and permissions loaded successfully' });
       },
       error: (err) => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: err });
+        this.messageService.add({ severity: 'error', summary: 'Lỗi', detail: err });
         console.error('Error loading roles:', err);
       }
     });

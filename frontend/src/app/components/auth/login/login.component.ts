@@ -86,7 +86,7 @@ export class LoginComponent implements OnInit {
       this.lockAccount();
       this.updateLockoutMessage();
     } else {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: `Đăng nhập thất bại: ${error}. Bạn còn ${remainingAttempts} lần thử.` });
+      this.messageService.add({ severity: 'error', summary: 'Lỗi', detail: `Đăng nhập thất bại: ${error}. Bạn còn ${remainingAttempts} lần thử.` });
     }
     this.captchaRef.reset();
   }

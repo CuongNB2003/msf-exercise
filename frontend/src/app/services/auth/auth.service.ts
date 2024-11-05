@@ -3,9 +3,9 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { LoginInput, LoginResponse, RefreshTokenResponse, RegisterInput, UserLogin } from './auth.interface';
-import baseURL from '../config/baseURL';
 import { ErrorHandingService } from '../error-handing/error-handing.service';
 import { ResponseObject, ResponseText } from '../config/response';
+import { baseURL } from '@services/config/baseURL';
 const apiUrl = `${baseURL}api/auth`;
 
 @Injectable({

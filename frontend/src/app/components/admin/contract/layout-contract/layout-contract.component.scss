@@ -155,10 +155,6 @@
                     &.print {
                         background-color: var(--bs-orange);
                     }
-                    &:not(:disabled):active {
-                        transform: scale(0.98);
-                        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-                    }
                     &:disabled {
                         opacity: 0.7;
                         background-color: var(--bs-gray-400);

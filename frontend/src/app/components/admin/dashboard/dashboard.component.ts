@@ -72,7 +72,7 @@ export class DashboardComponent implements OnInit {
         this.barChart?.chart?.update();
       },
       error: (err) => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: err });
+        this.messageService.add({ severity: 'error', summary: 'Lỗi', detail: err });
       },
     });
   }
@@ -97,7 +97,7 @@ export class DashboardComponent implements OnInit {
         this.lineChart?.chart?.update();
       },
       error: (err) => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: err });
+        this.messageService.add({ severity: 'error', summary: 'Lỗi', detail: err });
       },
     });
   }
@@ -111,7 +111,7 @@ export class DashboardComponent implements OnInit {
         this.pieChart?.chart?.update();
       },
       error: (err) => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: err });
+        this.messageService.add({ severity: 'error', summary: 'Lỗi', detail: err });
       },
     });
   }

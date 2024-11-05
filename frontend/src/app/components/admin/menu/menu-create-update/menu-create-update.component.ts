@@ -48,8 +48,8 @@ export class MenuCreateUpdateComponent {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.menuForm = this.fb.group({
-      name: ['', Validators.required],
-      url: ['', Validators.required],
+      name: ['', [Validators.required, Validators.maxLength(50)]],
+      url: ['', [Validators.required, Validators.maxLength(50)]],
       icon: ['', Validators.required]
     });
   }
@@ -77,7 +77,7 @@ export class MenuCreateUpdateComponent {
         });
       },
       error: (err) => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: err });
+        this.messageService.add({ severity: 'error', summary: 'Lỗi', detail: err });
       },
     });
   }
@@ -106,12 +106,12 @@ export class MenuCreateUpdateComponent {
 
     this.menuService.createMenu(input).subscribe({
       next: (response) => {
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: response.message });
+        this.messageService.add({ severity: 'success', summary: 'Thành công', detail: response.message });
         this.isSubmitting = false;
         this.close()
       },
       error: (err) => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: err });
+        this.messageService.add({ severity: 'error', summary: 'Lỗi', detail: err });
         this.isSubmitting = false;
       }
     });
@@ -127,12 +127,12 @@ export class MenuCreateUpdateComponent {
 
     this.menuService.updateMenu(input, id).subscribe({
       next: (response) => {
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: response.message });
+        this.messageService.add({ severity: 'success', summary: 'Thành công', detail: response.message });
         this.isSubmitting = false;
         this.close()
       },
       error: (err) => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: err });
+        this.messageService.add({ severity: 'error', summary: 'Lỗi', detail: err });
         this.isSubmitting = false;
       }
     });

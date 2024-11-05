@@ -4,7 +4,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { InputCreateUser, InputUpdateUser, UserResponse } from './user.interface';
 import { PagedResult, ResponseObject, ResponseText } from '../config/response';
 import { catchError, Observable } from 'rxjs';
-import baseURL from '../config/baseURL';
+import { baseURL } from '@services/config/baseURL';
 const apiUrl = `${baseURL}api/user`;
 @Injectable({
   providedIn: 'root'

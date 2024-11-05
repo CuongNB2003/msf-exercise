@@ -82,7 +82,7 @@ export class HeaderLayoutComponent implements OnInit {
         this.router.navigate(['/login']);
       },
       error: (error) => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
+        this.messageService.add({ severity: 'error', summary: 'Lỗi', detail: error });
       },
       complete: () => console.log('Đăng xuất thành công')
     })

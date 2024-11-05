@@ -16,6 +16,7 @@ import { PermissionRoleResponse } from '@services/permission/permission.interfac
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { Permission } from '@services/config/permission.enum';
 import * as XLSX from 'xlsx';
+import { EXCEL_TYPE } from '@services/config/baseURL';
 
 
 @Component({
@@ -36,8 +37,6 @@ export class UserListComponent {
   itemsPerPage: number = this.limit;
   isDropdownOpen: { [key: number]: boolean } = {};
   isLoading: boolean = true;
-  // Định nghĩa loại tệp Excel
-  EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 
   constructor(
     private userService: UserService,
@@ -57,13 +56,13 @@ export class UserListComponent {
     this.userService.getAll(this.page, this.limit).subscribe({
       next: (response) => {
         this.isLoading = false;
-        // this.messageService.add({ severity: 'success', summary: 'Success', detail: response.message });
+        // this.messageService.add({ severity: 'success', summary: 'Thành công', detail: response.message });
         this.listUser = response.data.data;
         this.totalItems = response.data.totalRecords;
       },
       error: (err) => {
         this.isLoading = false;
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: err });
+        this.messageService.add({ severity: 'error', summary: 'Lỗi', detail: err });
       },
     });
   }
@@ -154,7 +153,7 @@ export class UserListComponent {
 
     // Lưu tệp Excel
     const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-    const blob = new Blob([excelBuffer], { type: this.EXCEL_TYPE });
+    const blob = new Blob([excelBuffer], { type: EXCEL_TYPE });
     saveAs(blob, 'data.xlsx');
   }
 }

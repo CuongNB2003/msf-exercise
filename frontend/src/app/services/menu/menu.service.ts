@@ -1,10 +1,10 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import baseURL from '@services/config/baseURL';
 import { PagedResult, ResponseObject, ResponseText } from '@services/config/response';
 import { ErrorHandingService } from '@services/error-handing/error-handing.service';
 import { catchError, Observable } from 'rxjs';
 import { MenuCreateInput, MenuResponse, MenuUpdateInput } from './menu.interface';
+import { baseURL } from '@services/config/baseURL';
 const apiUrl = `${baseURL}api/menu`;
 
 @Injectable({

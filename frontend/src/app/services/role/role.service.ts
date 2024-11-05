@@ -1,10 +1,10 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable, Input } from '@angular/core';
 import { ErrorHandingService } from '../error-handing/error-handing.service';
-import baseURL from '../config/baseURL';
 import { catchError, Observable } from 'rxjs';
 import { PagedResult, ResponseObject, ResponseText } from '../config/response';
 import { RoleInput, RoleResponse } from './role.interface';
+import { baseURL } from '@services/config/baseURL';
 const apiUrl = `${baseURL}api/role`;
 @Injectable({
   providedIn: 'root'

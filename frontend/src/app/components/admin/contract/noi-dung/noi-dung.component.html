@@ -6,6 +6,7 @@
     <div style="margin-top: 10px">
       <span class="title-row">Thông tin chung</span>
     </div>
+
     <form [formGroup]="addContractForm" class="container">
       <div class="form-group">
         <label for="loai-hop-dong">Loại hợp đồng <span>*</span></label>
@@ -260,14 +261,13 @@
         </div>
       </div>
     </form>
+
     <div style="margin: 15px 0px">
       <span class="title-row">Chi tiết hàng hóa</span>
     </div>
     <div class="main-action">
       <div class="group-button">
         <input
-          formControlName="ghiChu"
-          id="ghi-chu"
           pInputText
           [maxLength]="250"
           placeholder="Tìm kiếm theo mã, tên, model"
@@ -280,16 +280,16 @@
         </p-button>
       </div>
       <div class="group-button">
-        <p-button
-          label="Thêm mới"
-          styleClass="add"
-          (onClick)="showDialogAddHangHoa()"
-        >
+        <p-button label="Thêm mới" styleClass="add" (onClick)="showDialog()">
           <ng-template pTemplate="icon">
             <i class="material-icons">add</i>
           </ng-template>
         </p-button>
-        <p-button label="Xóa" styleClass="delete">
+        <p-button
+          label="Xóa"
+          styleClass="delete"
+          (onClick)="xoaChiTietHangHoa($event)"
+        >
           <ng-template pTemplate="icon">
             <i class="material-icons">delete</i>
           </ng-template>
@@ -298,13 +298,13 @@
     </div>
     <div class="table-hang-hoa">
       <p-table
-        [(selection)]="selectedProducts"
-        [value]="products"
+        [(selection)]="selectedChiTietHangHoa"
+        [value]="listChiTietHangHoa"
         styleClass="p-datatable-gridlines"
-        [rows]="10"
+        [rows]="5"
         [loading]="false"
-        scrollable="true"
-        scrollHeight="flex"
+        [paginator]="true"
+        [totalRecords]="listChiTietHangHoa.length"
       >
         <ng-template pTemplate="header">
           <tr class="p-datatable-header">
@@ -329,17 +329,17 @@
             <th style="width: 200px">Thành tiền</th>
           </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-product let-i="rowIndex">
-          <tr>
+        <ng-template pTemplate="body" let-chiTietHangHoa let-i="rowIndex">
+          <tr style="cursor: pointer">
             <td class="checkbox-column">
-              <p-tableCheckbox [value]="product" />
+              <p-tableCheckbox [value]="chiTietHangHoa" />
             </td>
             <td>{{ i + 1 }}</td>
-            <td>{{ product.name }}</td>
-            <td>{{ product.category }}</td>
-            <td>{{ product.quantity }}</td>
-            <td>{{ product.code }}</td>
-            <td>{{ product.name }}</td>
+            <td>{{ chiTietHangHoa.name }}</td>
+            <td>{{ chiTietHangHoa.category }}</td>
+            <td>{{ chiTietHangHoa.quantity }}</td>
+            <td>{{ chiTietHangHoa.code }}</td>
+            <td>{{ chiTietHangHoa.name }}</td>
 
             <td style="text-align: start">
               <p-dropdown
@@ -407,7 +407,7 @@
                 autocomplete="off"
               />
             </td>
-            <td>{{ product.code }}</td>
+            <td>{{ chiTietHangHoa.code }}</td>
           </tr>
         </ng-template>
       </p-table>
@@ -416,11 +416,153 @@
 </div>
 
 <p-dialog
-  header="Header"
+  header="Chọn hàng hóa"
   [modal]="true"
-  [visible]="visible"
-  [style]="{ 'max-width': '90%' }"
+  [(visible)]="visible"
+  [style]="{ width: '90vw' }"
+  [draggable]="false"
+  [resizable]="false"
+  (onHide)="closeDialog()"
   appendTo="body"
 >
-  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+  <div class="dialog-content">
+    <!-- bên trái -->
+    <div class="content-dialog-left">
+      <div class="group-button search">
+        <input
+          pInputText
+          [maxLength]="250"
+          placeholder="Tìm kiếm..."
+          autocomplete="off"
+        />
+        <p-button label="Tìm kiếm" styleClass="click">
+          <ng-template pTemplate="icon">
+            <i class="material-icons">search</i>
+          </ng-template>
+        </p-button>
+      </div>
+      <p-fieldset legend="Danh sách hàng hóa">
+        <p-table
+          [(selection)]="selectedHangHoa"
+          [value]="listHangHoaHienThi"
+          [rows]="10"
+          [tableStyle]="{ 'min-height': '330px' }"
+          [scrollable]="true"
+          scrollHeight="340px"
+        >
+          <ng-template pTemplate="header">
+            <tr>
+              <th style="width: 35px; border-left: none">
+                <p-tableHeaderCheckbox />
+              </th>
+              <th style="width: 40px">STT</th>
+              <th class="text-center">Nhóm hàng</th>
+              <th class="text-center">Loại hàng</th>
+              <th style="cursor: pointer" class="text-center">
+                Mã hàng <br />
+                Tên hàng
+              </th>
+              <th style="width: 86px" class="text-center">Đơn vị <br />tính</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-product let-i="rowIndex">
+            <tr style="cursor: pointer">
+              <td>
+                <p-tableCheckbox
+                  [value]="product"
+                  style="
+                    display: inline-flex;
+                    width: 100%;
+                    justify-content: center;
+                  "
+                />
+              </td>
+              <td>{{ first + i + 1 }}</td>
+              <td>{{ product.category }}</td>
+              <td>{{ product.category }}</td>
+              <td>{{ product.code }}</td>
+              <td>{{ product.quantity }}</td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </p-fieldset>
+      <p-paginator
+        (onPageChange)="onPageChange($event)"
+        [first]="first"
+        [rows]="rows"
+        [totalRecords]="listHangHoa.length"
+        [rowsPerPageOptions]="[10, 20, 40, 50, 100]"
+      ></p-paginator>
+    </div>
+    <!-- ở giữa -->
+    <div class="group-button">
+      <p-button styleClass="click" (onClick)="themHangHoaDaChon()">
+        <ng-template pTemplate="icon">
+          <i class="material-icons">arrow_forward</i>
+        </ng-template>
+      </p-button>
+      <p-button styleClass="click" (onClick)="xoaHangHoaDaChon()">
+        <ng-template pTemplate="icon">
+          <i class="material-icons">arrow_back</i>
+        </ng-template>
+      </p-button>
+    </div>
+    <!-- bên phải -->
+    <div class="content-dialog-right">
+      <p-fieldset legend="Danh sách hàng hóa đã chọn">
+        <p-table
+          [value]="listHangHoaDaChon"
+          [(selection)]="selectedHangHoaDaChon"
+          [rows]="10"
+          [tableStyle]="{ 'min-height': '330px' }"
+          [scrollable]="true"
+          scrollHeight="340px"
+        >
+          >
+          <ng-template pTemplate="header">
+            <tr>
+              <th style="width: 35px; border-left: none">
+                <p-tableHeaderCheckbox />
+              </th>
+              <th style="width: 40px">STT</th>
+              <th class="text-center">Nhóm hàng</th>
+              <th class="text-center">Loại hàng</th>
+              <th style="cursor: pointer" class="text-center">
+                Mã hàng <br />
+                Tên hàng
+              </th>
+              <th style="width: 86px" class="text-center">Đơn vị <br />tính</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-item let-a="rowIndex">
+            <tr style="cursor: pointer">
+              <td>
+                <p-tableCheckbox
+                  [value]="item"
+                  style="
+                    display: inline-flex;
+                    width: 100%;
+                    justify-content: center;
+                  "
+                />
+              </td>
+              <td>{{ a + 1 }}</td>
+              <td>{{ item.category }}</td>
+              <td>{{ item.category }}</td>
+              <td>{{ item.code }}</td>
+              <td>{{ item.quantity }}</td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </p-fieldset>
+    </div>
+  </div>
+  <ng-template pTemplate="footer">
+    <button
+      (click)="themChiTietHangHoa()"
+      pButton
+      label="Xác nhận"
+      class="click button-dialog"
+    ></button>
+  </ng-template>
 </p-dialog>

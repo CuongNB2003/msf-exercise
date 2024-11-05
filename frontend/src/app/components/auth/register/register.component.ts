@@ -63,7 +63,7 @@ export class RegisterComponent {
   }
 
   private handleRegisterError(error: any): void {
-    this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
+    this.messageService.add({ severity: 'error', summary: 'Lỗi', detail: error });
     this.isSubmitting = false;
   }
 }

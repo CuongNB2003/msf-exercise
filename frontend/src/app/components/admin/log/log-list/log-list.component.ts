@@ -9,7 +9,9 @@ import { LogDetailComponent } from '../log-detail/log-detail.component';
 import { Log } from '@services/log/log.interface';
 import { MessageService } from 'primeng/api';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
-
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
+import { EXCEL_TYPE } from '@services/config/baseURL';
 
 @Component({
   selector: 'app-log-list',
@@ -40,13 +42,13 @@ export class LogListComponent {
     this.logService.getAll(this.page, this.limit).subscribe({
       next: (response) => {
         this.isLoading = false;
-        // this.messageService.add({ severity: 'success', summary: 'Success', detail: response.message });
+        // this.messageService.add({ severity: 'success', summary: 'Thành công', detail: response.message });
         this.logs = response.data.data;
         this.totalItems = response.data.totalRecords;
       },
       error: (err) => {
         this.isLoading = false;
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: err });
+        this.messageService.add({ severity: 'error', summary: 'Lỗi', detail: err });
       },
     });
   }
@@ -68,4 +70,26 @@ export class LogListComponent {
       data: { id: id }
     });
   }
+
+  exportData() {
+    this.logService.getAll(1, 999).subscribe({
+      next: (response) => {
+        const data: Log[] = response.data.data; // Lấy dữ liệu từ phản hồi
+        console.log(data); // In ra dữ liệu để kiểm tra
+  
+        const worksheet = XLSX.utils.json_to_sheet(data); // Chuyển đổi dữ liệu sang worksheet
+        const workbook = XLSX.utils.book_new(); // Tạo một workbook mới
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1'); // Thêm worksheet vào workbook
+  
+        // Lưu tệp Excel
+        const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+        const blob = new Blob([excelBuffer], { type: EXCEL_TYPE });
+        saveAs(blob, 'data.xlsx'); // Xuất tệp
+      },
+      error: (err) => {
+        this.messageService.add({ severity: 'error', summary: 'Lỗi', detail: err });
+      },
+    });
+  }
+  
 }

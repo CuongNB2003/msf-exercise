@@ -38,7 +38,7 @@ export class InputComponent {
       } else if (control.errors['minlength']) {
         return `Độ dài tối thiểu là ${control.errors['minlength'].requiredLength} ký tự`;
       } else if (control.errors['maxlength']) {
-        return `Độ dài tối đa là ${control.errors['minlength'].requiredLength} ký tự`;
+        return `Độ dài tối đa là ${control.errors['maxlength'].requiredLength} ký tự`;
       } else if (control.errors['pattern']) {
         return `Bạn đang ghi sai định dạng. định dạng đúng là ${this.pattern}`;
       }

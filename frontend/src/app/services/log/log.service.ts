@@ -4,7 +4,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, Observable } from 'rxjs';
 import { PagedResult, ResponseObject } from '../config/response';
 import { Log } from './log.interface';
-import baseURL from '../config/baseURL';
+import { baseURL } from '@services/config/baseURL';
 const apiUrl = `${baseURL}api/log`;
 
 @Injectable({

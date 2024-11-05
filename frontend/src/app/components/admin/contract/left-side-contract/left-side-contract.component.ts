@@ -46,23 +46,14 @@ export class LeftSideContractComponent {
       today: 'Hôm nay',
       clear: 'Xóa'
     };
-    this.products = [
-      { code: 'P001P001P001P001P001P001P001P001P001P001P001P001P001P001P001', name: 'Sản phẩm A', category: 'Loại 1', quantity: 100 },
-      { code: 'P002', name: 'Sản phẩm BSản phẩm BSản phẩm BSản phẩm BSản phẩm B', category: 'Loại 2', quantity: 200 },
-      { code: 'P003', name: 'Sản phẩm C', category: 'Loại 3Loại 3Loại 3Loại 3Loại 3Loại 3Loại 3', quantity: 150 },
-      { code: 'P004', name: 'Sản phẩm D', category: 'Loại 1', quantity: 75 },
-      { code: 'P005', name: 'Sản phẩm E', category: 'Loại 2', quantity: 120 },
-      { code: 'P001', name: 'Sản phẩm A', category: 'Loại 1', quantity: 100 },
-      { code: 'P002', name: 'Sản phẩm B', category: 'Loại 2', quantity: 200200200200200200200200200200200 },
-      { code: 'P003', name: 'Sản phẩm C', category: 'Loại 3', quantity: 150 },
-      { code: 'P004', name: 'Sản phẩm D', category: 'Loại 1', quantity: 75 },
-      { code: 'P005', name: 'Sản phẩm E', category: 'Loại 2', quantity: 120 },
-      { code: 'P001', name: 'Sản phẩm A', category: 'Loại 1', quantity: 100 },
-      { code: 'P002', name: 'Sản phẩm B', category: 'Loại 2', quantity: 200 },
-      { code: 'P003', name: 'Sản phẩm C', category: 'Loại 3', quantity: 150 },
-      { code: 'P004', name: 'Sản phẩm D', category: 'Loại 1', quantity: 75 },
-      { code: 'P005', name: 'Sản phẩm E', category: 'Loại 2', quantity: 120 }
-    ];
+    // Dữ liệu giả
+    this.products = Array.from({ length: 100 }, (_, i) => ({
+      id: i,
+      code: `P00${i}`,
+      name: `Sản phẩm ${i}`,
+      category: `Loại ${i % 3 + 1}`,
+      quantity: 100 + i
+    }));
     
   }
 

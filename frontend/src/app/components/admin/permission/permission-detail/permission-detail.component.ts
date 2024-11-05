@@ -42,11 +42,11 @@ export class PermissionDetailComponent {
   getPermissionById(): void {
     this.permissionService.getPermissionById(this.data.id).subscribe({
       next: (response) => {
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: response.message });
+        this.messageService.add({ severity: 'success', summary: 'Thành công', detail: response.message });
         this.permission = response.data;
       },
       error: (err) => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: err });
+        this.messageService.add({ severity: 'error', summary: 'Lỗi', detail: err });
       },
     });
   }

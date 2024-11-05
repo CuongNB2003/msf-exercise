@@ -1,0 +1,52 @@
+.p-confirm-dialog {
+    min-width: 550px;
+
+    .p-dialog-header {
+        padding: 10px 0;
+        display: block;
+        text-align: center;
+
+        .p-dialog-title {
+            line-height: 20px;
+            font-size: 18px;
+            font-weight: normal;
+        }
+
+        .p-dialog-header-icons {
+            display: none;
+        }
+    }
+
+    .p-dialog-content {
+        background-color: var(--bs-white);
+        padding: 25px 0;
+
+        .p-confirm-dialog-message {
+            font-size: 14px;
+            color: var(--bs-black);
+            line-height: 20px;
+        }
+    }
+
+    .p-dialog-footer {
+        padding: 0;
+        padding-bottom: 15px;
+        border: none;
+        display: flex;
+        gap: 10px;
+
+        .p-button {
+            min-width: 120px;
+            height: 30px;
+            border: none;
+
+            &.delete {
+                background-color: var(--bs-red);
+            }
+
+            &.cancel {
+                background-color: var(--bs-blue);
+            }
+        }
+    }
+}

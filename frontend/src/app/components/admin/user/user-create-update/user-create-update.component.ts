@@ -63,12 +63,12 @@ export class UserCreateUpdateComponent implements OnInit {
   createForm(): void {
     if (this.data.id) {
       this.createUserForm = this.fb.group({
-        email: ['', [Validators.required, Validators.email]],
-        name: ['', Validators.required]
+        email: ['', [Validators.required, Validators.email, Validators.maxLength(50)]],
+        name: ['', [Validators.required, Validators.maxLength(50)]]
       });
     } else {
       this.createUserForm = this.fb.group({
-        email: ['', [Validators.required, Validators.email]]
+        email: ['', [Validators.required, Validators.email, Validators.maxLength(50)]]
       });
     }
   }
@@ -79,7 +79,7 @@ export class UserCreateUpdateComponent implements OnInit {
         this.roles = response.data.data;
       },
       error: (err) => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: err });
+        this.messageService.add({ severity: 'error', summary: 'Lỗi', detail: err });
       },
     });
   }
@@ -99,7 +99,7 @@ export class UserCreateUpdateComponent implements OnInit {
         });
       },
       error: (err) => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: err });
+        this.messageService.add({ severity: 'error', summary: 'Lỗi', detail: err });
       },
     });
   }
@@ -126,12 +126,12 @@ export class UserCreateUpdateComponent implements OnInit {
     };
     this.userService.createUser(input).subscribe({
       next: (response) => {
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: response.message });
+        this.messageService.add({ severity: 'success', summary: 'Thành công', detail: response.message });
         this.isSubmitting = false;
         this.close()
       },
       error: (err) => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: err });
+        this.messageService.add({ severity: 'error', summary: 'Lỗi', detail: err });
         this.isSubmitting = false;
       }
     });
@@ -147,12 +147,12 @@ export class UserCreateUpdateComponent implements OnInit {
 
     this.userService.updateUser(input, id).subscribe({
       next: (response) => {
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: response.message });
+        this.messageService.add({ severity: 'success', summary: 'Thành công', detail: response.message });
         this.isSubmitting = false;
         this.close()
       },
       error: (err) => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: err });
+        this.messageService.add({ severity: 'error', summary: 'Lỗi', detail: err });
         this.isSubmitting = false;
       }
     });

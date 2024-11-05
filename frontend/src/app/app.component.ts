@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { filter, forkJoin, map } from 'rxjs';
@@ -12,6 +12,7 @@ import { MessageService } from 'primeng/api';
 import { UserLogin } from '@services/auth/auth.interface';
 import { MenuRoleResponse } from '@services/menu/menu.interface';
 import { PermissionRoleResponse } from '@services/permission/permission.interface';
+import { PrimeModule } from '@modules/prime/prime.module';
 
 @Component({
   selector: 'app-root',
@@ -21,10 +22,11 @@ import { PermissionRoleResponse } from '@services/permission/permission.interfac
     NgProgressRouter,
     NgProgressHttp,
     RouterOutlet,
-    ToastModule
+    PrimeModule,
   ],
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppComponent implements OnInit {
 

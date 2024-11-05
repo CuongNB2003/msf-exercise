@@ -27,12 +27,12 @@ export class RoleDeleteComponent {
   deleteHandle(): void {
     this.roleService.deleteRole(this.data.id).subscribe({
       next: (response) => {
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: response.message });
+        this.messageService.add({ severity: 'success', summary: 'Thành công', detail: response.message });
         this.isSubmitting = false;
         this.close()
       },
       error: (err) => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: err });
+        this.messageService.add({ severity: 'error', summary: 'Lỗi', detail: err });
         this.isSubmitting = false;
       }
     });

@@ -1,31 +1,5 @@
-p-inputNumber,
-p-dropdown,
-p-calendar {
+p-inputNumber {
     ::ng-deep {
-
-        .p-inputtext,
-        .p-dropdown {
-            width: 100%;
-            height: 30px;
-            padding-left: 5px;
-            font-size: 14px;
-            box-shadow: none;
-            color: var(--bs-black);
-
-            .p-inputtext {
-                color: var(--bs-black);
-                &.p-placeholder {
-                    color: var(--bs-gray);
-                }
-            }
-        }
-
-        .p-inputtext::placeholder,
-        .p-dropdown span {
-            color: var(--bs-gray);
-            font-size: 14px;
-        }
-
         .p-inputnumber {
             width: 100%;
         }
@@ -35,52 +9,143 @@ p-calendar {
 p-dropdown {
     ::ng-deep {
 
-        .p-dropdown-header,
-        .p-dropdown-items-wrapper {
-            padding: 5px 7px;
-
-            span {
-                color: black;
-            }
-        }
-
-        .p-dropdown-clear-icon {
-            font-size: 20px;
-            top: 20%;
-        }
-
-        .p-dropdown-filter-icon {
-            display: none;
-        }
-
-        .p-dropdown-empty-message {
-            font-size: 14px;
-        }
         .p-dropdown-label {
+            font-size: 14px;
+            margin-top: 3px;
             margin-right: 15px;
+
             &.p-placeholder {
                 margin-right: 0;
             }
         }
 
-        span {
-            margin-top: 3px;
+        .p-icon-wrapper {
+            font-size: 20px;
+            top: 20%;
+        }
+
+        .p-dropdown-panel {
+
+            .p-dropdown-header {
+                padding: 5px 7px;
+
+                .p-dropdown-filter-icon {
+                    display: none;
+                }
+            }
+
+            .p-dropdown-items-wrapper {
+                padding: 5px 7px;
+
+                .ng-star-inserted {
+                    font-size: 14px;
+                    color: var(--bs-black);
+                }
+            }
         }
     }
 }
 
 p-calendar {
     ::ng-deep {
-        .p-icon-wrapper {
-            top: 25%;
-        }
-
         .p-calendar {
             width: 100%;
-        }
 
-        .ng-trigger {
-            padding: 10px;
+            .p-icon-wrapper {
+                top: 25%;
+            }
+        }
+    }
+}
+
+p-table {
+
+    ::ng-deep {
+        .p-datatable-wrapper {
+            padding-bottom: 10px;
+
+            &::-webkit-scrollbar {
+                border-radius: 20px;
+                width: 10px;
+                height: 10px;
+                box-sizing: border-box;
+                border: none;
+            }
+
+            &::-webkit-scrollbar-track {
+                box-sizing: border-box;
+            }
+
+            &::-webkit-scrollbar-thumb {
+                border-radius: 20px;
+                background-image: radial-gradient(circle farthest-corner at 10% 20%,
+                        var(--bs-blue) 0.1%,
+                        var(--bs-orange) 94.2%);
+            }
+
+            .p-datatable-table {
+                border-bottom: 1px solid var(--bs-gray-400);
+                border-top: 1px solid var(--bs-gray-400);
+                border-left: 1px solid var(--bs-gray-400);
+                font-size: 14px;
+                table-layout: fixed;
+                min-width: 250%;
+
+                // padding-right: 2px;
+                .p-datatable-thead {
+                    >tr {
+                        >th {
+                            padding: 5px;
+                            text-align: center;
+                            color: var(--bs-black);
+                            background: var(--bs-gray-200);
+                            font-weight: bold;
+                            border-right: 1px solid var(--bs-gray-400);
+                        }
+                    }
+                }
+
+                .p-datatable-tbody {
+                    >tr {
+                        &:hover {
+                            background-color: #fefaed;
+                        }
+
+                        >td {
+                            text-align: center;
+                            padding: 8px;
+                            color: var(--bs-black);
+                            border-top: 1px solid var(--bs-gray-400);
+                            border-right: 1px solid var(--bs-gray-400);
+                            white-space: normal;
+                            word-wrap: break-word;
+                            overflow-wrap: break-word;
+
+                            p-inputNumber {
+                                ::ng-deep {
+                                    width: 100%;
+                                }
+                            }
+
+                            input {
+                                color: var(--bs-black);
+                                font-size: 14px;
+                                padding-left: 5px;
+                                width: 100%;
+                                height: 30px;
+                                font-weight: 400;
+                                box-shadow: none;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .checkbox-column {
+                width: 50px;
+                text-align: center;
+                box-sizing: border-box;
+            }
         }
     }
 }
@@ -185,19 +250,20 @@ p-calendar {
                             padding-left: 10px;
                             padding-right: 10px;
                             cursor: pointer;
+
                             &:hover {
                                 background-color: var(--bs-blue-dark);
+
                                 span {
-                                    color: var(--bs-white);
                                     font-weight: bold;
                                 }
                             }
 
                             span {
+                                color: var(--bs-white);
                                 font-weight: normal;
                                 margin-right: 3px;
                                 font-size: 14px;
-                                color: var(--bs-black);
                             }
                         }
 
@@ -285,108 +351,8 @@ p-calendar {
         .table-hang-hoa {
             margin-top: 10px;
             padding: 0 15px;
-            overflow-x: auto;
             width: 100%;
-
-            p-table {
-                ::ng-deep {
-                    .p-datatable-table {
-                        border-bottom: 1px solid var(--bs-gray-400);
-                        border-top: 1px solid var(--bs-gray-400);
-                        border-left: 1px solid var(--bs-gray-400);
-                        font-size: 14px;
-                        table-layout: fixed;
-                        padding-right: 2px;
-                        min-width: 250%;
-                    }
-
-                    .p-datatable-thead {
-                        >tr {
-                            >th {
-                                padding: 5px;
-                                text-align: center;
-                                color: var(--bs-black);
-                                background: var(--bs-gray-200);
-                                font-weight: bold;
-                                border-right: 1px solid var(--bs-gray-400);
-                            }
-                        }
-                    }
-
-                    .p-datatable-tbody {
-                        >tr {
-                            &:hover {
-                                background-color: #fefaed;
-                            }
-                            >td {
-                                text-align: center;
-                                padding: 4px 8px;
-                                color: var(--bs-black);
-                                border-top: 1px solid var(--bs-gray-400);
-                                border-right: 1px solid var(--bs-gray-400);
-                                white-space: normal;
-                                word-wrap: break-word;
-                                overflow-wrap: break-word;
-
-                                p-inputnumber {
-                                    ::ng-deep {
-                                        width: 100%;
-                                    }
-                                }
-
-                                input {
-                                    color: var(--bs-black);
-                                    font-size: 14px;
-                                    padding-left: 5px;
-                                    width: 100%;
-                                    height: 30px;
-                                    font-weight: 400;
-                                    box-shadow: none;
-                                }
-
-                                .dropdown-fix {
-                                    z-index: 1111;
-                                    // min-width: 106px;
-                                    // transform-origin: center bottom;
-                                    // top: 64.4px;
-                                    // left: 1037.2px;
-                                    // margin-top: calc(var(--p-anchor-gutter));
-                                }
-                            }
-                        }
-                    }
-
-                    .p-datatable-wrapper {
-                        padding-bottom: 10px;
-
-                        &::-webkit-scrollbar {
-                            border-radius: 20px;
-                            width: 10px;
-                            height: 10px;
-                            box-sizing: border-box;
-                            border: none;
-                        }
-
-                        &::-webkit-scrollbar-track {
-                            box-sizing: border-box;
-                        }
-
-                        &::-webkit-scrollbar-thumb {
-                            border-radius: 20px;
-                            background-image: radial-gradient(circle farthest-corner at 10% 20%,
-                                    var(--bs-blue) 0.1%,
-                                    var(--bs-orange) 94.2%);
-                        }
-                    }
-
-                    .checkbox-column {
-                        width: 50px;
-                        text-align: center;
-                        padding: 0;
-                        box-sizing: border-box;
-                    }
-                }
-            }
+            overflow-x: auto;
         }
     }
 }
