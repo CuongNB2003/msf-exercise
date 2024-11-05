@@ -71,9 +71,7 @@
 
         &::-webkit-scrollbar-thumb {
             border-radius: 20px;
-            background-image: radial-gradient(circle farthest-corner at 10% 20%,
-                    var(--bs-blue) 0.1%,
-                    var(--bs-orange) 94.2%);
+            background-color: var(--bs-gray-500);
         }
 
         .dialog-content {
@@ -118,8 +116,8 @@
 
                     &::-webkit-scrollbar {
                         border-radius: 20px;
-                        width: 7px;
-                        height: 7px;
+                        width: 5px;
+                        height: 5px;
                         box-sizing: border-box;
                         border: none;
                     }
@@ -130,9 +128,7 @@
 
                     &::-webkit-scrollbar-thumb {
                         border-radius: 20px;
-                        background-image: radial-gradient(circle farthest-corner at 10% 20%,
-                                var(--bs-blue) 0.1%,
-                                var(--bs-orange) 94.2%);
+                        background-color: var(--bs-gray-500);
                     }
 
                     .p-datatable-table {

@@ -78,9 +78,7 @@ p-table {
 
             &::-webkit-scrollbar-thumb {
                 border-radius: 20px;
-                background-image: radial-gradient(circle farthest-corner at 10% 20%,
-                        var(--bs-blue) 0.1%,
-                        var(--bs-orange) 94.2%);
+                background-color: var(--bs-gray-500);
             }
 
             .p-datatable-table {
@@ -172,6 +170,7 @@ p-table {
 
     .body {
         width: 100%;
+        height: 100%;
 
         .title-row {
             font-size: 14px;

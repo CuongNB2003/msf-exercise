@@ -30,9 +30,7 @@ main {
 
             .ng-scrollbar-thumb {
                 border-radius: 20px;
-                background-image: radial-gradient(circle farthest-corner at 10% 20%,
-                        var(--bs-blue) 0.1%,
-                        var(--bs-orange) 94.2%);
+                background-color: var(--bs-gray-500);
             }
         }
 

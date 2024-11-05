@@ -1,1 +1,44 @@
-<p>phu-luc works!</p>
+<div class="phu-luc-container">
+  <div class="title">
+    <span class="text">Danh sách phụ lục</span>
+  </div>
+  <div class="table-phu-luc">
+    <p-table
+      [value]="listPhuLuc"
+      styleClass="p-datatable-gridlines"
+      [rows]="10"
+      [loading]="false"
+      [paginator]="true"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 50px">STT</th>
+          <th class="text-center">Số phụ lục</th>
+          <th class="text-center">Ngày ký phụ lục</th>
+          <th class="text-center">Đơn vị cung cấp</th>
+          <th class="text-center">Số ngày thực hiện</th>
+          <th class="text-center">Giá trị thực tế</th>
+          <th class="text-center">Đã thanh toán</th>
+          <th class="text-center">Còn thanh toán</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-phuLuc let-i="rowIndex">
+        <tr style="cursor: pointer">
+          <td>{{ i + 1 }}</td>
+          <td>{{ phuLuc.name }}</td>
+          <td>{{ phuLuc.category }}</td>
+          <td>{{ phuLuc.quantity }}</td>
+          <td>{{ phuLuc.code }}</td>
+          <td>{{ phuLuc.name }}</td>
+          <td>{{ phuLuc.code }}</td>
+          <td>{{ phuLuc.code }}</td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="8" class="text-center">Không có phụ lục nào!</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

@@ -317,11 +317,9 @@
             <th>Tên hàng</th>
             <th>Mã hàng</th>
             <th>Đơn vị tính</th>
-
             <th>Nguồn kinh phí</th>
             <th style="width: 120px">Năm sản xuất</th>
             <th>Model</th>
-
             <th>Hãng sản xuất</th>
             <th>Xuất xứ</th>
             <th style="width: 120px">Số lượng HĐ</th>
@@ -408,6 +406,11 @@
               />
             </td>
             <td>{{ chiTietHangHoa.code }}</td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="15" class="text-center">Không có hàng hóa nào!</td>
           </tr>
         </ng-template>
       </p-table>
