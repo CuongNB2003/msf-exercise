@@ -21,7 +21,11 @@
     <!-- phía bên phải -->
     <div class="content-system">
       <div class="main-action">
-        <button class="custom-button click" (click)="onSubmit()" [disabled]="!isAdd">
+        <button
+          class="custom-button click"
+          (click)="onSubmit()"
+          [disabled]="!isAdd"
+        >
           <i class="material-icons">add</i>
           Thêm mới
         </button>
@@ -30,7 +34,11 @@
           Lưu
         </button>
 
-        <button class="custom-button click delete" [disabled]="isAdd" (click)="onSubmit()">
+        <button
+          class="custom-button click delete"
+          [disabled]="isAdd"
+          (click)="onSubmit()"
+        >
           <i class="material-icons">highlight_off</i>
           Hủy thay đổi
         </button>
@@ -49,7 +57,9 @@
         </button>
       </div>
       <div class="body-right">
-        <p-tabView [ngStyle]="{ flex: '1', display: 'flex', 'flex-direction': 'column' }">
+        <p-tabView
+          [ngStyle]="{ flex: '1', display: 'flex', 'flex-direction': 'column' }"
+        >
           <p-tabPanel header="Nội dung">
             <app-noi-dung />
           </p-tabPanel>
@@ -57,19 +67,19 @@
             <app-phu-luc />
           </p-tabPanel>
           <p-tabPanel header="Nghiệm thu hàng hóa">
-            <app-noi-dung />
+            <app-nghiem-thu-hang-hoa />
           </p-tabPanel>
           <p-tabPanel header="Chi tiết hàng hóa nghiệm thu">
-            <app-noi-dung />
+            <app-chi-tiet-hang-hoa-nghiem-thu />
           </p-tabPanel>
           <p-tabPanel header="Thanh lý hợp đồng">
-            <app-noi-dung />
+            <app-thanh-ly-hop-dong />
           </p-tabPanel>
           <p-tabPanel header="Hợp đồng gốc">
-            <app-noi-dung />
+            <app-hop-dong-goc />
           </p-tabPanel>
           <p-tabPanel header="Tiến độ thanh toán">
-            <app-noi-dung />
+            <app-tien-do-thanh-toan />
           </p-tabPanel>
         </p-tabView>
       </div>

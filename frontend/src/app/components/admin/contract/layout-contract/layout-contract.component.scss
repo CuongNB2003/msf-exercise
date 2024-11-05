@@ -157,14 +157,30 @@
 
                     &.save {
                         background-color: var(--bs-yellow);
+
+                        &:hover {
+                            background-color: var(--bs-yellow-dark);
+                        }
                     }
 
                     &.delete {
                         background-color: var(--bs-red);
+
+                        &:hover {
+                            background-color: var(--bs-red-dark);
+                        }
                     }
 
                     &.print {
                         background-color: var(--bs-orange);
+
+                        &:hover {
+                            background-color: var(--bs-orange);
+                        }
+                    }
+
+                    &:hover {
+                        background-color: var(--bs-blue-dark);
                     }
 
                     &:disabled {
@@ -174,6 +190,10 @@
                         cursor: not-allowed;
                         box-shadow: none;
                         transform: none;
+
+                        &:hover {
+                            background-color: var(--bs-gray-400);
+                        }
                     }
                 }
             }
@@ -190,14 +210,14 @@
                             padding-left: 0;
                             margin-bottom: 0;
                             list-style: none;
-                            background: var(--bs-blue);
+                            background: var(--bs-yellow-white);
 
                             .p-tabview-nav-link {
                                 background: none;
                                 border: none;
 
                                 .p-tabview-title {
-                                    color: var(--bs-white);
+                                    color: var(--bs-gray-dark);
                                     display: block;
                                     padding: 12px 8px;
                                     font-size: 14px;
@@ -209,7 +229,7 @@
                                         position: absolute;
                                         width: 1px;
                                         height: 20px;
-                                        background: var(--bs-blue-dark);
+                                        background: var(--bs-yellow);
                                         right: 0;
                                         top: 50%;
                                         transform: translateY(-50%);
@@ -217,13 +237,13 @@
                                 }
 
                                 &:hover {
-                                    background: var(--bs-blue-dark);
+                                    background: var(--bs-yellow);
                                     border-radius: 0;
                                 }
                             }
 
                             .p-highlight {
-                                background: var(--bs-blue-dark);
+                                background: var(--bs-yellow);
 
                                 .p-tabview-title {
                                     font-weight: bold;

@@ -273,21 +273,25 @@
           placeholder="Tìm kiếm theo mã, tên, model"
           autocomplete="off"
         />
-        <p-button label="Tìm kiếm" styleClass="search">
+        <p-button label="Tìm kiếm" styleClass="search click">
           <ng-template pTemplate="icon">
             <i class="material-icons">search</i>
           </ng-template>
         </p-button>
       </div>
       <div class="group-button">
-        <p-button label="Thêm mới" styleClass="add" (onClick)="showDialog()">
+        <p-button
+          label="Thêm mới"
+          styleClass="add click"
+          (onClick)="showDialog()"
+        >
           <ng-template pTemplate="icon">
             <i class="material-icons">add</i>
           </ng-template>
         </p-button>
         <p-button
           label="Xóa"
-          styleClass="delete"
+          styleClass="delete click"
           (onClick)="xoaChiTietHangHoa($event)"
         >
           <ng-template pTemplate="icon">

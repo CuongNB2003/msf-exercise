@@ -241,7 +241,7 @@ p-table {
                         .file-label {
                             border-bottom-left-radius: 3px;
                             border-top-left-radius: 3px;
-                            background-color: var(--bs-blue);
+                            background-color: var(--bs-yellow-white);
                             display: flex;
                             align-items: center;
                             width: 110px;
@@ -251,15 +251,11 @@ p-table {
                             cursor: pointer;
 
                             &:hover {
-                                background-color: var(--bs-blue-dark);
-
-                                span {
-                                    font-weight: bold;
-                                }
+                                background-color: var(--bs-orange-dark);
                             }
 
                             span {
-                                color: var(--bs-white);
+                                color: var(--bs-black);
                                 font-weight: normal;
                                 margin-right: 3px;
                                 font-size: 14px;
@@ -317,8 +313,8 @@ p-table {
                             border: none;
                             background-color: var(--bs-red);
 
-                            &:active {
-                                transform: scale(0.95);
+                            &:hover {
+                                background-color: var(--bs-red-dark);
                             }
                         }
 
@@ -326,19 +322,19 @@ p-table {
                             border: none;
                             background-color: var(--bs-blue);
 
-                            &:active {
-                                transform: scale(0.95);
-                            }
-
                             &:hover {
                                 background-color: var(--bs-blue-dark);
                             }
                         }
 
                         .add {
-                            &:active {
-                                transform: scale(0.95);
+                            border: none;
+                            background-color: var(--bs-blue);
+
+                            &:hover {
+                                background-color: var(--bs-blue-dark);
                             }
+
                         }
                     }
                 }

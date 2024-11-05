@@ -228,10 +228,15 @@ app-home {
 :root {
     --bs-blue: #0d6efd;
     --bs-blue-dark: #0056b3;
-    --bs-pink: #d63384;
-    --bs-red: #ff0000;
+    --bs-red: #f55442;
+    --bs-red-dark: #d73535;
+    --bs-yellow: #f2c94c;
+    --bs-yellow-dark: #edb50d;
+    --bs-yellow-white: #fff4d2;
     --bs-orange: #f2994a;
-    --bs-yellow: #F2C94C;
+    --bs-orange-dark: #e0a800;
+
+    --bs-pink: #d63384;
     --bs-green: #198754;
     --bs-teal: #20c997;
     --bs-cyan: #0dcaf0;

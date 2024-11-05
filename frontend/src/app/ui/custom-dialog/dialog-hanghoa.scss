@@ -103,8 +103,20 @@
                         min-width: 140px;
                         height: 30px;
                         padding: 0 10px;
-                    }
+                        background-color: var(--bs-blue);
 
+                        &:hover {
+                            background-color: var(--bs-blue-dark);
+                        }
+                    }
+                }
+
+                button {
+                    background-color: var(--bs-blue);
+
+                    &:hover {
+                        background-color: var(--bs-blue-dark);
+                    }
                 }
             }
 
