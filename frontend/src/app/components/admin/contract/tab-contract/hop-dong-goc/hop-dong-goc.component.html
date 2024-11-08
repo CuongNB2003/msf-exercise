@@ -1,1 +1,172 @@
-<p>hop-dong-goc works!</p>
+<div class="hop-dong-goc-container">
+  <div class="title">
+    <span class="text">Hợp đồng gốc</span>
+  </div>
+  <div class="container">
+    <div class="form-group note">
+      <label>Loại hợp đồng</label>
+      <input pInputText disabled placeholder="--" />
+    </div>
+    <div class="form-group note">
+      <label>Đơn vị cung cấp</label>
+      <input pInputText disabled placeholder="--" />
+    </div>
+    <div class="form-group">
+      <label>Năm kinh phí</label>
+      <input pInputText disabled placeholder="--" />
+    </div>
+    <div class="form-group">
+      <label>Lãnh đạo phụ trách</label>
+      <input pInputText disabled placeholder="--" />
+    </div>
+    <div class="form-group">
+      <label>Cán bộ phụ trách</label>
+      <input pInputText disabled placeholder="--" />
+    </div>
+    <div class="form-group">
+      <label>Trạng thái</label>
+      <input pInputText disabled placeholder="--" />
+    </div>
+    <div class="form-group">
+      <label>Số hợp đồng</label>
+      <input pInputText disabled placeholder="--" />
+    </div>
+    <div class="form-group">
+      <label>Tên hợp đồng</label>
+      <input pInputText disabled placeholder="--" />
+    </div>
+    <div class="form-group">
+      <label>Nguồn kinh phí</label>
+      <input pInputText disabled placeholder="--" />
+    </div>
+    <div class="form-group">
+      <label>Ngày ký</label>
+      <input pInputText disabled placeholder="--" />
+    </div>
+    <div class="form-group">
+      <label>Số ngày thực hiện</label>
+      <input pInputText disabled placeholder="--" />
+    </div>
+    <div class="form-group">
+      <label>Tiến độ hợp đồng</label>
+      <input pInputText disabled placeholder="--" />
+    </div>
+    <div class="form-group">
+      <label>Ngày kết thúc hợp đồng</label>
+      <input pInputText disabled placeholder="--" />
+    </div>
+    <div class="form-group">
+      <label>Ngày có hiệu lực</label>
+      <input pInputText disabled placeholder="--" />
+    </div>
+    <div class="form-group">
+      <label>Giá trị hợp đồng ban đầu</label>
+      <input pInputText disabled placeholder="--" />
+    </div>
+    <div class="form-group">
+      <label>Giá trị thực tế</label>
+      <input pInputText disabled placeholder="--" />
+    </div>
+    <div class="form-group">
+      <label>Đã thanh toán</label>
+      <input pInputText disabled placeholder="--" />
+    </div>
+    <div class="form-group">
+      <label>Còn thanh toán</label>
+      <input pInputText disabled placeholder="--" />
+    </div>
+    <div class="form-group note">
+      <label>Ghi chú</label>
+      <input pInputText disabled placeholder="--" />
+    </div>
+
+    <div class="form-group file">
+      <label for="tai-file">Tải file</label>
+      <div class="file-upload">
+        <label for="fileInput" class="file-label click">
+          <span class="material-icons">folder_open</span>
+          <span>Chọn tệp</span>
+        </label>
+        <input type="file" id="fileInput" readonly />
+      </div>
+    </div>
+  </div>
+
+  <div style="margin: 15px 0px">
+    <span class="title-row">Chi tiết hàng hóa</span>
+  </div>
+  <div class="main-action">
+    <div class="group-button">
+      <input
+        pInputText
+        [maxLength]="250"
+        placeholder="Tìm kiếm theo mã, tên, model"
+        autocomplete="off"
+      />
+      <p-button label="Tìm kiếm" styleClass="add click">
+        <ng-template pTemplate="icon">
+          <i class="material-icons">search</i>
+        </ng-template>
+      </p-button>
+    </div>
+  </div>
+  <div class="table-hop-dong-goc">
+    <p-table
+      [value]="[]"
+      styleClass="p-datatable-gridlines"
+      [rows]="5"
+      [loading]="false"
+      [paginator]="true"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 50px">STT</th>
+          <th class="text-center">Nhóm hàng hóa</th>
+          <th class="text-center" style="min-width: 100px">Loại hàng hóa</th>
+
+          <th class="text-center">Tên hàng</th>
+          <th class="text-center">Mã hàng</th>
+          <th class="text-center">Đơn vị tính</th>
+
+          <th class="text-center">Nguồn kinh phí</th>
+          <th class="text-center">Năm sản xuất</th>
+          <th class="text-center">Model</th>
+
+          <th class="text-center">Hãng sản xuất</th>
+          <th class="text-center">Xuất xứ</th>
+          <th class="text-center">Số lượng HĐ</th>
+
+          <th class="text-center">Đơn giá HĐ</th>
+          <th class="text-center">Thành tiền</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-chiTietHangHoa let-i="rowIndex">
+        <tr style="cursor: pointer">
+          <td>{{ i + 1 }}</td>
+          <td>{{ chiTietHangHoa.name }}</td>
+          <td>{{ chiTietHangHoa.category }}</td>
+
+          <td>{{ chiTietHangHoa.quantity }}</td>
+          <td>{{ chiTietHangHoa.code }}</td>
+          <td>{{ chiTietHangHoa.name }}</td>
+
+          <td>{{ chiTietHangHoa.code }}</td>
+          <td>{{ chiTietHangHoa.code }}</td>
+          <td>{{ chiTietHangHoa.code }}</td>
+
+          <td>{{ chiTietHangHoa.code }}</td>
+          <td>{{ chiTietHangHoa.code }}</td>
+          <td>{{ chiTietHangHoa.code }}</td>
+
+          <td>{{ chiTietHangHoa.code }}</td>
+          <td>{{ chiTietHangHoa.code }}</td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="14" class="text-center">Không có hàng hóa nào!</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

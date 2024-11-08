@@ -1,1 +1,36 @@
-<p>thanh-ly-hop-dong works!</p>
+<div class="thanh-ly-hop-dong-container">
+  <div class="title">
+    <span class="text">Thanh lý hợp đồng</span>
+  </div>
+
+  <div class="container">
+    <div class="form-group">
+      <label for="ngay-thanh-ly">Ngày thanh lý</label>
+      <p-calendar
+        id="ngay-thanh-ly"
+        [(ngModel)]="ngayThanhLy"
+        [iconDisplay]="'input'"
+        [showIcon]="true"
+        placeholder="--/--/----"
+        dateFormat="dd/mm/yy"
+        [showButtonBar]="true"
+        [disabled]="true"
+      />
+    </div>
+    <div class="form-group">
+      <label for="gia-tri-thanh-ly">Giá trị thanh lý</label>
+      <p-inputNumber
+        id="gia-tri-thanh-ly"
+        inputId="integeronly"
+        [min]="1"
+        [useGrouping]="false"
+        [disabled]="true"
+        placeholder="0"
+      />
+    </div>
+    <div class="form-group">
+      <label for="thong-tin-khac">Thông tin khác</label>
+      <input id="thong-tin-khac" pInputText [disabled]="true" />
+    </div>
+  </div>
+</div>

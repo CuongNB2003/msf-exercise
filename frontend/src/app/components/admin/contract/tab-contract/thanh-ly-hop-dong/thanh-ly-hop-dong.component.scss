@@ -1,0 +1,46 @@
+.thanh-ly-hop-dong-container {
+    padding-top: 3px;
+    flex: 1;
+    padding-bottom: 15px;
+
+    .title {
+        display: flex;
+        position: relative;
+        padding: 9px 0;
+        background-color: var(--bs-blue);
+        border-radius: 5px;
+
+        .text {
+            color: var(--bs-white);
+            font-size: 16px;
+            font-weight: bold;
+            padding-left: 15px;
+        }
+    }
+
+    .container {
+        display: flex;
+        flex-wrap: wrap;
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            width: 25%;
+            padding: 5px 15px;
+            gap: 3px;
+
+            label {
+                color: var(--bs-black);
+                font-size: 14px;
+                font-weight: 600;
+                height: 20px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+
+        }
+    }
+
+}

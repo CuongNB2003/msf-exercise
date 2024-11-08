@@ -13,5 +13,12 @@ import { PrimeModule } from '@modules/prime/prime.module';
 export class PhuLucComponent implements OnInit {
   listPhuLuc: any[] = [];
 
+  constructor() {
+    // Dữ liệu giả
+    this.listPhuLuc = Array.from({ length: 3 }, (_, i) => ({
+      id: i,
+    }));
+  }
+
   ngOnInit(): void {}
 }

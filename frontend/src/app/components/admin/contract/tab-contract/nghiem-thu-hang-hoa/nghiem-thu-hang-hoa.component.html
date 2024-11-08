@@ -1,6 +1,173 @@
 <div class="nghiem-thu-hang-hoa-container">
+  <!-- bảng phiểu nghiệm thu -->
   <div class="title">
     <span class="text">Danh sách phiếu nghiệm thu</span>
   </div>
-  <div class="table-phu-luc"></div>
+  <div class="table-phieu-nghiem-thu">
+    <p-table
+      [value]="listPhieuNghiemThu"
+      styleClass="p-datatable-gridlines"
+      [rows]="3"
+      [loading]="false"
+      [paginator]="true"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 35px; border-left: none">
+            <p-tableHeaderCheckbox />
+          </th>
+          <th style="width: 40px">STT</th>
+          <th class="text-center">Người nghiệm thu</th>
+          <th class="text-center">Ngày nghiệm thu</th>
+          <th class="text-center">Ghi chú</th>
+          <th class="text-center">File</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-phieuNghiemThu let-i="rowIndex">
+        <tr style="cursor: pointer">
+          <td>
+            <p-tableCheckbox
+              [value]="phieuNghiemThu"
+              style="display: inline-flex; width: 100%; justify-content: center"
+            />
+          </td>
+          <td>{{ i + 1 }}</td>
+          <td style="text-align: start">
+            <p-dropdown
+              id="hang-san-xuat"
+              [options]="[]"
+              optionLabel="name"
+              [filter]="true"
+              filterBy="name"
+              [showClear]="true"
+              emptyMessage="Không có dữ liệu"
+              emptyFilterMessage="Không tìm thấy !"
+              appendTo="body"
+            />
+          </td>
+          <td>
+            <p-calendar
+              [(ngModel)]="selectedDate"
+              [iconDisplay]="'input'"
+              [showIcon]="true"
+              placeholder="--/--/----"
+              (keydown.enter)="handleBlur()"
+              dateFormat="dd/mm/yy"
+              [showButtonBar]="true"
+              appendTo="body"
+            />
+          </td>
+          <td>
+            <input pInputText [maxLength]="250" autocomplete="off" />
+          </td>
+          <td>
+            <div class="file-upload">
+              <label for="fileInput" class="file-label click">
+                <span class="material-icons">folder_open</span>
+                <span>Chọn tệp</span>
+              </label>
+              <input type="file" id="fileInput" readonly />
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="6" class="text-center">
+            Không có phiếu nghiệm thu nào!
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+  <!-- bảng hàng hóa nghiệm thu -->
+  <div class="title" style="margin-top: 10px">
+    <span class="text">Danh sách hàng hóa nghiệm thu</span>
+  </div>
+  <div class="table-hang-hoa-nghiem-thu">
+    <div class="group-button">
+      <p-button label="Thêm mới" styleClass="add click">
+        <ng-template pTemplate="icon">
+          <i class="material-icons">add</i>
+        </ng-template>
+      </p-button>
+      <p-button
+        label="Xóa"
+        styleClass="delete click"
+        (onClick)="xoaHangHoaNghiemThu($event)"
+      >
+        <ng-template pTemplate="icon">
+          <i class="material-icons">delete</i>
+        </ng-template>
+      </p-button>
+    </div>
+
+    <p-table
+      [(selection)]="selectedHangHoaNghiemThu"
+      [value]="listHangHoaNghiemThu"
+      styleClass="p-datatable-gridlines"
+      [loading]="false"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 35px; border-left: none">
+            <p-tableHeaderCheckbox />
+          </th>
+          <th style="width: 40px">STT</th>
+          <th class="text-center">Nhóm hàng</th>
+          <th class="text-center">Loại hàng hóa</th>
+          <th class="text-center">Mã hàng</th>
+          <th class="text-center" style="min-width: 190px">Tên hàng</th>
+          <th class="text-center">Đơn vị tính</th>
+          <th class="text-center">Số lượng</th>
+          <th class="text-center">Năm sản xuất</th>
+          <th class="text-center">Nguồn kinh phí</th>
+          <th class="text-center">Model</th>
+          <th class="text-center">Hãng sản xuất</th>
+          <th class="text-center">Xuất xứ</th>
+          <th class="text-center">Đơn giá</th>
+          <th class="text-center">Thành tiền</th>
+          <th class="text-center">Chi tiết</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-hangHoaNghiemThu let-i="rowIndex">
+        <tr>
+          <td>
+            <p-tableCheckbox
+              [value]="hangHoaNghiemThu"
+              style="display: inline-flex; width: 100%; justify-content: center"
+            />
+          </td>
+          <td>{{ i + 1 }}</td>
+          <td>{{ hangHoaNghiemThu.nhomHang }}</td>
+          <td>{{ hangHoaNghiemThu.loaiHangHoa }}</td>
+          <td>{{ hangHoaNghiemThu.maHang }}</td>
+          <td>{{ hangHoaNghiemThu.tenHang }}</td>
+          <td>{{ hangHoaNghiemThu.donViTinh }}</td>
+          <td>{{ hangHoaNghiemThu.soLuong }}</td>
+          <td>{{ hangHoaNghiemThu.namSanXuat }}</td>
+          <td>{{ hangHoaNghiemThu.nguonKinhPhi }}</td>
+          <td>{{ hangHoaNghiemThu.model }}</td>
+          <td>{{ hangHoaNghiemThu.hangSanXuat }}</td>
+          <td>{{ hangHoaNghiemThu.xuatXu }}</td>
+          <td>{{ hangHoaNghiemThu.donGia }}</td>
+          <td>{{ hangHoaNghiemThu.thanhTien }}</td>
+          <td>
+            <span
+              (click)="openDialog()"
+              style="text-decoration: underline; cursor: pointer"
+              >Chi tiết</span
+            >
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="16" class="text-center">
+            Không có hàng hóa nghiệm thu nào!
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
 </div>

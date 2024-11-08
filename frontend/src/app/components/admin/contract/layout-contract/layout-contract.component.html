@@ -22,14 +22,18 @@
     <div class="content-system">
       <div class="main-action">
         <button
-          class="custom-button click"
-          (click)="onSubmit()"
+          class="custom-button click add"
+          (click)="onAdd()"
           [disabled]="!isAdd"
         >
           <i class="material-icons">add</i>
           Thêm mới
         </button>
-        <button class="custom-button click save" [disabled]="isAdd">
+        <button
+          class="custom-button click save"
+          [disabled]="isAdd"
+          (click)="onSave()"
+        >
           <i class="material-icons">system_update_alt</i>
           Lưu
         </button>
@@ -37,7 +41,7 @@
         <button
           class="custom-button click delete"
           [disabled]="isAdd"
-          (click)="onSubmit()"
+          (click)="onCancel()"
         >
           <i class="material-icons">highlight_off</i>
           Hủy thay đổi
@@ -46,8 +50,8 @@
           <i class="material-icons">delete_outline</i>
           Xóa
         </button>
-        <button class="custom-button click">Thanh lý</button>
-        <button class="custom-button click">
+        <button class="custom-button click add">Thanh lý</button>
+        <button class="custom-button click add">
           <i class="material-icons">task</i>
           Quyết toán
         </button>

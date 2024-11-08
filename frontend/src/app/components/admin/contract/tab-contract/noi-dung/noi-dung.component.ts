@@ -4,6 +4,7 @@ import {
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
+  ValidationErrors,
   Validators,
 } from '@angular/forms';
 import { PrimeModule } from '@modules/prime/prime.module';
@@ -57,40 +58,22 @@ export class NoiDungComponent implements OnInit {
     private messageService: MessageService,
     private confirmationService: ConfirmationService
   ) {
-    // Dữ liệu giả
-    this.listHangHoa = Array.from({ length: 100 }, (_, i) => ({
-      id: i,
-      code: `P00${i}`,
-      name: `Sản phẩm ${i}`,
-      category: `Loại ${i}`,
-      quantity: 100 + i,
-    }));
-
-    this.addContractForm = this.fb.group({
-      loaiHopDong: [null, Validators.required],
-      namKinhPhi: [null, [Validators.required, Validators.maxLength(4)]],
-      canBoPhuTrach: [null, Validators.required],
-      lanhDaoPhuTrach: [null],
-      trangThai: [null, Validators.required],
-      tienDoHopDong: [{ value: '', disabled: true }],
-      soHopDong: [null, [Validators.required, Validators.maxLength(50)]],
-      tenHopDong: [null, Validators.maxLength(250)],
-      nguonKinhPhi: [null],
-      donViCungCap: [null, Validators.required],
-      ngayKy: [null, Validators.required],
-      ngayCoHieuLuc: [null],
-      soNgayThucHien: [null, [Validators.required, Validators.maxLength(5)]],
-      ngayKetThucHopDong: [{ value: null, disabled: true }],
-      giaTriHopDongBanDau: [{ value: null, disabled: true }],
-      giaTriThucTe: [{ value: null, disabled: true }],
-      daThanhToan: [{ value: null, disabled: true }],
-      conThanhToan: [{ value: null, disabled: true }],
-      ghiChu: [null, Validators.maxLength(500)],
-    });
+    this.initializeForm();
+    this.loadMockData();
   }
 
   ngOnInit(): void {
     this.updateDisplayedProducts();
+  }
+
+  validateForm(): void {
+    if (this.addContractForm.invalid) {
+      this.addContractForm.markAllAsTouched();
+    }
+  }
+
+  cleanForm() {
+    this.addContractForm.reset();
   }
 
   updateDisplayedProducts() {
@@ -171,7 +154,7 @@ export class NoiDungComponent implements OnInit {
       this.messageService.add({
         severity: 'warn',
         summary: 'Cảnh báo',
-        detail: 'Bạn chưa chọn hàng hóa nào.',
+        detail: 'Bạn cần chọn ít nhất 1 hàng hóa để xóa.',
       });
       return;
     }
@@ -218,5 +201,55 @@ export class NoiDungComponent implements OnInit {
 
   private isValidDate(dateString: string): boolean {
     return !isNaN(Date.parse(dateString));
+  }
+
+  private initializeForm(): void {
+    this.addContractForm = this.fb.group(
+      {
+        lanhDaoPhuTrach: [null],
+        nguonKinhPhi: [null],
+
+        loaiHopDong: [null, Validators.required],
+        namKinhPhi: [null, [Validators.required, Validators.maxLength(4)]],
+        canBoPhuTrach: [null, Validators.required],
+        trangThai: [null, Validators.required],
+        soHopDong: [null, [Validators.required, Validators.maxLength(50)]],
+        tenHopDong: [null, [Validators.required, Validators.maxLength(250)]],
+        donViCungCap: [null, Validators.required],
+        ngayKy: [null, [Validators.required]],
+        ngayCoHieuLuc: [null, [Validators.required]],
+        soNgayThucHien: [0, [Validators.required, Validators.min(1)]],
+
+        tienDoHopDong: [{ value: '', disabled: true }],
+        ngayKetThucHopDong: [{ value: null, disabled: true }],
+        giaTriHopDongBanDau: [{ value: null, disabled: true }],
+        giaTriThucTe: [{ value: null, disabled: true }],
+        daThanhToan: [{ value: null, disabled: true }],
+        conThanhToan: [{ value: null, disabled: true }],
+        ghiChu: [null, Validators.maxLength(500)],
+      },
+      { validators: this.dateValidator }
+    );
+  }
+
+  private loadMockData(): void {
+    this.listHangHoa = Array.from({ length: 100 }, (_, i) => ({
+      id: i,
+      code: `P00${i}`,
+      name: `Sản phẩm ${i}`,
+      category: `Loại ${i}`,
+      quantity: 100 + i,
+    }));
+  }
+
+  dateValidator(group: FormGroup): ValidationErrors | null {
+    const ngayKy = group.get('ngayKy')?.value;
+    const ngayCoHieuLuc = group.get('ngayCoHieuLuc')?.value;
+
+    // Kiểm tra nếu ngày ký lớn hơn hoặc bằng ngày có hiệu lực
+    if (ngayKy && ngayCoHieuLuc && new Date(ngayKy) > new Date(ngayCoHieuLuc)) {
+      return { dateError: 'Phải lớn hơn hoặc bằng ngày ký' };
+    }
+    return null; // Không có lỗi
   }
 }

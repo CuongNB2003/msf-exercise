@@ -3,29 +3,9 @@
 @import 'primeng/resources/primeng.min.css';
 @import 'primeicons/primeicons.css';
 @import 'quill/dist/quill.snow.css';
-@import '../../frontend/src/app/ui/custom-dialog/dialog-hanghoa.scss';
-@import '../../frontend/src/app/ui/custom-dialog/confirm-dialog.scss';
-
-@mixin p-paginator-item {
-    min-width: 27px;
-    padding-left: 3px;
-    padding-right: 3px;
-    height: 27px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 14px;
-    transition: 0.3s ease-out;
-    border: 1px solid var(--bs-gray-400);
-    color: var(--bs-black);
-    border-right: unset;
-    border-radius: unset;
-
-    &:hover {
-        background-color: var(--bs-blue);
-        color: var(--bs-white);
-    }
-}
+@import '../../frontend/src/app/ui/custom-ui-contract/dialog-hanghoa.scss';
+@import '../../frontend/src/app/ui/custom-ui-contract/confirm-dialog.scss';
+@import '../../frontend/src/app/ui/custom-ui-contract/ui-contract.scss';
 
 /* You can add global styles to this file, and also import other style files */
 *,
@@ -47,16 +27,8 @@ body {
 
     .p-dropdown-panel {
         .p-dropdown-header {
-            padding: 5px 7px;
-
-            .p-inputtext {
-                width: 100%;
-                height: 30px;
-                padding-left: 5px;
-                font-size: 14px;
-                box-shadow: none;
-                color: var(--bs-black);
-            }
+            padding: 0 7px;
+            padding-top: 7px;
 
             .p-dropdown-filter-icon {
                 display: none;
@@ -67,41 +39,16 @@ body {
             padding: 5px 7px;
 
             .p-dropdown-item {
-                color: black;
+                color: var(--bs-black);
+                font-size: 14px;
                 white-space: normal;
                 word-wrap: break-word;
                 overflow-wrap: break-word;
             }
-        }
-    }
 
-    .p-dropdown-clear-icon {
-        font-size: 20px;
-        top: 20%;
-    }
-
-    .p-dropdown-empty-message {
-        font-size: 14px;
-    }
-
-    .p-inputtext,
-    .p-dropdown {
-        width: 100%;
-        height: 30px;
-        padding-left: 5px;
-        font-size: 14px;
-        box-shadow: none;
-        color: var(--bs-black);
-
-        &.p-placeholder {
-            color: var(--bs-gray);
-        }
-
-        &:disabled {
-            opacity: 1;
-            background-color: var(--bs-gray-200);
-            border-radius: 3px;
-
+            .p-dropdown-empty-message {
+                font-size: 14px;
+            }
         }
     }
 }
@@ -109,119 +56,6 @@ body {
 app-home {
     width: 100%;
     height: 100%;
-}
-
-// custom lại toast
-.custom-toast {
-    .p-toast-message {
-        margin-top: 10px;
-        padding: 6px 10px;
-
-        .p-toast-message-icon {
-            margin-right: 5px;
-            transform: scale(0.8);
-        }
-    }
-
-    .p-toast-summary {
-        font-weight: bold;
-    }
-}
-
-// phân trang
-.p-paginator {
-    border: none;
-    padding-top: 15px;
-    justify-content: flex-end;
-
-    .p-paginator-first {
-        @include p-paginator-item();
-        order: 1;
-    }
-
-    .p-paginator-prev {
-        @include p-paginator-item();
-        order: 2;
-    }
-
-    .p-paginator-next {
-        @include p-paginator-item();
-        order: 4;
-    }
-
-    .p-paginator-last {
-        @include p-paginator-item();
-        border-right: 1px solid var(--bs-gray-400);
-        order: 5;
-    }
-
-    .p-paginator-pages {
-        order: 3;
-        display: flex;
-
-        .p-paginator-page {
-            @include p-paginator-item();
-            transition: none;
-
-            &.p-highlight {
-                background-color: var(--bs-blue);
-                color: var(--bs-white);
-                font-weight: 500;
-            }
-        }
-    }
-
-    .p-highlight {
-        background-color: var(--bs-blue);
-        color: var(--bs-white);
-        font-weight: 500;
-    }
-
-    .p-disabled {
-        opacity: 0.4;
-    }
-
-    .p-paginator-rpp-options {
-        @include p-paginator-item();
-        margin-right: 15px;
-        border-right: 1px solid var(--bs-gray-400);
-
-
-        &.p-dropdown {
-            width: auto;
-        }
-
-        &:hover {
-            background-color: var(--bs-white);
-        }
-
-        .p-inputtext {
-            height: auto;
-        }
-
-        .p-dropdown-panel {
-            position: absolute;
-            bottom: 100%;
-            transform: translateY(-32px);
-            z-index: 1000;
-
-            .p-dropdown-items-wrapper {
-                padding: 0;
-
-                .p-dropdown-item {
-                    border: none;
-                    font-size: 14px;
-                }
-            }
-        }
-    }
-}
-
-// click
-.click {
-    &:active {
-        transform: scale(0.95);
-    }
 }
 
 // màu dùng chung

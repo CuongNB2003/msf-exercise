@@ -52,7 +52,6 @@
 
         .action-system {
             min-height: 720px;
-            max-width: 570px;
             position: relative;
             background-color: var(--bs-white);
             flex: 1;
@@ -139,7 +138,6 @@
                 gap: 5px;
 
                 .custom-button {
-                    background-color: var(--bs-blue);
                     height: 30px;
                     color: var(--bs-white);
                     border: none;
@@ -155,32 +153,8 @@
                         font-size: 18px;
                     }
 
-                    &.save {
-                        background-color: var(--bs-yellow);
-
-                        &:hover {
-                            background-color: var(--bs-yellow-dark);
-                        }
-                    }
-
-                    &.delete {
-                        background-color: var(--bs-red);
-
-                        &:hover {
-                            background-color: var(--bs-red-dark);
-                        }
-                    }
-
                     &.print {
                         background-color: var(--bs-orange);
-
-                        &:hover {
-                            background-color: var(--bs-orange);
-                        }
-                    }
-
-                    &:hover {
-                        background-color: var(--bs-blue-dark);
                     }
 
                     &:disabled {

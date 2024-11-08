@@ -1,1 +1,58 @@
-<p>chi-tiet-hang-hoa-nghiem-thu works!</p>
+<div class="nghiem-thu-hop-dong-container">
+  <div class="title">
+    <span class="text">Chi tiết nghiệm thu hợp đồng</span>
+  </div>
+  <div class="table-nghiem-thu-hop-dong">
+    <p-table
+      [value]="listNghiemThuHopDong"
+      styleClass="p-datatable-gridlines"
+      [rows]="10"
+      [loading]="false"
+      [paginator]="true"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 50px">STT</th>
+          <th class="text-center">Nhóm hàng</th>
+          <th class="text-center">Loại hàng hóa</th>
+          <th class="text-center">Mã hàng</th>
+          <th class="text-center">Tên hàng</th>
+          <th class="text-center">ĐVT</th>
+          <th class="text-center">Nguồn kinh phí</th>
+          <th class="text-center">Model</th>
+          <th class="text-center">Năm sản xuất</th>
+          <th class="text-center">Hãng sản xuất</th>
+          <th class="text-center">Xuất xứ</th>
+          <th class="text-center">SL hợp đồng</th>
+          <th class="text-center">Đã nghiệm thu</th>
+          <th class="text-center">Tồn hợp đồng</th>
+          <th class="text-center">Đạt tỷ lệ %</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-nghiemThuHopDong let-i="rowIndex">
+        <tr style="cursor: pointer">
+          <td>{{ i + 1 }}</td>
+          <td>{{ nghiemThuHopDong.nhomHang }}</td>
+          <td>{{ nghiemThuHopDong.loaiHangHoa }}</td>
+          <td>{{ nghiemThuHopDong.maHang }}</td>
+          <td>{{ nghiemThuHopDong.tenHang }}</td>
+          <td>{{ nghiemThuHopDong.dvt }}</td>
+          <td>{{ nghiemThuHopDong.nguonKinhPhi }}</td>
+          <td>{{ nghiemThuHopDong.model }}</td>
+          <td>{{ nghiemThuHopDong.namSanXuat }}</td>
+          <td>{{ nghiemThuHopDong.hangSanXuat }}</td>
+          <td>{{ nghiemThuHopDong.xuatXu }}</td>
+          <td>{{ nghiemThuHopDong.slHopDong }}</td>
+          <td>{{ nghiemThuHopDong.daNghiemThu }}</td>
+          <td>{{ nghiemThuHopDong.tonHopDong }}</td>
+          <td>{{ nghiemThuHopDong.datTyLe }}</td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="8" class="text-center">Không có bản ghi nào!</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

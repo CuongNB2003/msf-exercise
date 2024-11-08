@@ -1,7 +1,8 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { LeftSideContractComponent } from '../left-side-contract/left-side-contract.component';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PrimeModule } from '@modules/prime/prime.module';
+
+import { LeftSideContractComponent } from '../left-side-contract/left-side-contract.component';
 import { PhuLucComponent } from '../tab-contract/phu-luc/phu-luc.component';
 import { NoiDungComponent } from '../tab-contract/noi-dung/noi-dung.component';
 import { NghiemThuHangHoaComponent } from '../tab-contract/nghiem-thu-hang-hoa/nghiem-thu-hang-hoa.component';
@@ -17,7 +18,6 @@ import { TienDoThanhToanComponent } from '../tab-contract/tien-do-thanh-toan/tie
     LeftSideContractComponent,
     CommonModule,
     PrimeModule,
-
     PhuLucComponent,
     NoiDungComponent,
     NghiemThuHangHoaComponent,
@@ -27,18 +27,37 @@ import { TienDoThanhToanComponent } from '../tab-contract/tien-do-thanh-toan/tie
     TienDoThanhToanComponent,
   ],
   templateUrl: './layout-contract.component.html',
-  styleUrl: './layout-contract.component.scss',
+  styleUrls: ['./layout-contract.component.scss'],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class LayoutContractComponent {
+  @ViewChild(NoiDungComponent)
+  noiDungComponent!: NoiDungComponent;
+
   isActive: boolean = false;
   isAdd: boolean = true;
 
-  toggleClass(): void {
-    this.isActive = !this.isActive;
+  onSave(): void {
+    if (this.noiDungComponent) {
+      this.noiDungComponent.validateForm();
+      console.log('hihi');
+    }
+    if (this.noiDungComponent && this.noiDungComponent.addContractForm) {
+      const formData = this.noiDungComponent.addContractForm.value;
+      console.log(formData);
+    }
   }
 
-  onSubmit(): void {
+  onAdd(): void {
     this.isAdd = !this.isAdd;
+  }
+
+  onCancel(): void {
+    this.noiDungComponent.cleanForm();
+    this.isAdd = !this.isAdd;
+  }
+
+  toggleClass(): void {
+    this.isActive = !this.isActive;
   }
 }

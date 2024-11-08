@@ -18,7 +18,89 @@
         }
     }
 
-    .table-phu-luc {
+    .table-phieu-nghiem-thu {
         padding: 15px;
+
+        .file-upload {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            border: 1px solid var(--bs-gray-400);
+            border-radius: 3px;
+
+            .file-label {
+                border-bottom-left-radius: 3px;
+                border-top-left-radius: 3px;
+                background-color: var(--bs-yellow-white);
+                display: flex;
+                align-items: center;
+                height: 30px;
+                padding-left: 10px;
+                padding-right: 10px;
+                cursor: pointer;
+
+                &:hover {
+                    background-color: var(--bs-orange-dark);
+                }
+
+                span {
+                    color: var(--bs-black);
+                    font-weight: normal;
+                    margin-right: 3px;
+                    font-size: 14px;
+                    white-space: nowrap;
+
+                }
+            }
+
+            #fileInput {
+                padding-top: 7px;
+                height: 30px;
+                background-color: var(--bs-white);
+                width: 120px;
+                padding-left: 7px;
+
+                &::-webkit-file-upload-button {
+                    display: none;
+                }
+            }
+        }
+    }
+
+    .table-hang-hoa-nghiem-thu {
+        padding: 15px;
+
+        .group-button {
+            margin: 20px 0;
+            height: 30px;
+            display: flex;
+            justify-self: end;
+            align-items: center;
+
+            input {
+                color: var(--bs-black);
+                font-size: 14px;
+                padding-left: 5px;
+                width: 250px;
+                height: 30px;
+                font-weight: 400;
+                box-shadow: none;
+            }
+        }
+
+        p-table {
+
+            ::ng-deep {
+                .p-datatable-wrapper {
+                    padding-bottom: 10px;
+
+                    .p-datatable-table {
+                        table-layout: fixed;
+                        min-width: 250%;
+                        padding-right: 1px;
+                    }
+                }
+            }
+        }
     }
 }

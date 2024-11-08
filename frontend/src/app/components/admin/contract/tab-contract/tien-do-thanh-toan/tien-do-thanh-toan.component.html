@@ -1,1 +1,47 @@
-<p>tien-do-thanh-toan works!</p>
+<div class="tien-do-thanh-toan-container">
+  <div class="title">
+    <span class="text">Danh sách phụ lục</span>
+  </div>
+  <div class="table-tien-do-thanh-toan">
+    <div class="title-table">
+      <span>Tổng giá trị hợp đồng: </span>
+      <span style="font-weight: bold"></span>
+    </div>
+
+    <p-table
+      [value]="listTienDoThanhToan"
+      styleClass="p-datatable-gridlines"
+      [rows]="10"
+      [loading]="false"
+      [paginator]="true"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 50px">STT</th>
+          <th class="text-center">Ngày đề xuất</th>
+          <th class="text-center">Số tiền đề xuất</th>
+          <th class="text-center">Ngày chuyển tiền</th>
+          <th class="text-center">Số tiền thanh toán</th>
+          <th class="text-center">Đạt tỷ lệ %</th>
+          <th class="text-center">Ghi chú</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-tienDoThanhToan let-i="rowIndex">
+        <tr style="cursor: pointer">
+          <td>{{ i + 1 }}</td>
+          <td>{{ tienDoThanhToan.name }}</td>
+          <td>{{ tienDoThanhToan.category }}</td>
+          <td>{{ tienDoThanhToan.quantity }}</td>
+          <td>{{ tienDoThanhToan.code }}</td>
+          <td>{{ tienDoThanhToan.name }}</td>
+          <td>{{ tienDoThanhToan.code }}</td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="7" class="text-center">Không có bản ghi nào!</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

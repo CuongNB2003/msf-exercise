@@ -21,7 +21,21 @@
           placeholder="Chọn loại hợp đồng"
           emptyMessage="Không có dữ liệu"
           emptyFilterMessage="Không tìm thấy!"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              addContractForm.get('loaiHopDong')?.invalid &&
+              addContractForm.get('loaiHopDong')?.touched
+          }"
         />
+        <span
+          *ngIf="
+            addContractForm.get('loaiHopDong')?.touched &&
+            addContractForm.get('loaiHopDong')?.invalid
+          "
+          class="error-message"
+        >
+          Thông tin này là bắt buộc.
+        </span>
       </div>
       <div class="form-group">
         <label for="nam-kinh-phi">Năm kinh phí <span>*</span></label>
@@ -34,7 +48,21 @@
           [useGrouping]="false"
           placeholder="Nhập năm kinh phí"
           autocomplete="off"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              addContractForm.get('namKinhPhi')?.invalid &&
+              addContractForm.get('namKinhPhi')?.touched
+          }"
         />
+        <span
+          *ngIf="
+            addContractForm.get('namKinhPhi')?.touched &&
+            addContractForm.get('namKinhPhi')?.invalid
+          "
+          class="error-message"
+        >
+          Thông tin này là bắt buộc.
+        </span>
       </div>
       <div class="form-group">
         <label for="lanh-dao-phu-trach">Lãnh đạo phụ trách</label>
@@ -62,7 +90,21 @@
           placeholder="Chọn cán bộ phụ trách"
           emptyMessage="Không có dữ liệu"
           emptyFilterMessage="Không tìm thấy !"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              addContractForm.get('canBoPhuTrach')?.invalid &&
+              addContractForm.get('canBoPhuTrach')?.touched
+          }"
         />
+        <span
+          *ngIf="
+            addContractForm.get('canBoPhuTrach')?.touched &&
+            addContractForm.get('canBoPhuTrach')?.invalid
+          "
+          class="error-message"
+        >
+          Thông tin này là bắt buộc.
+        </span>
       </div>
       <div class="form-group">
         <label for="trang-thai">Trạng thái <span>*</span></label>
@@ -77,8 +119,21 @@
           placeholder="Chọn trạng thái"
           emptyMessage="Không có dữ liệu"
           emptyFilterMessage="Không tìm thấy !"
-          optionDisabled="name"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              addContractForm.get('trangThai')?.invalid &&
+              addContractForm.get('trangThai')?.touched
+          }"
         />
+        <span
+          *ngIf="
+            addContractForm.get('trangThai')?.touched &&
+            addContractForm.get('trangThai')?.invalid
+          "
+          class="error-message"
+        >
+          Thông tin này là bắt buộc.
+        </span>
       </div>
       <div class="form-group">
         <label for="so-hop-dong">Số hợp đồng <span>*</span></label>
@@ -89,7 +144,21 @@
           placeholder="Nhập Số hợp đồng"
           [maxLength]="50"
           autocomplete="off"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              addContractForm.get('soHopDong')?.invalid &&
+              addContractForm.get('soHopDong')?.touched
+          }"
         />
+        <span
+          *ngIf="
+            addContractForm.get('soHopDong')?.touched &&
+            addContractForm.get('soHopDong')?.invalid
+          "
+          class="error-message"
+        >
+          Thông tin này là bắt buộc.
+        </span>
       </div>
       <div class="form-group">
         <label for="ten-hop-dong">Tên hợp đồng <span>*</span></label>
@@ -100,7 +169,21 @@
           [maxLength]="250"
           placeholder="Nhập tên hợp đồng"
           autocomplete="off"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              addContractForm.get('tenHopDong')?.invalid &&
+              addContractForm.get('tenHopDong')?.touched
+          }"
         />
+        <span
+          *ngIf="
+            addContractForm.get('tenHopDong')?.touched &&
+            addContractForm.get('tenHopDong')?.invalid
+          "
+          class="error-message"
+        >
+          Thông tin này là bắt buộc.
+        </span>
       </div>
       <div class="form-group">
         <label for="nguon-kinh-phi">Nguồn kinh phí</label>
@@ -131,7 +214,21 @@
           placeholder="Chọn đơn vị cung cấp"
           emptyMessage="Không có dữ liệu"
           emptyFilterMessage="Không tìm thấy !"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              addContractForm.get('donViCungCap')?.invalid &&
+              addContractForm.get('donViCungCap')?.touched
+          }"
         />
+        <span
+          *ngIf="
+            addContractForm.get('donViCungCap')?.touched &&
+            addContractForm.get('donViCungCap')?.invalid
+          "
+          class="error-message"
+        >
+          Thông tin này là bắt buộc.
+        </span>
       </div>
       <div class="form-group">
         <label for="ngay-ky">Ngày ký <span>*</span> </label>
@@ -144,7 +241,21 @@
           (keydown.enter)="handleEnter($event, 'ngayKy')"
           dateFormat="dd/mm/yy"
           [showButtonBar]="true"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              addContractForm.get('ngayKy')?.invalid &&
+              addContractForm.get('ngayKy')?.touched
+          }"
         />
+        <span
+          *ngIf="
+            addContractForm.get('ngayKy')?.touched &&
+            addContractForm.get('ngayKy')?.invalid
+          "
+          class="error-message"
+        >
+          Thông tin này là bắt buộc.
+        </span>
       </div>
       <div class="form-group">
         <label for="ngay-co-hieu-luc">Ngày có hiệu lực <span>*</span></label>
@@ -157,7 +268,28 @@
           (keydown.enter)="handleEnter($event, 'ngayCoHieuLuc')"
           dateFormat="dd/mm/yy"
           [showButtonBar]="true"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              (addContractForm.get('ngayCoHieuLuc')?.invalid &&
+                addContractForm.get('ngayCoHieuLuc')?.touched) ||
+              addContractForm.hasError('dateError')
+          }"
         />
+        <span
+          *ngIf="
+            addContractForm.get('ngayCoHieuLuc')?.touched &&
+            addContractForm.get('ngayCoHieuLuc')?.invalid
+          "
+          class="error-message"
+        >
+          Thông tin này là bắt buộc.
+        </span>
+        <span
+          *ngIf="addContractForm.hasError('dateError')"
+          class="error-message"
+        >
+          {{ addContractForm.getError("dateError") }}
+        </span>
       </div>
       <div class="form-group">
         <label for="so-ngay-thuc-hien">Số ngày thực hiện <span>*</span></label>
@@ -167,10 +299,30 @@
           inputId="integeronly"
           [maxlength]="5"
           [min]="1"
-          [useGrouping]="false"
           placeholder="Nhập số ngày thực hiện"
           autocomplete="off"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              addContractForm.get('soNgayThucHien')?.invalid &&
+              addContractForm.get('soNgayThucHien')?.touched
+          }"
         />
+        <div
+          *ngIf="
+            addContractForm.get('soNgayThucHien')?.touched &&
+            addContractForm.get('soNgayThucHien')?.invalid
+          "
+          class="error-message"
+        >
+          <div
+            *ngIf="addContractForm.get('soNgayThucHien')?.hasError('required')"
+          >
+            Thông tin này là bắt buộc.
+          </div>
+          <div *ngIf="addContractForm.get('soNgayThucHien')?.hasError('min')">
+            Số ngày thực hiện lơn hơn hoặc bằng 1.
+          </div>
+        </div>
       </div>
       <div class="form-group">
         <label for="tien-do-hop-dong">Tiến độ hợp đồng</label>
@@ -180,7 +332,6 @@
           pInputText
           [maxLength]="50"
           placeholder="Tiến độ hợp đồng"
-          [disabled]="true"
         />
       </div>
       <div class="form-group">
@@ -193,7 +344,6 @@
           placeholder="--/--/----"
           dateFormat="dd/mm/yy"
           [showButtonBar]="true"
-          [disabled]="true"
         />
       </div>
       <div class="form-group">
@@ -202,9 +352,7 @@
           formControlName="giaTriHopDongBanDau"
           id="gia-tri-hop-dong-ban-dau"
           inputId="integeronly"
-          [useGrouping]="false"
           placeholder="0 VNĐ"
-          [disabled]="true"
         />
       </div>
       <div class="form-group">
@@ -213,9 +361,7 @@
           formControlName="giaTriThucTe"
           id="gia-tri-thuc-te"
           inputId="integeronly"
-          [useGrouping]="false"
           placeholder="0 VNĐ"
-          [disabled]="true"
         />
       </div>
       <div class="form-group">
@@ -224,9 +370,7 @@
           formControlName="daThanhToan"
           id="da-thanh-toan"
           inputId="integeronly"
-          [useGrouping]="false"
           placeholder="0 VNĐ"
-          [disabled]="true"
         />
       </div>
       <div class="form-group">
@@ -235,9 +379,7 @@
           formControlName="conThanhToan"
           id="con-thanh-toan"
           inputId="integeronly"
-          [useGrouping]="false"
           placeholder="0 VNĐ"
-          [disabled]="true"
         />
       </div>
       <div class="form-group note">
@@ -273,7 +415,7 @@
           placeholder="Tìm kiếm theo mã, tên, model"
           autocomplete="off"
         />
-        <p-button label="Tìm kiếm" styleClass="search click">
+        <p-button label="Tìm kiếm" styleClass="add click">
           <ng-template pTemplate="icon">
             <i class="material-icons">search</i>
           </ng-template>
@@ -327,8 +469,8 @@
             <th>Hãng sản xuất</th>
             <th>Xuất xứ</th>
             <th style="width: 120px">Số lượng HĐ</th>
-            <th style="width: 200px">Đơn giá HĐ</th>
-            <th style="width: 200px">Thành tiền</th>
+            <th style="width: 150px">Đơn giá HĐ</th>
+            <th style="width: 150px">Thành tiền</th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-chiTietHangHoa let-i="rowIndex">
@@ -442,7 +584,7 @@
           placeholder="Tìm kiếm..."
           autocomplete="off"
         />
-        <p-button label="Tìm kiếm" styleClass="click">
+        <p-button label="Tìm kiếm" styleClass="click add">
           <ng-template pTemplate="icon">
             <i class="material-icons">search</i>
           </ng-template>
@@ -503,12 +645,12 @@
     </div>
     <!-- ở giữa -->
     <div class="group-button">
-      <p-button styleClass="click" (onClick)="themHangHoaDaChon()">
+      <p-button styleClass="click add" (onClick)="themHangHoaDaChon()">
         <ng-template pTemplate="icon">
           <i class="material-icons">arrow_forward</i>
         </ng-template>
       </p-button>
-      <p-button styleClass="click" (onClick)="xoaHangHoaDaChon()">
+      <p-button styleClass="click add" (onClick)="xoaHangHoaDaChon()">
         <ng-template pTemplate="icon">
           <i class="material-icons">arrow_back</i>
         </ng-template>
