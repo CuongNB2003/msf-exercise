@@ -1,5 +1,10 @@
 import { StoreSidebar } from './../../../store/store.sidebar';
-import { ChangeDetectorRef, Component, OnInit, AfterViewInit } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+  AfterViewInit,
+} from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { StorePermission } from './../../../store/store.permission';
 import { StoreMenu } from './../../../store/store.menu';
@@ -19,26 +24,35 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-layout-admin',
   standalone: true,
-  imports: [RouterModule, HeaderLayoutComponent, SidebarAdminComponent, NgScrollbar, CommonModule],
+  imports: [
+    RouterModule,
+    HeaderLayoutComponent,
+    SidebarAdminComponent,
+    NgScrollbar,
+    CommonModule,
+  ],
   templateUrl: './layout-admin.component.html',
   styleUrl: './layout-admin.component.scss',
   animations: [
     trigger('routeAnimation', [
       transition('* => *', [
         style({ transform: 'translateX(100%)', opacity: 0 }),
-        animate('1s ease-in-out', style({ transform: 'translateX(0)', opacity: 1 }))
-      ])
+        animate(
+          '1s ease-in-out',
+          style({ transform: 'translateX(0)', opacity: 1 })
+        ),
+      ]),
     ]),
     trigger('slideInOut', [
       transition(':enter', [
         style({ width: '0' }),
-        animate('0.6s ease-in', style({ width: '250px', })) // Di chuyển vào giữa từ phải sang trái
+        animate('0.6s ease-in', style({ width: '250px' })), // Di chuyển vào giữa từ phải sang trái
       ]),
       transition(':leave', [
-        animate('0.6s ease-out', style({ width: '0' })) // Thu hẹp về 0
-      ])
-    ])
-  ]
+        animate('0.6s ease-out', style({ width: '0' })), // Thu hẹp về 0
+      ]),
+    ]),
+  ],
 })
 export class LayoutAdminComponent implements OnInit, AfterViewInit {
   menus: MenuRoleResponse[] = [];
@@ -51,7 +65,7 @@ export class LayoutAdminComponent implements OnInit, AfterViewInit {
     createdAt: new Date(),
     total: 0,
     menus: [],
-    permissions: []
+    permissions: [],
   };
 
   constructor(
@@ -61,12 +75,11 @@ export class LayoutAdminComponent implements OnInit, AfterViewInit {
     private storePermission: StorePermission,
     private cd: ChangeDetectorRef,
     private storeSidebar: StoreSidebar
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     this.getDataFromLocalStorage('user', this.loadRolesData.bind(this));
-    this.storeSidebar.sidebarVisible$.subscribe(isVisible => {
+    this.storeSidebar.sidebarVisible$.subscribe((isVisible) => {
       this.isSidebarVisible = isVisible;
     });
   }
@@ -82,37 +95,51 @@ export class LayoutAdminComponent implements OnInit, AfterViewInit {
       if (data) {
         callback(JSON.parse(data) as T);
       } else {
-        this.messageService.add({ severity: 'warn', summary: 'Warning', detail: `No data found for ${key}` });
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'Warning',
+          detail: `No data found for ${key}`,
+        });
       }
     } else {
-      this.messageService.add({ severity: 'error', summary: 'Lỗi', detail: 'Đang chạy ở server, không thể truy cập localStorage' });
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Lỗi',
+        detail: 'Đang chạy ở server, không thể truy cập localStorage',
+      });
     }
   }
 
   private loadRolesData(user: UserLogin) {
     if (!user.roles || user.roles.length === 0) {
-      this.messageService.add({ severity: 'warn', summary: 'Warning', detail: 'No roles found for user' });
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Warning',
+        detail: 'No roles found for user',
+      });
       return;
     }
 
-    const roleObservables = user.roles.map(role => this.roleService.getRoleById(role.id));
+    const roleObservables = user.roles.map((role) =>
+      this.roleService.getRoleById(role.id)
+    );
     forkJoin(roleObservables).subscribe({
       next: (responses) => {
         const menuMap = new Map<number, MenuRoleResponse>();
         const permissionMap = new Map<number, PermissionRoleResponse>();
 
-        responses.forEach(response => {
+        responses.forEach((response) => {
           this.role = response.data;
 
           // Xử lý menu
-          this.role.menus.forEach(menu => {
+          this.role.menus.forEach((menu) => {
             if (!menuMap.has(menu.id)) {
               menuMap.set(menu.id, menu);
             }
           });
 
           // Xử lý permission
-          this.role.permissions.forEach(permission => {
+          this.role.permissions.forEach((permission) => {
             if (!permissionMap.has(permission.id)) {
               permissionMap.set(permission.id, permission);
             }
@@ -129,12 +156,20 @@ export class LayoutAdminComponent implements OnInit, AfterViewInit {
         // Sử dụng detectChanges để tránh lỗi ExpressionChangedAfterItHasBeenCheckedError
         this.cd.detectChanges();
 
-        this.messageService.add({ severity: 'success', summary: 'Thành công', detail: 'Menus and permissions loaded successfully' });
+        // this.messageService.add({
+        //   severity: 'success',
+        //   summary: 'Thành công',
+        //   detail: 'Menus and permissions loaded successfully',
+        // });
       },
       error: (err) => {
-        this.messageService.add({ severity: 'error', summary: 'Lỗi', detail: err });
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Lỗi',
+          detail: err,
+        });
         console.error('Error loading roles:', err);
-      }
+      },
     });
   }
 }

@@ -67,6 +67,7 @@
       <div class="form-group">
         <label for="lanh-dao-phu-trach">Lãnh đạo phụ trách</label>
         <p-dropdown
+          [options]="countries"
           formControlName="lanhDaoPhuTrach"
           id="lanh-dao-phu-trach"
           optionLabel="name"
@@ -81,6 +82,7 @@
       <div class="form-group">
         <label for="can-bo-phu-trach">Cán bộ phụ trách <span>*</span></label>
         <p-dropdown
+          [options]="countries"
           formControlName="canBoPhuTrach"
           id="can-bo-phu-trach"
           optionLabel="name"
@@ -470,7 +472,7 @@
             <th>Xuất xứ</th>
             <th style="width: 120px">Số lượng HĐ</th>
             <th style="width: 150px">Đơn giá HĐ</th>
-            <th style="width: 150px">Thành tiền</th>
+            <th style="width: 100px; text-align: end">Thành tiền</th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-chiTietHangHoa let-i="rowIndex">
@@ -479,81 +481,125 @@
               <p-tableCheckbox [value]="chiTietHangHoa" />
             </td>
             <td>{{ i + 1 }}</td>
+
             <td>{{ chiTietHangHoa.name }}</td>
             <td>{{ chiTietHangHoa.category }}</td>
             <td>{{ chiTietHangHoa.quantity }}</td>
             <td>{{ chiTietHangHoa.code }}</td>
             <td>{{ chiTietHangHoa.name }}</td>
 
-            <td style="text-align: start">
-              <p-dropdown
-                id="nguon-kinh-phi"
-                [options]="[]"
-                optionLabel="name"
-                [filter]="true"
-                filterBy="name"
-                [showClear]="true"
-                emptyMessage="Không có dữ liệu"
-                emptyFilterMessage="Không tìm thấy !"
-                appendTo="body"
-              />
-            </td>
             <td>
-              <p-inputNumber
-                id="name-san-xuat"
-                inputId="integeronly"
-                [useGrouping]="false"
-                autocomplete="off"
-              />
-            </td>
-            <td>
-              <input id="model" pInputText [maxLength]="50" />
-            </td>
-            <td style="text-align: start">
               <p-dropdown
-                id="hang-san-xuat"
+                [formControl]="rowControls[i].nguonKinhPhiControl"
                 [options]="listProgress"
                 optionLabel="name"
                 [filter]="true"
                 filterBy="name"
                 [showClear]="true"
                 emptyMessage="Không có dữ liệu"
-                emptyFilterMessage="Không tìm thấy !"
+                emptyFilterMessage="Không tìm thấy!"
                 appendTo="body"
+                [ngClass]="{
+                  'ng-invalid ng-dirty': isControlInvalid(
+                    i,
+                    'nguonKinhPhiControl'
+                  )
+                }"
+              ></p-dropdown>
+            </td>
+
+            <td>
+              <p-inputNumber
+                [formControl]="rowControls[i].namSanXuatControl"
+                autocomplete="off"
+                [useGrouping]="false"
+                [maxlength]="4"
+                [ngClass]="{
+                  'ng-invalid ng-dirty': isControlInvalid(
+                    i,
+                    'namSanXuatControl'
+                  )
+                }"
+              ></p-inputNumber>
+            </td>
+
+            <td>
+              <input
+                [formControl]="rowControls[i].modelControl"
+                pInputText
+                [maxLength]="50"
+                [ngClass]="{
+                  'ng-invalid ng-dirty': isControlInvalid(i, 'modelControl')
+                }"
               />
             </td>
-            <td style="text-align: start">
+
+            <td>
               <p-dropdown
-                id="xuat-xu"
+                [formControl]="rowControls[i].hangSanXuatControl"
                 [options]="listProgress"
                 optionLabel="name"
                 [filter]="true"
                 filterBy="name"
                 [showClear]="true"
                 emptyMessage="Không có dữ liệu"
-                emptyFilterMessage="Không tìm thấy !"
+                emptyFilterMessage="Không tìm thấy!"
                 appendTo="body"
-              />
+                [ngClass]="{
+                  'ng-invalid ng-dirty': isControlInvalid(
+                    i,
+                    'hangSanXuatControl'
+                  )
+                }"
+              ></p-dropdown>
             </td>
+
+            <td>
+              <p-dropdown
+                [formControl]="rowControls[i].xuatXuControl"
+                [options]="listProgress"
+                optionLabel="name"
+                [filter]="true"
+                filterBy="name"
+                [showClear]="true"
+                emptyMessage="Không có dữ liệu"
+                emptyFilterMessage="Không tìm thấy!"
+                appendTo="body"
+                [ngClass]="{
+                  'ng-invalid ng-dirty': isControlInvalid(i, 'xuatXuControl')
+                }"
+              ></p-dropdown>
+            </td>
+
             <td>
               <p-inputNumber
-                id="so-luong"
-                inputId="integeronly"
+                [formControl]="rowControls[i].soLuongControl"
                 [useGrouping]="false"
                 autocomplete="off"
-              />
+                [ngClass]="{
+                  'ng-invalid ng-dirty': isControlInvalid(i, 'soLuongControl')
+                }"
+              ></p-inputNumber>
             </td>
+
             <td>
               <p-inputNumber
-                id="don-gia"
-                inputId="integeronly"
-                [useGrouping]="false"
+                [formControl]="rowControls[i].donGiaControl"
+                [useGrouping]="true"
+                [locale]="'vi-VN'"
                 autocomplete="off"
-              />
+                [ngClass]="{
+                  'ng-invalid ng-dirty': isControlInvalid(i, 'donGiaControl')
+                }"
+              ></p-inputNumber>
             </td>
-            <td>{{ chiTietHangHoa.code }}</td>
+
+            <td style="text-align: end">
+              {{ formatThanhTien(rowControls[i].total) }}
+            </td>
           </tr>
         </ng-template>
+
         <ng-template pTemplate="emptymessage">
           <tr>
             <td colspan="15" class="text-center">Không có hàng hóa nào!</td>
@@ -567,7 +613,7 @@
 <p-dialog
   header="Chọn hàng hóa"
   [modal]="true"
-  [(visible)]="visible"
+  [(visible)]="isDialog"
   [style]="{ width: '90vw' }"
   [draggable]="false"
   [resizable]="false"
@@ -626,7 +672,7 @@
                   "
                 />
               </td>
-              <td>{{ first + i + 1 }}</td>
+              <td>{{ firstDialog + i + 1 }}</td>
               <td>{{ product.category }}</td>
               <td>{{ product.category }}</td>
               <td>{{ product.code }}</td>
@@ -637,8 +683,8 @@
       </p-fieldset>
       <p-paginator
         (onPageChange)="onPageChange($event)"
-        [first]="first"
-        [rows]="rows"
+        [first]="firstDialog"
+        [rows]="rowsDialog"
         [totalRecords]="listHangHoa.length"
         [rowsPerPageOptions]="[10, 20, 40, 50, 100]"
       ></p-paginator>

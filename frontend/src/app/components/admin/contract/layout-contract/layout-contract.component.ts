@@ -38,14 +38,14 @@ export class LayoutContractComponent {
   isAdd: boolean = true;
 
   onSave(): void {
-    if (this.noiDungComponent) {
-      this.noiDungComponent.validateForm();
-      console.log('hihi');
+    if (this.noiDungComponent && !this.noiDungComponent.validateForm()) {
+      console.log('form chưa hợp lệ');
+      return;
     }
-    if (this.noiDungComponent && this.noiDungComponent.addContractForm) {
-      const formData = this.noiDungComponent.addContractForm.value;
-      console.log(formData);
-    }
+    const formData = this.noiDungComponent.addContractForm.getRawValue();
+    const rowData = this.noiDungComponent.getListDuLieuHangHoa();
+    console.log(formData);
+    console.log(rowData);
   }
 
   onAdd(): void {
