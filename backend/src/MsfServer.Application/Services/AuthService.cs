@@ -36,13 +36,8 @@ namespace MsfServer.Application.Services
         {
             //await _reCaptchaService.VerifyTokenAsync(input.ReCaptchaToken);
             //check email
-            var user = await _userRepository.GetUserByEmailAsync(input.Email);
-            // check password
-            byte[] salt = Convert.FromBase64String(user.Salt!);
-            if (!PasswordHashed.VerifyPassword(input.PassWord, user.Password!, salt))
-            {
-                throw new CustomException(StatusCodes.Status401Unauthorized, "Email hoặc mật khẩu không đúng.");
-            }
+            var user = await _userRepository.GetUserByEmailAsync(input.Email, input.PassWord);
+
             var userData = UserResponse.UserData(user.Id, user.Name!, user.Email!, user.Roles);
             // khởi tạo token
             var accessToken = await _tokenService.GenerateAccessTokenAsync(userData);
@@ -63,10 +58,8 @@ namespace MsfServer.Application.Services
         // đăng ký
         public async Task<ResponseText> RegisterAsync(RegisterInput input)
         {
-            // Tạo dữ liệu
-            byte[] salt = PasswordHashed.GenerateSalt();
-            string hashedPassword = PasswordHashed.HashPassword(input.PassWord, salt);
-            var user = UserDto.CreateUserDto(input.Name, input.Email, hashedPassword, input.Avatar, salt);
+            string hashedPassword = PasswordHashed.HashPassword(input.PassWord);
+            var user = UserDto.CreateUserDto(input.Name, input.Email, hashedPassword, input.Avatar);
             var userJson = JsonConvert.SerializeObject(user);
             // Thêm người dùng
             using var dapperContext = new DapperContext(_connectionString);

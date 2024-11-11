@@ -21,10 +21,6 @@ namespace MsfServer.Domain.Entities
         [MaxLength(255)]
         public string? Avatar { get; set; }
 
-        [Required]
-        [MaxLength(100)]
-        public string? Salt { get; set; }
-
         // Điều hướng
         public ICollection<UserRoleEntity>? UserRoles { get; set; }
     }

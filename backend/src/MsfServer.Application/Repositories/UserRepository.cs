@@ -20,10 +20,8 @@ namespace MsfServer.Application.Repositories
         // thêm user
         public async Task<ResponseText> CreateUserAsync(CreateUserInput input)
         {
-            // Tạo dữ liệu
-            byte[] salt = PasswordHashed.GenerateSalt();
-            string hashedPassword = PasswordHashed.HashPassword("111111", salt);
-            var user = UserDto.CreateUserAdminDto(input.Email, hashedPassword, input.Avatar, salt, input.RoleIds);
+            string hashedPassword = PasswordHashed.HashPassword("111111");
+            var user = UserDto.CreateUserAdminDto(input.Email, hashedPassword, input.Avatar, input.RoleIds);
             var userJson = JsonConvert.SerializeObject(user);
             // Thêm người dùng
             using var dapperContext = new DapperContext(_connectionString);
@@ -134,18 +132,19 @@ namespace MsfServer.Application.Repositories
 
 
 
-        public async Task<UserDto> GetUserByEmailAsync(string email)
+        public async Task<UserDto> GetUserByEmailAsync(string email, string passWord)
         {
             using var dapperContext = new DapperContext(_connectionString);
             using var connection = dapperContext.GetOpenConnection();
+            string hashedPassword = PasswordHashed.HashPassword(passWord);
             using var multi = await connection.QueryMultipleAsync(
                 "User_GetByEmail",
-                new { Email = email }, 
+                new { Email = email, PassWord = hashedPassword }, 
                 commandType: CommandType.StoredProcedure);
 
             // Đọc thông tin người dùng
             var user = await multi.ReadSingleOrDefaultAsync<UserDto>()
-                        ?? throw new CustomException(StatusCodes.Status404NotFound, "Người dùng không tồn tại.");
+                        ?? throw new CustomException(StatusCodes.Status404NotFound, "Email hoặc mật khẩu không đúng.");
 
             // Đọc danh sách vai trò
             var roles = await multi.ReadAsync<RoleDto>();

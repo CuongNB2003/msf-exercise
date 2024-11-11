@@ -6,11 +6,10 @@ namespace MsfServer.Domain.Security
 {
     public class PasswordHashed
     {
-        public static string HashPassword(string password, byte[] salt, int iterations = 4, int memorySize = 1024 * 1024, int degreeOfParallelism = 8)
+        public static string HashPassword(string password, int iterations = 4, int memorySize = 1024 * 1024, int degreeOfParallelism = 8)
         {
             var argon2 = new Argon2id(Encoding.UTF8.GetBytes(password))
             {
-                Salt = salt,
                 DegreeOfParallelism = degreeOfParallelism,
                 Iterations = iterations,
                 MemorySize = memorySize
@@ -29,9 +28,9 @@ namespace MsfServer.Domain.Security
             return salt;
         }
 
-        public static bool VerifyPassword(string password, string hashedPassword, byte[] salt, int iterations = 4, int memorySize = 1024 * 1024, int degreeOfParallelism = 8)
+        public static bool VerifyPassword(string password, string hashedPassword, int iterations = 4, int memorySize = 1024 * 1024, int degreeOfParallelism = 8)
         {
-            string hashToVerify = HashPassword(password, salt, iterations, memorySize, degreeOfParallelism);
+            string hashToVerify = HashPassword(password, iterations, memorySize, degreeOfParallelism);
             return hashToVerify == hashedPassword;
         }
     }
