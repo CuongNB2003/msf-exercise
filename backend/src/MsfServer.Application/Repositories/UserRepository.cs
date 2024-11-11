@@ -13,14 +13,15 @@ using MsfServer.Application.Contracts.Role.Dto;
 
 namespace MsfServer.Application.Repositories
 {
-    public class UserRepository(string connectionString) : IUserRepository
+    public class UserRepository(string connectionString, JwtSettings jwtSettings) : IUserRepository
     {
         private readonly string _connectionString = connectionString;
+        private readonly JwtSettings _jwtSettings = jwtSettings;
 
         // thêm user
         public async Task<ResponseText> CreateUserAsync(CreateUserInput input)
         {
-            string hashedPassword = PasswordHashed.HashPassword("111111");
+            string hashedPassword = PasswordHashed.HashPassword("111111", _jwtSettings.Key!);
             var user = UserDto.CreateUserAdminDto(input.Email, hashedPassword, input.Avatar, input.RoleIds);
             var userJson = JsonConvert.SerializeObject(user);
             // Thêm người dùng
@@ -136,7 +137,7 @@ namespace MsfServer.Application.Repositories
         {
             using var dapperContext = new DapperContext(_connectionString);
             using var connection = dapperContext.GetOpenConnection();
-            string hashedPassword = PasswordHashed.HashPassword(passWord);
+            string hashedPassword = PasswordHashed.HashPassword(passWord, _jwtSettings.Key!);
             using var multi = await connection.QueryMultipleAsync(
                 "User_GetByEmail",
                 new { Email = email, PassWord = hashedPassword }, 

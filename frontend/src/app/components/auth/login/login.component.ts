@@ -1,5 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { RecaptchaFormsModule, RecaptchaModule } from 'ng-recaptcha-2';
 import { CommonModule } from '@angular/common';
@@ -12,7 +17,6 @@ import { LoginResponse } from '@services/auth/auth.interface';
 import { MessageService } from 'primeng/api';
 import { RoleDto } from '@services/role/role.interface';
 
-
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -22,10 +26,10 @@ import { RoleDto } from '@services/role/role.interface';
     CommonModule,
     InputComponent,
     ButtonComponent,
-    RecaptchaFormsModule
+    RecaptchaFormsModule,
   ],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+  styleUrl: './login.component.scss',
 })
 export class LoginComponent implements OnInit {
   @ViewChild('captchaRef') captchaRef: any;
@@ -36,11 +40,16 @@ export class LoginComponent implements OnInit {
   lockoutMessage = '';
   isLocked = false; // Sửa lỗi kiểu `boolean | undefined`
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router, private messageService: MessageService,) {
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router,
+    private messageService: MessageService
+  ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      recaptcha: ['', Validators.required]
+      recaptcha: ['', Validators.required],
     });
   }
 
@@ -63,14 +72,21 @@ export class LoginComponent implements OnInit {
     }
 
     this.isSubmitting = true;
-    this.authService.login({ email, passWord: password, reCaptchaToken: recaptcha }).subscribe({
-      next: (response: ResponseObject<LoginResponse>) => this.handleSuccessfulLogin(response),
-      error: (error) => this.handleLoginError(error, attempts),
-    });
+    this.authService
+      .login({ email, passWord: password, reCaptchaToken: recaptcha })
+      .subscribe({
+        next: (response: ResponseObject<LoginResponse>) =>
+          this.handleSuccessfulLogin(response),
+        error: (error) => this.handleLoginError(error, attempts),
+      });
   }
 
   private handleSuccessfulLogin(response: ResponseObject<LoginResponse>): void {
-    this.messageService.add({ severity: 'info', summary: 'Info', detail: response.message });
+    this.messageService.add({
+      severity: 'info',
+      summary: 'Info',
+      detail: response.message,
+    });
     this.isSubmitting = false;
     this.resetAttempts();
     this.storeUserData(response.data);
@@ -86,7 +102,11 @@ export class LoginComponent implements OnInit {
       this.lockAccount();
       this.updateLockoutMessage();
     } else {
-      this.messageService.add({ severity: 'error', summary: 'Lỗi', detail: `Đăng nhập thất bại: ${error}. Bạn còn ${remainingAttempts} lần thử.` });
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Lỗi',
+        detail: `Đăng nhập thất bại: ${error}. Bạn còn ${remainingAttempts} lần thử.`,
+      });
     }
     this.captchaRef.reset();
   }
@@ -95,14 +115,17 @@ export class LoginComponent implements OnInit {
     return {
       email: this.loginForm.get('email')?.value,
       password: this.loginForm.get('password')?.value,
-      recaptcha: this.loginForm.get('recaptcha')?.value
+      recaptcha: this.loginForm.get('recaptcha')?.value,
     };
   }
 
   private storeUserData(data: LoginResponse): void {
     localStorage.setItem('user', JSON.stringify(data.user));
     localStorage.setItem('accessToken', JSON.stringify(data.token.accessToken));
-    localStorage.setItem('refreshToken', JSON.stringify(data.token.refreshToken));
+    localStorage.setItem(
+      'refreshToken',
+      JSON.stringify(data.token.refreshToken)
+    );
   }
 
   formatDate(date: Date): string {
@@ -111,13 +134,15 @@ export class LoginComponent implements OnInit {
   }
 
   private redirectUser(roles: RoleDto[]): void {
-    const route = roles[0].name === 'user' ? '/' : '/admin';
+    const route = roles[0].name === 'user' ? '/' : '/admin/contract';
     this.router.navigate([route]);
   }
 
   isInvalid(controlName: string): boolean {
     const control = this.loginForm.get(controlName);
-    return control ? control.invalid && (control.dirty || control.touched) : false;
+    return control
+      ? control.invalid && (control.dirty || control.touched)
+      : false;
   }
 
   // xử lý khóa tài khoản

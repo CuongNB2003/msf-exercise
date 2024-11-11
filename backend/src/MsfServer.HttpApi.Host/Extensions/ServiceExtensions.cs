@@ -11,6 +11,7 @@ using MsfServer.Application.Contracts.Permission;
 using Microsoft.AspNetCore.Authorization;
 using MsfServer.HttpApi.Sercurity;
 using MsfServer.Application.Contracts.Statistic;
+using MsfServer.Domain.Security;
 
 namespace MsfServer.HttpApi.Host.Extensions
 {
@@ -26,7 +27,10 @@ namespace MsfServer.HttpApi.Host.Extensions
 
             // những service sử dụng AddTransient khởi tạo khi đc gọi
             services.AddTransient<IRoleRepository, RoleRepository>(provider =>{ return new RoleRepository(connectionString); });
-            services.AddTransient<IUserRepository, UserRepository>(provider =>{ return new UserRepository(connectionString); });
+            services.AddTransient<IUserRepository, UserRepository>(provider =>{
+                var jwtSettings = provider.GetRequiredService<JwtSettings>();
+                return new UserRepository(connectionString, jwtSettings); 
+            });
             services.AddTransient<ITokenRepository, TokenRepository>(provider =>{ return new TokenRepository(connectionString); });
             services.AddTransient<ILogRepository, LogRepository>(provider => { return new LogRepository(connectionString); }); 
             services.AddTransient<IMenuRepository, MenuRepository>(provider => { return new MenuRepository(connectionString); });
@@ -39,7 +43,8 @@ namespace MsfServer.HttpApi.Host.Extensions
                 var userRepository = provider.GetRequiredService<IUserRepository>();
                 var tokenService = provider.GetRequiredService<ITokenService>();
                 var tokenRepository = provider.GetRequiredService<ITokenRepository>();
-                return new AuthService(reCaptchaService, userRepository, tokenService, tokenRepository, connectionString); 
+                var jwtSettings = provider.GetRequiredService<JwtSettings>();
+                return new AuthService(reCaptchaService, userRepository, tokenService, tokenRepository,jwtSettings, connectionString); 
             });
 
             // những service sử dụng AddScoped 

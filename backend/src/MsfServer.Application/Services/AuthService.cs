@@ -22,6 +22,7 @@ namespace MsfServer.Application.Services
         IUserRepository userRepository,
         ITokenService tokenService,
         ITokenRepository tokenRepository,
+        JwtSettings jwtSettings,
         string connectionString
         ) : IAuthService
     {
@@ -29,7 +30,8 @@ namespace MsfServer.Application.Services
         private readonly IUserRepository _userRepository = userRepository;
         private readonly ITokenService _tokenService = tokenService;
         private readonly ITokenRepository _tokenRepository = tokenRepository;
-        private readonly string _connectionString = connectionString;
+        private readonly string _connectionString = connectionString; 
+        private readonly JwtSettings _jwtSettings = jwtSettings;
 
         // đăng nhập
         public async Task<ResponseObject<LoginResponse>> LoginAsync(LoginInput input)
@@ -58,7 +60,7 @@ namespace MsfServer.Application.Services
         // đăng ký
         public async Task<ResponseText> RegisterAsync(RegisterInput input)
         {
-            string hashedPassword = PasswordHashed.HashPassword(input.PassWord);
+            string hashedPassword = PasswordHashed.HashPassword(input.PassWord, _jwtSettings.Key!);
             var user = UserDto.CreateUserDto(input.Name, input.Email, hashedPassword, input.Avatar);
             var userJson = JsonConvert.SerializeObject(user);
             // Thêm người dùng
